@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{{ order.reference }} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% blocktranslate with ref=order.reference %}Order {{ ref }}{% endblocktranslate %}{% endblock %}
+{% block page_actions %}
+  <a class="btn btn-outline" href="{% url 'orders:pdf' order.pk %}" target="_blank">{% translate "Download order form (PDF)" %}</a>
+  {% if order.status == 'PENDING_PAYMENT' and user.role == 'FINANCE' or order.status == 'PENDING_PAYMENT' and user.role == 'ADMIN' %}
+    <a class="btn btn-success" href="{% url 'payments:approve' order.pk %}">{% translate "Approve payment" %}</a>
+  {% endif %}
+  {% if order.status == 'PAID' and user.role == 'LOGISTICS' or order.status == 'PAID' and user.role == 'ADMIN' %}
+    <a class="btn btn-primary" href="{% url 'logistics:mark_shipped' order.pk %}">{% translate "Mark as shipped" %}</a>
+  {% endif %}
+  {% if order.status == 'PENDING_PAYMENT' %}
+    <a class="btn btn-ghost" href="{% url 'payments:declare' order.pk %}">{% translate "Record payment" %}</a>
+  {% endif %}
+  {% if order.status == 'DRAFT' and user.role == 'DEALER' %}
+    <a class="btn btn-primary" href="{% url 'orders:create' %}">{% translate "Continue editing" %}</a>
+  {% endif %}
+{% endblock %}
+{% block content %}
+<div class="progress-steps">
+  <span class="{% if order.status != 'CANCELLED' %}done{% endif %}{% if order.status == 'DRAFT' %} current{% endif %}">{% translate "Draft" %}</span>
+  <span class="{% if order.status == 'PENDING_PAYMENT' or order.status == 'PAID' or order.status == 'SHIPPED' %}done{% endif %}{% if order.status == 'PENDING_PAYMENT' %} current{% endif %}">{% translate "Awaiting payment approval" %}</span>
+  <span class="{% if order.status == 'PAID' or order.status == 'SHIPPED' %}done{% endif %}{% if order.status == 'PAID' %} current{% endif %}">{% translate "Paid" %}</span>
+  <span class="{% if order.status == 'SHIPPED' %}done current{% endif %}">{% translate "Shipped" %}</span>
+  {% if order.status == 'CANCELLED' %}<span class="current">{% translate "Cancelled" %}</span>{% endif %}
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2>{% translate "Order information" %}</h2>
+    <table>
+      <tr><td>{% translate "Order number" %}</td><td><strong>{{ order.reference }}</strong></td></tr>
+      <tr><td>{% translate "Status" %}</td><td><span class="badge {{ order.status|status_badge }}">{{ order.get_status_display }}</span></td></tr>
+      <tr><td>{% translate "Created at" %}</td><td>{{ order.created_at|date:"d.m.Y H:i" }}</td></tr>
+      {% if order.submitted_at %}<tr><td>{% translate "Submitted at" %}</td><td>{{ order.submitted_at|date:"d.m.Y H:i" }}</td></tr>{% endif %}
+      {% if order.paid_at %}<tr><td>{% translate "Paid at" %}</td><td>{{ order.paid_at|date:"d.m.Y H:i" }}</td></tr>{% endif %}
+      {% if order.shipped_at %}<tr><td>{% translate "Shipped at" %}</td><td>{{ order.shipped_at|date:"d.m.Y H:i" }}</td></tr>{% endif %}
+      {% if order.carrier %}<tr><td>{% translate "Carrier" %}</td><td>{{ order.carrier }}</td></tr>{% endif %}
+      {% if order.tracking_no %}<tr><td>{% translate "Tracking number" %}</td><td>{{ order.tracking_no }}</td></tr>{% endif %}
+      <tr><td>{% translate "Created by" %}</td><td>{{ order.created_by }}</td></tr>
+      {% if order.note %}<tr><td>{% translate "Dealer note" %}</td><td>{{ order.note }}</td></tr>{% endif %}
+    </table>
+  </div>
+  <div class="card">
+    <h2>{% translate "Dealer" %}</h2>
+    <table>
+      <tr><td>{% translate "Dealer name" %}</td><td><strong>{{ order.dealer.name }}</strong></td></tr>
+      {% if order.dealer.tax_no %}<tr><td>{% translate "Tax number" %}</td><td>{{ order.dealer.tax_no }}</td></tr>{% endif %}
+      {% if order.dealer.contact_person %}<tr><td>{% translate "Contact person" %}</td><td>{{ order.dealer.contact_person }}</td></tr>{% endif %}
+      {% if order.dealer.phone %}<tr><td>{% translate "Phone" %}</td><td>{{ order.dealer.phone }}</td></tr>{% endif %}
+      {% if order.dealer.address %}<tr><td>{% translate "Address" %}</td><td>{{ order.dealer.address }}</td></tr>{% endif %}
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h2>{% translate "Order items" %}</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>{% translate "Product code" %}</th>
+          <th>{% translate "Product name" %}</th>
+          <th>{% translate "Brand" %}</th>
+          <th class="num">{% translate "Quantity" %}</th>
+          <th class="num">{% translate "Unit price (USD)" %}</th>
+          <th class="num">{% translate "VAT rate (%)" %}</th>
+          <th class="num">{% translate "VAT amount (USD)" %}</th>
+          <th class="num">{% translate "Line total (USD)" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td><code>{{ item.product_code }}</code></td>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.brand|default:"-" }}</td>
+            <td class="num">{{ item.quantity }}</td>
+            <td class="num">${{ item.unit_price_usd|money }}</td>
+            <td class="num">%{{ item.vat_rate|money }}</td>
+            <td class="num">${{ item.vat_amount_usd|money }}</td>
+            <td class="num">${{ item.line_total_usd|money }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr><td colspan="7" class="num">{% translate "Subtotal" %}</td><td class="num">${{ order.subtotal_usd|money }}</td></tr>
+        <tr><td colspan="7" class="num">{% translate "VAT total" %}</td><td class="num">${{ order.vat_total_usd|money }}</td></tr>
+        <tr><td colspan="7" class="num">{% translate "Grand total" %}</td><td class="num">${{ order.total_amount_usd|money }}</td></tr>
+        {% if total_try %}
+          <tr><td colspan="7" class="num muted">{% blocktranslate with rate=exchange_rate %}Equivalent at the current rate ({{ rate }}){% endblocktranslate %}</td><td class="num muted">₺{{ total_try|money }}</td></tr>
+        {% endif %}
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2>{% translate "Payments" %}</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>{% translate "Payment date" %}</th>
+            <th class="num">{% translate "Amount (TRY)" %}</th>
+            <th class="num">{% translate "Exchange rate used" %}</th>
+            <th class="num">{% translate "Amount (USD)" %}</th>
+            <th>{% translate "Bank reference / receipt no" %}</th>
+            <th>{% translate "Status" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for payment in payments %}
+            <tr>
+              <td>{{ payment.payment_date|date:"d.m.Y" }}</td>
+              <td class="num">₺{{ payment.amount_try|money }}</td>
+              <td class="num">{{ payment.exchange_rate|money:4 }}</td>
+              <td class="num">${{ payment.amount_usd|money }}</td>
+              <td>{{ payment.reference_no }}</td>
+              <td><span class="badge {{ payment.status|status_badge }}">{{ payment.get_status_display }}</span></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="empty-state">{% translate "No payment has been recorded yet." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>{% translate "Status history" %}</h2>
+    <ul class="timeline">
+      {% for entry in history %}
+        <li>
+          <strong>{% order_status_label entry.from_status %} → {% order_status_label entry.to_status %}</strong>
+          {% if entry.order_no_at_change %}<span class="muted">({{ entry.order_no_at_change }})</span>{% endif %}
+          <div class="muted">{{ entry.changed_at|date:"d.m.Y H:i" }} · {{ entry.changed_by|default:"-" }}</div>
+          {% if entry.note %}<div class="note">{{ entry.note }}</div>{% endif %}
+        </li>
+      {% empty %}
+        <li class="muted">{% translate "No status change has been recorded yet." %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% if order.status == 'PENDING_PAYMENT' and user.role == 'FINANCE' or order.status == 'PENDING_PAYMENT' and user.role == 'ADMIN' %}
+<div class="card">
+  <h2>{% translate "Reject payment" %}</h2>
+  <p class="muted">{% translate "The order returns to draft and the dealer can edit and resubmit it. A new order number is issued on resubmission." %}</p>
+  <form method="post" action="{% url 'payments:reject' order.pk %}">
+    {% csrf_token %}
+    <div class="field">
+      <label for="{{ rejection_form.reason.id_for_label }}">{{ rejection_form.reason.label }}</label>
+      {{ rejection_form.reason }}
+      <span class="helptext">{{ rejection_form.reason.help_text }}</span>
+    </div>
+    <button class="btn btn-danger" type="submit"
+            data-confirm="{% translate 'Reject this order and return it to the dealer?' %}">
+      {% translate "Reject" %}
+    </button>
+  </form>
+</div>
+{% endif %}
+
+{% if order.status == 'DRAFT' or order.status == 'PENDING_PAYMENT' %}
+  {% if user.is_admin or order.created_by_id == user.pk %}
+  <div class="card">
+    <h2>{% translate "Cancel order" %}</h2>
+    <form method="post" action="{% url 'orders:cancel' order.pk %}">
+      {% csrf_token %}
+      <div class="field">
+        <label for="{{ cancel_form.note.id_for_label }}">{{ cancel_form.note.label }}</label>
+        {{ cancel_form.note }}
+      </div>
+      <button class="btn btn-danger" type="submit"
+              data-confirm="{% translate 'Cancel this order?' %}">{% translate "Cancel order" %}</button>
+    </form>
+  </div>
+  {% endif %}
+{% endif %}
+{% endblock %}

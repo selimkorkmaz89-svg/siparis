@@ -1,0 +1,31 @@
+{% load i18n ui %}
+<form method="get" class="filter-bar">
+  <label>{% translate "Start date" %}<input type="date" name="date_from" value="{{ date_from }}"></label>
+  <label>{% translate "End date" %}<input type="date" name="date_to" value="{{ date_to }}"></label>
+  {% if can_choose_dealer %}
+    <label>{% translate "Dealer" %}
+      <select name="dealer">
+        <option value="">{% translate "All dealers" %}</option>
+        {% for item in dealers %}
+          <option value="{{ item.pk }}" {% if dealer and dealer.pk == item.pk %}selected{% endif %}>{{ item.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  {% endif %}
+  <label>{% translate "Currency" %}
+    <select name="currency">
+      <option value="USD" {% if currency == 'USD' %}selected{% endif %}>USD ($)</option>
+      <option value="TRY" {% if currency == 'TRY' %}selected{% endif %}>TRY (₺)</option>
+    </select>
+  </label>
+  <div class="filter-actions">
+    <button class="btn btn-primary" type="submit">{% translate "Filter" %}</button>
+    <a class="btn btn-ghost" href="{{ request.path }}">{% translate "Clear filters" %}</a>
+    <a class="btn btn-outline" href="{% url_replace export='excel' %}">{% translate "Export to Excel" %}</a>
+  </div>
+</form>
+{% if currency == 'TRY' %}
+  <p class="muted">
+    {% blocktranslate with rate=exchange_rate %}Amounts are converted with the current rate ({{ rate }}); the rates frozen on individual payments are not used here.{% endblocktranslate %}
+  </p>
+{% endif %}

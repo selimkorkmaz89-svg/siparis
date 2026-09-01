@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "My profile" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "My profile" %}{% endblock %}
+{% block content %}
+<div class="grid grid-2">
+  <div class="card">
+    <h2>{% translate "Profile information" %}</h2>
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit" name="save_profile" value="1">{% translate "Save" %}</button>
+    </form>
+  </div>
+
+  <div>
+    <div class="card">
+      <h2>{% translate "Account details" %}</h2>
+      <table>
+        <tr><td>{% translate "Email address" %}</td><td>{{ user.email }}</td></tr>
+        <tr><td>{% translate "Role" %}</td><td>{{ user.get_role_display }}</td></tr>
+        <tr><td>{% translate "Dealer" %}</td><td>{{ user.dealer.name|default:"—" }}</td></tr>
+        <tr><td>{% translate "Status" %}</td><td>{{ user.get_status_display }}</td></tr>
+        {% if user.dealer %}
+          <tr><td>{% translate "Dealer phone" %}</td><td>{{ user.dealer.phone|default:"—" }}</td></tr>
+          <tr><td>{% translate "Dealer address" %}</td><td>{{ user.dealer.address|default:"—" }}</td></tr>
+        {% endif %}
+      </table>
+      <p class="muted mt">{% translate "Dealer information is read only. Contact your administrator for corrections." %}</p>
+    </div>
+
+    <div class="card">
+      <h2>{% translate "Change password" %}</h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in password_form %}
+          <div class="field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+          </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit" name="change_password" value="1">{% translate "Change password" %}</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

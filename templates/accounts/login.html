@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block title %}{% translate "Sign in" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block auth_content %}
+<div class="auth-card">
+  <div class="auth-logo">
+    <img src="{% static COMPANY_LOGO %}" alt="{{ COMPANY_NAME }}" onerror="this.style.display='none'">
+  </div>
+  <h1>{% translate "Sign in" %}</h1>
+  <p class="subtitle">{% translate "Dealer Order Management System" %}</p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">{{ form.non_field_errors }}</div>
+    {% endif %}
+    {% for field in form %}
+      <div class="field">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit" style="width:100%">{% translate "Sign in" %}</button>
+  </form>
+  <p class="mt muted">
+    {% translate "Don't have an account yet?" %}
+    <a href="{% url 'accounts:register' %}">{% translate "Register" %}</a>
+  </p>
+</div>
+{% endblock %}

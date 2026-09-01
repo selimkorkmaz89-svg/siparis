@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "User management" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "User management" %}{% endblock %}
+{% block page_actions %}<a class="btn btn-primary" href="{% url 'accounts:user_create' %}">+ {% translate "New user" %}</a>{% endblock %}
+{% block content %}
+{% translate "Name, email or dealer" as ph %}
+{% include "partials/filters.html" with search_placeholder=ph export=1 show_dates=False extra_filters_template="accounts/_user_filters.html" %}
+<div class="card">
+  <div class="table-wrap">
+    <table data-filterable>
+      <thead>
+        <tr>
+          <th>{% sort_link 'name' _('Name') %}</th>
+          <th>{% sort_link 'email' _('Email address') %}</th>
+          <th>{% sort_link 'role' _('Role') %}</th>
+          <th>{% sort_link 'dealer' _('Dealer') %}</th>
+          <th>{% translate "Status" %}</th>
+          <th>{% translate "Language" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in users %}
+          <tr>
+            <td>{{ item.get_full_name|default:"—" }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.get_role_display }}</td>
+            <td>{{ item.dealer.name|default:"—" }}</td>
+            <td>{% if item.status == 'APPROVED' %}<span class="badge badge-paid">{{ item.get_status_display }}</span>
+                {% elif item.status == 'PENDING_APPROVAL' %}<span class="badge badge-pending">{{ item.get_status_display }}</span>
+                {% else %}<span class="badge badge-cancelled">{{ item.get_status_display }}</span>{% endif %}</td>
+            <td>{{ item.language|upper }}</td>
+            <td class="num"><a class="btn btn-ghost btn-sm" href="{% url 'accounts:user_edit' item.pk %}">{% translate "Edit" %}</a></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="empty-state">{% translate "No users found." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "My drafts" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "My drafts" %}{% endblock %}
+{% block page_actions %}
+  <a class="btn btn-primary" href="{% url 'orders:create' %}">+ {% translate "Create order" %}</a>
+{% endblock %}
+{% block content %}
+<div class="card">
+  <p class="muted">{% translate "Drafts are not visible in the active order list. Rejected orders return here so you can edit and resubmit them." %}</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>{% translate "Reference" %}</th>
+          <th>{% translate "Last updated" %}</th>
+          <th class="num">{% translate "Items" %}</th>
+          <th class="num">{% translate "Grand total (USD)" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td><a href="{% url 'orders:detail' order.pk %}">{{ order.reference }}</a></td>
+            <td>{{ order.updated_at|date:"d.m.Y H:i" }}</td>
+            <td class="num">{{ order.items.count }}</td>
+            <td class="num">${{ order.total_amount_usd|money }}</td>
+            <td class="num"><a class="btn btn-ghost btn-sm" href="{% url 'orders:pdf' order.pk %}" target="_blank">PDF</a></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="empty-state">{% translate "You have no drafts." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

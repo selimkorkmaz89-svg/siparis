@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Pending user approvals" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Pending user approvals" %}{% endblock %}
+{% block content %}
+{% translate "Name, email or dealer" as ph %}
+{% include "partials/filters.html" with search_placeholder=ph show_dates=False %}
+<div class="card">
+  <div class="table-wrap">
+    <table data-filterable>
+      <thead>
+        <tr>
+          <th>{% translate "Name" %}</th>
+          <th>{% translate "Email address" %}</th>
+          <th>{% translate "Matched dealer" %}</th>
+          <th>{% translate "Registered at" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pending in users %}
+          <tr>
+            <td>{{ pending.get_full_name }}</td>
+            <td>{{ pending.email }}</td>
+            <td>{% if pending.dealer %}<strong>{{ pending.dealer.name }}</strong>{% else %}<span class="badge badge-cancelled">{% translate "No match" %}</span>{% endif %}</td>
+            <td>{{ pending.date_joined|date:"d.m.Y H:i" }}</td>
+            <td class="num">
+              <form method="post" action="{% url 'accounts:approve_user' pending.pk %}" class="inline">
+                {% csrf_token %}
+                <button class="btn btn-success btn-sm" type="submit">{% translate "Approve" %}</button>
+              </form>
+              <a class="btn btn-danger btn-sm" href="{% url 'accounts:reject_user' pending.pk %}">{% translate "Reject" %}</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="empty-state">{% translate "There are no users awaiting approval." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% load i18n ui %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+<meta charset="utf-8">
+<title>{{ order.reference }}</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm 20mm; 
+    @bottom-center { content: "{% translate 'Page' %} " counter(page) " / " counter(pages); font-size: 8pt; color: #64748b; } }
+  body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 9.5pt; color: #1b2733; }
+  .header { display: flex; border-bottom: 3px solid {{ brand_color }}; padding-bottom: 10px; margin-bottom: 16px; }
+  .header .logo { width: 40%; }
+  .header .logo img { max-height: 52px; }
+  .header .company { width: 60%; text-align: right; font-size: 8.5pt; color: #475569; }
+  .header .company strong { font-size: 12pt; color: {{ brand_color }}; display: block; margin-bottom: 3px; }
+  h1 { font-size: 15pt; color: {{ brand_color }}; margin: 0 0 3px; }
+  .doc-meta { display: flex; justify-content: space-between; margin-bottom: 14px; }
+  .status {
+    display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 9pt; font-weight: bold;
+    background: {{ brand_color }}; color: #fff;
+  }
+  .panels { display: flex; gap: 12px; margin-bottom: 14px; }
+  .panel { flex: 1; border: 1px solid #e2e8f0; border-radius: 6px; padding: 9px 11px; }
+  .panel h2 { font-size: 9pt; text-transform: uppercase; letter-spacing: .04em; color: {{ brand_color }}; margin: 0 0 6px; }
+  .panel td { padding: 2px 0; font-size: 9pt; vertical-align: top; }
+  .panel td.k { color: #64748b; width: 42%; }
+  table.items { width: 100%; border-collapse: collapse; margin-top: 6px; }
+  table.items th {
+    background: {{ brand_color }}; color: #fff; padding: 6px 7px; font-size: 8.5pt; text-align: left;
+  }
+  table.items td { padding: 6px 7px; border-bottom: 1px solid #e2e8f0; font-size: 9pt; }
+  table.items tr:nth-child(even) td { background: #f8fafc; }
+  .num { text-align: right; }
+  .totals { margin-top: 12px; margin-left: auto; width: 46%; }
+  .totals td { padding: 4px 7px; font-size: 9.5pt; }
+  .totals tr.grand td { border-top: 2px solid {{ brand_color }}; font-weight: bold; font-size: 11pt; color: {{ brand_color }}; }
+  .disclaimer {
+    margin-top: 20px; border: 1px solid #fcd34d; background: #fffbeb; border-radius: 6px;
+    padding: 9px 11px; font-size: 8.5pt; color: #78350f;
+  }
+  .note { margin-top: 12px; font-size: 9pt; }
+  .payment { margin-top: 14px; border: 1px solid #e2e8f0; border-radius: 6px; padding: 9px 11px; font-size: 9pt; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">{% if logo_url %}<img src="{{ logo_url }}" alt="">{% endif %}</div>
+  <div class="company">
+    <strong>{{ company.name }}</strong>
+    {% if company.address %}{{ company.address }}<br>{% endif %}
+    {% if company.tax_no %}{% translate "Tax number" %}: {{ company.tax_no }}<br>{% endif %}
+    {% if company.phone %}{{ company.phone }}{% endif %}
+    {% if company.email %} · {{ company.email }}{% endif %}
+  </div>
+</div>
+
+<div class="doc-meta">
+  <div>
+    <h1>{% translate "Order form" %}</h1>
+    <div><strong>{{ order.reference }}</strong> · {{ order.created_at|date:"d.m.Y H:i" }}</div>
+  </div>
+  <div><span class="status">{{ order.get_status_display }}</span></div>
+</div>
+
+<div class="panels">
+  <div class="panel">
+    <h2>{% translate "Dealer" %}</h2>
+    <table>
+      <tr><td class="k">{% translate "Dealer name" %}</td><td>{{ order.dealer.name }}</td></tr>
+      {% if order.dealer.tax_no %}<tr><td class="k">{% translate "Tax number" %}</td><td>{{ order.dealer.tax_no }}</td></tr>{% endif %}
+      {% if order.dealer.tax_office %}<tr><td class="k">{% translate "Tax office" %}</td><td>{{ order.dealer.tax_office }}</td></tr>{% endif %}
+      {% if order.dealer.contact_person %}<tr><td class="k">{% translate "Contact person" %}</td><td>{{ order.dealer.contact_person }}</td></tr>{% endif %}
+      {% if order.dealer.phone %}<tr><td class="k">{% translate "Phone" %}</td><td>{{ order.dealer.phone }}</td></tr>{% endif %}
+      {% if order.dealer.address %}<tr><td class="k">{% translate "Address" %}</td><td>{{ order.dealer.address }} {{ order.dealer.city }}</td></tr>{% endif %}
+    </table>
+  </div>
+  <div class="panel">
+    <h2>{% translate "Order" %}</h2>
+    <table>
+      <tr><td class="k">{% translate "Status" %}</td><td>{{ order.get_status_display }}</td></tr>
+      <tr><td class="k">{% translate "Shipment status" %}</td><td>{{ order.get_shipment_status_display }}</td></tr>
+      <tr><td class="k">{% translate "Payment status" %}</td>
+          <td>{% if payment %}{% translate "Approved" %} ({{ payment.payment_date|date:"d.m.Y" }}){% else %}{% translate "Not approved yet" %}{% endif %}</td></tr>
+      {% if order.submitted_at %}<tr><td class="k">{% translate "Submitted at" %}</td><td>{{ order.submitted_at|date:"d.m.Y H:i" }}</td></tr>{% endif %}
+      {% if order.shipped_at %}<tr><td class="k">{% translate "Shipped at" %}</td><td>{{ order.shipped_at|date:"d.m.Y H:i" }}</td></tr>{% endif %}
+      {% if order.tracking_no %}<tr><td class="k">{% translate "Tracking number" %}</td><td>{{ order.tracking_no }}</td></tr>{% endif %}
+      <tr><td class="k">{% translate "Created by" %}</td><td>{{ order.created_by }}</td></tr>
+    </table>
+  </div>
+</div>
+
+<table class="items">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>{% translate "Product code" %}</th>
+      <th>{% translate "Product name" %}</th>
+      <th class="num">{% translate "Qty" %}</th>
+      <th class="num">{% translate "Unit price" %}</th>
+      <th class="num">{% translate "VAT %" %}</th>
+      <th class="num">{% translate "VAT amount" %}</th>
+      <th class="num">{% translate "Line total" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ item.product_code }}</td>
+        <td>{{ item.product_name }}{% if item.brand %}<br><small>{{ item.brand }}</small>{% endif %}</td>
+        <td class="num">{{ item.quantity }}</td>
+        <td class="num">${{ item.unit_price_usd|money }}</td>
+        <td class="num">%{{ item.vat_rate|money }}</td>
+        <td class="num">${{ item.vat_amount_usd|money }}</td>
+        <td class="num">${{ item.line_total_usd|money }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<table class="totals">
+  <tr><td>{% translate "Subtotal" %}</td><td class="num">${{ order.subtotal_usd|money }}</td></tr>
+  <tr><td>{% translate "VAT total" %}</td><td class="num">${{ order.vat_total_usd|money }}</td></tr>
+  <tr class="grand"><td>{% translate "Grand total" %}</td><td class="num">${{ order.total_amount_usd|money }}</td></tr>
+</table>
+
+{% if payment %}
+<div class="payment">
+  <strong>{% translate "Payment information" %}:</strong>
+  {% blocktranslate with amount=payment.amount_try rate=payment.exchange_rate reference=payment.reference_no %}
+  {{ amount }} TRY paid at a rate of {{ rate }}. Reference: {{ reference }}.
+  {% endblocktranslate %}
+</div>
+{% endif %}
+
+{% if order.note %}<div class="note"><strong>{% translate "Note" %}:</strong> {{ order.note }}</div>{% endif %}
+
+<div class="disclaimer">
+  {% translate "This document is not an official invoice or waybill. It is a readable summary of the order record and carries no legal or fiscal value." %}
+</div>
+</body>
+</html>

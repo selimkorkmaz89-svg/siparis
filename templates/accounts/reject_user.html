@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Reject user" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Reject user" %}{% endblock %}
+{% block content %}
+<div class="card">
+  <p>{% blocktranslate with name=object.get_full_name email=object.email %}Reject the registration request of <strong>{{ name }}</strong> ({{ email }})?{% endblocktranslate %}</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="field">
+      <label for="{{ form.reason.id_for_label }}">{{ form.reason.label }}</label>
+      {{ form.reason }}
+      {% if form.reason.errors %}<ul class="errorlist">{% for error in form.reason.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-danger" type="submit">{% translate "Reject" %}</button>
+      <a class="btn btn-ghost" href="{% url 'accounts:pending_users' %}">{% translate "Cancel" %}</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load i18n static ui %}
+{% block title %}{% translate "Create order" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Create order" %}{% endblock %}
+{% block content %}
+<div class="order-layout">
+  <div>
+    <div class="card">
+      <div class="filter-bar" style="margin:0 0 12px;border:0;padding:0">
+        <label class="grow">{% translate "Search" %}
+          <input type="search" id="productSearch" placeholder="{% translate 'Search by product code or name…' %}" autofocus>
+        </label>
+        <label>{% translate "Brand" %}
+          <select id="brandFilter">
+            <option value="">{% translate "All brands" %}</option>
+            {% for brand in brands %}<option value="{{ brand }}">{{ brand }}</option>{% endfor %}
+          </select>
+        </label>
+      </div>
+      <div class="table-wrap">
+        <table class="product-results">
+          <thead>
+            <tr>
+              <th>{% translate "Product code" %}</th>
+              <th>{% translate "Product name" %}</th>
+              <th>{% translate "Brand" %}</th>
+              <th class="num">{% translate "Tests per pack" %}</th>
+              <th class="num">{% translate "Price (USD)" %}</th>
+              <th class="num">{% translate "VAT" %}</th>
+              <th class="num">{% translate "Quantity" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="productResults"></tbody>
+        </table>
+      </div>
+      <p class="muted mt">{% translate "Dealer specific prices are applied automatically where they exist." %}</p>
+    </div>
+  </div>
+
+  <aside class="basket">
+    <div class="card">
+      <h2>{% translate "Basket" %}</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>{% translate "Product" %}</th>
+              <th class="num">{% translate "Qty" %}</th>
+              <th class="num">{% translate "Unit price" %}</th>
+              <th class="num">{% translate "Total" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="basketItems">
+            {% for item in items %}
+              <tr>
+                <td><code>{{ item.product_code }}</code><br><small>{{ item.product_name }}</small></td>
+                <td class="num">{{ item.quantity }}</td>
+                <td class="num">${{ item.unit_price_usd|money }}</td>
+                <td class="num">${{ item.line_total_usd|money }}</td>
+                <td></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div id="basketEmpty" class="empty-state {% if items %}hidden{% endif %}">
+        {% translate "Your basket is empty. Add products from the list on the left." %}
+      </div>
+      <div class="basket-total"><span>{% translate "Subtotal" %}</span><span id="basketSubtotal">${{ order.subtotal_usd|money }}</span></div>
+      <div class="basket-total"><span>{% translate "VAT total" %}</span><span id="basketVat">${{ order.vat_total_usd|money }}</span></div>
+      <div class="basket-total grand"><span>{% translate "Grand total" %}</span><span id="basketTotal">${{ order.total_amount_usd|money }}</span></div>
+      <a id="submitOrder" class="btn btn-primary mt {% if not items %}hidden{% endif %}"
+         style="width:100%;justify-content:center" href="{% url 'orders:review' %}">
+        {% translate "Submit order" %}
+      </a>
+    </div>
+  </aside>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  window.ORDER_CONFIG = {
+    searchUrl: "{% url 'catalog:product_search_api' %}",
+    addUrl: "{% url 'orders:basket_add' %}",
+    updateUrl: "{% url 'orders:basket_update' 0 %}",
+    removeUrl: "{% url 'orders:basket_remove' 0 %}",
+    locale: "{{ LANGUAGE_CODE }}",
+    labels: {
+      add: "{% translate 'Add' %}",
+      noProducts: "{% translate 'No products found.' %}",
+      error: "{% translate 'The operation could not be completed.' %}"
+    }
+  };
+</script>
+<script src="{% static 'js/order-create.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="260" height="64" role="img" aria-label="Logo">
+  <rect x="2" y="8" width="48" height="48" rx="10" fill="#0D8DBE"/>
+  <path d="M14 40V24h8a6 6 0 0 1 0 12h-4v4z" fill="#fff"/>
+  <circle cx="36" cy="28" r="4" fill="#fff"/>
+  <text x="62" y="32" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" fill="#0D8DBE">SİPARİŞ</text>
+  <text x="62" y="50" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#64748b">Order Management</text>
+</svg>

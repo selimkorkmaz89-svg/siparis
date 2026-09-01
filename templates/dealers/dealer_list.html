@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Dealers" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Dealer management" %}{% endblock %}
+{% block page_actions %}<a class="btn btn-primary" href="{% url 'dealers:create' %}">+ {% translate "New dealer" %}</a>{% endblock %}
+{% block content %}
+{% translate "Dealer name, code or city" as ph %}
+{% include "partials/filters.html" with search_placeholder=ph export=1 show_dates=False %}
+<div class="card">
+  <div class="table-wrap">
+    <table data-filterable>
+      <thead>
+        <tr>
+          <th>{% sort_link 'name' _('Dealer name') %}</th>
+          <th>{% sort_link 'code' _('Dealer code') %}</th>
+          <th>{% translate "Tax number" %}</th>
+          <th>{% translate "Contact person" %}</th>
+          <th>{% sort_link 'city' _('City') %}</th>
+          <th class="num">{% translate "Users" %}</th>
+          <th class="num">{% sort_link 'orders' _('Order count') %}</th>
+          <th>{% translate "Active" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dealer in dealers %}
+          <tr>
+            <td><strong>{{ dealer.name }}</strong></td>
+            <td>{{ dealer.code|default:"-" }}</td>
+            <td>{{ dealer.tax_no|default:"-" }}</td>
+            <td>{{ dealer.contact_person|default:"-" }}</td>
+            <td>{{ dealer.city|default:"-" }}</td>
+            <td class="num">{{ dealer.user_count }}</td>
+            <td class="num">{{ dealer.order_count }}</td>
+            <td>{% if dealer.is_active %}<span class="badge badge-paid">{% translate "Yes" %}</span>{% else %}<span class="badge badge-cancelled">{% translate "No" %}</span>{% endif %}</td>
+            <td class="num"><a class="btn btn-ghost btn-sm" href="{% url 'dealers:edit' dealer.pk %}">{% translate "Edit" %}</a></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="9" class="empty-state">{% translate "No dealers found." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}

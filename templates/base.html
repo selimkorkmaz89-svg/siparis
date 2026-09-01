@@ -1,0 +1,67 @@
+{% load i18n static %}<!-- layout shell -->
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ COMPANY_NAME }}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% if user.is_authenticated %}app{% else %}auth{% endif %}">
+{% if user.is_authenticated %}
+<header class="topbar">
+  <button class="menu-toggle" id="menuToggle" aria-label="{% translate 'Menu' %}">☰</button>
+  <a class="brand" href="{% url 'core:home' %}">
+    <img src="{% static COMPANY_LOGO %}" alt="{{ COMPANY_NAME }}" onerror="this.style.display='none'">
+    <span>{{ COMPANY_NAME }}</span>
+  </a>
+  <div class="topbar-right">
+    {% include "partials/language_switcher.html" %}
+    {% include "partials/notification_bell.html" %}
+    <div class="user-chip">
+      {% if user.profile_photo %}<img src="{{ user.profile_photo.url }}" alt="">{% endif %}
+      <div>
+        <strong>{{ user.get_full_name|default:user.email }}</strong>
+        <small>{{ user.get_role_display }}{% if user.dealer %} · {{ user.dealer.name }}{% endif %}</small>
+      </div>
+    </div>
+    <form method="post" action="{% url 'accounts:logout' %}" class="inline">
+      {% csrf_token %}
+      <button class="btn btn-ghost" type="submit">{% translate "Sign out" %}</button>
+    </form>
+  </div>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">{% include "partials/menu.html" %}</nav>
+  <main class="content">
+    {% block breadcrumb %}{% endblock %}
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="page-head">
+      <h1>{% block page_title %}{% endblock %}</h1>
+      <div class="page-actions">{% block page_actions %}{% endblock %}</div>
+    </div>
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% else %}
+  <main class="auth-shell">
+    <div class="auth-lang">{% include "partials/language_switcher.html" %}</div>
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}<div class="alert alert-{{ message.tags }}">{{ message }}</div>{% endfor %}
+      </div>
+    {% endif %}
+    {% block auth_content %}{% endblock %}
+  </main>
+{% endif %}
+<script src="{% static 'js/app.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

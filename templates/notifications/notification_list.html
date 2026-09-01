@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Notifications" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Notifications" %}{% endblock %}
+{% block page_actions %}
+  <form method="post" action="{% url 'notifications:mark_all_read' %}" class="inline">
+    {% csrf_token %}
+    <button class="btn btn-ghost" type="submit">{% translate "Mark all as read" %}</button>
+  </form>
+  <form method="post" action="{% url 'notifications:bulk_delete' %}" class="inline">
+    {% csrf_token %}
+    <input type="hidden" name="scope" value="read">
+    <button class="btn btn-ghost" type="submit" data-confirm="{% translate 'Delete all read notifications?' %}">
+      {% translate "Delete read ones" %}
+    </button>
+  </form>
+{% endblock %}
+{% block content %}
+<form method="post" action="{% url 'notifications:bulk_delete' %}">
+  {% csrf_token %}
+  <div class="card">
+    <div class="card-head">
+      <label class="inline"><input type="checkbox" data-check-all="input[name=ids]"> {% translate "Select all" %}</label>
+      <button class="btn btn-danger btn-sm" type="submit" data-confirm="{% translate 'Delete the selected notifications?' %}">
+        {% translate "Delete selected" %}
+      </button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th></th><th>{% translate "Notification" %}</th><th>{% translate "Date" %}</th><th>{% translate "Status" %}</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for item in notifications %}
+            <tr class="{% if not item.is_read %}unread{% endif %}">
+              <td><input type="checkbox" name="ids" value="{{ item.pk }}"></td>
+              <td>
+                <strong>{{ item.title }}</strong>
+                <div class="muted">{{ item.body }}</div>
+                {% if item.url %}<a href="{{ item.url }}">{% translate "Open" %}</a>{% endif %}
+              </td>
+              <td>{{ item.created_at|date:"d.m.Y H:i" }}</td>
+              <td>{% if item.is_read %}<span class="badge badge-default">{% translate "Read" %}</span>{% else %}<span class="badge badge-pending">{% translate "Unread" %}</span>{% endif %}</td>
+              <td class="num">
+                {% if not item.is_read %}
+                  <button class="btn btn-ghost btn-sm" type="submit"
+                          formaction="{% url 'notifications:mark_read' item.pk %}">{% translate "Mark as read" %}</button>
+                {% endif %}
+                <button class="btn btn-ghost btn-sm" type="submit"
+                        formaction="{% url 'notifications:delete' item.pk %}"
+                        data-confirm="{% translate 'Delete this notification?' %}">{% translate "Delete" %}</button>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" class="empty-state">{% translate "You have no notifications." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "partials/pagination.html" %}
+  </div>
+</form>
+{% endblock %}

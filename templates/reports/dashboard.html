@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load i18n static ui %}
+{% block title %}{% translate "Reporting" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% if user.role == 'DEALER' %}{% translate "My reports" %}{% else %}{% translate "Reporting" %}{% endif %}{% endblock %}
+{% block content %}
+{% include "reports/_report_filters.html" %}
+{% with symbol=currency|currency_symbol %}
+<div class="grid grid-4">
+  <div class="stat brand"><div class="label">{% translate "Order count" %}</div><div class="value">{{ summary.count }}</div></div>
+  <div class="stat"><div class="label">{% translate "Total turnover" %}</div><div class="value">{{ symbol }}{{ summary.total|money }}</div></div>
+  <div class="stat"><div class="label">{% translate "VAT total" %}</div><div class="value">{{ symbol }}{{ summary.vat|money }}</div></div>
+  <div class="stat"><div class="label">{% translate "Average order size" %}</div><div class="value">{{ symbol }}{{ summary.average|money }}</div></div>
+</div>
+
+<div class="grid grid-2 mt">
+  <div class="card">
+    <h2>{% translate "Monthly trend" %}</h2>
+    <div class="chart-box"><canvas id="trendChart"></canvas></div>
+  </div>
+  {% if can_choose_dealer %}
+  <div class="card">
+    <h2>{% translate "Turnover by dealer" %}</h2>
+    <div class="chart-box"><canvas id="dealerChart"></canvas></div>
+  </div>
+  {% endif %}
+  <div class="card">
+    <h2>{% translate "Top products" %}</h2>
+    <div class="chart-box"><canvas id="productChart"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>{% translate "Turnover by brand" %}</h2>
+    <div class="chart-box"><canvas id="brandChart"></canvas></div>
+  </div>
+</div>
+
+{% if can_choose_dealer %}
+<div class="card">
+  <h2>{% translate "Dealer breakdown" %}</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>{% translate "Dealer" %}</th><th class="num">{% translate "Order count" %}</th><th class="num">{% translate "Total" %}</th><th class="num">{% translate "Average order size" %}</th></tr></thead>
+      <tbody>
+        {% for row in dealer_rows %}
+          <tr><td>{{ row.name }}</td><td class="num">{{ row.count }}</td><td class="num">{{ symbol }}{{ row.total|money }}</td><td class="num">{{ symbol }}{{ row.average|money }}</td></tr>
+        {% empty %}
+          <tr><td colspan="4" class="empty-state">{% translate "No data for the selected period." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2>{% translate "Product breakdown" %}</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>{% translate "Product code" %}</th><th>{% translate "Product name" %}</th><th class="num">{% translate "Quantity" %}</th><th class="num">{% translate "Total" %}</th></tr></thead>
+        <tbody>
+          {% for row in product_rows %}
+            <tr><td><code>{{ row.code }}</code></td><td>{{ row.name }}</td><td class="num">{{ row.quantity }}</td><td class="num">{{ symbol }}{{ row.total|money }}</td></tr>
+          {% empty %}
+            <tr><td colspan="4" class="empty-state">{% translate "No data for the selected period." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <h2>{% translate "Brand breakdown" %}</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>{% translate "Brand" %}</th><th class="num">{% translate "Quantity" %}</th><th class="num">{% translate "Total" %}</th></tr></thead>
+        <tbody>
+          {% for row in brand_rows %}
+            <tr><td>{{ row.brand }}</td><td class="num">{{ row.quantity }}</td><td class="num">{{ symbol }}{{ row.total|money }}</td></tr>
+          {% empty %}
+            <tr><td colspan="3" class="empty-state">{% translate "No data for the selected period." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endwith %}
+{% endblock %}
+{% block extra_js %}
+{{ chart_data|json_script:"chartData" }}
+<script src="{% static 'js/chart.umd.js' %}"></script>
+<script src="{% static 'js/reports.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Confirm order" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Confirm order" %}{% endblock %}
+{% block content %}
+<div class="card">
+  <p class="muted">
+    {% translate "Review the summary below. Once you confirm, the order is sent to finance, an order number is issued and finance is notified." %}
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>{% translate "Product code" %}</th>
+          <th>{% translate "Product name" %}</th>
+          <th class="num">{% translate "Quantity" %}</th>
+          <th class="num">{% translate "Unit price (USD)" %}</th>
+          <th class="num">{% translate "VAT rate (%)" %}</th>
+          <th class="num">{% translate "Line total (USD)" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td><code>{{ item.product_code }}</code></td>
+            <td>{{ item.product_name }}</td>
+            <td class="num">{{ item.quantity }}</td>
+            <td class="num">${{ item.unit_price_usd|money }}</td>
+            <td class="num">%{{ item.vat_rate|money }}</td>
+            <td class="num">${{ item.line_total_usd|money }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr><td colspan="5" class="num">{% translate "Subtotal" %}</td><td class="num">${{ order.subtotal_usd|money }}</td></tr>
+        <tr><td colspan="5" class="num">{% translate "VAT total" %}</td><td class="num">${{ order.vat_total_usd|money }}</td></tr>
+        <tr><td colspan="5" class="num">{% translate "Grand total" %}</td><td class="num">${{ order.total_amount_usd|money }}</td></tr>
+      </tfoot>
+    </table>
+  </div>
+  <form method="post" class="mt">
+    {% csrf_token %}
+    <div class="field">
+      <label for="note">{% translate "Order note (optional)" %}</label>
+      <textarea id="note" name="note" rows="2">{{ order.note }}</textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">{% translate "Confirm and send to finance" %}</button>
+      <a class="btn btn-ghost" href="{% url 'orders:create' %}">{% translate "Back to basket" %}</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

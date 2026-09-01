@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Payment history" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% if user.role == 'DEALER' %}{% translate "My payment history" %}{% else %}{% translate "Payment history" %}{% endif %}{% endblock %}
+{% block content %}
+{% translate "Reference, order number or dealer" as ph %}
+{% include "partials/filters.html" with search_placeholder=ph export=1 extra_filters_template="payments/_payment_filters.html" %}
+<div class="grid grid-3">
+  <div class="stat"><div class="label">{% translate "Approved payment count" %}</div><div class="value">{{ totals.count }}</div></div>
+  <div class="stat brand"><div class="label">{% translate "Collected (TRY)" %}</div><div class="value">₺{{ totals.total_try|money }}</div></div>
+  <div class="stat"><div class="label">{% translate "Collected (USD)" %}</div><div class="value">${{ totals.total_usd|money }}</div></div>
+</div>
+<div class="card mt">
+  <div class="table-wrap">
+    <table data-filterable>
+      <thead>
+        <tr>
+          <th>{% sort_link 'date' _('Payment date') %}</th>
+          <th>{% sort_link 'order_no' _('Order number') %}</th>
+          {% if user.can_see_all_dealers %}<th>{% sort_link 'dealer' _('Dealer') %}</th>{% endif %}
+          <th class="num">{% sort_link 'amount' _('Amount (TRY)') %}</th>
+          <th class="num">{% translate "Exchange rate used" %}</th>
+          <th class="num">{% translate "Amount (USD)" %}</th>
+          <th>{% translate "Bank reference / receipt no" %}</th>
+          <th>{% sort_link 'status' _('Status') %}</th>
+          <th>{% translate "Approved by" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payment in payments %}
+          <tr>
+            <td>{{ payment.payment_date|date:"d.m.Y" }}</td>
+            <td><a href="{% url 'orders:detail' payment.order.pk %}">{{ payment.order.reference }}</a></td>
+            {% if user.can_see_all_dealers %}<td>{{ payment.order.dealer.name }}</td>{% endif %}
+            <td class="num">₺{{ payment.amount_try|money }}</td>
+            <td class="num">{{ payment.exchange_rate|money:4 }}</td>
+            <td class="num">${{ payment.amount_usd|money }}</td>
+            <td>{{ payment.reference_no }}</td>
+            <td><span class="badge {{ payment.status|status_badge }}">{{ payment.get_status_display }}</span></td>
+            <td>{{ payment.approved_by|default:"-" }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="9" class="empty-state">{% translate "No payment records found." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}

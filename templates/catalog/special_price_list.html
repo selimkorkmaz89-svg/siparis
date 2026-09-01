@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Dealer special prices" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Dealer special prices" %}{% endblock %}
+{% block page_actions %}<a class="btn btn-primary" href="{% url 'catalog:special_price_create' %}">+ {% translate "New special price" %}</a>{% endblock %}
+{% block content %}
+{% translate "Dealer, product code or name" as ph %}
+{% include "partials/filters.html" with search_placeholder=ph export=1 show_dates=False %}
+<div class="card">
+  <div class="table-wrap">
+    <table data-filterable>
+      <thead>
+        <tr>
+          <th>{% sort_link 'dealer' _('Dealer') %}</th>
+          <th>{% sort_link 'code' _('Product code') %}</th>
+          <th>{% translate "Product name" %}</th>
+          <th class="num">{% translate "List price (USD)" %}</th>
+          <th class="num">{% sort_link 'price' _('Special price (USD)') %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for price in special_prices %}
+          <tr>
+            <td>{{ price.dealer.name }}</td>
+            <td><code>{{ price.product.code }}</code></td>
+            <td>{{ price.product.name }}</td>
+            <td class="num muted">${{ price.product.base_price_usd|money }}</td>
+            <td class="num"><strong>${{ price.price_usd|money }}</strong></td>
+            <td class="num">
+              <a class="btn btn-ghost btn-sm" href="{% url 'catalog:special_price_edit' price.pk %}">{% translate "Edit" %}</a>
+              <form method="post" action="{% url 'catalog:special_price_delete' price.pk %}" class="inline">
+                {% csrf_token %}
+                <button class="btn btn-ghost btn-sm" type="submit" data-confirm="{% translate 'Delete this special price?' %}">{% translate "Delete" %}</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="empty-state">{% translate "No dealer special price has been defined." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

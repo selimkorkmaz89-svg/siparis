@@ -1,0 +1,53 @@
+{% load i18n %}
+<ul class="menu">
+  <li><a href="{% url 'core:home' %}" class="{% if request.resolver_match.view_name == 'core:home' %}active{% endif %}">{% translate "Home" %}</a></li>
+
+  {% if user.role == 'DEALER' %}
+    <li><a href="{% url 'orders:create' %}">{% translate "Create order" %}</a></li>
+    <li><a href="{% url 'orders:list' %}">{% translate "My orders" %}</a></li>
+    <li><a href="{% url 'orders:drafts' %}">{% translate "My drafts" %}</a></li>
+    <li><a href="{% url 'payments:history' %}">{% translate "My payment history" %}</a></li>
+    <li><a href="{% url 'reports:mine' %}">{% translate "My reports" %}</a></li>
+  {% endif %}
+
+  {% if user.role == 'FINANCE' or user.role == 'ADMIN' %}
+    <li class="menu-section">{% translate "Finance" %}</li>
+    <li><a href="{% url 'payments:pending' %}">{% translate "Awaiting approval" %}</a></li>
+    <li><a href="{% url 'payments:history' %}">{% translate "Payment history" %}</a></li>
+  {% endif %}
+
+  {% if user.role == 'LOGISTICS' or user.role == 'ADMIN' %}
+    <li class="menu-section">{% translate "Logistics" %}</li>
+    <li><a href="{% url 'logistics:pending' %}">{% translate "Awaiting shipment" %}</a></li>
+  {% endif %}
+
+  {% if user.role != 'DEALER' %}
+    <li class="menu-section">{% translate "Orders" %}</li>
+    <li><a href="{% url 'orders:list' %}">{% translate "All orders" %}</a></li>
+    {% if user.role == 'FINANCE' or user.role == 'LOGISTICS' or user.role == 'ADMIN' %}
+      <li><a href="{% url 'dealers:history' %}">{% translate "Dealer history" %}</a></li>
+    {% endif %}
+  {% endif %}
+
+  {% if user.role == 'MANAGEMENT' or user.role == 'ADMIN' or user.role == 'FINANCE' %}
+    <li class="menu-section">{% translate "Reporting" %}</li>
+    <li><a href="{% url 'reports:dashboard' %}">{% translate "Dealer / product / brand" %}</a></li>
+    <li><a href="{% url 'reports:finance' %}">{% translate "Finance and operations" %}</a></li>
+  {% endif %}
+
+  {% if user.role == 'ADMIN' %}
+    <li class="menu-section">{% translate "Administration" %}</li>
+    <li><a href="{% url 'accounts:pending_users' %}">{% translate "Pending user approvals" %}</a></li>
+    <li><a href="{% url 'accounts:user_list' %}">{% translate "User management" %}</a></li>
+    <li><a href="{% url 'dealers:list' %}">{% translate "Dealer management" %}</a></li>
+    <li><a href="{% url 'catalog:product_list' %}">{% translate "Product management" %}</a></li>
+    <li><a href="{% url 'catalog:special_price_list' %}">{% translate "Dealer special prices" %}</a></li>
+    <li><a href="{% url 'catalog:import_upload' %}">{% translate "Excel import" %}</a></li>
+    <li><a href="{% url 'dealers:domain_list' %}">{% translate "Domain mapping" %}</a></li>
+    <li><a href="{% url 'payments:exchange_rates' %}">{% translate "System settings" %}</a></li>
+  {% endif %}
+
+  <li class="menu-section">{% translate "Account" %}</li>
+  <li><a href="{% url 'accounts:profile' %}">{% translate "My profile" %}</a></li>
+  <li><a href="{% url 'notifications:list' %}">{% translate "Notifications" %}</a></li>
+</ul>

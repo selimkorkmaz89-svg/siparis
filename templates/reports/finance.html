@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Finance and operations" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Finance and operations report" %}{% endblock %}
+{% block content %}
+{% include "reports/_report_filters.html" %}
+{% with symbol=currency|currency_symbol %}
+<div class="grid grid-4">
+  <div class="stat brand"><div class="label">{% translate "Collected (TRY)" %}</div><div class="value">₺{{ summary.collected.total_try|money }}</div></div>
+  <div class="stat"><div class="label">{% translate "Collected (USD)" %}</div><div class="value">${{ summary.collected.total_usd|money }}</div></div>
+  <div class="stat"><div class="label">{% translate "Approved payment count" %}</div><div class="value">{{ summary.collected.count }}</div></div>
+  <div class="stat"><div class="label">{% translate "Rejection rate (%)" %}</div><div class="value">{{ summary.rejection_rate }}%</div></div>
+</div>
+
+<div class="grid grid-3 mt">
+  <div class="stat"><div class="label">{% translate "Outstanding payments" %}</div><div class="value">{{ symbol }}{{ outstanding_converted|money }}</div></div>
+  <div class="stat"><div class="label">{% translate "Orders awaiting payment" %}</div><div class="value">{{ summary.outstanding.count }}</div></div>
+  <div class="stat"><div class="label">{% translate "Rejected payment count" %}</div><div class="value">{{ summary.rejected_count }}</div></div>
+</div>
+
+<div class="card mt">
+  <h2>{% translate "Operational lead times" %}</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>{% translate "Stage" %}</th><th class="num">{% translate "Average (hours)" %}</th></tr></thead>
+      <tbody>
+        <tr><td>{% translate "Order → payment approval" %}</td><td class="num">{{ operations.avg_hours_to_payment|default:"—" }}</td></tr>
+        <tr><td>{% translate "Payment → shipment" %}</td><td class="num">{{ operations.avg_hours_to_shipment|default:"—" }}</td></tr>
+        <tr><td>{% translate "Order → shipment (end to end)" %}</td><td class="num">{{ operations.avg_hours_end_to_end|default:"—" }}</td></tr>
+      </tbody>
+      <tfoot><tr><td>{% translate "Sample size" %}</td><td class="num">{{ operations.sample_size }}</td></tr></tfoot>
+    </table>
+  </div>
+</div>
+{% endwith %}
+{% endblock %}

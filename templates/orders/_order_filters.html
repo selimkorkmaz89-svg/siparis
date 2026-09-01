@@ -1,0 +1,19 @@
+{% load i18n %}
+<label>{% translate "Status" %}
+  <select name="status">
+    <option value="">{% translate "All" %}</option>
+    {% for value, label in statuses %}
+      <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+</label>
+{% if dealers %}
+<label>{% translate "Dealer" %}
+  <select name="dealer">
+    <option value="">{% translate "All" %}</option>
+    {% for dealer in dealers %}
+      <option value="{{ dealer.pk }}" {% if selected_dealer == dealer.pk|stringformat:"s" %}selected{% endif %}>{{ dealer.name }}</option>
+    {% endfor %}
+  </select>
+</label>
+{% endif %}

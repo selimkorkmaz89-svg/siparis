@@ -1,0 +1,7 @@
+{% load i18n %}
+<label>{% translate "Brand" %}
+  <select name="brand">
+    <option value="">{% translate "All brands" %}</option>
+    {% for brand in brands %}<option value="{{ brand }}" {% if selected_brand == brand %}selected{% endif %}>{{ brand }}</option>{% endfor %}
+  </select>
+</label>

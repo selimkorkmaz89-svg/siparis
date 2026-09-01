@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Awaiting approval" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Orders awaiting approval" %}{% endblock %}
+{% block content %}
+{% translate "Order number, dealer or product" as ph %}
+{% include "partials/filters.html" with search_placeholder=ph export=1 %}
+<div class="grid grid-3">
+  <div class="stat"><div class="label">{% translate "Order count" %}</div><div class="value">{{ totals.count }}</div></div>
+  <div class="stat brand"><div class="label">{% translate "Total (USD)" %}</div><div class="value">${{ totals.total_usd|money }}</div></div>
+  <div class="stat"><div class="label">{% translate "USD/TRY rate in effect" %}</div>
+    <div class="value">{% if exchange_rate %}₺{{ exchange_rate|money:4 }}{% else %}—{% endif %}</div></div>
+</div>
+<div class="card mt">
+  <div class="table-wrap">
+    <table data-filterable>
+      <thead>
+        <tr>
+          <th>{% sort_link 'order_no' _('Order number') %}</th>
+          <th>{% sort_link 'dealer' _('Dealer') %}</th>
+          <th>{% sort_link 'date' _('Submitted at') %}</th>
+          <th class="num">{% sort_link 'total' _('Grand total (USD)') %}</th>
+          <th class="num">{% translate "Equivalent (TRY)" %}</th>
+          <th>{% translate "Payment record" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td><a href="{% url 'orders:detail' order.pk %}"><strong>{{ order.order_no }}</strong></a></td>
+            <td>{{ order.dealer.name }}</td>
+            <td>{{ order.submitted_at|date:"d.m.Y H:i" }}</td>
+            <td class="num">${{ order.total_amount_usd|money }}</td>
+            <td class="num">{% if exchange_rate %}₺{% widthratio order.total_amount_usd 1 exchange_rate %}{% else %}—{% endif %}</td>
+            <td>
+              {% with payment=order.payments.last %}
+                {% if payment %}<span class="badge {{ payment.status|status_badge }}">₺{{ payment.amount_try|money }}</span>
+                {% else %}<span class="muted">{% translate "Not recorded" %}</span>{% endif %}
+              {% endwith %}
+            </td>
+            <td class="num">
+              <a class="btn btn-success btn-sm" href="{% url 'payments:approve' order.pk %}">{% translate "Review" %}</a>
+              <a class="btn btn-ghost btn-sm" href="{% url 'orders:pdf' order.pk %}" target="_blank">PDF</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="empty-state">{% translate "There are no orders awaiting approval." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Home" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% blocktranslate with name=user.first_name %}Welcome, {{ name }}{% endblocktranslate %}{% endblock %}
+{% block page_actions %}
+  {% if user.role == 'DEALER' %}
+    <a class="btn btn-primary" href="{% url 'orders:create' %}">+ {% translate "Create order" %}</a>
+  {% endif %}
+{% endblock %}
+{% block content %}
+<div class="grid grid-4">
+  <div class="stat brand">
+    <div class="label">{% translate "Total orders" %}</div>
+    <div class="value">{{ stats.total_orders }}</div>
+  </div>
+  <div class="stat">
+    <div class="label">{% translate "Awaiting payment" %}</div>
+    <div class="value">{{ stats.pending_payment }}</div>
+  </div>
+  <div class="stat">
+    <div class="label">{% translate "Awaiting shipment" %}</div>
+    <div class="value">{{ stats.paid }}</div>
+  </div>
+  <div class="stat">
+    <div class="label">{% translate "Shipped" %}</div>
+    <div class="value">{{ stats.shipped }}</div>
+  </div>
+</div>
+
+<div class="grid grid-3 mt">
+  <div class="stat">
+    <div class="label">{% translate "Order volume (USD)" %}</div>
+    <div class="value">${{ stats.total_amount|money }}</div>
+  </div>
+  {% if stats.pending_amount is not None %}
+    <div class="stat">
+      <div class="label">{% translate "Outstanding payments (USD)" %}</div>
+      <div class="value">${{ stats.pending_amount|money }}</div>
+    </div>
+  {% endif %}
+  {% if stats.collected is not None %}
+    <div class="stat">
+      <div class="label">{% translate "Collected (USD)" %}</div>
+      <div class="value">${{ stats.collected|money }}</div>
+    </div>
+  {% endif %}
+  {% if stats.pending_users %}
+    <div class="stat">
+      <div class="label">{% translate "Pending user approvals" %}</div>
+      <div class="value"><a href="{% url 'accounts:pending_users' %}">{{ stats.pending_users }}</a></div>
+    </div>
+  {% endif %}
+  {% if stats.my_drafts %}
+    <div class="stat">
+      <div class="label">{% translate "My drafts" %}</div>
+      <div class="value"><a href="{% url 'orders:drafts' %}">{{ stats.my_drafts }}</a></div>
+    </div>
+  {% endif %}
+  <div class="stat">
+    <div class="label">{% translate "USD/TRY rate in effect" %}</div>
+    <div class="value">{% if exchange_rate %}₺{{ exchange_rate|money:4 }}{% else %}—{% endif %}</div>
+  </div>
+</div>
+
+<div class="card mt">
+  <div class="card-head">
+    <h2>{% translate "Recent orders" %}</h2>
+    <a class="btn btn-ghost btn-sm" href="{% url 'orders:list' %}">{% translate "View all" %}</a>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>{% translate "Order number" %}</th>
+          {% if user.can_see_all_dealers %}<th>{% translate "Dealer" %}</th>{% endif %}
+          <th>{% translate "Date" %}</th>
+          <th>{% translate "Status" %}</th>
+          <th class="num">{% translate "Grand total (USD)" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in recent_orders %}
+          <tr>
+            <td><a href="{% url 'orders:detail' order.pk %}">{{ order.reference }}</a></td>
+            {% if user.can_see_all_dealers %}<td>{{ order.dealer.name }}</td>{% endif %}
+            <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+            <td><span class="badge {{ order.status|status_badge }}">{{ order.get_status_display }}</span></td>
+            <td class="num">${{ order.total_amount_usd|money }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="empty-state">{% translate "No orders yet." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

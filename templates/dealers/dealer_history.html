@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Dealer history" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Dealer history" %}{% endblock %}
+{% block content %}
+<div class="card">
+  <form method="get" class="filter-bar" style="margin:0;border:0;padding:0">
+    <label class="grow">{% translate "Dealer" %}
+      <select name="dealer_select" onchange="window.location.href='/dealers/history/' + this.value + '/'">
+        {% for item in dealers %}
+          <option value="{{ item.pk }}" {% if dealer and dealer.pk == item.pk %}selected{% endif %}>{{ item.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </form>
+</div>
+
+{% if dealer %}
+  {% translate "Order number or product" as ph %}
+  {% include "partials/filters.html" with search_placeholder=ph export=1 %}
+  <div class="grid grid-3">
+    <div class="stat"><div class="label">{% translate "Order count" %}</div><div class="value">{{ totals.count }}</div></div>
+    <div class="stat brand"><div class="label">{% translate "Total (USD)" %}</div><div class="value">${{ totals.total_usd|money }}</div></div>
+  </div>
+  <div class="card mt">
+    <div class="table-wrap">
+      <table data-filterable>
+        <thead>
+          <tr>
+            <th>{% sort_link 'order_no' _('Order number') %}</th>
+            <th>{% sort_link 'date' _('Date') %}</th>
+            <th>{% sort_link 'status' _('Status') %}</th>
+            <th class="num">{% sort_link 'total' _('Grand total (USD)') %}</th>
+            <th>{% translate "Created by" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            <tr>
+              <td><a href="{% url 'orders:detail' order.pk %}">{{ order.reference }}</a></td>
+              <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+              <td><span class="badge {{ order.status|status_badge }}">{{ order.get_status_display }}</span></td>
+              <td class="num">${{ order.total_amount_usd|money }}</td>
+              <td>{{ order.created_by }}</td>
+              <td class="num"><a class="btn btn-ghost btn-sm" href="{% url 'orders:pdf' order.pk %}" target="_blank">PDF</a></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="empty-state">{% translate "This dealer has no orders yet." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "partials/pagination.html" %}
+  </div>
+{% else %}
+  <div class="card"><p class="empty-state">{% translate "No dealer has been defined yet." %}</p></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Delete domain mapping" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Delete domain mapping" %}{% endblock %}
+{% block content %}
+<div class="card">
+  <p>{% blocktranslate with domain=object.email_domain dealer=object.dealer.name %}Delete the mapping of <strong>@{{ domain }}</strong> to <strong>{{ dealer }}</strong>?{% endblocktranslate %}</p>
+  <p class="muted">{% translate "Existing users are not affected; only new sign-ups from this domain will be refused." %}</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-actions">
+      <button class="btn btn-danger" type="submit">{% translate "Delete" %}</button>
+      <a class="btn btn-ghost" href="{% url 'dealers:domain_list' %}">{% translate "Cancel" %}</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

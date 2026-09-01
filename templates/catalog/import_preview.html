@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Import preview" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Import preview" %}{% endblock %}
+{% block content %}
+<div class="alert alert-info">
+  {% blocktranslate with created=preview.creates|length updated=preview.updates|length %}
+  {{ created }} records will be created and {{ updated }} records will be updated. Nothing has been saved yet.
+  {% endblocktranslate %}
+</div>
+
+{% if preview.creates %}
+<div class="card">
+  <h2>✅ {% translate "To be created" %}</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>{% translate "Row" %}</th><th>{% translate "Key" %}</th><th>{% translate "Values" %}</th></tr></thead>
+      <tbody>
+        {% for row in preview.creates %}
+          <tr>
+            <td>{{ row.row_no }}</td>
+            <td><code>{{ row.key }}</code></td>
+            <td class="import-diff">
+              {% for key, value in row.values.items %}<span class="new">{{ value }}</span>{% if not forloop.last %} · {% endif %}{% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+{% if preview.updates %}
+<div class="card">
+  <h2>⚠️ {% translate "To be updated" %}</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>{% translate "Row" %}</th><th>{% translate "Key" %}</th><th>{% translate "Changes (old → new)" %}</th></tr></thead>
+      <tbody>
+        {% for row in preview.updates %}
+          <tr>
+            <td>{{ row.row_no }}</td>
+            <td><code>{{ row.key }}</code></td>
+            <td class="import-diff">
+              {% for label, old, new in row.changes %}
+                <div>{{ label }}: <span class="old">{{ old|default:"—" }}</span> → <span class="new">{{ new }}</span></div>
+              {% empty %}
+                <span class="muted">{% translate "No change" %}</span>
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<div class="card">
+  <div class="form-actions">
+    <form method="post" action="{% url 'catalog:import_confirm' %}" class="inline">
+      {% csrf_token %}
+      <button class="btn btn-primary" type="submit">{% translate "Confirm and import" %}</button>
+    </form>
+    <form method="post" action="{% url 'catalog:import_cancel' %}" class="inline">
+      {% csrf_token %}
+      <button class="btn btn-ghost" type="submit">{% translate "Cancel" %}</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

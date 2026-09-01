@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Domain mapping" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Domain mapping" %}{% endblock %}
+{% block page_actions %}<a class="btn btn-primary" href="{% url 'dealers:domain_create' %}">+ {% translate "New mapping" %}</a>{% endblock %}
+{% block content %}
+<div class="alert alert-info">
+  {% translate "New sign-ups are linked to a dealer through their email domain. Registration is refused for a domain that is not mapped here." %}
+</div>
+{% translate "Domain or dealer" as ph %}
+{% include "partials/filters.html" with search_placeholder=ph export=1 show_dates=False %}
+<div class="card">
+  <div class="table-wrap">
+    <table data-filterable>
+      <thead>
+        <tr>
+          <th>{% sort_link 'domain' _('Email domain') %}</th>
+          <th>{% sort_link 'dealer' _('Dealer') %}</th>
+          <th>{% translate "Active" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mapping in mappings %}
+          <tr>
+            <td><code>@{{ mapping.email_domain }}</code></td>
+            <td>{{ mapping.dealer.name }}</td>
+            <td>{% if mapping.is_active %}<span class="badge badge-paid">{% translate "Yes" %}</span>{% else %}<span class="badge badge-cancelled">{% translate "No" %}</span>{% endif %}</td>
+            <td class="num">
+              <a class="btn btn-ghost btn-sm" href="{% url 'dealers:domain_edit' mapping.pk %}">{% translate "Edit" %}</a>
+              <a class="btn btn-ghost btn-sm" href="{% url 'dealers:domain_delete' mapping.pk %}">{% translate "Delete" %}</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="empty-state">{% translate "No domain mapping has been defined." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

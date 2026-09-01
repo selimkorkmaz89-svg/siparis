@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "System settings" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "System settings" %}{% endblock %}
+{% block content %}
+<div class="grid grid-3">
+  <div class="stat brand">
+    <div class="label">{% translate "USD/TRY rate in effect" %}</div>
+    <div class="value">{% if current %}₺{{ current.usd_try_rate|money:4 }}{% else %}—{% endif %}</div>
+    {% if current %}<small class="muted">{{ current.rate_date|date:"d.m.Y" }} · {{ current.rate_type }}</small>{% endif %}
+  </div>
+  <div class="stat">
+    <div class="label">{% translate "Effective rate date" %}</div>
+    <div class="value">{{ effective_date|date:"d.m.Y" }}</div>
+  </div>
+  <div class="stat">
+    <div class="label">{% translate "Manual synchronisation" %}</div>
+    <form method="post" class="mt">
+      {% csrf_token %}
+      <button class="btn btn-primary" type="submit" name="sync" value="1">{% translate "Fetch today's rate" %}</button>
+    </form>
+  </div>
+</div>
+
+<div class="card mt">
+  <h2>{% translate "Exchange rate rules" %}</h2>
+  <ul class="muted">
+    <li>{% translate "TCMB publishes the daily rate at 15:30; the scheduled task fetches it at 15:35 on business days." %}</li>
+    <li>{% translate "Transactions before 15:30 use the previous business day's rate." %}</li>
+    <li>{% translate "Weekends and public holidays use the most recent business day's rate." %}</li>
+    <li>{% translate "The rate used at the moment a payment is approved is frozen on the payment record." %}</li>
+    <li>{% translate "Reporting screens convert with the live rate, independent of any frozen rate." %}</li>
+  </ul>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2>{% translate "Enter a rate manually" %}</h2>
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit" name="manual" value="1">{% translate "Save" %}</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>{% translate "Rate history" %}</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>{% translate "Rate date" %}</th><th class="num">{% translate "USD/TRY rate" %}</th><th>{% translate "Source" %}</th></tr></thead>
+        <tbody>
+          {% for rate in rates %}
+            <tr><td>{{ rate.rate_date|date:"d.m.Y" }}</td><td class="num">{{ rate.usd_try_rate|money:4 }}</td><td>{{ rate.source }}</td></tr>
+          {% empty %}
+            <tr><td colspan="3" class="empty-state">{% translate "No exchange rate has been recorded yet." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

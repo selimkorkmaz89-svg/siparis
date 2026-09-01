@@ -1,0 +1,35 @@
+{% load i18n %}
+<div class="bell" id="notificationBell">
+  <button class="bell-button" type="button" aria-label="{% translate 'Notifications' %}">
+    🔔
+    <span class="badge {% if not unread_notification_count %}hidden{% endif %}" id="notificationBadge">
+      {{ unread_notification_count }}
+    </span>
+  </button>
+  <div class="bell-panel hidden" id="notificationPanel">
+    <div class="bell-panel-head">
+      <strong>{% translate "Notifications" %}</strong>
+      <form method="post" action="{% url 'notifications:mark_all_read' %}">
+        {% csrf_token %}
+        <button class="btn-link" type="submit">{% translate "Mark all as read" %}</button>
+      </form>
+    </div>
+    <ul class="bell-list" id="notificationItems">
+      {% for item in recent_notifications %}
+        <li class="{% if not item.is_read %}unread{% endif %}">
+          <a href="{% url 'notifications:mark_read' item.pk %}"
+             data-notification="{{ item.pk }}" class="notification-link">
+            <strong>{{ item.title }}</strong>
+            <span>{{ item.body|truncatechars:110 }}</span>
+            <small>{{ item.created_at|date:"d.m.Y H:i" }}</small>
+          </a>
+        </li>
+      {% empty %}
+        <li class="empty">{% translate "You have no notifications." %}</li>
+      {% endfor %}
+    </ul>
+    <div class="bell-panel-foot">
+      <a href="{% url 'notifications:list' %}">{% translate "View all notifications" %}</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Approve payment" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% blocktranslate with ref=order.reference %}Approve payment · {{ ref }}{% endblocktranslate %}{% endblock %}
+{% block content %}
+{% if warning %}
+  <div class="alert alert-warning">
+    {% if warning.reason == 'no_rate' %}
+      {% translate "No exchange rate is available yet, so the amount could not be compared automatically. You can still approve the payment." %}
+    {% else %}
+      {% blocktranslate with converted=warning.converted_usd expected=warning.expected_usd difference=warning.difference_usd %}
+      The payment converts to {{ converted }} USD while the order total is {{ expected }} USD (difference: {{ difference }} USD). This is only a warning — you can still approve the payment.
+      {% endblocktranslate %}
+    {% endif %}
+  </div>
+{% endif %}
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2>{% translate "Recorded payment" %}</h2>
+    {% if payment %}
+      <table>
+        <tr><td>{% translate "Amount (TRY)" %}</td><td><strong>₺{{ payment.amount_try|money }}</strong></td></tr>
+        <tr><td>{% translate "Bank reference / receipt no" %}</td><td>{{ payment.reference_no }}</td></tr>
+        <tr><td>{% translate "Payment date" %}</td><td>{{ payment.payment_date|date:"d.m.Y" }}</td></tr>
+        <tr><td>{% translate "Declared by" %}</td><td>{{ payment.declared_by }}</td></tr>
+        {% if payment.receipt %}<tr><td>{% translate "Receipt file" %}</td><td><a href="{{ payment.receipt.url }}" target="_blank">{% translate "Open" %}</a></td></tr>{% endif %}
+        {% if payment.note %}<tr><td>{% translate "Note" %}</td><td>{{ payment.note }}</td></tr>{% endif %}
+      </table>
+      <form method="post" class="mt">
+        {% csrf_token %}
+        <div class="field">
+          <label for="{{ form.note.id_for_label }}">{{ form.note.label }}</label>
+          {{ form.note }}
+        </div>
+        <button class="btn btn-success" type="submit"
+                data-confirm="{% translate 'Approve this payment and mark the order as paid?' %}">
+          {% translate "Approve payment" %}
+        </button>
+      </form>
+    {% else %}
+      <p class="muted">{% translate "No payment has been recorded for this order yet." %}</p>
+      <a class="btn btn-primary" href="{% url 'payments:declare' order.pk %}">{% translate "Record payment" %}</a>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>{% translate "Order summary" %}</h2>
+    <table>
+      <tr><td>{% translate "Order number" %}</td><td><strong>{{ order.reference }}</strong></td></tr>
+      <tr><td>{% translate "Dealer" %}</td><td>{{ order.dealer.name }}</td></tr>
+      <tr><td>{% translate "Grand total (USD)" %}</td><td><strong>${{ order.total_amount_usd|money }}</strong></td></tr>
+      <tr><td>{% translate "USD/TRY rate in effect" %}</td><td>{% if exchange_rate %}₺{{ exchange_rate|money:4 }}{% else %}—{% endif %}</td></tr>
+      {% if expected_try %}<tr><td>{% translate "Expected amount (TRY)" %}</td><td>₺{{ expected_try|money }}</td></tr>{% endif %}
+    </table>
+    <a class="btn btn-ghost mt" href="{% url 'orders:detail' order.pk %}">{% translate "Open order detail" %}</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Excel import" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Excel import" %}{% endblock %}
+{% block content %}
+<div class="grid grid-2">
+  <div class="card">
+    <h2>{% translate "1. Download the template" %}</h2>
+    <p class="muted">{% translate "Fill in the template with the correct column headings and upload it back." %}</p>
+    <a class="btn btn-outline" href="{% url 'catalog:import_template' 'product' %}">{% translate "Product template (.xlsx)" %}</a>
+    <a class="btn btn-outline" href="{% url 'catalog:import_template' 'dealer' %}">{% translate "Dealer template (.xlsx)" %}</a>
+  </div>
+  <div class="card">
+    <h2>{% translate "2. Upload the file" %}</h2>
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit">{% translate "Upload and preview" %}</button>
+    </form>
+  </div>
+</div>
+
+{% if preview and preview.blocked %}
+<div class="card">
+  <h2>{% translate "The import was stopped" %}</h2>
+  {% if preview.duplicates %}
+    <div class="alert alert-error">
+      <strong>{% translate "Duplicate records found. Nothing was saved." %}</strong>
+      <ul>{% for item in preview.duplicates %}<li>{{ item }}</li>{% endfor %}</ul>
+    </div>
+  {% endif %}
+  {% if preview.errors %}
+    <div class="alert alert-error">
+      <strong>{% translate "Invalid rows" %}</strong>
+      <ul>{% for item in preview.errors %}<li>{{ item }}</li>{% endfor %}</ul>
+    </div>
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="card">
+  <h2>{% translate "How the import works" %}</h2>
+  <ul class="muted">
+    <li>{% translate "If the same code appears more than once in the file, the whole import stops and nothing is saved." %}</li>
+    <li>{% translate "New and updated records are listed on a preview screen for you to confirm." %}</li>
+    <li>{% translate "For updates the old and the new value are shown side by side." %}</li>
+    <li>{% translate "Nothing is written to the database until you confirm the preview." %}</li>
+  </ul>
+</div>
+{% endblock %}
