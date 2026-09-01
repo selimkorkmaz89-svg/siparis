@@ -55,5 +55,3 @@ class Currency(models.TextChoices):
     TRY = "TRY", _("TRY")
 
 
-#: Roles that may see every dealer's data.
-STAFF_ROLES = (Role.ADMIN, Role.FINANCE, Role.LOGISTICS, Role.MANAGEMENT)

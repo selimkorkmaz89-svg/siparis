@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 00:50+0300\n"
+"POT-Creation-Date: 2026-09-02 01:04+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: accounts/admin.py:16
 msgid "Personal info"
 msgstr "Personal info"
@@ -36,13 +37,13 @@ msgstr "Permissions"
 msgid "Important dates"
 msgstr "Important dates"
 
-#: accounts/forms.py:14 accounts/forms.py:46
+#: accounts/forms.py:14 accounts/forms.py:59
 #: templates/accounts/pending_users.html:14 templates/accounts/profile.html:26
 #: templates/accounts/user_list.html:15
 msgid "Email address"
 msgstr "Email address"
 
-#: accounts/forms.py:18 accounts/forms.py:122
+#: accounts/forms.py:18 accounts/forms.py:135
 msgid "Password"
 msgstr "Password"
 
@@ -54,69 +55,69 @@ msgstr "The email address or password is incorrect."
 msgid "This account is not active."
 msgstr "This account is not active."
 
-#: accounts/forms.py:31
+#: accounts/forms.py:44
 msgid "Your account is waiting for administrator approval."
 msgstr "Your account is waiting for administrator approval."
 
-#: accounts/forms.py:36
+#: accounts/forms.py:49
 msgid "Your registration request was rejected."
 msgstr "Your registration request was rejected."
 
-#: accounts/forms.py:44 accounts/views.py:168
+#: accounts/forms.py:57 accounts/views.py:168
 msgid "First name"
 msgstr "First name"
 
-#: accounts/forms.py:45 accounts/views.py:168
+#: accounts/forms.py:58 accounts/views.py:168
 msgid "Last name"
 msgstr "Last name"
 
-#: accounts/forms.py:47 accounts/views.py:169 catalog/imports.py:38
+#: accounts/forms.py:60 accounts/views.py:169 catalog/imports.py:38
 #: dealers/views.py:37 templates/orders/order_detail.html:51
 #: templates/orders/order_form_pdf.html:72
 msgid "Phone"
 msgstr "Phone"
 
-#: accounts/forms.py:49
+#: accounts/forms.py:62
 msgid "Interface language"
 msgstr "Interface language"
 
-#: accounts/forms.py:50 accounts/models.py:74 config/settings.py:107
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:107
 #: notifications/models.py:53
 msgid "Turkish"
 msgstr "Turkish"
 
-#: accounts/forms.py:50 accounts/models.py:74 config/settings.py:108
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:108
 #: notifications/models.py:53
 msgid "English"
 msgstr "English"
 
-#: accounts/forms.py:67
+#: accounts/forms.py:80
 msgid "An account with this email already exists."
 msgstr "An account with this email already exists."
 
-#: accounts/forms.py:72
+#: accounts/forms.py:85
 msgid ""
 "This email domain is not registered to any dealer. Please contact your "
 "administrator."
 msgstr "This email domain is not registered to any dealer. Please contact your administrator."
 
-#: accounts/forms.py:104
+#: accounts/forms.py:117
 msgid "Send me email notifications"
 msgstr "Send me email notifications"
 
-#: accounts/forms.py:125
+#: accounts/forms.py:138
 msgid "Leave blank to keep the current password."
 msgstr "Leave blank to keep the current password."
 
-#: accounts/forms.py:158
+#: accounts/forms.py:171
 msgid "Dealer users must be linked to a dealer."
 msgstr "Dealer users must be linked to a dealer."
 
-#: accounts/forms.py:162
+#: accounts/forms.py:175
 msgid "A password is required for a new user."
 msgstr "A password is required for a new user."
 
-#: accounts/forms.py:178 orders/forms.py:9
+#: accounts/forms.py:191 orders/forms.py:9
 msgid "Rejection reason"
 msgstr "Rejection reason"
 
@@ -190,7 +191,7 @@ msgstr "user"
 msgid "users"
 msgstr "users"
 
-#: accounts/tests.py:99 accounts/tests.py:101 templates/core/home.html:7
+#: accounts/tests.py:111 accounts/tests.py:113 templates/core/home.html:7
 #: templates/orders/draft_list.html:6 templates/orders/order_create.html:3
 #: templates/orders/order_create.html:4 templates/orders/order_list.html:6
 #: templates/partials/menu.html:6

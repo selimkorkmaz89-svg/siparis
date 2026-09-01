@@ -35,7 +35,7 @@ class RegistrationFlowTests(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("email", form.errors)
 
-    def test_pending_user_cannot_sign_in(self):
+    def test_pending_user_cannot_sign_in_and_is_told_why(self):
         RegistrationForm(data=self._payload()).save()
         response = self.client.post(
             reverse("accounts:login"),
@@ -43,6 +43,18 @@ class RegistrationFlowTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.wsgi_request.user.is_authenticated)
+        self.assertContains(response, "onay")  # "yönetici onayı bekliyor"
+
+    def test_wrong_password_gives_the_generic_message(self):
+        user = RegistrationForm(data=self._payload()).save()
+        user.status = UserStatus.APPROVED
+        user.save()
+        response = self.client.post(
+            reverse("accounts:login"),
+            {"username": "ali@abcbayi.com", "password": "yanlis-parola"},
+        )
+        self.assertFalse(response.wsgi_request.user.is_authenticated)
+        self.assertNotContains(response, "onayı bekliyor")
 
     def test_approved_user_can_sign_in(self):
         user = RegistrationForm(data=self._payload()).save()

@@ -25,6 +25,19 @@ class EmailLoginForm(AuthenticationForm):
         "inactive": _("This account is not active."),
     }
 
+    def clean(self):
+        try:
+            return super().clean()
+        except forms.ValidationError:
+            # The backend refuses users that are not approved, which would
+            # otherwise surface as a plain "wrong password". Re-check the
+            # credentials so the user learns the real reason.
+            email = (self.cleaned_data.get("username") or "").strip().lower()
+            user = User.objects.filter(email=email).first()
+            if user is not None and user.check_password(self.data.get("password", "")):
+                self.confirm_login_allowed(user)
+            raise
+
     def confirm_login_allowed(self, user):
         if user.status == UserStatus.PENDING_APPROVAL and not user.is_superuser:
             raise forms.ValidationError(

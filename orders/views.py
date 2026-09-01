@@ -1,4 +1,4 @@
-from decimal import Decimal, InvalidOperation
+
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
 from catalog.models import Product
-from core.constants import OrderStatus, Role, ShipmentStatus
+from core.constants import OrderStatus, Role
 from core.decorators import role_required
 from core.exports import excel_response
 from core.filters import ListFilter
@@ -239,11 +239,11 @@ def order_review(request):
 @require_POST
 def order_reorder(request, pk):
     source = _order_or_404(request, pk)
-    draft = services.reorder(source, request.user)
+    services.reorder(source, request.user)
     messages.success(
         request, _("The items were copied into a new draft. You can edit it before sending.")
     )
-    return redirect("orders:create") if draft else redirect("orders:list")
+    return redirect("orders:create")
 
 
 @login_required

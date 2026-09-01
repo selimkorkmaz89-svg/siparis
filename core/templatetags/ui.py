@@ -3,7 +3,6 @@ from decimal import Decimal, InvalidOperation
 
 from django import template
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy as _
 
 from core.constants import OrderStatus, PaymentStatus
 

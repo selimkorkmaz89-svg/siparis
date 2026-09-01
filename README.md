@@ -217,11 +217,14 @@ gunzip -c backups/db-20260901-020000.sql.gz | \
 ## Testler / Tests
 
 ```bash
-python manage.py test              # 47 test: iş kuralları, yetkiler, i18n, PDF, Excel
-python manage.py test orders       # sipariş durum makinesi ve numaralandırma
-python manage.py test payments     # kur kuralları (15:30, hafta sonu, tatil)
-python manage.py test catalog      # Excel import doğrulaması
-python manage.py test core         # rol bazlı erişim + ekran smoke testleri
+python manage.py test              # 67 test: iş kuralları, yetkiler, i18n, PDF, Excel
+python manage.py test orders        # sipariş durum makinesi ve numaralandırma
+python manage.py test payments      # kur kuralları (15:30, hafta sonu, tatil)
+python manage.py test catalog       # Excel import doğrulaması
+python manage.py test notifications # bildirim kanalları ve dil bazlı içerik
+python manage.py test reports       # raporlama kırılımları ve USD/TL çevrimi
+python manage.py test accounts      # kayıt/onay akışı ve dil desteği
+python manage.py test core          # rol bazlı erişim + ekran smoke testleri
 ```
 
 ## İleride / Roadmap (Faz 2)
