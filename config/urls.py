@@ -3,8 +3,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from accounts import views as accounts_views
+
 urlpatterns = [
-    path("i18n/", include("django.conf.urls.i18n")),
+    # Our own switcher persists the choice on the user profile, so it must
+    # take the place of django.conf.urls.i18n's view.
+    path("i18n/setlang/", accounts_views.set_language, name="set_language"),
     path("django-admin/", admin.site.urls),
     path("", include("core.urls")),
     path("accounts/", include("accounts.urls")),

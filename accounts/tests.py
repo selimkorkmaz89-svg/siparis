@@ -99,12 +99,35 @@ class LanguageTests(TestCase):
         response = self.client.get(reverse("core:home"))
         self.assertContains(response, "Sipariş Oluştur")
 
-    def test_language_switcher_sets_the_cookie(self):
+    def test_top_bar_switcher_changes_the_language_of_the_next_page(self):
+        """The switcher must beat the profile preference, not lose to it."""
+        self.user.language = "tr"
+        self.user.save()
         self.client.force_login(self.user)
         response = self.client.post(
-            reverse("set_language"), {"language": "en", "next": "/"}
+            reverse("set_language"), {"language": "en", "next": "/orders/new/"}
         )
         self.assertEqual(response.status_code, 302)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.language, "en")
+        page = self.client.get("/orders/new/")
+        self.assertContains(page, "Create order")
+        self.assertNotContains(page, "Sipariş Oluştur")
+
+    def test_switching_back_to_turkish_works_too(self):
+        self.client.force_login(self.user)
+        self.client.post(reverse("set_language"), {"language": "tr", "next": "/"})
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.language, "tr")
+        self.assertContains(self.client.get("/orders/new/"), "Sipariş Oluştur")
+
+    def test_switcher_works_for_anonymous_visitors(self):
+        response = self.client.post(
+            reverse("set_language"),
+            {"language": "en", "next": reverse("accounts:login")},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertContains(self.client.get(reverse("accounts:login")), "Sign in")
 
     def test_both_catalogs_translate_a_known_string(self):
         with translation.override("tr"):

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -8,6 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
+from django.views.i18n import set_language as django_set_language
 
 from accounts.forms import (
     EmailLoginForm,
@@ -37,6 +39,23 @@ class AppLoginView(LoginView):
             translation.activate(language)
             response.set_cookie("siparis_language", language)
         return response
+
+
+def set_language(request):
+    """Language switcher for the top bar.
+
+    Django's own view only writes the cookie, which
+    :class:`~accounts.middleware.UserLanguageMiddleware` would immediately
+    override with the profile preference. Persisting the choice on the user
+    keeps a single source of truth and makes the switch follow them to their
+    other devices.
+    """
+    if request.method == "POST" and request.user.is_authenticated:
+        language = request.POST.get("language")
+        if language in dict(settings.LANGUAGES) and language != request.user.language:
+            request.user.language = language
+            request.user.save(update_fields=["language"])
+    return django_set_language(request)
 
 
 class AppLogoutView(LogoutView):
