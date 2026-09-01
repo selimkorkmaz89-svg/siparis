@@ -90,8 +90,12 @@ python manage.py runserver
 | `yonetim@sirket.com` | Yönetim |
 | `ali@bayi1.com` | Bayi |
 
-> Varsayılan olarak SQLite kullanılır. PostgreSQL için `.env` içinde
-> `USE_SQLITE=False` yapıp `POSTGRES_*` değerlerini doldurun.
+> **Yerelde `.env` dosyası oluşturmayın.** Dosya yokken proje SQLite ve düz
+> HTTP ile çalışır; Postgres, Redis veya Celery gerekmez. `.env.example`
+> sunucu (Docker) kurulumu içindir — yerelde kopyalarsanız `DEBUG=False`
+> devreye girer ve `runserver` sizi HTTPS'e yönlendirir. Yanlışlıkla
+> kopyaladıysanız `runserver` başlangıçta `core.W001` uyarısıyla bunu söyler;
+> çözüm `.env` dosyasını silmektir.
 
 ## Dil desteği / Language support
 

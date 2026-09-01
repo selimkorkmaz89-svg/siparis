@@ -9,6 +9,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY", default="django-insecure-dev-key-change-me")
 DEBUG = config("DEBUG", default=True, cast=bool)
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*", cast=Csv())
+# The loopback interface always answers: a local `runserver`, and the container
+# health check, reach the app as "localhost" whatever the public host name is.
+ALLOWED_HOSTS += [
+    host for host in ("localhost", "127.0.0.1", "[::1]") if host not in ALLOWED_HOSTS
+]
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", default="", cast=Csv())
 
 INSTALLED_APPS = [

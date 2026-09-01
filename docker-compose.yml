@@ -25,6 +25,13 @@ services:
     build: .
     restart: unless-stopped
     env_file: .env
+    environment:
+      # Container-only wiring: kept here so .env stays safe to copy locally.
+      USE_SQLITE: "False"
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
     depends_on:
       db:
         condition: service_healthy
@@ -42,6 +49,13 @@ services:
     build: .
     restart: unless-stopped
     env_file: .env
+    environment:
+      # Container-only wiring: kept here so .env stays safe to copy locally.
+      USE_SQLITE: "False"
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
     depends_on:
       - db
       - redis
@@ -53,6 +67,13 @@ services:
     build: .
     restart: unless-stopped
     env_file: .env
+    environment:
+      # Container-only wiring: kept here so .env stays safe to copy locally.
+      USE_SQLITE: "False"
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
     depends_on:
       - db
       - redis
