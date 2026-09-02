@@ -178,13 +178,46 @@ sunucuyu yeniden başlatmadan değiştirilebilir:
 | Alan | Açıklama |
 |---|---|
 | Etkin | Kapalıyken `.env`'deki (veya geliştirmede konsol) yedek ayar kullanılır |
-| SMTP sunucusu / portu / kullanıcı adı / şifresi | Standart SMTP kimlik bilgileri |
+| Gönderim yöntemi | SMTP veya Microsoft Graph |
+| SMTP sunucusu / portu / kullanıcı adı / şifresi | SMTP seçiliyken kullanılan standart kimlik bilgileri |
 | TLS / SSL | Aynı anda ikisi birden açılamaz |
-| Gönderen adresi | Örn. `"BASH Medikal" <noreply@example.com>` |
+| Azure kiracı / uygulama kimliği / istemci gizli anahtarı | Microsoft Graph seçiliyken kullanılan kimlik bilgileri |
+| Gönderen adresi | Örn. `"BASH Medikal" <noreply@example.com>`; Microsoft Graph ile bu, uygulamanın adına gönderim yapabileceği gerçek bir posta kutusu olmalı |
 
-Şifre alanı **hiçbir zaman tarayıcıya geri gönderilmez** — kaydedilmiş şifreyi
-korumak için alanı boş bırakmanız yeterlidir, sadece değiştirmek istediğinizde
-yeni şifreyi yazın.
+Şifre / istemci gizli anahtarı alanları **hiçbir zaman tarayıcıya geri
+gönderilmez** — kaydedilmiş değeri korumak için alanı boş bırakmanız yeterlidir,
+sadece değiştirmek istediğinizde yenisini yazın.
+
+### Microsoft Graph ile gönderim (Office 365 Security Defaults engeli için)
+
+Office 365 kiracınızın **Security Defaults (Güvenlik Varsayılanları)**
+politikası, geleneksel SMTP kimlik doğrulamasını (`smtp.office365.com:587`)
+`535 5.7.139 Authentication unsuccessful` hatasıyla engelliyorsa, bu
+politikayı zayıflatmadan **Microsoft Graph (App-Only / Client Credentials)**
+üzerinden gönderime geçebilirsiniz — SMTP tamamen devre dışı kalır,
+kimlik doğrulama bir Azure AD uygulama kaydı ile yapılır.
+
+**Azure/Microsoft Entra ID tarafında gerekenler** (bir kere yapılır):
+
+1. Microsoft Entra ID → App registrations → **New registration** (tek kiracılı/Single tenant).
+2. **Certificates & secrets** → yeni bir **Client secret** oluşturun, değeri kopyalayın (bir daha gösterilmez).
+3. **API permissions** → Microsoft Graph → **Application permissions** → **`Mail.Send`** ekleyin.
+4. Aynı ekranda **Grant admin consent** ile bu izni kiracı düzeyinde onaylayın.
+5. Uygulamanın **Overview** sekmesinden **Tenant ID** ve **Application (client) ID** değerlerini not edin.
+
+**Sistem tarafında** (Admin → Sistem Ayarları → E-posta Bildirimleri):
+
+- Gönderim yöntemi: **Microsoft Graph (Office 365)**
+- Azure kiracı kimliği / uygulama kimliği / istemci gizli anahtarı: yukarıdaki 5 değer
+- Gönderen adresi: uygulamanın adına gönderim yapabileceği gerçek bir posta kutusu (örn. `b2b@sirket.com`) — Graph bu kutu **için** kimlik doğrular, ondan **olarak** e-posta gönderir
+
+Aynı üç değer isterseniz sunucuyu yeniden başlatmadan değiştirilmesin diye
+`.env`'e de yazılabilir (`MS_GRAPH_TENANT_ID`, `MS_GRAPH_CLIENT_ID`,
+`MS_GRAPH_CLIENT_SECRET`) — Sistem Ayarları ekranındaki değerler her zaman
+önceliklidir, `.env`'dekiler sadece hiç girilmemişse kullanılır. Kaydettikten
+sonra **Test e-postası gönder** ile doğrulayın; `535` yerine bir Graph hatası
+alırsanız (401/403), önce `Mail.Send` iznine yönetici onayı verildiğini ve
+gönderen adresin gerçek bir posta kutusu olduğunu kontrol edin.
 
 Ayarları kaydettikten sonra aynı ekrandaki **Test e-postası gönder** ile
 herhangi bir adrese anında bir deneme e-postası atıp yapılandırmayı

@@ -144,4 +144,20 @@
         .forEach(function (box) { box.checked = master.checked; });
     });
   });
+
+  /* ---- show only the field group matching a select's current value ---- */
+  document.querySelectorAll("[data-provider-toggle]").forEach(function (container) {
+    const select = document.getElementById(container.getAttribute("data-provider-toggle"));
+    if (!select) return;
+    const groups = container.querySelectorAll("[data-provider-group]");
+    function apply() {
+      groups.forEach(function (group) {
+        group.classList.toggle(
+          "hidden", group.getAttribute("data-provider-group") !== select.value
+        );
+      });
+    }
+    select.addEventListener("change", apply);
+    apply();
+  });
 })();

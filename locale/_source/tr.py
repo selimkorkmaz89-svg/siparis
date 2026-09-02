@@ -107,7 +107,26 @@ TRANSLATIONS = {
         "Yukarıdaki ayarlarla bir e-posta gönderir (az önce değiştirdiyseniz önce kaydedin).",
     "Stored on the server. Leave unchanged to keep the current password.":
         "Sunucuda saklanır. Mevcut şifreyi korumak için değiştirmeden bırakın.",
+    "Stored on the server. Leave unchanged to keep the current value.":
+        "Sunucuda saklanır. Mevcut değeri korumak için değiştirmeden bırakın.",
     "TLS and SSL cannot both be enabled.": "TLS ve SSL aynı anda etkin olamaz.",
+    "sending method": "gönderim yöntemi",
+    "SMTP": "SMTP",
+    "Microsoft Graph (Office 365)": "Microsoft Graph (Office 365)",
+    "Use Microsoft Graph instead of SMTP when the Office 365 tenant's Security Defaults policy blocks basic SMTP authentication.":
+        "Office 365 kiracısının Güvenlik Varsayılanları politikası temel SMTP kimlik doğrulamasını engellediğinde, SMTP yerine Microsoft Graph kullanın.",
+    "Azure tenant ID": "Azure kiracı (tenant) kimliği",
+    "Azure application (client) ID": "Azure uygulama (istemci) kimliği",
+    "Azure client secret": "Azure istemci gizli anahtarı",
+    "The app registration's client secret value. Needs the Mail.Send application permission on Microsoft Graph, with admin consent granted.":
+        "Uygulama kaydının istemci gizli anahtar değeri. Microsoft Graph üzerinde Mail.Send uygulama izni gerekir; bu izne yönetici onayı verilmiş olmalıdır.",
+    'Example: "BASH Medikal" <noreply@example.com>. With Microsoft Graph, this must be a real mailbox the app registration is allowed to send as.':
+        'Örnek: "BASH Medikal" <noreply@example.com>. Microsoft Graph kullanılıyorsa bu, uygulama kaydının adına gönderim yapabileceği gerçek bir posta kutusu olmalıdır.',
+    "A sender mailbox is required to enable Microsoft Graph.": "Microsoft Graph'ı etkinleştirmek için bir gönderen posta kutusu gereklidir.",
+    "This field is required to enable Microsoft Graph.": "Microsoft Graph'ı etkinleştirmek için bu alan gereklidir.",
+    "A client secret is required to enable Microsoft Graph.": "Microsoft Graph'ı etkinleştirmek için bir istemci gizli anahtarı gereklidir.",
+    "Microsoft Graph needs a tenant ID, client ID, client secret and sender mailbox.":
+        "Microsoft Graph için kiracı kimliği, istemci kimliği, istemci gizli anahtarı ve gönderen posta kutusu gerekir.",
     "Test email from %(system)s": "%(system)s sisteminden test e-postası",
     "Test email sent to %(recipient)s.": "Test e-postası gönderildi: %(recipient)s",
     "The test email could not be sent: %(error)s": "Test e-postası gönderilemedi: %(error)s",

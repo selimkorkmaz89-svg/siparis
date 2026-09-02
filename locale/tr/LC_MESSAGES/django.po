@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 16:05+0300\n"
+"POT-Creation-Date: 2026-09-02 16:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -729,7 +729,7 @@ msgstr "Başarısız"
 msgid "created at"
 msgstr "oluşturulma tarihi"
 
-#: core/models.py:8 integrations/models.py:70 notifications/models.py:145
+#: core/models.py:8 integrations/models.py:70 notifications/models.py:171
 msgid "updated at"
 msgstr "güncellenme tarihi"
 
@@ -1059,7 +1059,7 @@ msgstr "Kimlik bilgileri"
 msgid "Document defaults"
 msgstr "Evrak varsayılanları"
 
-#: integrations/models.py:28 notifications/models.py:128
+#: integrations/models.py:28 notifications/models.py:132
 msgid "enabled"
 msgstr "etkin"
 
@@ -1131,7 +1131,7 @@ msgstr "Sipariş tutarları gönderilmeden önce bu para birimine çevrilir."
 msgid "connector token"
 msgstr "aktarım token'ı"
 
-#: integrations/models.py:73 notifications/models.py:148
+#: integrations/models.py:73 notifications/models.py:174
 msgid "updated by"
 msgstr "güncelleyen"
 
@@ -1187,7 +1187,7 @@ msgstr "Aktarım servisi bir hata bildirdi."
 msgid "Mikro settings saved."
 msgstr "Mikro ayarları kaydedildi."
 
-#: integrations/views.py:109 integrations/views.py:118 payments/views.py:286
+#: integrations/views.py:109 integrations/views.py:118 payments/views.py:289
 msgid "Please fix the errors below."
 msgstr "Lütfen aşağıdaki hataları düzeltin."
 
@@ -1222,21 +1222,47 @@ msgstr "Ödeme tarihi"
 msgid "Order %(no)s has been marked as shipped."
 msgstr "%(no)s numaralı sipariş gönderildi olarak işaretlendi."
 
-#: notifications/forms.py:11 notifications/models.py:138
+#: notifications/forms.py:11 notifications/models.py:150
 msgid "SMTP password"
 msgstr "SMTP şifresi"
 
-#: notifications/forms.py:37
+#: notifications/forms.py:19 notifications/models.py:158
+msgid "Azure client secret"
+msgstr "Azure istemci gizli anahtarı"
+
+#: notifications/forms.py:24
+msgid "Stored on the server. Leave unchanged to keep the current value."
+msgstr "Sunucuda saklanır. Mevcut değeri korumak için değiştirmeden bırakın."
+
+#: notifications/forms.py:54
 msgid "TLS and SSL cannot both be enabled."
 msgstr "TLS ve SSL aynı anda etkin olamaz."
 
-#: notifications/forms.py:39
+#: notifications/forms.py:60
+msgid "A sender mailbox is required to enable Microsoft Graph."
+msgstr "Microsoft Graph'ı etkinleştirmek için bir gönderen posta kutusu gereklidir."
+
+#: notifications/forms.py:64
+msgid "This field is required to enable Microsoft Graph."
+msgstr "Microsoft Graph'ı etkinleştirmek için bu alan gereklidir."
+
+#: notifications/forms.py:68
+msgid "A client secret is required to enable Microsoft Graph."
+msgstr "Microsoft Graph'ı etkinleştirmek için bir istemci gizli anahtarı gereklidir."
+
+#: notifications/forms.py:71
 msgid "An SMTP host is required to enable email sending."
 msgstr "E-posta gönderimini etkinleştirmek için bir SMTP sunucusu gereklidir."
 
-#: notifications/forms.py:45
+#: notifications/forms.py:77
 msgid "Send test email to"
 msgstr "Test e-postası gönderilecek adres"
+
+#: notifications/graph_backend.py:104
+msgid ""
+"Microsoft Graph needs a tenant ID, client ID, client secret and sender "
+"mailbox."
+msgstr "Microsoft Graph için kiracı kimliği, istemci kimliği, istemci gizli anahtarı ve gönderen posta kutusu gerekir."
 
 #: notifications/models.py:18 notifications/models.py:48
 #: notifications/models.py:84
@@ -1328,45 +1354,79 @@ msgstr "bildirim kaydı"
 msgid "notification logs"
 msgstr "bildirim kayıtları"
 
-#: notifications/models.py:131
+#: notifications/models.py:126
+msgid "SMTP"
+msgstr "SMTP"
+
+#: notifications/models.py:127
+msgid "Microsoft Graph (Office 365)"
+msgstr "Microsoft Graph (Office 365)"
+
+#: notifications/models.py:135
 msgid ""
 "While off, notification emails use the fallback configured on the server "
 "(the console backend in development)."
 msgstr "Kapalıyken bildirim e-postaları sunucudaki yedek ayarı kullanır (geliştirmede konsol arka ucu)."
 
-#: notifications/models.py:135
+#: notifications/models.py:140
+msgid "sending method"
+msgstr "gönderim yöntemi"
+
+#: notifications/models.py:143
+msgid ""
+"Use Microsoft Graph instead of SMTP when the Office 365 tenant's Security "
+"Defaults policy blocks basic SMTP authentication."
+msgstr "Office 365 kiracısının Güvenlik Varsayılanları politikası temel SMTP kimlik doğrulamasını engellediğinde, SMTP yerine Microsoft Graph kullanın."
+
+#: notifications/models.py:147
 msgid "SMTP host"
 msgstr "SMTP sunucusu"
 
-#: notifications/models.py:136
+#: notifications/models.py:148
 msgid "SMTP port"
 msgstr "SMTP portu"
 
-#: notifications/models.py:137
+#: notifications/models.py:149
 msgid "SMTP username"
 msgstr "SMTP kullanıcı adı"
 
-#: notifications/models.py:139
+#: notifications/models.py:151
 msgid "use TLS"
 msgstr "TLS kullan"
 
-#: notifications/models.py:140
+#: notifications/models.py:152
 msgid "use SSL"
 msgstr "SSL kullan"
 
-#: notifications/models.py:142
+#: notifications/models.py:153
+msgid "Azure tenant ID"
+msgstr "Azure kiracı (tenant) kimliği"
+
+#: notifications/models.py:155
+msgid "Azure application (client) ID"
+msgstr "Azure uygulama (istemci) kimliği"
+
+#: notifications/models.py:160
+msgid ""
+"The app registration's client secret value. Needs the Mail.Send application "
+"permission on Microsoft Graph, with admin consent granted."
+msgstr "Uygulama kaydının istemci gizli anahtar değeri. Microsoft Graph üzerinde Mail.Send uygulama izni gerekir; bu izne yönetici onayı verilmiş olmalıdır."
+
+#: notifications/models.py:165
 msgid "from address"
 msgstr "gönderen adresi"
 
-#: notifications/models.py:143
-msgid "Example: \"BASH Medikal\" <noreply@example.com>"
-msgstr "Örnek: \"BASH Medikal\" <noreply@example.com>"
+#: notifications/models.py:167
+msgid ""
+"Example: \"BASH Medikal\" <noreply@example.com>. With Microsoft Graph, this "
+"must be a real mailbox the app registration is allowed to send as."
+msgstr "Örnek: \"BASH Medikal\" <noreply@example.com>. Microsoft Graph kullanılıyorsa bu, uygulama kaydının adına gönderim yapabileceği gerçek bir posta kutusu olmalıdır."
 
-#: notifications/models.py:155 notifications/models.py:156
+#: notifications/models.py:181 notifications/models.py:182
 msgid "email settings"
 msgstr "e-posta ayarları"
 
-#: notifications/models.py:159
+#: notifications/models.py:185
 msgid "Email settings"
 msgstr "E-posta ayarları"
 
@@ -1794,29 +1854,29 @@ msgstr "%(count)s yeni kur çekildi. Geçerli: %(date)s = %(rate)s"
 msgid "Already up to date. In effect: %(date)s = %(rate)s"
 msgstr "Zaten güncel. Geçerli: %(date)s = %(rate)s"
 
-#: payments/views.py:284
+#: payments/views.py:287
 msgid "Email settings saved."
 msgstr "E-posta ayarları kaydedildi."
 
-#: payments/views.py:295
+#: payments/views.py:298
 #, python-format
 msgid "The test email could not be sent: %(error)s"
 msgstr "Test e-postası gönderilemedi: %(error)s"
 
-#: payments/views.py:300
+#: payments/views.py:303
 #, python-format
 msgid "Test email sent to %(recipient)s."
 msgstr "Test e-postası gönderildi: %(recipient)s"
 
-#: payments/views.py:308
+#: payments/views.py:311
 msgid "No rate stored"
 msgstr "Kayıtlı kur yok"
 
-#: payments/views.py:310
+#: payments/views.py:313
 msgid "Up to date"
 msgstr "Güncel"
 
-#: payments/views.py:312
+#: payments/views.py:315
 msgid "Using the most recent business day"
 msgstr "En yakın iş gününün kuru kullanılıyor"
 
@@ -1959,7 +2019,7 @@ msgstr "Profil bilgileri"
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
 #: templates/integrations/settings.html:41
 #: templates/payments/exchange_rates.html:60
-#: templates/payments/exchange_rates.html:107
+#: templates/payments/exchange_rates.html:109
 #: templates/payments/payment_form.html:19
 msgid "Save"
 msgstr "Kaydet"
@@ -3055,17 +3115,17 @@ msgid ""
 "notifications are always created regardless of this setting."
 msgstr "Bir kullanıcının bu e-postaları alıp almayacağı, kullanıcının kendi profil ekranından (E-posta bildirimleri anahtarı) belirlenir. Sistem içi bildirimler bu ayardan bağımsız olarak her zaman oluşturulur."
 
-#: templates/payments/exchange_rates.html:111
+#: templates/payments/exchange_rates.html:113
 msgid "Send a test email"
 msgstr "Test e-postası gönder"
 
-#: templates/payments/exchange_rates.html:113
+#: templates/payments/exchange_rates.html:115
 msgid ""
 "Sends one message with the settings above (save first if you just changed "
 "them)."
 msgstr "Yukarıdaki ayarlarla bir e-posta gönderir (az önce değiştirdiyseniz önce kaydedin)."
 
-#: templates/payments/exchange_rates.html:123
+#: templates/payments/exchange_rates.html:125
 msgid "Send test email"
 msgstr "Test e-postası gönder"
 
@@ -3275,6 +3335,9 @@ msgstr "Sipariş → sevkiyat (uçtan uca)"
 #: templates/reports/finance.html:38
 msgid "Sample size"
 msgstr "Örneklem büyüklüğü"
+
+#~ msgid "Example: \"BASH Medikal\" <noreply@example.com>"
+#~ msgstr "Örnek: \"BASH Medikal\" <noreply@example.com>"
 
 #, python-format
 #~ msgid "%(date)s · TCMB"

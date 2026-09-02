@@ -143,6 +143,15 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="noreply@example.com")
 
+# Microsoft Graph (application permissions) as an alternative to SMTP, for
+# Office 365 tenants whose Security Defaults policy blocks basic SMTP AUTH.
+# Used directly when EMAIL_BACKEND=notifications.graph_backend.GraphEmailBackend,
+# and as the fallback for EmailSettings (System Settings screen) when its own
+# Graph fields are left blank there. See notifications/graph_backend.py.
+MS_GRAPH_TENANT_ID = config("MS_GRAPH_TENANT_ID", default="")
+MS_GRAPH_CLIENT_ID = config("MS_GRAPH_CLIENT_ID", default="")
+MS_GRAPH_CLIENT_SECRET = config("MS_GRAPH_CLIENT_SECRET", default="")
+
 # --- Celery -----------------------------------------------------------------
 CELERY_BROKER_URL = config("CELERY_BROKER_URL", default="redis://redis:6379/0")
 CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND", default="redis://redis:6379/1")

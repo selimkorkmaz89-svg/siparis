@@ -114,13 +114,17 @@ class NotificationLog(models.Model):
 
 
 class EmailSettings(models.Model):
-    """SMTP configuration for outgoing notification emails.
+    """Outgoing notification email configuration: SMTP or Microsoft Graph.
 
     A singleton row (always primary key 1), editable from System Settings so
     an administrator can change it without a deployment. While disabled or
     unconfigured, email sending falls back to Django's own EMAIL_* settings
     (the console backend in development).
     """
+
+    class Provider(models.TextChoices):
+        SMTP = "SMTP", _("SMTP")
+        MS_GRAPH = "MS_GRAPH", _("Microsoft Graph (Office 365)")
 
     SINGLETON_ID = 1
 
@@ -132,15 +136,37 @@ class EmailSettings(models.Model):
             "server (the console backend in development)."
         ),
     )
+    provider = models.CharField(
+        _("sending method"), max_length=10, choices=Provider.choices,
+        default=Provider.SMTP,
+        help_text=_(
+            "Use Microsoft Graph instead of SMTP when the Office 365 tenant's "
+            "Security Defaults policy blocks basic SMTP authentication."
+        ),
+    )
     host = models.CharField(_("SMTP host"), max_length=255, blank=True)
     port = models.PositiveIntegerField(_("SMTP port"), default=587)
     username = models.CharField(_("SMTP username"), max_length=255, blank=True)
     password = models.CharField(_("SMTP password"), max_length=255, blank=True)
     use_tls = models.BooleanField(_("use TLS"), default=True)
     use_ssl = models.BooleanField(_("use SSL"), default=False)
+    graph_tenant_id = models.CharField(_("Azure tenant ID"), max_length=100, blank=True)
+    graph_client_id = models.CharField(
+        _("Azure application (client) ID"), max_length=100, blank=True,
+    )
+    graph_client_secret = models.CharField(
+        _("Azure client secret"), max_length=255, blank=True,
+        help_text=_(
+            "The app registration's client secret value. Needs the Mail.Send "
+            "application permission on Microsoft Graph, with admin consent granted."
+        ),
+    )
     from_email = models.CharField(
         _("from address"), max_length=255, blank=True,
-        help_text=_('Example: "BASH Medikal" <noreply@example.com>'),
+        help_text=_(
+            'Example: "BASH Medikal" <noreply@example.com>. With Microsoft Graph, '
+            "this must be a real mailbox the app registration is allowed to send as."
+        ),
     )
     updated_at = models.DateTimeField(_("updated at"), auto_now=True)
     updated_by = models.ForeignKey(
@@ -170,10 +196,23 @@ class EmailSettings(models.Model):
     def get_connection(self):
         """A connection built from these settings, or ``None`` for the
         project's default (settings.EMAIL_BACKEND, the console in dev)."""
-        if not self.enabled or not self.host:
+        if not self.enabled:
             return None
         from django.core.mail import get_connection
 
+        if self.provider == self.Provider.MS_GRAPH:
+            if not (self.graph_tenant_id and self.graph_client_id
+                    and self.graph_client_secret and self.from_email):
+                return None
+            return get_connection(
+                backend="notifications.graph_backend.GraphEmailBackend",
+                tenant_id=self.graph_tenant_id,
+                client_id=self.graph_client_id,
+                client_secret=self.graph_client_secret,
+                sender_email=self.from_email,
+            )
+        if not self.host:
+            return None
         return get_connection(
             backend="django.core.mail.backends.smtp.EmailBackend",
             host=self.host,

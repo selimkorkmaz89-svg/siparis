@@ -91,11 +91,13 @@
     <form method="post">
       {% csrf_token %}
       {% if email_form.non_field_errors %}<div class="alert alert-error">{{ email_form.non_field_errors }}</div>{% endif %}
-      <div class="form-row">
+      <div class="form-row" data-provider-toggle="{{ email_form.provider.id_for_label }}">
         {% for field in email_form %}
           <div class="field
                       {% if field.name == 'enabled' or field.name == 'use_tls' or field.name == 'use_ssl' %}field-check{% endif %}
-                      {% if field.name == 'enabled' or field.name == 'from_email' %}field-wide{% endif %}">
+                      {% if field.name == 'enabled' or field.name == 'from_email' or field.name == 'provider' %}field-wide{% endif %}"
+               {% if field.name in email_form.PROVIDER_FIELDS.SMTP %}data-provider-group="SMTP"{% endif %}
+               {% if field.name in email_form.PROVIDER_FIELDS.MS_GRAPH %}data-provider-group="MS_GRAPH"{% endif %}>
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             {{ field }}
             {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}

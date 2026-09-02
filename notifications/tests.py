@@ -230,7 +230,7 @@ class EmailSettingsTests(TestCase):
 
     def test_saving_settings_creates_the_singleton_row(self):
         response = self.client.post("/payments/exchange-rates/", {
-            "save_email_settings": "1",
+            "save_email_settings": "1", "provider": "SMTP",
             "enabled": "on", "host": "smtp.example.com", "port": "587",
             "username": "no-reply@example.com", "password": "secret123",
             "use_tls": "on", "from_email": "BASH Medikal <no-reply@example.com>",
@@ -248,7 +248,7 @@ class EmailSettingsTests(TestCase):
             password="original-secret",
         )
         self.client.post("/payments/exchange-rates/", {
-            "save_email_settings": "1",
+            "save_email_settings": "1", "provider": "SMTP",
             "enabled": "on", "host": "smtp.example.com", "port": "587",
             "username": "", "password": "",
             "use_tls": "on", "from_email": "",
@@ -265,7 +265,7 @@ class EmailSettingsTests(TestCase):
 
     def test_tls_and_ssl_cannot_both_be_on(self):
         response = self.client.post("/payments/exchange-rates/", {
-            "save_email_settings": "1",
+            "save_email_settings": "1", "provider": "SMTP",
             "enabled": "on", "host": "smtp.example.com", "port": "587",
             "username": "", "password": "x",
             "use_tls": "on", "use_ssl": "on", "from_email": "",
@@ -274,7 +274,7 @@ class EmailSettingsTests(TestCase):
 
     def test_enabling_without_a_host_is_refused(self):
         response = self.client.post("/payments/exchange-rates/", {
-            "save_email_settings": "1",
+            "save_email_settings": "1", "provider": "SMTP",
             "enabled": "on", "host": "", "port": "587",
             "username": "", "password": "",
             "use_tls": "on", "from_email": "",
@@ -321,3 +321,223 @@ class EmailSettingsTests(TestCase):
         })
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_saving_graph_settings(self):
+        response = self.client.post("/payments/exchange-rates/", {
+            "save_email_settings": "1", "provider": "MS_GRAPH",
+            "enabled": "on", "port": "587",
+            "graph_tenant_id": "tenant-1", "graph_client_id": "client-1",
+            "graph_client_secret": "secret-1",
+            "from_email": "B2B Mail <mailer@example.com>",
+        })
+        self.assertEqual(response.status_code, 302)
+        settings_row = EmailSettings.load()
+        self.assertEqual(settings_row.provider, EmailSettings.Provider.MS_GRAPH)
+        self.assertEqual(settings_row.graph_tenant_id, "tenant-1")
+        self.assertEqual(settings_row.graph_client_secret, "secret-1")
+
+    def test_a_blank_graph_secret_on_save_keeps_the_stored_one(self):
+        EmailSettings.objects.create(
+            pk=EmailSettings.SINGLETON_ID, enabled=True,
+            provider=EmailSettings.Provider.MS_GRAPH,
+            graph_tenant_id="t", graph_client_id="c",
+            graph_client_secret="original-secret", from_email="a@example.com",
+        )
+        self.client.post("/payments/exchange-rates/", {
+            "save_email_settings": "1", "provider": "MS_GRAPH",
+            "enabled": "on", "port": "587",
+            "graph_tenant_id": "t", "graph_client_id": "c", "graph_client_secret": "",
+            "from_email": "a@example.com",
+        })
+        self.assertEqual(EmailSettings.load().graph_client_secret, "original-secret")
+
+    def test_the_stored_graph_secret_is_never_rendered_back(self):
+        EmailSettings.objects.create(
+            pk=EmailSettings.SINGLETON_ID, provider=EmailSettings.Provider.MS_GRAPH,
+            graph_client_secret="super-secret-value",
+        )
+        body = self.client.get("/payments/exchange-rates/").content.decode()
+        self.assertNotIn("super-secret-value", body)
+
+    def test_enabling_graph_without_a_client_secret_is_refused(self):
+        self.client.post("/payments/exchange-rates/", {
+            "save_email_settings": "1", "provider": "MS_GRAPH",
+            "enabled": "on", "port": "587",
+            "graph_tenant_id": "t", "graph_client_id": "c", "graph_client_secret": "",
+            "from_email": "a@example.com",
+        })
+        self.assertFalse(EmailSettings.load().enabled)
+
+    def test_enabled_graph_settings_build_a_graph_connection(self):
+        settings_row = EmailSettings.objects.create(
+            pk=EmailSettings.SINGLETON_ID, enabled=True,
+            provider=EmailSettings.Provider.MS_GRAPH,
+            graph_tenant_id="t", graph_client_id="c", graph_client_secret="s",
+            from_email="B2B Mail <mailer@example.com>",
+        )
+        from notifications.graph_backend import GraphEmailBackend
+
+        connection = settings_row.get_connection()
+        self.assertIsInstance(connection, GraphEmailBackend)
+        self.assertEqual(connection.sender_email, "mailer@example.com")
+
+    def test_graph_settings_missing_a_piece_build_no_connection(self):
+        settings_row = EmailSettings.objects.create(
+            pk=EmailSettings.SINGLETON_ID, enabled=True,
+            provider=EmailSettings.Provider.MS_GRAPH,
+            graph_tenant_id="t", graph_client_id="c", graph_client_secret="",
+            from_email="mailer@example.com",
+        )
+        self.assertIsNone(settings_row.get_connection())
+
+
+class GraphEmailBackendTests(TestCase):
+    """The Microsoft Graph sendMail backend, with the HTTP calls mocked out."""
+
+    def setUp(self):
+        from notifications import graph_backend
+
+        graph_backend._token_cache.clear()
+        self.graph_backend = graph_backend
+
+    def _backend(self, **overrides):
+        kwargs = dict(
+            tenant_id="tenant-1", client_id="client-1", client_secret="secret-1",
+            sender_email="B2B Mail <mailer@example.com>",
+        )
+        kwargs.update(overrides)
+        return self.graph_backend.GraphEmailBackend(**kwargs)
+
+    def test_the_sender_email_is_extracted_from_a_display_name(self):
+        backend = self._backend()
+        self.assertEqual(backend.sender_email, "mailer@example.com")
+
+    def test_send_messages_fetches_a_token_then_posts_to_send_mail(self):
+        from unittest import mock
+
+        backend = self._backend()
+        token_response = mock.Mock(status_code=200)
+        token_response.json.return_value = {"access_token": "tok-1", "expires_in": 3600}
+        send_response = mock.Mock(status_code=202, text="")
+
+        with mock.patch.object(
+            self.graph_backend.requests, "post",
+            side_effect=[token_response, send_response],
+        ) as mocked_post:
+            sent = backend.send_messages([
+                mail.EmailMultiAlternatives(
+                    subject="Hi", body="Plain body", from_email="mailer@example.com",
+                    to=["dest@example.com"],
+                )
+            ])
+        self.assertEqual(sent, 1)
+        self.assertEqual(mocked_post.call_count, 2)
+        send_call = mocked_post.call_args_list[1]
+        self.assertIn(
+            "https://graph.microsoft.com/v1.0/users/mailer@example.com/sendMail",
+            send_call.args[0],
+        )
+        payload = send_call.kwargs["json"]["message"]
+        self.assertEqual(payload["subject"], "Hi")
+        self.assertEqual(payload["body"]["contentType"], "Text")
+        self.assertEqual(payload["toRecipients"][0]["emailAddress"]["address"], "dest@example.com")
+
+    def test_an_html_alternative_is_preferred_over_the_plain_body(self):
+        from unittest import mock
+
+        backend = self._backend()
+        token_response = mock.Mock(status_code=200)
+        token_response.json.return_value = {"access_token": "tok-1", "expires_in": 3600}
+        send_response = mock.Mock(status_code=202, text="")
+        message = mail.EmailMultiAlternatives(
+            subject="Hi", body="Plain", from_email="mailer@example.com", to=["dest@example.com"],
+        )
+        message.attach_alternative("<p>Rich</p>", "text/html")
+
+        with mock.patch.object(
+            self.graph_backend.requests, "post",
+            side_effect=[token_response, send_response],
+        ) as mocked_post:
+            backend.send_messages([message])
+        payload = mocked_post.call_args_list[1].kwargs["json"]["message"]
+        self.assertEqual(payload["body"]["contentType"], "HTML")
+        self.assertEqual(payload["body"]["content"], "<p>Rich</p>")
+
+    def test_a_failed_send_mail_call_raises_by_default(self):
+        from unittest import mock
+
+        backend = self._backend()
+        token_response = mock.Mock(status_code=200)
+        token_response.json.return_value = {"access_token": "tok-1", "expires_in": 3600}
+        send_response = mock.Mock(status_code=403, text="Forbidden")
+
+        with mock.patch.object(
+            self.graph_backend.requests, "post",
+            side_effect=[token_response, send_response],
+        ):
+            with self.assertRaises(self.graph_backend.GraphAPIError):
+                backend.send_messages([
+                    mail.EmailMultiAlternatives(
+                        subject="Hi", body="x", from_email="mailer@example.com",
+                        to=["dest@example.com"],
+                    )
+                ])
+
+    def test_a_failed_send_is_swallowed_when_fail_silently(self):
+        from unittest import mock
+
+        backend = self._backend()
+        backend.fail_silently = True
+        token_response = mock.Mock(status_code=200)
+        token_response.json.return_value = {"access_token": "tok-1", "expires_in": 3600}
+        send_response = mock.Mock(status_code=500, text="boom")
+
+        with mock.patch.object(
+            self.graph_backend.requests, "post",
+            side_effect=[token_response, send_response],
+        ):
+            sent = backend.send_messages([
+                mail.EmailMultiAlternatives(
+                    subject="Hi", body="x", from_email="mailer@example.com",
+                    to=["dest@example.com"],
+                )
+            ])
+        self.assertEqual(sent, 0)
+
+    def test_a_second_send_reuses_the_cached_token(self):
+        from unittest import mock
+
+        backend = self._backend()
+        token_response = mock.Mock(status_code=200)
+        token_response.json.return_value = {"access_token": "tok-1", "expires_in": 3600}
+        send_response = mock.Mock(status_code=202, text="")
+
+        with mock.patch.object(
+            self.graph_backend.requests, "post",
+            side_effect=[token_response, send_response, send_response],
+        ) as mocked_post:
+            backend.send_messages([
+                mail.EmailMultiAlternatives(
+                    subject="One", body="x", from_email="mailer@example.com",
+                    to=["dest@example.com"],
+                )
+            ])
+            backend.send_messages([
+                mail.EmailMultiAlternatives(
+                    subject="Two", body="x", from_email="mailer@example.com",
+                    to=["dest@example.com"],
+                )
+            ])
+        # One token fetch, two sendMail calls - the token was cached and reused.
+        self.assertEqual(mocked_post.call_count, 3)
+
+    def test_missing_credentials_raise_when_not_fail_silently(self):
+        backend = self.graph_backend.GraphEmailBackend(
+            tenant_id="", client_id="", client_secret="", sender_email="a@example.com",
+        )
+        with self.assertRaises(Exception):
+            backend.send_messages([
+                mail.EmailMultiAlternatives(
+                    subject="Hi", body="x", from_email="a@example.com", to=["dest@example.com"],
+                )
+            ])

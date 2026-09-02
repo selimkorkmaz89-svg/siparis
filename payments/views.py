@@ -266,9 +266,10 @@ def exchange_rates(request):
     email_settings = EmailSettings.load()
     # Captured before any form binds to email_settings: ModelForm._post_clean()
     # writes cleaned values straight onto the instance during is_valid(), so
-    # reading email_settings.password afterwards would already see the blank
-    # submitted value rather than what was stored.
+    # reading these back afterwards would already see the blank submitted
+    # value rather than what was stored.
     stored_password = email_settings.password
+    stored_graph_client_secret = email_settings.graph_client_secret
     email_form = EmailSettingsForm(instance=email_settings)
     test_email_form = TestEmailForm(initial={"recipient": request.user.email})
     if request.method == "POST" and "save_email_settings" in request.POST:
@@ -279,6 +280,8 @@ def exchange_rates(request):
                 # Blank means "leave it alone" - the field never round-trips
                 # the stored password back into the form for display.
                 saved.password = stored_password
+            if not email_form.cleaned_data.get("graph_client_secret"):
+                saved.graph_client_secret = stored_graph_client_secret
             saved.updated_by = request.user
             saved.save()
             messages.success(request, _("Email settings saved."))
