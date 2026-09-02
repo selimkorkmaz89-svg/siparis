@@ -19,6 +19,7 @@ urlpatterns = [
     path("logistics/", include("logistics.urls")),
     path("reports/", include("reports.urls")),
     path("notifications/", include("notifications.urls")),
+    path("entegrasyon/", include("integrations.urls")),
 ]
 
 if settings.DEBUG:

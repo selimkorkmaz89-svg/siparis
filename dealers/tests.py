@@ -32,13 +32,13 @@ class DealerFormTests(TestCase):
     def test_the_form_is_grouped_into_sections(self):
         form = DealerForm()
         titles = [str(title) for title, _fields in form.sections()]
-        self.assertEqual(len(titles), 6)
+        self.assertEqual(len(titles), 7)
         grouped = [f.name for _t, group in form.sections() for f in group]
         self.assertEqual(sorted(grouped), sorted(form.fields))
 
     def test_the_form_screen_renders_every_section(self):
         body = self.client.get(reverse("dealers:create")).content.decode()
-        self.assertEqual(body.count('class="card form-section"'), 6)
+        self.assertEqual(body.count('class="card form-section"'), 7)
         self.assertIn('enctype="multipart/form-data"', body)
 
     def test_a_logo_can_be_uploaded(self):

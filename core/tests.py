@@ -163,7 +163,7 @@ class NavigationTests(TestCase):
         # sidebar noisy. The admin inherits every role, so its list is longest.
         for role in self.users:
             with self.subTest(role=role):
-                self.assertLessEqual(len(self._items(role)), 22)
+                self.assertLessEqual(len(self._items(role)), 23)
 
     def test_exactly_one_entry_is_active(self):
         pages = {

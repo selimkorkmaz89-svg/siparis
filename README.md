@@ -19,11 +19,12 @@ data. The interface is fully available in **Turkish and English**.
 5. [Sipariş Formu](#sipariş-formu--order-form)
 6. [Kurumsal kimlik](#kurumsal-kimlik--branding)
 7. [E-posta ayarları](#e-posta-ayarları--email-settings)
-8. [Dil desteği](#dil-desteği--language-support)
-9. [İş kuralları](#iş-kuralları--business-rules)
-10. [VPS kurulumu](#vps-kurulumu--production-deployment)
-11. [Yedekleme](#yedekleme--backups)
-12. [Testler](#testler--tests)
+8. [Mikro entegrasyonu](#mikro-entegrasyonu--mikro-integration)
+9. [Dil desteği](#dil-desteği--language-support)
+10. [İş kuralları](#iş-kuralları--business-rules)
+11. [VPS kurulumu](#vps-kurulumu--production-deployment)
+12. [Yedekleme](#yedekleme--backups)
+13. [Testler](#testler--tests)
 
 ---
 
@@ -195,6 +196,53 @@ kullanıcı kendi *Profilim* ekranından e-posta bildirimlerini açıp kapatabil
 kullanıcı tercihi birbirinden bağımsızdır — SMTP etkin olsa bile, bildirimi
 kapatan bir kullanıcıya e-posta gitmez; sistem içi (zil) bildirim bundan
 etkilenmeden her zaman oluşur.
+
+## Mikro entegrasyonu / Mikro integration
+
+Onaylanan (PAID) siparişler, Mikro ERP'ye (`SiparisKaydetV2`) otomatik olarak
+gönderilebilir. Admin → **Mikro entegrasyonu** ekranından yönetilir.
+
+**Neden bu sistem Mikro'ya doğrudan bağlanmıyor:** Mikro'nun API'si (Mikro
+Desktop API) sadece kurulu olduğu sunucunun bulunduğu özel ağda/VPN'de
+dinliyor; bu sistem ise dışarıda, ayrı bir sunucuda çalışıyor. Bu yüzden akış
+tersine çevrilmiştir:
+
+1. Bir sipariş onaylandığında (ödeme onayı → PAID), sipariş "gönderim bekliyor"
+   durumuna kuyruğa alınır.
+2. VPN ağının içinde çalışan küçük bir **aktarım scripti** (bu depoda yer
+   almaz, ayrıca yazılmalı/kurulmalıdır), Mikro entegrasyonu ekranındaki
+   token ile şu uç noktaları dinler:
+   - `GET /entegrasyon/mikro/api/bekleyen/` — gönderilmeyi bekleyen
+     siparişlerin, doğrudan Mikro'nun `SiparisKaydetV2`'sine POST edilebilecek
+     hazır JSON gövdelerini döner.
+   - `POST /entegrasyon/mikro/api/siparisler/<id>/tamamlandi/` — script,
+     Mikro'ya başarıyla yazdıktan sonra siparişi "gönderildi" işaretler.
+   - `POST /entegrasyon/mikro/api/siparisler/<id>/hata/` — Mikro bir hata
+     döndürürse, hata mesajını sipariş üzerine kaydeder.
+   - `GET /entegrasyon/mikro/api/ping/` — bağlantı/token testi.
+3. Her istek `Authorization: Bearer <token>` başlığı ile doğrulanır (kullanıcı
+   girişi değildir); token, ayarlar ekranından görüntülenebilir ve
+   yenilenebilir.
+
+**Kurulumdan önce doldurulması gerekenler:**
+
+| Ayar | Nerede |
+|---|---|
+| Mikro API anahtarı, firma/kullanıcı kodu, şifre, çalışma yılı | Mikro entegrasyonu ekranı |
+| Depo no, evrak seri, sipariş tipi/cinsi, birim pointer, para birimi | Mikro entegrasyonu ekranı |
+| Her bayinin Mikro cari kodu | Bayi düzenleme formu → *Mikro entegrasyonu* bölümü |
+| Her ürünün Mikro stok kodu | Ürün düzenleme formu |
+| Kullanılan her KDV oranının Mikro `sip_vergi_pntr` karşılığı | Mikro entegrasyonu ekranı (Mikro'da `VergiListesiV2` ile bulunur) |
+
+Şifre alanı da SMTP ayarlarındaki gibi çalışır: kaydedilmiş değer tarayıcıya
+geri gönderilmez, boş bırakmak mevcut şifreyi korur. Mikro her istekte
+şifrenin günün tarihiyle (`MD5("YYYY-AA-GG " + şifre)`) hashlenmesini
+istediğinden, bu hash her sorguda otomatik ve taze hesaplanır — düz şifre
+sadece veritabanında saklanır.
+
+Eksik bir eşleme (bayi/ürün/KDV) varsa, o siparişin gönderimi otomatik olarak
+"başarısız" işaretlenir ve hata mesajı ekranda görünür; eksik bilgi
+tamamlandıktan sonra **Yeniden dene** ile tekrar kuyruğa alınabilir.
 
 ## Dil desteği / Language support
 

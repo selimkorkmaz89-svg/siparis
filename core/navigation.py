@@ -130,6 +130,7 @@ NAV: dict[str, tuple[NavItem, ...]] = {
         NavItem("accounts:user_list", _("User management"), "users",
                 also_active_for=("accounts:user_create", "accounts:user_edit")),
         NavItem("payments:exchange_rates", _("System settings"), "settings"),
+        NavItem("integrations:settings", _("Mikro integration"), "settings"),
         NOTIFICATIONS,
         PROFILE,
     ),

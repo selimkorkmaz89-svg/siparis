@@ -22,6 +22,13 @@ class Dealer(TimeStampedModel):
     )
     notes = models.TextField(_("notes"), blank=True)
     is_active = models.BooleanField(_("active"), default=True)
+    mikro_cari_kodu = models.CharField(
+        _("Mikro customer code"), max_length=25, blank=True,
+        help_text=_(
+            "The dealer's customer (cari) code in Mikro. Required before an "
+            "order for this dealer can be sent to Mikro."
+        ),
+    )
     allowed_device_models = models.ManyToManyField(
         "catalog.DeviceModel",
         verbose_name=_("allowed device models"),

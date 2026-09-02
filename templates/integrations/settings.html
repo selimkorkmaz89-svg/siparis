@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Mikro integration" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Mikro integration" %}{% endblock %}
+{% block content %}
+<div class="alert alert-info">
+  {% blocktranslate %}
+  Mikro's API only listens on the private network its server sits on, so this
+  system cannot call it directly. Instead, approved orders are queued here
+  and a small relay script running inside that network polls the endpoints
+  below, posts each order to Mikro itself, and reports back.
+  {% endblocktranslate %}
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <h2>{% translate "Connection" %}</h2>
+    <span class="badge {% if mikro_settings.enabled %}badge-paid{% else %}badge-default{% endif %}">
+      {% if mikro_settings.enabled %}{% translate "Enabled" %}{% else %}{% translate "Disabled" %}{% endif %}
+    </span>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    {% if settings_form.non_field_errors %}<div class="alert alert-error">{{ settings_form.non_field_errors }}</div>{% endif %}
+    {% for title, fields in settings_form.sections %}
+      <h3 class="mt">{{ title }}</h3>
+      <div class="form-row">
+        {% for field in fields %}
+          <div class="field
+                      {% if field.name == 'enabled' or field.name == 'vergisiz_fl' %}field-check{% endif %}
+                      {% if field.name == 'api_key' %}field-wide{% endif %}">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+            {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <button class="btn btn-primary mt" type="submit" name="save_settings" value="1">
+      {% translate "Save" %}
+    </button>
+  </form>
+</div>
+
+<div class="card mt">
+  <h2>{% translate "Connector" %}</h2>
+  <p class="muted">
+    {% blocktranslate %}
+    Give the relay script this base URL and token. It authenticates with the
+    header "Authorization: Bearer &lt;token&gt;" - not a user login.
+    {% endblocktranslate %}
+  </p>
+  <div class="form-row">
+    <div class="field field-wide">
+      <label>{% translate "Base URL" %}</label>
+      <input class="form-control" type="text" readonly value="{{ connector_base_url }}">
+    </div>
+    <div class="field field-wide">
+      <label>{% translate "Connector token" %}</label>
+      <input class="form-control" type="text" readonly value="{{ mikro_settings.connector_token }}">
+    </div>
+  </div>
+  <form method="post" class="mt">
+    {% csrf_token %}
+    <button class="btn btn-outline" type="submit" name="regenerate_token" value="1"
+            data-confirm="{% translate 'Generate a new token? The old one stops working immediately - update the connector too.' %}">
+      {% translate "Generate a new token" %}
+    </button>
+  </form>
+</div>
+
+<div class="card mt">
+  <h2>{% translate "VAT pointer mapping" %}</h2>
+  <p class="muted">
+    {% translate "Each VAT rate used in the catalogue needs Mikro's matching sip_vergi_pntr code (look it up in Mikro via VergiListesiV2)." %}
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>{% translate "VAT rate" %}</th>
+          <th>{% translate "Mikro pointer" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mapping in vat_mappings %}
+          <tr>
+            <td>%{{ mapping.vat_rate }}</td>
+            <td>{{ mapping.mikro_vergi_pntr }}</td>
+            <td class="num">
+              <form method="post" action="{% url 'integrations:vat_mapping_delete' mapping.pk %}" class="inline">
+                {% csrf_token %}
+                <button class="btn btn-ghost btn-sm" type="submit">{% translate "Delete" %}</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="3" class="empty-state">{% translate "No VAT pointer mappings yet." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <form method="post" class="form-row mt">
+    {% csrf_token %}
+    {% for field in vat_form %}
+      <div class="field">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+    {% endfor %}
+    <button class="btn btn-outline" type="submit" name="add_vat_mapping" value="1" style="align-self:end">
+      {% translate "Add" %}
+    </button>
+  </form>
+</div>
+
+<div class="card mt">
+  <h2>{% translate "Sync status" %}</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>{% translate "Order number" %}</th>
+          <th>{% translate "Dealer" %}</th>
+          <th>{% translate "Status" %}</th>
+          <th>{% translate "Detail" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td><a href="{% url 'orders:detail' order.pk %}">{{ order.reference }}</a></td>
+            <td>{% include "partials/dealer_badge.html" with dealer=order.dealer %}</td>
+            <td>
+              {% if order.mikro_sync_status == 'SYNCED' %}
+                <span class="badge badge-paid">{{ order.get_mikro_sync_status_display }}</span>
+              {% elif order.mikro_sync_status == 'FAILED' %}
+                <span class="badge badge-cancelled">{{ order.get_mikro_sync_status_display }}</span>
+              {% else %}
+                <span class="badge badge-pending">{{ order.get_mikro_sync_status_display }}</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if order.mikro_sync_status == 'FAILED' %}{{ order.mikro_sync_error }}
+              {% elif order.mikro_sync_status == 'SYNCED' %}{{ order.mikro_reference|default:"—" }}
+              {% else %}—{% endif %}
+            </td>
+            <td class="num">
+              {% if order.mikro_sync_status == 'FAILED' %}
+                <form method="post" action="{% url 'integrations:retry_sync' order.pk %}" class="inline">
+                  {% csrf_token %}
+                  <button class="btn btn-ghost btn-sm" type="submit">{% translate "Retry" %}</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="empty-state">{% translate "No order has been queued for Mikro yet." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}

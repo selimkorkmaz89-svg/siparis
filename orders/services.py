@@ -13,6 +13,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from core.constants import OrderStatus, PaymentStatus
+from integrations import services as mikro
 from notifications import services as notify
 from orders.models import Order, OrderItem, OrderStatusHistory
 from payments import services as fx
@@ -115,6 +116,7 @@ def approve_payment(order: Order, payment, user, note: str = "") -> Order:
     order.save()
     _log(order, previous, order.status, user, note, order_no=order.order_no or "")
     transaction.on_commit(lambda: notify.payment_approved(order))
+    mikro.queue_for_sync(order)
     return order
 
 

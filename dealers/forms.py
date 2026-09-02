@@ -27,7 +27,7 @@ class DealerForm(BootstrapModelForm):
         fields = (
             "name", "code", "logo", "tax_no", "tax_office",
             "contact_person", "phone", "email", "city", "address",
-            "allowed_device_models", "notes", "is_active",
+            "allowed_device_models", "mikro_cari_kodu", "notes", "is_active",
         )
         widgets = {
             "allowed_device_models": forms.SelectMultiple(attrs={"size": 8}),
@@ -46,6 +46,7 @@ class DealerForm(BootstrapModelForm):
         (_("Contact"), ("contact_person", "phone", "email")),
         (_("Address"), ("city", "address")),
         (_("Catalogue access"), ("allowed_device_models",)),
+        (_("Mikro integration"), ("mikro_cari_kodu",)),
         (_("Other"), ("notes", "is_active")),
     )
 

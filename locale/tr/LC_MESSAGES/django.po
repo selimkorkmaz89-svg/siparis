@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 15:26+0300\n"
+"POT-Creation-Date: 2026-09-02 16:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -81,12 +81,12 @@ msgstr "Telefon"
 msgid "Interface language"
 msgstr "Arayüz dili"
 
-#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:112
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:113
 #: notifications/models.py:53
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:113
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:114
 #: notifications/models.py:53
 msgid "English"
 msgstr "İngilizce"
@@ -141,8 +141,8 @@ msgstr "kullanıcı adı"
 msgid "email address"
 msgstr "e-posta adresi"
 
-#: accounts/models.py:49 catalog/models.py:109 dealers/models.py:37
-#: dealers/models.py:59 orders/models.py:65
+#: accounts/models.py:49 catalog/models.py:116 dealers/models.py:44
+#: dealers/models.py:66 orders/models.py:65
 msgid "dealer"
 msgstr "bayi"
 
@@ -237,7 +237,7 @@ msgid "Role"
 msgstr "Rol"
 
 #: accounts/views.py:193 catalog/views.py:131 core/constants.py:11
-#: core/navigation.py:139 dealers/views.py:101 dealers/views.py:147
+#: core/navigation.py:140 dealers/views.py:101 dealers/views.py:147
 #: logistics/views.py:36 orders/views.py:89 payments/views.py:45
 #: payments/views.py:185 reports/views.py:73 templates/accounts/profile.html:28
 #: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
@@ -245,6 +245,7 @@ msgstr "Rol"
 #: templates/dealers/dealer_form.html:3 templates/dealers/dealer_history.html:8
 #: templates/dealers/dealer_history.html:34
 #: templates/dealers/domain_list.html:18
+#: templates/integrations/settings.html:127
 #: templates/logistics/pending_shipments.html:20
 #: templates/orders/_order_filters.html:11
 #: templates/orders/order_detail.html:69
@@ -261,6 +262,7 @@ msgstr "Bayi"
 #: payments/views.py:187 templates/accounts/_user_filters.html:8
 #: templates/accounts/profile.html:29 templates/accounts/user_list.html:18
 #: templates/core/home.html:67 templates/dealers/dealer_history.html:36
+#: templates/integrations/settings.html:128
 #: templates/notifications/notification_list.html:31
 #: templates/orders/_order_filters.html:2 templates/orders/order_detail.html:57
 #: templates/orders/order_detail.html:143
@@ -279,27 +281,27 @@ msgstr "Kayıt tarihi"
 msgid "User saved: %(user)s"
 msgstr "Kullanıcı kaydedildi: %(user)s"
 
-#: catalog/forms.py:30
+#: catalog/forms.py:31
 msgid "Product catalogue"
 msgstr "Ürün kataloğu"
 
-#: catalog/forms.py:30
+#: catalog/forms.py:31
 msgid "Dealer cards"
 msgstr "Bayi cari kartları"
 
-#: catalog/forms.py:33
+#: catalog/forms.py:34
 msgid "Import type"
 msgstr "İçe aktarma türü"
 
-#: catalog/forms.py:38
+#: catalog/forms.py:39
 msgid "Excel file (.xlsx)"
 msgstr "Excel dosyası (.xlsx)"
 
-#: catalog/forms.py:45
+#: catalog/forms.py:46
 msgid "Please upload a file in .xlsx format."
 msgstr "Lütfen .xlsx biçiminde bir dosya yükleyin."
 
-#: catalog/forms.py:47
+#: catalog/forms.py:48
 msgid "The file may not be larger than 10 MB."
 msgstr "Dosya 10 MB'tan büyük olamaz."
 
@@ -351,7 +353,7 @@ msgid "List price (USD)"
 msgstr "Liste Fiyatı (USD)"
 
 #: catalog/imports.py:29 catalog/imports.py:205 catalog/models.py:76
-#: catalog/views.py:48 orders/models.py:221
+#: catalog/views.py:48 integrations/models.py:109 orders/models.py:229
 msgid "VAT rate (%)"
 msgstr "KDV Oranı (%)"
 
@@ -449,12 +451,12 @@ msgstr "Dosyada içe aktarılabilir satır bulunamadı."
 msgid "device model"
 msgstr "cihaz modeli"
 
-#: catalog/models.py:21 catalog/models.py:58 orders/models.py:214
+#: catalog/models.py:21 catalog/models.py:58 orders/models.py:222
 msgid "brand"
 msgstr "marka"
 
 #: catalog/models.py:22 catalog/models.py:83 dealers/models.py:24
-#: dealers/models.py:63 notifications/models.py:59
+#: dealers/models.py:70 notifications/models.py:59
 msgid "active"
 msgstr "aktif"
 
@@ -462,11 +464,11 @@ msgstr "aktif"
 msgid "device models"
 msgstr "cihaz modelleri"
 
-#: catalog/models.py:56 orders/models.py:212
+#: catalog/models.py:56 orders/models.py:220
 msgid "product code"
 msgstr "ürün kodu"
 
-#: catalog/models.py:57 orders/models.py:213
+#: catalog/models.py:57 orders/models.py:221
 msgid "product name"
 msgstr "ürün adı"
 
@@ -486,23 +488,33 @@ msgstr "liste fiyatı (USD)"
 msgid "description"
 msgstr "açıklama"
 
-#: catalog/models.py:88 catalog/models.py:115 orders/models.py:208
+#: catalog/models.py:85
+msgid "Mikro stock code"
+msgstr "Mikro stok kodu"
+
+#: catalog/models.py:87
+msgid ""
+"This product's stock (stok) code in Mikro. Required before an order "
+"containing it can be sent to Mikro."
+msgstr "Bu ürünün Mikro'daki stok kodu. Bu ürünü içeren bir siparişin Mikro'ya gönderilebilmesi için gereklidir."
+
+#: catalog/models.py:95 catalog/models.py:122 orders/models.py:216
 msgid "product"
 msgstr "ürün"
 
-#: catalog/models.py:89
+#: catalog/models.py:96
 msgid "products"
 msgstr "ürünler"
 
-#: catalog/models.py:120
+#: catalog/models.py:127
 msgid "special price (USD)"
 msgstr "özel fiyat (USD)"
 
-#: catalog/models.py:127
+#: catalog/models.py:134
 msgid "dealer special price"
 msgstr "bayi özel fiyatı"
 
-#: catalog/models.py:128
+#: catalog/models.py:135
 msgid "dealer special prices"
 msgstr "bayi özel fiyatları"
 
@@ -607,15 +619,15 @@ msgstr "İçe aktarma iptal edildi; hiçbir kayıt kaydedilmedi."
 msgid "Admin"
 msgstr "Yönetici"
 
-#: core/constants.py:8 core/navigation.py:140
+#: core/constants.py:8 core/navigation.py:141
 msgid "Finance"
 msgstr "Finans"
 
-#: core/constants.py:9 core/navigation.py:141
+#: core/constants.py:9 core/navigation.py:142
 msgid "Logistics"
 msgstr "Lojistik"
 
-#: core/constants.py:10 core/navigation.py:142
+#: core/constants.py:10 core/navigation.py:143
 msgid "Management"
 msgstr "Yönetim"
 
@@ -697,11 +709,27 @@ msgstr "USD"
 msgid "TRY"
 msgstr "TL"
 
+#: core/constants.py:59
+msgid "Not queued"
+msgstr "Kuyrukta değil"
+
+#: core/constants.py:60
+msgid "Waiting to be sent"
+msgstr "Gönderim bekliyor"
+
+#: core/constants.py:61
+msgid "Sent to Mikro"
+msgstr "Mikro'ya gönderildi"
+
+#: core/constants.py:62 notifications/models.py:80
+msgid "Failed"
+msgstr "Başarısız"
+
 #: core/models.py:7 notifications/models.py:32
 msgid "created at"
 msgstr "oluşturulma tarihi"
 
-#: core/models.py:8 notifications/models.py:145
+#: core/models.py:8 integrations/models.py:70 notifications/models.py:145
 msgid "updated at"
 msgstr "güncellenme tarihi"
 
@@ -803,7 +831,13 @@ msgstr "Kullanıcı Yönetimi"
 msgid "System settings"
 msgstr "Sistem Ayarları"
 
-#: core/navigation.py:143
+#: core/navigation.py:133 dealers/forms.py:49
+#: templates/integrations/settings.html:3
+#: templates/integrations/settings.html:4
+msgid "Mikro integration"
+msgstr "Mikro entegrasyonu"
+
+#: core/navigation.py:144
 msgid "System administrator"
 msgstr "Sistem Yöneticisi"
 
@@ -838,11 +872,11 @@ msgstr "İletişim"
 msgid "Catalogue access"
 msgstr "Katalog Erişimi"
 
-#: dealers/forms.py:49
+#: dealers/forms.py:50
 msgid "Other"
 msgstr "Diğer"
 
-#: dealers/forms.py:69
+#: dealers/forms.py:70
 msgid "Domain only, without the @ sign. Example: abcdealer.com"
 msgstr "Yalnızca alan adı, @ işareti olmadan. Örnek: abcbayi.com"
 
@@ -890,29 +924,39 @@ msgstr "Kare görseller en iyi sonucu verir; listelerde 40x40 piksel gösterilir
 msgid "notes"
 msgstr "notlar"
 
-#: dealers/models.py:27
+#: dealers/models.py:26
+msgid "Mikro customer code"
+msgstr "Mikro cari kodu"
+
+#: dealers/models.py:28
+msgid ""
+"The dealer's customer (cari) code in Mikro. Required before an order for "
+"this dealer can be sent to Mikro."
+msgstr "Bayinin Mikro'daki cari kodu. Bu bayiye ait bir siparişin Mikro'ya gönderilebilmesi için gereklidir."
+
+#: dealers/models.py:34
 msgid "allowed device models"
 msgstr "izin verilen cihaz modelleri"
 
-#: dealers/models.py:31
+#: dealers/models.py:38
 msgid ""
 "Restricts the catalogue to these device models. Leave empty to allow every "
 "device model (no restriction)."
 msgstr "Kataloğu bu cihaz modelleriyle sınırlar. Tüm cihaz modellerine izin vermek için boş bırakın (kısıtlama yok)."
 
-#: dealers/models.py:38
+#: dealers/models.py:45
 msgid "dealers"
 msgstr "bayiler"
 
-#: dealers/models.py:56
+#: dealers/models.py:63
 msgid "email domain"
 msgstr "e-posta alan adı"
 
-#: dealers/models.py:66
+#: dealers/models.py:73
 msgid "domain mapping"
 msgstr "alan adı eşleştirmesi"
 
-#: dealers/models.py:67
+#: dealers/models.py:74
 msgid "domain mappings"
 msgstr "alan adı eşleştirmeleri"
 
@@ -938,6 +982,7 @@ msgstr "Bayi kaydedildi: %(name)s"
 #: dealers/views.py:98 logistics/views.py:36 orders/views.py:89
 #: payments/views.py:45 payments/views.py:185 templates/core/home.html:64
 #: templates/dealers/dealer_history.html:33
+#: templates/integrations/settings.html:126
 #: templates/logistics/pending_shipments.html:19
 #: templates/orders/order_detail.html:56 templates/orders/order_list.html:28
 #: templates/payments/payment_approve.html:50
@@ -998,6 +1043,171 @@ msgstr "Alan adı eşleştirmesi kaydedildi: %(domain)s"
 msgid "Domain mapping deleted."
 msgstr "Alan adı eşleştirmesi silindi."
 
+#: integrations/forms.py:11 integrations/models.py:38
+msgid "password (Sifre)"
+msgstr "şifre (Sifre)"
+
+#: integrations/forms.py:16 notifications/forms.py:16
+msgid "Stored on the server. Leave unchanged to keep the current password."
+msgstr "Sunucuda saklanır. Mevcut şifreyi korumak için değiştirmeden bırakın."
+
+#: integrations/forms.py:29
+msgid "Credentials"
+msgstr "Kimlik bilgileri"
+
+#: integrations/forms.py:31
+msgid "Document defaults"
+msgstr "Evrak varsayılanları"
+
+#: integrations/models.py:28 notifications/models.py:128
+msgid "enabled"
+msgstr "etkin"
+
+#: integrations/models.py:30
+msgid "While off, approved orders are not queued for Mikro at all."
+msgstr "Kapalıyken onaylanan siparişler Mikro için hiç kuyruğa alınmaz."
+
+#: integrations/models.py:34
+msgid "Mikro API key"
+msgstr "Mikro API anahtarı"
+
+#: integrations/models.py:35
+msgid "company code (FirmaKodu)"
+msgstr "firma kodu (FirmaKodu)"
+
+#: integrations/models.py:36
+msgid "user code (KullaniciKodu)"
+msgstr "kullanıcı kodu (KullaniciKodu)"
+
+#: integrations/models.py:40
+msgid ""
+"The plain Mikro user password. Mikro requires it hashed with the day's date "
+"(MD5 of “YYYY-MM-DD ” + password) on every request, recomputed fresh each "
+"time - this is done automatically and the plain value is never shown again "
+"once saved."
+msgstr "Mikro kullanıcı şifresinin düz hali. Mikro her istekte bunun günün tarihiyle hashlenmesini istiyor (“YYYY-AA-GG ” + şifre'nin MD5'i), her seferinde yeniden hesaplanır — bu otomatik yapılır ve kaydedildikten sonra düz değer bir daha gösterilmez."
+
+#: integrations/models.py:47
+msgid "working year (CalismaYili)"
+msgstr "çalışma yılı (CalismaYili)"
+
+#: integrations/models.py:48
+msgid "Mikro's fiscal year. Update this when the fiscal year rolls over."
+msgstr "Mikro'nun mali yılı. Mali yıl döndüğünde bunu güncelleyin."
+
+#: integrations/models.py:52
+msgid "warehouse number (sip_depono)"
+msgstr "depo no (sip_depono)"
+
+#: integrations/models.py:53
+msgid "document series (sip_evrakno_seri)"
+msgstr "evrak seri (sip_evrakno_seri)"
+
+#: integrations/models.py:54
+msgid "order type (sip_tip)"
+msgstr "sipariş tipi (sip_tip)"
+
+#: integrations/models.py:55
+msgid "order kind (sip_cins)"
+msgstr "sipariş cinsi (sip_cins)"
+
+#: integrations/models.py:56
+msgid "default unit pointer (sip_birim_pntr)"
+msgstr "varsayılan birim pointer (sip_birim_pntr)"
+
+#: integrations/models.py:58
+msgid "prices are VAT-exclusive (sip_vergisiz_fl)"
+msgstr "fiyatlar KDV hariç (sip_vergisiz_fl)"
+
+#: integrations/models.py:61
+msgid "currency sent to Mikro"
+msgstr "Mikro'ya gönderilen para birimi"
+
+#: integrations/models.py:63
+msgid "Order amounts are converted to this currency before being sent."
+msgstr "Sipariş tutarları gönderilmeden önce bu para birimine çevrilir."
+
+#: integrations/models.py:67
+msgid "connector token"
+msgstr "aktarım token'ı"
+
+#: integrations/models.py:73 notifications/models.py:148
+msgid "updated by"
+msgstr "güncelleyen"
+
+#: integrations/models.py:80 integrations/models.py:81
+#: integrations/models.py:84
+msgid "Mikro settings"
+msgstr "Mikro ayarları"
+
+#: integrations/models.py:111
+msgid "Mikro VAT pointer (sip_vergi_pntr)"
+msgstr "Mikro KDV pointer'ı (sip_vergi_pntr)"
+
+#: integrations/models.py:114 templates/integrations/settings.html:74
+msgid "VAT pointer mapping"
+msgstr "KDV pointer eşlemesi"
+
+#: integrations/models.py:115
+msgid "VAT pointer mappings"
+msgstr "KDV pointer eşlemeleri"
+
+#: integrations/services.py:56
+msgid "No exchange rate is on record for this order's approved payment."
+msgstr "Bu siparişin onaylanan ödemesi için kayıtlı bir kur yok."
+
+#: integrations/services.py:76
+msgid "The Mikro integration is currently disabled."
+msgstr "Mikro entegrasyonu şu anda kapalı."
+
+#: integrations/services.py:81
+#, python-format
+msgid "Dealer \"%(dealer)s\" has no Mikro customer code assigned."
+msgstr "\"%(dealer)s\" bayisine Mikro cari kodu atanmamış."
+
+#: integrations/services.py:102
+#, python-format
+msgid "Product \"%(code)s\" has no Mikro stock code assigned."
+msgstr "\"%(code)s\" ürününe Mikro stok kodu atanmamış."
+
+#: integrations/services.py:108
+#, python-format
+msgid "No Mikro VAT pointer is mapped for the %(rate)s%% VAT rate."
+msgstr "%%%(rate)s KDV oranı için Mikro KDV pointer eşlemesi yok."
+
+#: integrations/views.py:36
+msgid "Invalid or missing connector token."
+msgstr "Aktarım token'ı geçersiz veya eksik."
+
+#: integrations/views.py:80
+msgid "The connector reported a failure."
+msgstr "Aktarım servisi bir hata bildirdi."
+
+#: integrations/views.py:107
+msgid "Mikro settings saved."
+msgstr "Mikro ayarları kaydedildi."
+
+#: integrations/views.py:109 integrations/views.py:118 payments/views.py:286
+msgid "Please fix the errors below."
+msgstr "Lütfen aşağıdaki hataları düzeltin."
+
+#: integrations/views.py:116
+msgid "VAT pointer mapping saved."
+msgstr "KDV pointer eşlemesi kaydedildi."
+
+#: integrations/views.py:122
+msgid "A new connector token has been generated."
+msgstr "Yeni bir aktarım token'ı oluşturuldu."
+
+#: integrations/views.py:152
+msgid "VAT pointer mapping deleted."
+msgstr "KDV pointer eşlemesi silindi."
+
+#: integrations/views.py:164
+#, python-format
+msgid "Order %(no)s queued again for Mikro."
+msgstr "%(no)s siparişi Mikro için tekrar kuyruğa alındı."
+
 #: logistics/views.py:35 templates/logistics/pending_shipments.html:4
 msgid "Orders awaiting shipment"
 msgstr "Sevkiyat Bekleyen Siparişler"
@@ -1015,10 +1225,6 @@ msgstr "%(no)s numaralı sipariş gönderildi olarak işaretlendi."
 #: notifications/forms.py:11 notifications/models.py:138
 msgid "SMTP password"
 msgstr "SMTP şifresi"
-
-#: notifications/forms.py:16
-msgid "Stored on the server. Leave unchanged to keep the current password."
-msgstr "Sunucuda saklanır. Mevcut şifreyi korumak için değiştirmeden bırakın."
 
 #: notifications/forms.py:37
 msgid "TLS and SSL cannot both be enabled."
@@ -1045,8 +1251,8 @@ msgstr "başlık"
 msgid "body"
 msgstr "içerik"
 
-#: notifications/models.py:24 notifications/models.py:97 orders/models.py:116
-#: orders/models.py:204 orders/models.py:260 payments/models.py:47
+#: notifications/models.py:24 notifications/models.py:97 orders/models.py:124
+#: orders/models.py:212 orders/models.py:268 payments/models.py:47
 msgid "order"
 msgstr "sipariş"
 
@@ -1094,10 +1300,6 @@ msgstr "bildirim şablonları"
 msgid "Sent"
 msgstr "Gönderildi"
 
-#: notifications/models.py:80
-msgid "Failed"
-msgstr "Başarısız"
-
 #: notifications/models.py:81
 msgid "Skipped"
 msgstr "Atlandı"
@@ -1125,10 +1327,6 @@ msgstr "bildirim kaydı"
 #: notifications/models.py:109
 msgid "notification logs"
 msgstr "bildirim kayıtları"
-
-#: notifications/models.py:128
-msgid "enabled"
-msgstr "etkin"
 
 #: notifications/models.py:131
 msgid ""
@@ -1163,10 +1361,6 @@ msgstr "gönderen adresi"
 #: notifications/models.py:143
 msgid "Example: \"BASH Medikal\" <noreply@example.com>"
 msgstr "Örnek: \"BASH Medikal\" <noreply@example.com>"
-
-#: notifications/models.py:148
-msgid "updated by"
-msgstr "güncelleyen"
 
 #: notifications/models.py:155 notifications/models.py:156
 msgid "email settings"
@@ -1286,100 +1480,116 @@ msgstr "ödeme tarihi"
 msgid "dealer note"
 msgstr "bayi notu"
 
+#: orders/models.py:114
+msgid "Mikro sync status"
+msgstr "Mikro senkron durumu"
+
 #: orders/models.py:117
+msgid "sent to Mikro at"
+msgstr "Mikro'ya gönderim zamanı"
+
+#: orders/models.py:118
+msgid "Mikro reference"
+msgstr "Mikro referansı"
+
+#: orders/models.py:119
+msgid "Mikro sync error"
+msgstr "Mikro senkron hatası"
+
+#: orders/models.py:125
 msgid "orders"
 msgstr "siparişler"
 
-#: orders/models.py:136
+#: orders/models.py:144
 #, python-format
 msgid "Draft #%(pk)s"
 msgstr "Taslak #%(pk)s"
 
-#: orders/models.py:216
+#: orders/models.py:224
 msgid "quantity"
 msgstr "adet"
 
-#: orders/models.py:219
+#: orders/models.py:227
 msgid "unit price (USD)"
 msgstr "birim fiyat (USD)"
 
-#: orders/models.py:223
+#: orders/models.py:231
 msgid "line total (USD)"
 msgstr "satır tutarı (USD)"
 
-#: orders/models.py:226 templates/orders/order_detail.html:101
+#: orders/models.py:234 templates/orders/order_detail.html:101
 msgid "VAT amount (USD)"
 msgstr "KDV tutarı (USD)"
 
-#: orders/models.py:230
+#: orders/models.py:238
 msgid "order item"
 msgstr "sipariş kalemi"
 
-#: orders/models.py:231
+#: orders/models.py:239
 msgid "order items"
 msgstr "Sipariş Kalemleri"
 
-#: orders/models.py:263
+#: orders/models.py:271
 msgid "from status"
 msgstr "önceki durum"
 
-#: orders/models.py:266
+#: orders/models.py:274
 msgid "to status"
 msgstr "yeni durum"
 
-#: orders/models.py:269
+#: orders/models.py:277
 msgid "order number at the time"
 msgstr "o anki sipariş numarası"
 
-#: orders/models.py:273
+#: orders/models.py:281
 msgid "changed by"
 msgstr "değiştiren"
 
-#: orders/models.py:278
+#: orders/models.py:286
 msgid "changed at"
 msgstr "değişiklik tarihi"
 
-#: orders/models.py:279 payments/models.py:89
+#: orders/models.py:287 payments/models.py:89
 msgid "note"
 msgstr "not"
 
-#: orders/models.py:282
+#: orders/models.py:290
 msgid "order status change"
 msgstr "sipariş durum değişikliği"
 
-#: orders/models.py:283
+#: orders/models.py:291
 msgid "order status history"
 msgstr "sipariş durum geçmişi"
 
-#: orders/services.py:41 orders/services.py:66 orders/services.py:78
+#: orders/services.py:42 orders/services.py:67 orders/services.py:79
 msgid "This order can no longer be edited."
 msgstr "Bu sipariş artık düzenlenemez."
 
-#: orders/services.py:87
+#: orders/services.py:88
 msgid "Only draft orders can be submitted."
 msgstr "Yalnızca taslak siparişler gönderilebilir."
 
-#: orders/services.py:89
+#: orders/services.py:90
 msgid "Add at least one product before submitting the order."
 msgstr "Siparişi göndermeden önce en az bir ürün ekleyin."
 
-#: orders/services.py:103
+#: orders/services.py:104
 msgid "Only orders awaiting payment approval can be approved."
 msgstr "Yalnızca ödeme onayı bekleyen siparişler onaylanabilir."
 
-#: orders/services.py:126 payments/views.py:145
+#: orders/services.py:128 payments/views.py:145
 msgid "A rejection reason is required."
 msgstr "Red açıklaması zorunludur."
 
-#: orders/services.py:128
+#: orders/services.py:130
 msgid "Only orders awaiting payment approval can be rejected."
 msgstr "Yalnızca ödeme onayı bekleyen siparişler reddedilebilir."
 
-#: orders/services.py:151
+#: orders/services.py:153
 msgid "An order can only be shipped after its payment has been approved."
 msgstr "Bir sipariş yalnızca ödemesi onaylandıktan sonra sevk edilebilir."
 
-#: orders/services.py:166
+#: orders/services.py:168
 msgid "Only draft or pending orders can be cancelled."
 msgstr "Yalnızca taslak veya onay bekleyen siparişler iptal edilebilir."
 
@@ -1588,10 +1798,6 @@ msgstr "Zaten güncel. Geçerli: %(date)s = %(rate)s"
 msgid "Email settings saved."
 msgstr "E-posta ayarları kaydedildi."
 
-#: payments/views.py:286
-msgid "Please fix the errors below."
-msgstr "Lütfen aşağıdaki hataları düzeltin."
-
 #: payments/views.py:295
 #, python-format
 msgid "The test email could not be sent: %(error)s"
@@ -1751,6 +1957,7 @@ msgstr "Profil bilgileri"
 #: templates/catalog/product_form.html:20
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
+#: templates/integrations/settings.html:41
 #: templates/payments/exchange_rates.html:60
 #: templates/payments/exchange_rates.html:107
 #: templates/payments/payment_form.html:19
@@ -1897,6 +2104,7 @@ msgstr "Bu cihaz modeli silinsin mi? Ürünleri kalır ama cihaz modeli etiketin
 #: templates/catalog/special_price_list.html:34
 #: templates/dealers/domain_confirm_delete.html:12
 #: templates/dealers/domain_list.html:31
+#: templates/integrations/settings.html:95
 #: templates/notifications/notification_list.html:55
 msgid "Delete"
 msgstr "Sil"
@@ -2028,7 +2236,9 @@ msgstr "Ürünü düzenle"
 msgid "New product"
 msgstr "Yeni ürün"
 
-#: templates/catalog/product_form.html:29 templates/orders/order_create.html:91
+#: templates/catalog/product_form.html:29
+#: templates/integrations/settings.html:115
+#: templates/orders/order_create.html:91
 msgid "Add"
 msgstr "Ekle"
 
@@ -2201,6 +2411,106 @@ msgstr "Alan adı veya bayi"
 #: templates/dealers/domain_list.html:35
 msgid "No domain mapping has been defined."
 msgstr "Tanımlı alan adı eşleştirmesi yok."
+
+#: templates/integrations/settings.html:7
+msgid ""
+"\n"
+"  Mikro's API only listens on the private network its server sits on, so "
+"this\n"
+"  system cannot call it directly. Instead, approved orders are queued here\n"
+"  and a small relay script running inside that network polls the endpoints\n"
+"  below, posts each order to Mikro itself, and reports back.\n"
+"  "
+msgstr ""
+"\n"
+"  Mikro'nun API'si sadece sunucusunun bulunduğu özel ağda dinliyor, bu yüzden\n"
+"  bu sistem ona doğrudan bağlanamıyor. Bunun yerine onaylanan siparişler burada\n"
+"  kuyruğa alınır; o ağın içinde çalışan küçük bir aktarım scripti aşağıdaki\n"
+"  uç noktaları dinler, her siparişi Mikro'ya kendisi gönderir ve sonucu bildirir.\n"
+"  "
+
+#: templates/integrations/settings.html:17
+msgid "Connection"
+msgstr "Bağlantı"
+
+#: templates/integrations/settings.html:19
+#: templates/payments/exchange_rates.html:84
+msgid "Enabled"
+msgstr "Etkin"
+
+#: templates/integrations/settings.html:19
+#: templates/payments/exchange_rates.html:84
+msgid "Disabled"
+msgstr "Devre Dışı"
+
+#: templates/integrations/settings.html:47
+msgid "Connector"
+msgstr "Aktarım servisi"
+
+#: templates/integrations/settings.html:49
+msgid ""
+"\n"
+"    Give the relay script this base URL and token. It authenticates with "
+"the\n"
+"    header \"Authorization: Bearer &lt;token&gt;\" - not a user login.\n"
+"    "
+msgstr ""
+"\n"
+"    Aktarım scriptine bu adresi ve token'ı verin. Kimlik doğrulaması bir kullanıcı\n"
+"    girişi ile değil, \"Authorization: Bearer &lt;token&gt;\" başlığıyla yapılır.\n"
+"    "
+
+#: templates/integrations/settings.html:56
+msgid "Base URL"
+msgstr "Adres"
+
+#: templates/integrations/settings.html:60
+msgid "Connector token"
+msgstr "Aktarım token'ı"
+
+#: templates/integrations/settings.html:67
+msgid ""
+"Generate a new token? The old one stops working immediately - update the "
+"connector too."
+msgstr "Yeni bir token oluşturulsun mu? Eski token hemen çalışmaz olur - aktarım servisini de güncelleyin."
+
+#: templates/integrations/settings.html:68
+msgid "Generate a new token"
+msgstr "Yeni token oluştur"
+
+#: templates/integrations/settings.html:76
+msgid ""
+"Each VAT rate used in the catalogue needs Mikro's matching sip_vergi_pntr "
+"code (look it up in Mikro via VergiListesiV2)."
+msgstr "Katalogda kullanılan her KDV oranının Mikro'daki karşılığı olan sip_vergi_pntr kodu gerekir (Mikro'da VergiListesiV2 ile bulabilirsiniz)."
+
+#: templates/integrations/settings.html:82
+msgid "VAT rate"
+msgstr "KDV oranı"
+
+#: templates/integrations/settings.html:83
+msgid "Mikro pointer"
+msgstr "Mikro pointer"
+
+#: templates/integrations/settings.html:100
+msgid "No VAT pointer mappings yet."
+msgstr "Henüz KDV pointer eşlemesi yok."
+
+#: templates/integrations/settings.html:121
+msgid "Sync status"
+msgstr "Senkronizasyon durumu"
+
+#: templates/integrations/settings.html:129
+msgid "Detail"
+msgstr "Detay"
+
+#: templates/integrations/settings.html:156
+msgid "Retry"
+msgstr "Yeniden dene"
+
+#: templates/integrations/settings.html:162
+msgid "No order has been queued for Mikro yet."
+msgstr "Henüz Mikro için kuyruğa alınmış sipariş yok."
 
 #: templates/logistics/mark_shipped.html:3
 #: templates/logistics/mark_shipped.html:19
@@ -2737,14 +3047,6 @@ msgstr "Henüz kur kaydı yok."
 #: templates/payments/exchange_rates.html:82
 msgid "Email notifications"
 msgstr "E-posta Bildirimleri"
-
-#: templates/payments/exchange_rates.html:84
-msgid "Enabled"
-msgstr "Etkin"
-
-#: templates/payments/exchange_rates.html:84
-msgid "Disabled"
-msgstr "Devre Dışı"
 
 #: templates/payments/exchange_rates.html:88
 msgid ""

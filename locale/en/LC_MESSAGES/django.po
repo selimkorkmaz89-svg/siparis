@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 15:26+0300\n"
+"POT-Creation-Date: 2026-09-02 16:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -81,12 +81,12 @@ msgstr "Phone"
 msgid "Interface language"
 msgstr "Interface language"
 
-#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:112
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:113
 #: notifications/models.py:53
 msgid "Turkish"
 msgstr "Turkish"
 
-#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:113
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:114
 #: notifications/models.py:53
 msgid "English"
 msgstr "English"
@@ -141,8 +141,8 @@ msgstr "username"
 msgid "email address"
 msgstr "email address"
 
-#: accounts/models.py:49 catalog/models.py:109 dealers/models.py:37
-#: dealers/models.py:59 orders/models.py:65
+#: accounts/models.py:49 catalog/models.py:116 dealers/models.py:44
+#: dealers/models.py:66 orders/models.py:65
 msgid "dealer"
 msgstr "dealer"
 
@@ -237,7 +237,7 @@ msgid "Role"
 msgstr "Role"
 
 #: accounts/views.py:193 catalog/views.py:131 core/constants.py:11
-#: core/navigation.py:139 dealers/views.py:101 dealers/views.py:147
+#: core/navigation.py:140 dealers/views.py:101 dealers/views.py:147
 #: logistics/views.py:36 orders/views.py:89 payments/views.py:45
 #: payments/views.py:185 reports/views.py:73 templates/accounts/profile.html:28
 #: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
@@ -245,6 +245,7 @@ msgstr "Role"
 #: templates/dealers/dealer_form.html:3 templates/dealers/dealer_history.html:8
 #: templates/dealers/dealer_history.html:34
 #: templates/dealers/domain_list.html:18
+#: templates/integrations/settings.html:127
 #: templates/logistics/pending_shipments.html:20
 #: templates/orders/_order_filters.html:11
 #: templates/orders/order_detail.html:69
@@ -261,6 +262,7 @@ msgstr "Dealer"
 #: payments/views.py:187 templates/accounts/_user_filters.html:8
 #: templates/accounts/profile.html:29 templates/accounts/user_list.html:18
 #: templates/core/home.html:67 templates/dealers/dealer_history.html:36
+#: templates/integrations/settings.html:128
 #: templates/notifications/notification_list.html:31
 #: templates/orders/_order_filters.html:2 templates/orders/order_detail.html:57
 #: templates/orders/order_detail.html:143
@@ -279,27 +281,27 @@ msgstr "Registered at"
 msgid "User saved: %(user)s"
 msgstr "User saved: %(user)s"
 
-#: catalog/forms.py:30
+#: catalog/forms.py:31
 msgid "Product catalogue"
 msgstr "Product catalogue"
 
-#: catalog/forms.py:30
+#: catalog/forms.py:31
 msgid "Dealer cards"
 msgstr "Dealer cards"
 
-#: catalog/forms.py:33
+#: catalog/forms.py:34
 msgid "Import type"
 msgstr "Import type"
 
-#: catalog/forms.py:38
+#: catalog/forms.py:39
 msgid "Excel file (.xlsx)"
 msgstr "Excel file (.xlsx)"
 
-#: catalog/forms.py:45
+#: catalog/forms.py:46
 msgid "Please upload a file in .xlsx format."
 msgstr "Please upload a file in .xlsx format."
 
-#: catalog/forms.py:47
+#: catalog/forms.py:48
 msgid "The file may not be larger than 10 MB."
 msgstr "The file may not be larger than 10 MB."
 
@@ -351,7 +353,7 @@ msgid "List price (USD)"
 msgstr "List price (USD)"
 
 #: catalog/imports.py:29 catalog/imports.py:205 catalog/models.py:76
-#: catalog/views.py:48 orders/models.py:221
+#: catalog/views.py:48 integrations/models.py:109 orders/models.py:229
 msgid "VAT rate (%)"
 msgstr "VAT rate (%)"
 
@@ -449,12 +451,12 @@ msgstr "The file contains no importable rows."
 msgid "device model"
 msgstr "device model"
 
-#: catalog/models.py:21 catalog/models.py:58 orders/models.py:214
+#: catalog/models.py:21 catalog/models.py:58 orders/models.py:222
 msgid "brand"
 msgstr "brand"
 
 #: catalog/models.py:22 catalog/models.py:83 dealers/models.py:24
-#: dealers/models.py:63 notifications/models.py:59
+#: dealers/models.py:70 notifications/models.py:59
 msgid "active"
 msgstr "active"
 
@@ -462,11 +464,11 @@ msgstr "active"
 msgid "device models"
 msgstr "device models"
 
-#: catalog/models.py:56 orders/models.py:212
+#: catalog/models.py:56 orders/models.py:220
 msgid "product code"
 msgstr "product code"
 
-#: catalog/models.py:57 orders/models.py:213
+#: catalog/models.py:57 orders/models.py:221
 msgid "product name"
 msgstr "product name"
 
@@ -486,23 +488,33 @@ msgstr "list price (USD)"
 msgid "description"
 msgstr "description"
 
-#: catalog/models.py:88 catalog/models.py:115 orders/models.py:208
+#: catalog/models.py:85
+msgid "Mikro stock code"
+msgstr "Mikro stock code"
+
+#: catalog/models.py:87
+msgid ""
+"This product's stock (stok) code in Mikro. Required before an order "
+"containing it can be sent to Mikro."
+msgstr "This product's stock (stok) code in Mikro. Required before an order containing it can be sent to Mikro."
+
+#: catalog/models.py:95 catalog/models.py:122 orders/models.py:216
 msgid "product"
 msgstr "product"
 
-#: catalog/models.py:89
+#: catalog/models.py:96
 msgid "products"
 msgstr "products"
 
-#: catalog/models.py:120
+#: catalog/models.py:127
 msgid "special price (USD)"
 msgstr "special price (USD)"
 
-#: catalog/models.py:127
+#: catalog/models.py:134
 msgid "dealer special price"
 msgstr "dealer special price"
 
-#: catalog/models.py:128
+#: catalog/models.py:135
 msgid "dealer special prices"
 msgstr "dealer special prices"
 
@@ -607,15 +619,15 @@ msgstr "The import was cancelled; nothing was saved."
 msgid "Admin"
 msgstr "Admin"
 
-#: core/constants.py:8 core/navigation.py:140
+#: core/constants.py:8 core/navigation.py:141
 msgid "Finance"
 msgstr "Finance"
 
-#: core/constants.py:9 core/navigation.py:141
+#: core/constants.py:9 core/navigation.py:142
 msgid "Logistics"
 msgstr "Logistics"
 
-#: core/constants.py:10 core/navigation.py:142
+#: core/constants.py:10 core/navigation.py:143
 msgid "Management"
 msgstr "Management"
 
@@ -697,11 +709,27 @@ msgstr "USD"
 msgid "TRY"
 msgstr "TRY"
 
+#: core/constants.py:59
+msgid "Not queued"
+msgstr "Not queued"
+
+#: core/constants.py:60
+msgid "Waiting to be sent"
+msgstr "Waiting to be sent"
+
+#: core/constants.py:61
+msgid "Sent to Mikro"
+msgstr "Sent to Mikro"
+
+#: core/constants.py:62 notifications/models.py:80
+msgid "Failed"
+msgstr "Failed"
+
 #: core/models.py:7 notifications/models.py:32
 msgid "created at"
 msgstr "created at"
 
-#: core/models.py:8 notifications/models.py:145
+#: core/models.py:8 integrations/models.py:70 notifications/models.py:145
 msgid "updated at"
 msgstr "updated at"
 
@@ -803,7 +831,13 @@ msgstr "User management"
 msgid "System settings"
 msgstr "System settings"
 
-#: core/navigation.py:143
+#: core/navigation.py:133 dealers/forms.py:49
+#: templates/integrations/settings.html:3
+#: templates/integrations/settings.html:4
+msgid "Mikro integration"
+msgstr "Mikro integration"
+
+#: core/navigation.py:144
 msgid "System administrator"
 msgstr "System administrator"
 
@@ -838,11 +872,11 @@ msgstr "Contact"
 msgid "Catalogue access"
 msgstr "Catalogue access"
 
-#: dealers/forms.py:49
+#: dealers/forms.py:50
 msgid "Other"
 msgstr "Other"
 
-#: dealers/forms.py:69
+#: dealers/forms.py:70
 msgid "Domain only, without the @ sign. Example: abcdealer.com"
 msgstr "Domain only, without the @ sign. Example: abcdealer.com"
 
@@ -890,29 +924,39 @@ msgstr "Square images work best; shown at 40x40 pixels in lists."
 msgid "notes"
 msgstr "notes"
 
-#: dealers/models.py:27
+#: dealers/models.py:26
+msgid "Mikro customer code"
+msgstr "Mikro customer code"
+
+#: dealers/models.py:28
+msgid ""
+"The dealer's customer (cari) code in Mikro. Required before an order for "
+"this dealer can be sent to Mikro."
+msgstr "The dealer's customer (cari) code in Mikro. Required before an order for this dealer can be sent to Mikro."
+
+#: dealers/models.py:34
 msgid "allowed device models"
 msgstr "allowed device models"
 
-#: dealers/models.py:31
+#: dealers/models.py:38
 msgid ""
 "Restricts the catalogue to these device models. Leave empty to allow every "
 "device model (no restriction)."
 msgstr "Restricts the catalogue to these device models. Leave empty to allow every device model (no restriction)."
 
-#: dealers/models.py:38
+#: dealers/models.py:45
 msgid "dealers"
 msgstr "dealers"
 
-#: dealers/models.py:56
+#: dealers/models.py:63
 msgid "email domain"
 msgstr "email domain"
 
-#: dealers/models.py:66
+#: dealers/models.py:73
 msgid "domain mapping"
 msgstr "domain mapping"
 
-#: dealers/models.py:67
+#: dealers/models.py:74
 msgid "domain mappings"
 msgstr "domain mappings"
 
@@ -938,6 +982,7 @@ msgstr "Dealer saved: %(name)s"
 #: dealers/views.py:98 logistics/views.py:36 orders/views.py:89
 #: payments/views.py:45 payments/views.py:185 templates/core/home.html:64
 #: templates/dealers/dealer_history.html:33
+#: templates/integrations/settings.html:126
 #: templates/logistics/pending_shipments.html:19
 #: templates/orders/order_detail.html:56 templates/orders/order_list.html:28
 #: templates/payments/payment_approve.html:50
@@ -998,6 +1043,171 @@ msgstr "Domain mapping saved: %(domain)s"
 msgid "Domain mapping deleted."
 msgstr "Domain mapping deleted."
 
+#: integrations/forms.py:11 integrations/models.py:38
+msgid "password (Sifre)"
+msgstr "password (Sifre)"
+
+#: integrations/forms.py:16 notifications/forms.py:16
+msgid "Stored on the server. Leave unchanged to keep the current password."
+msgstr "Stored on the server. Leave unchanged to keep the current password."
+
+#: integrations/forms.py:29
+msgid "Credentials"
+msgstr "Credentials"
+
+#: integrations/forms.py:31
+msgid "Document defaults"
+msgstr "Document defaults"
+
+#: integrations/models.py:28 notifications/models.py:128
+msgid "enabled"
+msgstr "enabled"
+
+#: integrations/models.py:30
+msgid "While off, approved orders are not queued for Mikro at all."
+msgstr "While off, approved orders are not queued for Mikro at all."
+
+#: integrations/models.py:34
+msgid "Mikro API key"
+msgstr "Mikro API key"
+
+#: integrations/models.py:35
+msgid "company code (FirmaKodu)"
+msgstr "company code (FirmaKodu)"
+
+#: integrations/models.py:36
+msgid "user code (KullaniciKodu)"
+msgstr "user code (KullaniciKodu)"
+
+#: integrations/models.py:40
+msgid ""
+"The plain Mikro user password. Mikro requires it hashed with the day's date "
+"(MD5 of “YYYY-MM-DD ” + password) on every request, recomputed fresh each "
+"time - this is done automatically and the plain value is never shown again "
+"once saved."
+msgstr "The plain Mikro user password. Mikro requires it hashed with the day's date (MD5 of “YYYY-MM-DD ” + password) on every request, recomputed fresh each time - this is done automatically and the plain value is never shown again once saved."
+
+#: integrations/models.py:47
+msgid "working year (CalismaYili)"
+msgstr "working year (CalismaYili)"
+
+#: integrations/models.py:48
+msgid "Mikro's fiscal year. Update this when the fiscal year rolls over."
+msgstr "Mikro's fiscal year. Update this when the fiscal year rolls over."
+
+#: integrations/models.py:52
+msgid "warehouse number (sip_depono)"
+msgstr "warehouse number (sip_depono)"
+
+#: integrations/models.py:53
+msgid "document series (sip_evrakno_seri)"
+msgstr "document series (sip_evrakno_seri)"
+
+#: integrations/models.py:54
+msgid "order type (sip_tip)"
+msgstr "order type (sip_tip)"
+
+#: integrations/models.py:55
+msgid "order kind (sip_cins)"
+msgstr "order kind (sip_cins)"
+
+#: integrations/models.py:56
+msgid "default unit pointer (sip_birim_pntr)"
+msgstr "default unit pointer (sip_birim_pntr)"
+
+#: integrations/models.py:58
+msgid "prices are VAT-exclusive (sip_vergisiz_fl)"
+msgstr "prices are VAT-exclusive (sip_vergisiz_fl)"
+
+#: integrations/models.py:61
+msgid "currency sent to Mikro"
+msgstr "currency sent to Mikro"
+
+#: integrations/models.py:63
+msgid "Order amounts are converted to this currency before being sent."
+msgstr "Order amounts are converted to this currency before being sent."
+
+#: integrations/models.py:67
+msgid "connector token"
+msgstr "connector token"
+
+#: integrations/models.py:73 notifications/models.py:148
+msgid "updated by"
+msgstr "updated by"
+
+#: integrations/models.py:80 integrations/models.py:81
+#: integrations/models.py:84
+msgid "Mikro settings"
+msgstr "Mikro settings"
+
+#: integrations/models.py:111
+msgid "Mikro VAT pointer (sip_vergi_pntr)"
+msgstr "Mikro VAT pointer (sip_vergi_pntr)"
+
+#: integrations/models.py:114 templates/integrations/settings.html:74
+msgid "VAT pointer mapping"
+msgstr "VAT pointer mapping"
+
+#: integrations/models.py:115
+msgid "VAT pointer mappings"
+msgstr "VAT pointer mappings"
+
+#: integrations/services.py:56
+msgid "No exchange rate is on record for this order's approved payment."
+msgstr "No exchange rate is on record for this order's approved payment."
+
+#: integrations/services.py:76
+msgid "The Mikro integration is currently disabled."
+msgstr "The Mikro integration is currently disabled."
+
+#: integrations/services.py:81
+#, python-format
+msgid "Dealer \"%(dealer)s\" has no Mikro customer code assigned."
+msgstr "Dealer \"%(dealer)s\" has no Mikro customer code assigned."
+
+#: integrations/services.py:102
+#, python-format
+msgid "Product \"%(code)s\" has no Mikro stock code assigned."
+msgstr "Product \"%(code)s\" has no Mikro stock code assigned."
+
+#: integrations/services.py:108
+#, python-format
+msgid "No Mikro VAT pointer is mapped for the %(rate)s%% VAT rate."
+msgstr "No Mikro VAT pointer is mapped for the %(rate)s%% VAT rate."
+
+#: integrations/views.py:36
+msgid "Invalid or missing connector token."
+msgstr "Invalid or missing connector token."
+
+#: integrations/views.py:80
+msgid "The connector reported a failure."
+msgstr "The connector reported a failure."
+
+#: integrations/views.py:107
+msgid "Mikro settings saved."
+msgstr "Mikro settings saved."
+
+#: integrations/views.py:109 integrations/views.py:118 payments/views.py:286
+msgid "Please fix the errors below."
+msgstr "Please fix the errors below."
+
+#: integrations/views.py:116
+msgid "VAT pointer mapping saved."
+msgstr "VAT pointer mapping saved."
+
+#: integrations/views.py:122
+msgid "A new connector token has been generated."
+msgstr "A new connector token has been generated."
+
+#: integrations/views.py:152
+msgid "VAT pointer mapping deleted."
+msgstr "VAT pointer mapping deleted."
+
+#: integrations/views.py:164
+#, python-format
+msgid "Order %(no)s queued again for Mikro."
+msgstr "Order %(no)s queued again for Mikro."
+
 #: logistics/views.py:35 templates/logistics/pending_shipments.html:4
 msgid "Orders awaiting shipment"
 msgstr "Orders awaiting shipment"
@@ -1015,10 +1225,6 @@ msgstr "Order %(no)s has been marked as shipped."
 #: notifications/forms.py:11 notifications/models.py:138
 msgid "SMTP password"
 msgstr "SMTP password"
-
-#: notifications/forms.py:16
-msgid "Stored on the server. Leave unchanged to keep the current password."
-msgstr "Stored on the server. Leave unchanged to keep the current password."
 
 #: notifications/forms.py:37
 msgid "TLS and SSL cannot both be enabled."
@@ -1045,8 +1251,8 @@ msgstr "title"
 msgid "body"
 msgstr "body"
 
-#: notifications/models.py:24 notifications/models.py:97 orders/models.py:116
-#: orders/models.py:204 orders/models.py:260 payments/models.py:47
+#: notifications/models.py:24 notifications/models.py:97 orders/models.py:124
+#: orders/models.py:212 orders/models.py:268 payments/models.py:47
 msgid "order"
 msgstr "order"
 
@@ -1094,10 +1300,6 @@ msgstr "notification templates"
 msgid "Sent"
 msgstr "Sent"
 
-#: notifications/models.py:80
-msgid "Failed"
-msgstr "Failed"
-
 #: notifications/models.py:81
 msgid "Skipped"
 msgstr "Skipped"
@@ -1125,10 +1327,6 @@ msgstr "notification log"
 #: notifications/models.py:109
 msgid "notification logs"
 msgstr "notification logs"
-
-#: notifications/models.py:128
-msgid "enabled"
-msgstr "enabled"
 
 #: notifications/models.py:131
 msgid ""
@@ -1163,10 +1361,6 @@ msgstr "from address"
 #: notifications/models.py:143
 msgid "Example: \"BASH Medikal\" <noreply@example.com>"
 msgstr "Example: \"BASH Medikal\" <noreply@example.com>"
-
-#: notifications/models.py:148
-msgid "updated by"
-msgstr "updated by"
 
 #: notifications/models.py:155 notifications/models.py:156
 msgid "email settings"
@@ -1286,100 +1480,116 @@ msgstr "paid at"
 msgid "dealer note"
 msgstr "dealer note"
 
+#: orders/models.py:114
+msgid "Mikro sync status"
+msgstr "Mikro sync status"
+
 #: orders/models.py:117
+msgid "sent to Mikro at"
+msgstr "sent to Mikro at"
+
+#: orders/models.py:118
+msgid "Mikro reference"
+msgstr "Mikro reference"
+
+#: orders/models.py:119
+msgid "Mikro sync error"
+msgstr "Mikro sync error"
+
+#: orders/models.py:125
 msgid "orders"
 msgstr "orders"
 
-#: orders/models.py:136
+#: orders/models.py:144
 #, python-format
 msgid "Draft #%(pk)s"
 msgstr "Draft #%(pk)s"
 
-#: orders/models.py:216
+#: orders/models.py:224
 msgid "quantity"
 msgstr "quantity"
 
-#: orders/models.py:219
+#: orders/models.py:227
 msgid "unit price (USD)"
 msgstr "unit price (USD)"
 
-#: orders/models.py:223
+#: orders/models.py:231
 msgid "line total (USD)"
 msgstr "line total (USD)"
 
-#: orders/models.py:226 templates/orders/order_detail.html:101
+#: orders/models.py:234 templates/orders/order_detail.html:101
 msgid "VAT amount (USD)"
 msgstr "VAT amount (USD)"
 
-#: orders/models.py:230
+#: orders/models.py:238
 msgid "order item"
 msgstr "order item"
 
-#: orders/models.py:231
+#: orders/models.py:239
 msgid "order items"
 msgstr "order items"
 
-#: orders/models.py:263
+#: orders/models.py:271
 msgid "from status"
 msgstr "from status"
 
-#: orders/models.py:266
+#: orders/models.py:274
 msgid "to status"
 msgstr "to status"
 
-#: orders/models.py:269
+#: orders/models.py:277
 msgid "order number at the time"
 msgstr "order number at the time"
 
-#: orders/models.py:273
+#: orders/models.py:281
 msgid "changed by"
 msgstr "changed by"
 
-#: orders/models.py:278
+#: orders/models.py:286
 msgid "changed at"
 msgstr "changed at"
 
-#: orders/models.py:279 payments/models.py:89
+#: orders/models.py:287 payments/models.py:89
 msgid "note"
 msgstr "note"
 
-#: orders/models.py:282
+#: orders/models.py:290
 msgid "order status change"
 msgstr "order status change"
 
-#: orders/models.py:283
+#: orders/models.py:291
 msgid "order status history"
 msgstr "order status history"
 
-#: orders/services.py:41 orders/services.py:66 orders/services.py:78
+#: orders/services.py:42 orders/services.py:67 orders/services.py:79
 msgid "This order can no longer be edited."
 msgstr "This order can no longer be edited."
 
-#: orders/services.py:87
+#: orders/services.py:88
 msgid "Only draft orders can be submitted."
 msgstr "Only draft orders can be submitted."
 
-#: orders/services.py:89
+#: orders/services.py:90
 msgid "Add at least one product before submitting the order."
 msgstr "Add at least one product before submitting the order."
 
-#: orders/services.py:103
+#: orders/services.py:104
 msgid "Only orders awaiting payment approval can be approved."
 msgstr "Only orders awaiting payment approval can be approved."
 
-#: orders/services.py:126 payments/views.py:145
+#: orders/services.py:128 payments/views.py:145
 msgid "A rejection reason is required."
 msgstr "A rejection reason is required."
 
-#: orders/services.py:128
+#: orders/services.py:130
 msgid "Only orders awaiting payment approval can be rejected."
 msgstr "Only orders awaiting payment approval can be rejected."
 
-#: orders/services.py:151
+#: orders/services.py:153
 msgid "An order can only be shipped after its payment has been approved."
 msgstr "An order can only be shipped after its payment has been approved."
 
-#: orders/services.py:166
+#: orders/services.py:168
 msgid "Only draft or pending orders can be cancelled."
 msgstr "Only draft or pending orders can be cancelled."
 
@@ -1588,10 +1798,6 @@ msgstr "Already up to date. In effect: %(date)s = %(rate)s"
 msgid "Email settings saved."
 msgstr "Email settings saved."
 
-#: payments/views.py:286
-msgid "Please fix the errors below."
-msgstr "Please fix the errors below."
-
 #: payments/views.py:295
 #, python-format
 msgid "The test email could not be sent: %(error)s"
@@ -1751,6 +1957,7 @@ msgstr "Profile information"
 #: templates/catalog/product_form.html:20
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
+#: templates/integrations/settings.html:41
 #: templates/payments/exchange_rates.html:60
 #: templates/payments/exchange_rates.html:107
 #: templates/payments/payment_form.html:19
@@ -1897,6 +2104,7 @@ msgstr "Delete this device model? Its products stay, but lose the device-model t
 #: templates/catalog/special_price_list.html:34
 #: templates/dealers/domain_confirm_delete.html:12
 #: templates/dealers/domain_list.html:31
+#: templates/integrations/settings.html:95
 #: templates/notifications/notification_list.html:55
 msgid "Delete"
 msgstr "Delete"
@@ -2028,7 +2236,9 @@ msgstr "Edit product"
 msgid "New product"
 msgstr "New product"
 
-#: templates/catalog/product_form.html:29 templates/orders/order_create.html:91
+#: templates/catalog/product_form.html:29
+#: templates/integrations/settings.html:115
+#: templates/orders/order_create.html:91
 msgid "Add"
 msgstr "Add"
 
@@ -2201,6 +2411,106 @@ msgstr "Domain or dealer"
 #: templates/dealers/domain_list.html:35
 msgid "No domain mapping has been defined."
 msgstr "No domain mapping has been defined."
+
+#: templates/integrations/settings.html:7
+msgid ""
+"\n"
+"  Mikro's API only listens on the private network its server sits on, so "
+"this\n"
+"  system cannot call it directly. Instead, approved orders are queued here\n"
+"  and a small relay script running inside that network polls the endpoints\n"
+"  below, posts each order to Mikro itself, and reports back.\n"
+"  "
+msgstr ""
+"\n"
+"  Mikro's API only listens on the private network its server sits on, so this\n"
+"  system cannot call it directly. Instead, approved orders are queued here\n"
+"  and a small relay script running inside that network polls the endpoints\n"
+"  below, posts each order to Mikro itself, and reports back.\n"
+"  "
+
+#: templates/integrations/settings.html:17
+msgid "Connection"
+msgstr "Connection"
+
+#: templates/integrations/settings.html:19
+#: templates/payments/exchange_rates.html:84
+msgid "Enabled"
+msgstr "Enabled"
+
+#: templates/integrations/settings.html:19
+#: templates/payments/exchange_rates.html:84
+msgid "Disabled"
+msgstr "Disabled"
+
+#: templates/integrations/settings.html:47
+msgid "Connector"
+msgstr "Connector"
+
+#: templates/integrations/settings.html:49
+msgid ""
+"\n"
+"    Give the relay script this base URL and token. It authenticates with "
+"the\n"
+"    header \"Authorization: Bearer &lt;token&gt;\" - not a user login.\n"
+"    "
+msgstr ""
+"\n"
+"    Give the relay script this base URL and token. It authenticates with the\n"
+"    header \"Authorization: Bearer &lt;token&gt;\" - not a user login.\n"
+"    "
+
+#: templates/integrations/settings.html:56
+msgid "Base URL"
+msgstr "Base URL"
+
+#: templates/integrations/settings.html:60
+msgid "Connector token"
+msgstr "Connector token"
+
+#: templates/integrations/settings.html:67
+msgid ""
+"Generate a new token? The old one stops working immediately - update the "
+"connector too."
+msgstr "Generate a new token? The old one stops working immediately - update the connector too."
+
+#: templates/integrations/settings.html:68
+msgid "Generate a new token"
+msgstr "Generate a new token"
+
+#: templates/integrations/settings.html:76
+msgid ""
+"Each VAT rate used in the catalogue needs Mikro's matching sip_vergi_pntr "
+"code (look it up in Mikro via VergiListesiV2)."
+msgstr "Each VAT rate used in the catalogue needs Mikro's matching sip_vergi_pntr code (look it up in Mikro via VergiListesiV2)."
+
+#: templates/integrations/settings.html:82
+msgid "VAT rate"
+msgstr "VAT rate"
+
+#: templates/integrations/settings.html:83
+msgid "Mikro pointer"
+msgstr "Mikro pointer"
+
+#: templates/integrations/settings.html:100
+msgid "No VAT pointer mappings yet."
+msgstr "No VAT pointer mappings yet."
+
+#: templates/integrations/settings.html:121
+msgid "Sync status"
+msgstr "Sync status"
+
+#: templates/integrations/settings.html:129
+msgid "Detail"
+msgstr "Detail"
+
+#: templates/integrations/settings.html:156
+msgid "Retry"
+msgstr "Retry"
+
+#: templates/integrations/settings.html:162
+msgid "No order has been queued for Mikro yet."
+msgstr "No order has been queued for Mikro yet."
 
 #: templates/logistics/mark_shipped.html:3
 #: templates/logistics/mark_shipped.html:19
@@ -2737,14 +3047,6 @@ msgstr "No exchange rate has been recorded yet."
 #: templates/payments/exchange_rates.html:82
 msgid "Email notifications"
 msgstr "Email notifications"
-
-#: templates/payments/exchange_rates.html:84
-msgid "Enabled"
-msgstr "Enabled"
-
-#: templates/payments/exchange_rates.html:84
-msgid "Disabled"
-msgstr "Disabled"
 
 #: templates/payments/exchange_rates.html:88
 msgid ""

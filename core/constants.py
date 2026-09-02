@@ -55,3 +55,10 @@ class Currency(models.TextChoices):
     TRY = "TRY", _("TRY")
 
 
+class MikroSyncStatus(models.TextChoices):
+    NOT_QUEUED = "NOT_QUEUED", _("Not queued")
+    PENDING = "PENDING", _("Waiting to be sent")
+    SYNCED = "SYNCED", _("Sent to Mikro")
+    FAILED = "FAILED", _("Failed")
+
+

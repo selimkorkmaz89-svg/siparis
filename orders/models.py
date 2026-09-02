@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_fsm import FSMField, transition
 
-from core.constants import OrderStatus, ShipmentStatus
+from core.constants import MikroSyncStatus, OrderStatus, ShipmentStatus
 from core.models import TimeStampedModel
 
 TWO_PLACES = Decimal("0.01")
@@ -109,6 +109,14 @@ class Order(TimeStampedModel):
     submitted_at = models.DateTimeField(_("submitted at"), null=True, blank=True)
     paid_at = models.DateTimeField(_("paid at"), null=True, blank=True)
     note = models.TextField(_("dealer note"), blank=True)
+
+    mikro_sync_status = models.CharField(
+        _("Mikro sync status"), max_length=12,
+        choices=MikroSyncStatus.choices, default=MikroSyncStatus.NOT_QUEUED,
+    )
+    mikro_synced_at = models.DateTimeField(_("sent to Mikro at"), null=True, blank=True)
+    mikro_reference = models.CharField(_("Mikro reference"), max_length=120, blank=True)
+    mikro_sync_error = models.TextField(_("Mikro sync error"), blank=True)
 
     objects = OrderQuerySet.as_manager()
 

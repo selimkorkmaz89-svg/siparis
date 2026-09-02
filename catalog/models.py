@@ -81,6 +81,13 @@ class Product(TimeStampedModel):
     )
     description = models.TextField(_("description"), blank=True)
     is_active = models.BooleanField(_("active"), default=True)
+    mikro_stok_kodu = models.CharField(
+        _("Mikro stock code"), max_length=64, blank=True,
+        help_text=_(
+            "This product's stock (stok) code in Mikro. Required before an "
+            "order containing it can be sent to Mikro."
+        ),
+    )
 
     objects = ProductQuerySet.as_manager()
 

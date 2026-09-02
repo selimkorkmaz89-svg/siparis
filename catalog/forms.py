@@ -11,6 +11,7 @@ class ProductForm(BootstrapModelForm):
         fields = (
             "code", "name", "brand", "device_model", "tests_per_pack",
             "base_price_usd", "vat_rate", "description", "is_active",
+            "mikro_stok_kodu",
         )
 
 
