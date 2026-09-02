@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 11:32+0300\n"
+"POT-Creation-Date: 2026-09-02 14:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -71,7 +71,7 @@ msgstr "Ad"
 msgid "Last name"
 msgstr "Soyad"
 
-#: accounts/forms.py:60 accounts/views.py:188 catalog/imports.py:38
+#: accounts/forms.py:60 accounts/views.py:188 catalog/imports.py:39
 #: dealers/views.py:37 templates/orders/order_detail.html:83
 #: templates/orders/order_form_pdf.html:93
 msgid "Phone"
@@ -141,8 +141,8 @@ msgstr "kullanıcı adı"
 msgid "email address"
 msgstr "e-posta adresi"
 
-#: accounts/models.py:49 catalog/models.py:55 dealers/models.py:27
-#: dealers/models.py:49 orders/models.py:65
+#: accounts/models.py:49 catalog/models.py:109 dealers/models.py:37
+#: dealers/models.py:59 orders/models.py:65
 msgid "dealer"
 msgstr "bayi"
 
@@ -226,7 +226,7 @@ msgstr "Kullanıcı reddedildi: %(user)s"
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: accounts/views.py:187 catalog/imports.py:39 core/constants.py:49
+#: accounts/views.py:187 catalog/imports.py:40 core/constants.py:49
 #: dealers/views.py:37
 msgid "Email"
 msgstr "E-posta"
@@ -236,8 +236,8 @@ msgstr "E-posta"
 msgid "Role"
 msgstr "Rol"
 
-#: accounts/views.py:187 catalog/views.py:107 core/constants.py:11
-#: core/navigation.py:136 dealers/views.py:132 logistics/views.py:36
+#: accounts/views.py:187 catalog/views.py:131 core/constants.py:11
+#: core/navigation.py:139 dealers/views.py:132 logistics/views.py:36
 #: orders/views.py:89 payments/views.py:44 payments/views.py:183
 #: reports/views.py:73 templates/accounts/profile.html:28
 #: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
@@ -278,31 +278,31 @@ msgstr "Kayıt tarihi"
 msgid "User saved: %(user)s"
 msgstr "Kullanıcı kaydedildi: %(user)s"
 
-#: catalog/forms.py:24
+#: catalog/forms.py:30
 msgid "Product catalogue"
 msgstr "Ürün kataloğu"
 
-#: catalog/forms.py:24
+#: catalog/forms.py:30
 msgid "Dealer cards"
 msgstr "Bayi cari kartları"
 
-#: catalog/forms.py:27
+#: catalog/forms.py:33
 msgid "Import type"
 msgstr "İçe aktarma türü"
 
-#: catalog/forms.py:32
+#: catalog/forms.py:38
 msgid "Excel file (.xlsx)"
 msgstr "Excel dosyası (.xlsx)"
 
-#: catalog/forms.py:39
+#: catalog/forms.py:45
 msgid "Please upload a file in .xlsx format."
 msgstr "Lütfen .xlsx biçiminde bir dosya yükleyin."
 
-#: catalog/forms.py:41
+#: catalog/forms.py:47
 msgid "The file may not be larger than 10 MB."
 msgstr "Dosya 10 MB'tan büyük olamaz."
 
-#: catalog/imports.py:23 catalog/views.py:45 catalog/views.py:107
+#: catalog/imports.py:23 catalog/views.py:47 catalog/views.py:131
 #: templates/catalog/product_list.html:16
 #: templates/catalog/special_price_list.html:15
 #: templates/logistics/mark_shipped.html:28
@@ -312,7 +312,7 @@ msgstr "Dosya 10 MB'tan büyük olamaz."
 msgid "Product code"
 msgstr "Ürün Kodu"
 
-#: catalog/imports.py:24 catalog/views.py:45 catalog/views.py:107
+#: catalog/imports.py:24 catalog/views.py:47 catalog/views.py:131
 #: templates/catalog/product_list.html:17
 #: templates/catalog/special_price_list.html:16
 #: templates/logistics/mark_shipped.html:28
@@ -322,231 +322,283 @@ msgstr "Ürün Kodu"
 msgid "Product name"
 msgstr "Ürün Adı"
 
-#: catalog/imports.py:25 catalog/views.py:45
+#: catalog/imports.py:25 catalog/views.py:47 catalog/views.py:178
 #: templates/catalog/_product_filters.html:2
+#: templates/catalog/device_model_list.html:17
 #: templates/catalog/product_list.html:18 templates/orders/order_create.html:13
 #: templates/orders/order_create.html:26 templates/orders/order_detail.html:97
 #: templates/reports/dashboard.html:78
 msgid "Brand"
 msgstr "Marka"
 
-#: catalog/imports.py:26 catalog/imports.py:196 catalog/views.py:45
-#: templates/catalog/product_list.html:19 templates/orders/order_create.html:27
+#: catalog/imports.py:26 catalog/views.py:178
+#: templates/catalog/device_model_form.html:3
+#: templates/catalog/device_model_list.html:18
+#: templates/catalog/product_list.html:19
+msgid "Device model"
+msgstr "Cihaz Modeli"
+
+#: catalog/imports.py:27 catalog/imports.py:203 catalog/views.py:47
+#: templates/catalog/product_list.html:20 templates/orders/order_create.html:27
 msgid "Tests per pack"
 msgstr "Test Sayısı"
 
-#: catalog/imports.py:27 catalog/imports.py:197 catalog/views.py:46
-#: templates/catalog/product_list.html:20
+#: catalog/imports.py:28 catalog/imports.py:204 catalog/views.py:48
+#: templates/catalog/product_list.html:21
 #: templates/catalog/special_price_list.html:17
 msgid "List price (USD)"
 msgstr "Liste Fiyatı (USD)"
 
-#: catalog/imports.py:28 catalog/imports.py:198 catalog/models.py:24
-#: catalog/views.py:46 orders/models.py:221
+#: catalog/imports.py:29 catalog/imports.py:205 catalog/models.py:76
+#: catalog/views.py:48 orders/models.py:221
 msgid "VAT rate (%)"
 msgstr "KDV Oranı (%)"
 
-#: catalog/imports.py:29
+#: catalog/imports.py:30
 msgid "Description"
 msgstr "Açıklama"
 
-#: catalog/imports.py:33 dealers/views.py:36
+#: catalog/imports.py:34 dealers/views.py:36
 #: templates/dealers/dealer_list.html:14
 #: templates/orders/order_form_pdf.html:89
 msgid "Dealer name"
 msgstr "Bayi Adı"
 
-#: catalog/imports.py:34 dealers/views.py:36
+#: catalog/imports.py:35 dealers/views.py:36
 #: templates/dealers/dealer_list.html:15
 msgid "Dealer code"
 msgstr "Bayi Kodu"
 
-#: catalog/imports.py:35 dealers/views.py:36
+#: catalog/imports.py:36 dealers/views.py:36
 #: templates/dealers/dealer_list.html:16 templates/orders/order_detail.html:81
 #: templates/orders/order_form_pdf.html:70
 #: templates/orders/order_form_pdf.html:90
 msgid "Tax number"
 msgstr "Vergi No"
 
-#: catalog/imports.py:36 dealers/views.py:36
+#: catalog/imports.py:37 dealers/views.py:36
 #: templates/orders/order_form_pdf.html:91
 msgid "Tax office"
 msgstr "Vergi Dairesi"
 
-#: catalog/imports.py:37 dealers/views.py:37
+#: catalog/imports.py:38 dealers/views.py:37
 #: templates/dealers/dealer_list.html:17 templates/orders/order_detail.html:82
 #: templates/orders/order_form_pdf.html:92
 msgid "Contact person"
 msgstr "Yetkili Kişi"
 
-#: catalog/imports.py:40 dealers/views.py:37
+#: catalog/imports.py:41 dealers/views.py:37
 #: templates/dealers/dealer_list.html:18
 msgid "City"
 msgstr "Şehir"
 
-#: catalog/imports.py:41 dealers/forms.py:38 dealers/views.py:37
+#: catalog/imports.py:42 dealers/forms.py:47 dealers/views.py:37
 #: templates/orders/order_detail.html:84
 #: templates/orders/order_form_pdf.html:94
 msgid "Address"
 msgstr "Adres"
 
-#: catalog/imports.py:42
+#: catalog/imports.py:43
 msgid "Notes"
 msgstr "Notlar"
 
-#: catalog/imports.py:106
+#: catalog/imports.py:109
 #, python-format
 msgid "%(field)s is required."
 msgstr "%(field)s zorunludur."
 
-#: catalog/imports.py:110
+#: catalog/imports.py:113
 #, python-format
 msgid "%(field)s must be a number."
 msgstr "%(field)s sayı olmalıdır."
 
-#: catalog/imports.py:119
+#: catalog/imports.py:122
 #, python-format
 msgid "%(field)s must be a whole number."
 msgstr "%(field)s tam sayı olmalıdır."
 
-#: catalog/imports.py:133
+#: catalog/imports.py:136
 msgid "The file could not be read. Please upload a valid .xlsx file."
 msgstr "Dosya okunamadı. Lütfen geçerli bir .xlsx dosyası yükleyin."
 
-#: catalog/imports.py:138
+#: catalog/imports.py:141
 msgid "The file contains no data rows."
 msgstr "Dosyada veri satırı bulunamadı."
 
-#: catalog/imports.py:153
+#: catalog/imports.py:156
 #, python-format
 msgid "Row %(row)s: %(field)s is empty."
 msgstr "%(row)s. satır: %(field)s boş."
 
-#: catalog/imports.py:159
+#: catalog/imports.py:162
 #, python-format
 msgid "Row %(row)s: '%(key)s' already appears on row %(first)s."
 msgstr "%(row)s. satır: '%(key)s' zaten %(first)s. satırda geçiyor."
 
-#: catalog/imports.py:167
+#: catalog/imports.py:170
 #, python-format
 msgid "Row %(row)s: %(error)s"
 msgstr "%(row)s. satır: %(error)s"
 
-#: catalog/imports.py:186
+#: catalog/imports.py:189
 msgid "The file contains no importable rows."
 msgstr "Dosyada içe aktarılabilir satır bulunamadı."
 
-#: catalog/models.py:13 orders/models.py:212
-msgid "product code"
-msgstr "ürün kodu"
+#: catalog/models.py:20 catalog/models.py:25 catalog/models.py:61
+msgid "device model"
+msgstr "cihaz modeli"
 
-#: catalog/models.py:14 orders/models.py:213
-msgid "product name"
-msgstr "ürün adı"
-
-#: catalog/models.py:15 orders/models.py:214
+#: catalog/models.py:21 catalog/models.py:58 orders/models.py:214
 msgid "brand"
 msgstr "marka"
 
-#: catalog/models.py:16
-msgid "tests per pack"
-msgstr "test sayısı"
-
-#: catalog/models.py:18
-msgid "list price (USD)"
-msgstr "liste fiyatı (USD)"
-
-#: catalog/models.py:30
-msgid "description"
-msgstr "açıklama"
-
-#: catalog/models.py:31 dealers/models.py:24 dealers/models.py:53
-#: notifications/models.py:59
+#: catalog/models.py:22 catalog/models.py:83 dealers/models.py:24
+#: dealers/models.py:63 notifications/models.py:59
 msgid "active"
 msgstr "aktif"
 
-#: catalog/models.py:34 catalog/models.py:61 orders/models.py:208
+#: catalog/models.py:26
+msgid "device models"
+msgstr "cihaz modelleri"
+
+#: catalog/models.py:56 orders/models.py:212
+msgid "product code"
+msgstr "ürün kodu"
+
+#: catalog/models.py:57 orders/models.py:213
+msgid "product name"
+msgstr "ürün adı"
+
+#: catalog/models.py:66
+msgid "Used to restrict which dealers may order this product."
+msgstr "Hangi bayilerin bu ürünü sipariş edebileceğini sınırlamak için kullanılır."
+
+#: catalog/models.py:68
+msgid "tests per pack"
+msgstr "test sayısı"
+
+#: catalog/models.py:70
+msgid "list price (USD)"
+msgstr "liste fiyatı (USD)"
+
+#: catalog/models.py:82
+msgid "description"
+msgstr "açıklama"
+
+#: catalog/models.py:88 catalog/models.py:115 orders/models.py:208
 msgid "product"
 msgstr "ürün"
 
-#: catalog/models.py:35
+#: catalog/models.py:89
 msgid "products"
 msgstr "ürünler"
 
-#: catalog/models.py:66
+#: catalog/models.py:120
 msgid "special price (USD)"
 msgstr "özel fiyat (USD)"
 
-#: catalog/models.py:73
+#: catalog/models.py:127
 msgid "dealer special price"
 msgstr "bayi özel fiyatı"
 
-#: catalog/models.py:74
+#: catalog/models.py:128
 msgid "dealer special prices"
 msgstr "bayi özel fiyatları"
 
-#: catalog/views.py:44 templates/catalog/product_list.html:3
+#: catalog/views.py:46 templates/catalog/device_model_list.html:19
+#: templates/catalog/product_list.html:3
 msgid "Products"
 msgstr "Ürünler"
 
-#: catalog/views.py:46 dealers/views.py:38 dealers/views.py:132
-#: templates/catalog/product_list.html:22 templates/dealers/dealer_list.html:21
+#: catalog/views.py:48 catalog/views.py:178 dealers/views.py:38
+#: dealers/views.py:132 templates/catalog/device_model_list.html:21
+#: templates/catalog/product_list.html:23 templates/dealers/dealer_list.html:21
 #: templates/dealers/domain_list.html:19
 msgid "Active"
 msgstr "Aktif"
 
-#: catalog/views.py:49 dealers/views.py:41 dealers/views.py:133
-#: templates/catalog/product_list.html:35 templates/dealers/dealer_list.html:35
+#: catalog/views.py:51 catalog/views.py:179 dealers/views.py:41
+#: dealers/views.py:133 templates/catalog/device_model_list.html:32
+#: templates/catalog/product_list.html:37 templates/dealers/dealer_list.html:35
 #: templates/dealers/domain_list.html:28
 msgid "Yes"
 msgstr "Evet"
 
-#: catalog/views.py:49 dealers/views.py:41 dealers/views.py:133
-#: templates/catalog/product_list.html:35 templates/dealers/dealer_list.html:35
+#: catalog/views.py:51 catalog/views.py:179 dealers/views.py:41
+#: dealers/views.py:133 templates/catalog/device_model_list.html:32
+#: templates/catalog/product_list.html:37 templates/dealers/dealer_list.html:35
 #: templates/dealers/domain_list.html:28
 msgid "No"
 msgstr "Hayır"
 
-#: catalog/views.py:79
+#: catalog/views.py:81
 #, python-format
 msgid "Product saved: %(code)s"
 msgstr "Ürün kaydedildi: %(code)s"
 
-#: catalog/views.py:106 core/navigation.py:116
+#: catalog/views.py:105
+#, python-format
+msgid ""
+"\"%(code)s\" cannot be deleted: it appears in existing orders, which must "
+"keep their history. Mark it inactive instead."
+msgstr "\"%(code)s\" silinemez: mevcut siparişlerde kullanılıyor ve sipariş geçmişi korunmalı. Bunun yerine pasif yapın."
+
+#: catalog/views.py:111
+#, python-format
+msgid "Product deleted: %(code)s"
+msgstr "Ürün silindi: %(code)s"
+
+#: catalog/views.py:130 core/navigation.py:116
 #: templates/catalog/product_form.html:28
 #: templates/catalog/special_price_list.html:3
 #: templates/catalog/special_price_list.html:4
 msgid "Dealer special prices"
 msgstr "Bayi Özel Fiyatları"
 
-#: catalog/views.py:107 templates/catalog/product_form.html:32
+#: catalog/views.py:131 templates/catalog/product_form.html:32
 #: templates/catalog/special_price_list.html:18
 msgid "Special price (USD)"
 msgstr "Özel fiyat (USD)"
 
-#: catalog/views.py:124
+#: catalog/views.py:148
 msgid "Special price saved."
 msgstr "Özel fiyat kaydedildi."
 
-#: catalog/views.py:135
+#: catalog/views.py:159
 msgid "Special price deleted."
 msgstr "Özel fiyat silindi."
 
-#: catalog/views.py:165
+#: catalog/views.py:177 core/navigation.py:119
+#: templates/catalog/device_model_list.html:3
+#: templates/catalog/device_model_list.html:4
+msgid "Device models"
+msgstr "Cihaz Modelleri"
+
+#: catalog/views.py:195
+#, python-format
+msgid "Device model saved: %(name)s"
+msgstr "Cihaz modeli kaydedildi: %(name)s"
+
+#: catalog/views.py:209
+#, python-format
+msgid "Device model deleted: %(name)s"
+msgstr "Cihaz modeli silindi: %(name)s"
+
+#: catalog/views.py:239
 msgid ""
 "The import was stopped: no records were saved. Please fix the errors below."
 msgstr "İçe aktarma durduruldu: hiçbir kayıt kaydedilmedi. Lütfen aşağıdaki hataları düzeltin."
 
-#: catalog/views.py:183
+#: catalog/views.py:257
 msgid "The import session has expired. Please upload the file again."
 msgstr "İçe aktarma oturumu sona erdi. Lütfen dosyayı tekrar yükleyin."
 
-#: catalog/views.py:190
+#: catalog/views.py:264
 #, python-format
 msgid "Import completed: %(created)s new records, %(updated)s updated records."
 msgstr "İçe aktarma tamamlandı: %(created)s yeni kayıt, %(updated)s güncellenen kayıt."
 
-#: catalog/views.py:201
+#: catalog/views.py:275
 msgid "The import was cancelled; nothing was saved."
 msgstr "İçe aktarma iptal edildi; hiçbir kayıt kaydedilmedi."
 
@@ -554,15 +606,15 @@ msgstr "İçe aktarma iptal edildi; hiçbir kayıt kaydedilmedi."
 msgid "Admin"
 msgstr "Yönetici"
 
-#: core/constants.py:8 core/navigation.py:137
+#: core/constants.py:8 core/navigation.py:140
 msgid "Finance"
 msgstr "Finans"
 
-#: core/constants.py:9 core/navigation.py:138
+#: core/constants.py:9 core/navigation.py:141
 msgid "Logistics"
 msgstr "Lojistik"
 
-#: core/constants.py:10 core/navigation.py:139
+#: core/constants.py:10 core/navigation.py:142
 msgid "Management"
 msgstr "Yönetim"
 
@@ -722,35 +774,35 @@ msgstr "Raporlarım"
 msgid "Product management"
 msgstr "Ürün Yönetimi"
 
-#: core/navigation.py:119 templates/catalog/import_upload.html:3
+#: core/navigation.py:122 templates/catalog/import_upload.html:3
 #: templates/catalog/import_upload.html:4 templates/catalog/product_list.html:7
 msgid "Excel import"
 msgstr "Excel İçe Aktarma"
 
-#: core/navigation.py:120 templates/dealers/dealer_list.html:4
+#: core/navigation.py:123 templates/dealers/dealer_list.html:4
 msgid "Dealer management"
 msgstr "Bayi Yönetimi"
 
-#: core/navigation.py:122 templates/dealers/domain_form.html:3
+#: core/navigation.py:125 templates/dealers/domain_form.html:3
 #: templates/dealers/domain_list.html:3 templates/dealers/domain_list.html:4
 msgid "Domain mapping"
 msgstr "Alan Adı Eşleştirme"
 
-#: core/navigation.py:125
+#: core/navigation.py:128
 msgid "User approvals"
 msgstr "Kullanıcı Onayları"
 
-#: core/navigation.py:127 templates/accounts/user_list.html:3
+#: core/navigation.py:130 templates/accounts/user_list.html:3
 #: templates/accounts/user_list.html:4
 msgid "User management"
 msgstr "Kullanıcı Yönetimi"
 
-#: core/navigation.py:129 templates/payments/exchange_rates.html:3
+#: core/navigation.py:132 templates/payments/exchange_rates.html:3
 #: templates/payments/exchange_rates.html:4
 msgid "System settings"
 msgstr "Sistem Ayarları"
 
-#: core/navigation.py:140
+#: core/navigation.py:143
 msgid "System administrator"
 msgstr "Sistem Yöneticisi"
 
@@ -768,23 +820,33 @@ msgstr "%(date)s · TCMB"
 msgid "%(date)s · most recent business day"
 msgstr "%(date)s · en yakın iş günü"
 
-#: dealers/forms.py:35
+#: dealers/forms.py:37
+msgid ""
+"Leave empty to allow every device model. Selecting one or more hides every "
+"other device's products from this dealer."
+msgstr "Tüm cihaz modellerine izin vermek için boş bırakın. Bir veya daha fazla seçmek, diğer tüm cihazların ürünlerini bu bayiden gizler."
+
+#: dealers/forms.py:44
 msgid "Identity"
 msgstr "Kimlik"
 
-#: dealers/forms.py:36
+#: dealers/forms.py:45
 msgid "Tax details"
 msgstr "Vergi bilgileri"
 
-#: dealers/forms.py:37
+#: dealers/forms.py:46
 msgid "Contact"
 msgstr "İletişim"
 
-#: dealers/forms.py:39
+#: dealers/forms.py:48
+msgid "Catalogue access"
+msgstr "Katalog Erişimi"
+
+#: dealers/forms.py:49
 msgid "Other"
 msgstr "Diğer"
 
-#: dealers/forms.py:53
+#: dealers/forms.py:69
 msgid "Domain only, without the @ sign. Example: abcdealer.com"
 msgstr "Yalnızca alan adı, @ işareti olmadan. Örnek: abcbayi.com"
 
@@ -832,19 +894,29 @@ msgstr "Kare görseller en iyi sonucu verir; listelerde 40x40 piksel gösterilir
 msgid "notes"
 msgstr "notlar"
 
-#: dealers/models.py:28
+#: dealers/models.py:27
+msgid "allowed device models"
+msgstr "izin verilen cihaz modelleri"
+
+#: dealers/models.py:31
+msgid ""
+"Restricts the catalogue to these device models. Leave empty to allow every "
+"device model (no restriction)."
+msgstr "Kataloğu bu cihaz modelleriyle sınırlar. Tüm cihaz modellerine izin vermek için boş bırakın (kısıtlama yok)."
+
+#: dealers/models.py:38
 msgid "dealers"
 msgstr "bayiler"
 
-#: dealers/models.py:46
+#: dealers/models.py:56
 msgid "email domain"
 msgstr "e-posta alan adı"
 
-#: dealers/models.py:56
+#: dealers/models.py:66
 msgid "domain mapping"
 msgstr "alan adı eşleştirmesi"
 
-#: dealers/models.py:57
+#: dealers/models.py:67
 msgid "domain mappings"
 msgstr "alan adı eşleştirmeleri"
 
@@ -1250,28 +1322,28 @@ msgid ""
 "your browser's print dialogue to save it as a PDF."
 msgstr "Bu makinede PDF üretimi kullanılamıyor (WeasyPrint sistem kütüphaneleri kurulu değil), bu yüzden sipariş formu yazdırılabilir sayfa olarak gösteriliyor. Tarayıcınızın yazdırma penceresinden PDF olarak kaydedebilirsiniz."
 
-#: orders/views.py:244
+#: orders/views.py:247
 msgid "Your basket is empty."
 msgstr "Sepetiniz boş."
 
-#: orders/views.py:256
+#: orders/views.py:259
 #, python-format
 msgid "Your order has been submitted to finance. Order number: %(no)s"
 msgstr "Siparişiniz finansa gönderildi. Sipariş numarası: %(no)s"
 
-#: orders/views.py:271
+#: orders/views.py:274
 msgid "The items were copied into a new draft. You can edit it before sending."
 msgstr "Kalemler yeni bir taslağa kopyalandı. Göndermeden önce düzenleyebilirsiniz."
 
-#: orders/views.py:281
+#: orders/views.py:284
 msgid "You are not allowed to cancel this order."
 msgstr "Bu siparişi iptal etme yetkiniz yok."
 
-#: orders/views.py:285
+#: orders/views.py:288
 msgid "A cancellation reason is required."
 msgstr "İptal sebebi zorunludur."
 
-#: orders/views.py:289
+#: orders/views.py:292
 msgid "The order has been cancelled."
 msgstr "Sipariş iptal edildi."
 
@@ -1581,6 +1653,7 @@ msgid "Profile information"
 msgstr "Profil bilgileri"
 
 #: templates/accounts/profile.html:18 templates/accounts/user_form.html:21
+#: templates/catalog/device_model_form.html:20
 #: templates/catalog/product_form.html:20
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
@@ -1635,6 +1708,7 @@ msgid ""
 msgstr "<strong>%(name)s</strong> (%(email)s) kullanıcısının kayıt talebi reddedilsin mi?"
 
 #: templates/accounts/reject_user.html:17 templates/accounts/user_form.html:22
+#: templates/catalog/device_model_form.html:21
 #: templates/catalog/import_preview.html:68
 #: templates/catalog/product_form.html:21
 #: templates/catalog/special_price_form.html:21
@@ -1664,8 +1738,10 @@ msgstr "Yeni kullanıcı"
 msgid "Language"
 msgstr "Dil"
 
-#: templates/accounts/user_list.html:34 templates/catalog/product_form.html:38
-#: templates/catalog/product_list.html:36
+#: templates/accounts/user_list.html:34
+#: templates/catalog/device_model_list.html:34
+#: templates/catalog/product_form.html:38
+#: templates/catalog/product_list.html:39
 #: templates/catalog/special_price_list.html:31
 #: templates/dealers/dealer_list.html:36 templates/dealers/domain_list.html:30
 msgid "Edit"
@@ -1691,6 +1767,48 @@ msgstr "Menü"
 #: templates/orders/order_create.html:15
 msgid "All brands"
 msgstr "Tüm markalar"
+
+#: templates/catalog/device_model_form.html:4
+msgid "Edit device model"
+msgstr "Cihaz modelini düzenle"
+
+#: templates/catalog/device_model_form.html:4
+#: templates/catalog/device_model_list.html:5
+msgid "New device model"
+msgstr "Yeni cihaz modeli"
+
+#: templates/catalog/device_model_list.html:8
+msgid ""
+"Restrict a dealer's catalogue to specific device models from the dealer's "
+"edit screen (Catalogue access section). A dealer with no restriction sees "
+"every product."
+msgstr "Bir bayinin kataloğunu belirli cihaz modelleriyle sınırlamak için bayi düzenleme ekranındaki (Katalog Erişimi bölümü) ayarı kullanın. Kısıtlaması olmayan bayi tüm ürünleri görür."
+
+#: templates/catalog/device_model_list.html:10
+msgid "Device model or brand"
+msgstr "Cihaz modeli veya marka"
+
+#: templates/catalog/device_model_list.html:20
+msgid "Dealers with access"
+msgstr "Erişimi olan bayi"
+
+#: templates/catalog/device_model_list.html:38
+msgid ""
+"Delete this device model? Its products stay, but lose the device-model tag."
+msgstr "Bu cihaz modeli silinsin mi? Ürünleri kalır ama cihaz modeli etiketini kaybeder."
+
+#: templates/catalog/device_model_list.html:39
+#: templates/catalog/product_list.html:44
+#: templates/catalog/special_price_list.html:34
+#: templates/dealers/domain_confirm_delete.html:12
+#: templates/dealers/domain_list.html:31
+#: templates/notifications/notification_list.html:55
+msgid "Delete"
+msgstr "Sil"
+
+#: templates/catalog/device_model_list.html:45
+msgid "No device models defined yet."
+msgstr "Henüz cihaz modeli tanımlanmamış."
 
 #: templates/catalog/import_preview.html:3
 #: templates/catalog/import_preview.html:4
@@ -1823,13 +1941,17 @@ msgstr "Ekle"
 msgid "No dealer specific price is defined for this product."
 msgstr "Bu ürün için bayiye özel fiyat tanımlı değil."
 
-#: templates/catalog/product_list.html:21
+#: templates/catalog/product_list.html:22
 #: templates/orders/order_detail.html:100 templates/orders/order_review.html:18
 #, python-format
 msgid "VAT rate (%%)"
 msgstr "KDV Oranı (%%)"
 
-#: templates/catalog/product_list.html:39 templates/orders/order_create.html:92
+#: templates/catalog/product_list.html:43
+msgid "Delete this product? This cannot be undone."
+msgstr "Bu ürün silinsin mi? Bu işlem geri alınamaz."
+
+#: templates/catalog/product_list.html:50 templates/orders/order_create.html:92
 msgid "No products found."
 msgstr "Ürün bulunamadı."
 
@@ -1853,13 +1975,6 @@ msgstr "Bayi, ürün kodu veya adı"
 #: templates/catalog/special_price_list.html:34
 msgid "Delete this special price?"
 msgstr "Bu özel fiyat silinsin mi?"
-
-#: templates/catalog/special_price_list.html:34
-#: templates/dealers/domain_confirm_delete.html:12
-#: templates/dealers/domain_list.html:31
-#: templates/notifications/notification_list.html:55
-msgid "Delete"
-msgstr "Sil"
 
 #: templates/catalog/special_price_list.html:39
 msgid "No dealer special price has been defined."

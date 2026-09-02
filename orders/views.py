@@ -199,7 +199,10 @@ def _basket_payload(order: Order) -> dict:
 @require_POST
 def basket_add(request):
     draft = services.get_or_create_draft(request.user)
-    product = get_object_or_404(Product, pk=request.POST.get("product"), is_active=True)
+    # Scoped the same way as the search API, so a crafted POST cannot add a
+    # product hidden from this dealer by its device model restriction.
+    catalog = Product.objects.filter(is_active=True).visible_to_dealer(request.user.dealer)
+    product = get_object_or_404(catalog, pk=request.POST.get("product"))
     try:
         quantity = int(request.POST.get("quantity") or 1)
     except (TypeError, ValueError):

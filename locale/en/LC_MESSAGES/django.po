@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 11:32+0300\n"
+"POT-Creation-Date: 2026-09-02 14:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -71,7 +71,7 @@ msgstr "First name"
 msgid "Last name"
 msgstr "Last name"
 
-#: accounts/forms.py:60 accounts/views.py:188 catalog/imports.py:38
+#: accounts/forms.py:60 accounts/views.py:188 catalog/imports.py:39
 #: dealers/views.py:37 templates/orders/order_detail.html:83
 #: templates/orders/order_form_pdf.html:93
 msgid "Phone"
@@ -141,8 +141,8 @@ msgstr "username"
 msgid "email address"
 msgstr "email address"
 
-#: accounts/models.py:49 catalog/models.py:55 dealers/models.py:27
-#: dealers/models.py:49 orders/models.py:65
+#: accounts/models.py:49 catalog/models.py:109 dealers/models.py:37
+#: dealers/models.py:59 orders/models.py:65
 msgid "dealer"
 msgstr "dealer"
 
@@ -226,7 +226,7 @@ msgstr "User rejected: %(user)s"
 msgid "Users"
 msgstr "Users"
 
-#: accounts/views.py:187 catalog/imports.py:39 core/constants.py:49
+#: accounts/views.py:187 catalog/imports.py:40 core/constants.py:49
 #: dealers/views.py:37
 msgid "Email"
 msgstr "Email"
@@ -236,8 +236,8 @@ msgstr "Email"
 msgid "Role"
 msgstr "Role"
 
-#: accounts/views.py:187 catalog/views.py:107 core/constants.py:11
-#: core/navigation.py:136 dealers/views.py:132 logistics/views.py:36
+#: accounts/views.py:187 catalog/views.py:131 core/constants.py:11
+#: core/navigation.py:139 dealers/views.py:132 logistics/views.py:36
 #: orders/views.py:89 payments/views.py:44 payments/views.py:183
 #: reports/views.py:73 templates/accounts/profile.html:28
 #: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
@@ -278,31 +278,31 @@ msgstr "Registered at"
 msgid "User saved: %(user)s"
 msgstr "User saved: %(user)s"
 
-#: catalog/forms.py:24
+#: catalog/forms.py:30
 msgid "Product catalogue"
 msgstr "Product catalogue"
 
-#: catalog/forms.py:24
+#: catalog/forms.py:30
 msgid "Dealer cards"
 msgstr "Dealer cards"
 
-#: catalog/forms.py:27
+#: catalog/forms.py:33
 msgid "Import type"
 msgstr "Import type"
 
-#: catalog/forms.py:32
+#: catalog/forms.py:38
 msgid "Excel file (.xlsx)"
 msgstr "Excel file (.xlsx)"
 
-#: catalog/forms.py:39
+#: catalog/forms.py:45
 msgid "Please upload a file in .xlsx format."
 msgstr "Please upload a file in .xlsx format."
 
-#: catalog/forms.py:41
+#: catalog/forms.py:47
 msgid "The file may not be larger than 10 MB."
 msgstr "The file may not be larger than 10 MB."
 
-#: catalog/imports.py:23 catalog/views.py:45 catalog/views.py:107
+#: catalog/imports.py:23 catalog/views.py:47 catalog/views.py:131
 #: templates/catalog/product_list.html:16
 #: templates/catalog/special_price_list.html:15
 #: templates/logistics/mark_shipped.html:28
@@ -312,7 +312,7 @@ msgstr "The file may not be larger than 10 MB."
 msgid "Product code"
 msgstr "Product code"
 
-#: catalog/imports.py:24 catalog/views.py:45 catalog/views.py:107
+#: catalog/imports.py:24 catalog/views.py:47 catalog/views.py:131
 #: templates/catalog/product_list.html:17
 #: templates/catalog/special_price_list.html:16
 #: templates/logistics/mark_shipped.html:28
@@ -322,231 +322,283 @@ msgstr "Product code"
 msgid "Product name"
 msgstr "Product name"
 
-#: catalog/imports.py:25 catalog/views.py:45
+#: catalog/imports.py:25 catalog/views.py:47 catalog/views.py:178
 #: templates/catalog/_product_filters.html:2
+#: templates/catalog/device_model_list.html:17
 #: templates/catalog/product_list.html:18 templates/orders/order_create.html:13
 #: templates/orders/order_create.html:26 templates/orders/order_detail.html:97
 #: templates/reports/dashboard.html:78
 msgid "Brand"
 msgstr "Brand"
 
-#: catalog/imports.py:26 catalog/imports.py:196 catalog/views.py:45
-#: templates/catalog/product_list.html:19 templates/orders/order_create.html:27
+#: catalog/imports.py:26 catalog/views.py:178
+#: templates/catalog/device_model_form.html:3
+#: templates/catalog/device_model_list.html:18
+#: templates/catalog/product_list.html:19
+msgid "Device model"
+msgstr "Device model"
+
+#: catalog/imports.py:27 catalog/imports.py:203 catalog/views.py:47
+#: templates/catalog/product_list.html:20 templates/orders/order_create.html:27
 msgid "Tests per pack"
 msgstr "Tests per pack"
 
-#: catalog/imports.py:27 catalog/imports.py:197 catalog/views.py:46
-#: templates/catalog/product_list.html:20
+#: catalog/imports.py:28 catalog/imports.py:204 catalog/views.py:48
+#: templates/catalog/product_list.html:21
 #: templates/catalog/special_price_list.html:17
 msgid "List price (USD)"
 msgstr "List price (USD)"
 
-#: catalog/imports.py:28 catalog/imports.py:198 catalog/models.py:24
-#: catalog/views.py:46 orders/models.py:221
+#: catalog/imports.py:29 catalog/imports.py:205 catalog/models.py:76
+#: catalog/views.py:48 orders/models.py:221
 msgid "VAT rate (%)"
 msgstr "VAT rate (%)"
 
-#: catalog/imports.py:29
+#: catalog/imports.py:30
 msgid "Description"
 msgstr "Description"
 
-#: catalog/imports.py:33 dealers/views.py:36
+#: catalog/imports.py:34 dealers/views.py:36
 #: templates/dealers/dealer_list.html:14
 #: templates/orders/order_form_pdf.html:89
 msgid "Dealer name"
 msgstr "Dealer name"
 
-#: catalog/imports.py:34 dealers/views.py:36
+#: catalog/imports.py:35 dealers/views.py:36
 #: templates/dealers/dealer_list.html:15
 msgid "Dealer code"
 msgstr "Dealer code"
 
-#: catalog/imports.py:35 dealers/views.py:36
+#: catalog/imports.py:36 dealers/views.py:36
 #: templates/dealers/dealer_list.html:16 templates/orders/order_detail.html:81
 #: templates/orders/order_form_pdf.html:70
 #: templates/orders/order_form_pdf.html:90
 msgid "Tax number"
 msgstr "Tax number"
 
-#: catalog/imports.py:36 dealers/views.py:36
+#: catalog/imports.py:37 dealers/views.py:36
 #: templates/orders/order_form_pdf.html:91
 msgid "Tax office"
 msgstr "Tax office"
 
-#: catalog/imports.py:37 dealers/views.py:37
+#: catalog/imports.py:38 dealers/views.py:37
 #: templates/dealers/dealer_list.html:17 templates/orders/order_detail.html:82
 #: templates/orders/order_form_pdf.html:92
 msgid "Contact person"
 msgstr "Contact person"
 
-#: catalog/imports.py:40 dealers/views.py:37
+#: catalog/imports.py:41 dealers/views.py:37
 #: templates/dealers/dealer_list.html:18
 msgid "City"
 msgstr "City"
 
-#: catalog/imports.py:41 dealers/forms.py:38 dealers/views.py:37
+#: catalog/imports.py:42 dealers/forms.py:47 dealers/views.py:37
 #: templates/orders/order_detail.html:84
 #: templates/orders/order_form_pdf.html:94
 msgid "Address"
 msgstr "Address"
 
-#: catalog/imports.py:42
+#: catalog/imports.py:43
 msgid "Notes"
 msgstr "Notes"
 
-#: catalog/imports.py:106
+#: catalog/imports.py:109
 #, python-format
 msgid "%(field)s is required."
 msgstr "%(field)s is required."
 
-#: catalog/imports.py:110
+#: catalog/imports.py:113
 #, python-format
 msgid "%(field)s must be a number."
 msgstr "%(field)s must be a number."
 
-#: catalog/imports.py:119
+#: catalog/imports.py:122
 #, python-format
 msgid "%(field)s must be a whole number."
 msgstr "%(field)s must be a whole number."
 
-#: catalog/imports.py:133
+#: catalog/imports.py:136
 msgid "The file could not be read. Please upload a valid .xlsx file."
 msgstr "The file could not be read. Please upload a valid .xlsx file."
 
-#: catalog/imports.py:138
+#: catalog/imports.py:141
 msgid "The file contains no data rows."
 msgstr "The file contains no data rows."
 
-#: catalog/imports.py:153
+#: catalog/imports.py:156
 #, python-format
 msgid "Row %(row)s: %(field)s is empty."
 msgstr "Row %(row)s: %(field)s is empty."
 
-#: catalog/imports.py:159
+#: catalog/imports.py:162
 #, python-format
 msgid "Row %(row)s: '%(key)s' already appears on row %(first)s."
 msgstr "Row %(row)s: '%(key)s' already appears on row %(first)s."
 
-#: catalog/imports.py:167
+#: catalog/imports.py:170
 #, python-format
 msgid "Row %(row)s: %(error)s"
 msgstr "Row %(row)s: %(error)s"
 
-#: catalog/imports.py:186
+#: catalog/imports.py:189
 msgid "The file contains no importable rows."
 msgstr "The file contains no importable rows."
 
-#: catalog/models.py:13 orders/models.py:212
-msgid "product code"
-msgstr "product code"
+#: catalog/models.py:20 catalog/models.py:25 catalog/models.py:61
+msgid "device model"
+msgstr "device model"
 
-#: catalog/models.py:14 orders/models.py:213
-msgid "product name"
-msgstr "product name"
-
-#: catalog/models.py:15 orders/models.py:214
+#: catalog/models.py:21 catalog/models.py:58 orders/models.py:214
 msgid "brand"
 msgstr "brand"
 
-#: catalog/models.py:16
-msgid "tests per pack"
-msgstr "tests per pack"
-
-#: catalog/models.py:18
-msgid "list price (USD)"
-msgstr "list price (USD)"
-
-#: catalog/models.py:30
-msgid "description"
-msgstr "description"
-
-#: catalog/models.py:31 dealers/models.py:24 dealers/models.py:53
-#: notifications/models.py:59
+#: catalog/models.py:22 catalog/models.py:83 dealers/models.py:24
+#: dealers/models.py:63 notifications/models.py:59
 msgid "active"
 msgstr "active"
 
-#: catalog/models.py:34 catalog/models.py:61 orders/models.py:208
+#: catalog/models.py:26
+msgid "device models"
+msgstr "device models"
+
+#: catalog/models.py:56 orders/models.py:212
+msgid "product code"
+msgstr "product code"
+
+#: catalog/models.py:57 orders/models.py:213
+msgid "product name"
+msgstr "product name"
+
+#: catalog/models.py:66
+msgid "Used to restrict which dealers may order this product."
+msgstr "Used to restrict which dealers may order this product."
+
+#: catalog/models.py:68
+msgid "tests per pack"
+msgstr "tests per pack"
+
+#: catalog/models.py:70
+msgid "list price (USD)"
+msgstr "list price (USD)"
+
+#: catalog/models.py:82
+msgid "description"
+msgstr "description"
+
+#: catalog/models.py:88 catalog/models.py:115 orders/models.py:208
 msgid "product"
 msgstr "product"
 
-#: catalog/models.py:35
+#: catalog/models.py:89
 msgid "products"
 msgstr "products"
 
-#: catalog/models.py:66
+#: catalog/models.py:120
 msgid "special price (USD)"
 msgstr "special price (USD)"
 
-#: catalog/models.py:73
+#: catalog/models.py:127
 msgid "dealer special price"
 msgstr "dealer special price"
 
-#: catalog/models.py:74
+#: catalog/models.py:128
 msgid "dealer special prices"
 msgstr "dealer special prices"
 
-#: catalog/views.py:44 templates/catalog/product_list.html:3
+#: catalog/views.py:46 templates/catalog/device_model_list.html:19
+#: templates/catalog/product_list.html:3
 msgid "Products"
 msgstr "Products"
 
-#: catalog/views.py:46 dealers/views.py:38 dealers/views.py:132
-#: templates/catalog/product_list.html:22 templates/dealers/dealer_list.html:21
+#: catalog/views.py:48 catalog/views.py:178 dealers/views.py:38
+#: dealers/views.py:132 templates/catalog/device_model_list.html:21
+#: templates/catalog/product_list.html:23 templates/dealers/dealer_list.html:21
 #: templates/dealers/domain_list.html:19
 msgid "Active"
 msgstr "Active"
 
-#: catalog/views.py:49 dealers/views.py:41 dealers/views.py:133
-#: templates/catalog/product_list.html:35 templates/dealers/dealer_list.html:35
+#: catalog/views.py:51 catalog/views.py:179 dealers/views.py:41
+#: dealers/views.py:133 templates/catalog/device_model_list.html:32
+#: templates/catalog/product_list.html:37 templates/dealers/dealer_list.html:35
 #: templates/dealers/domain_list.html:28
 msgid "Yes"
 msgstr "Yes"
 
-#: catalog/views.py:49 dealers/views.py:41 dealers/views.py:133
-#: templates/catalog/product_list.html:35 templates/dealers/dealer_list.html:35
+#: catalog/views.py:51 catalog/views.py:179 dealers/views.py:41
+#: dealers/views.py:133 templates/catalog/device_model_list.html:32
+#: templates/catalog/product_list.html:37 templates/dealers/dealer_list.html:35
 #: templates/dealers/domain_list.html:28
 msgid "No"
 msgstr "No"
 
-#: catalog/views.py:79
+#: catalog/views.py:81
 #, python-format
 msgid "Product saved: %(code)s"
 msgstr "Product saved: %(code)s"
 
-#: catalog/views.py:106 core/navigation.py:116
+#: catalog/views.py:105
+#, python-format
+msgid ""
+"\"%(code)s\" cannot be deleted: it appears in existing orders, which must "
+"keep their history. Mark it inactive instead."
+msgstr "\"%(code)s\" cannot be deleted: it appears in existing orders, which must keep their history. Mark it inactive instead."
+
+#: catalog/views.py:111
+#, python-format
+msgid "Product deleted: %(code)s"
+msgstr "Product deleted: %(code)s"
+
+#: catalog/views.py:130 core/navigation.py:116
 #: templates/catalog/product_form.html:28
 #: templates/catalog/special_price_list.html:3
 #: templates/catalog/special_price_list.html:4
 msgid "Dealer special prices"
 msgstr "Dealer special prices"
 
-#: catalog/views.py:107 templates/catalog/product_form.html:32
+#: catalog/views.py:131 templates/catalog/product_form.html:32
 #: templates/catalog/special_price_list.html:18
 msgid "Special price (USD)"
 msgstr "Special price (USD)"
 
-#: catalog/views.py:124
+#: catalog/views.py:148
 msgid "Special price saved."
 msgstr "Special price saved."
 
-#: catalog/views.py:135
+#: catalog/views.py:159
 msgid "Special price deleted."
 msgstr "Special price deleted."
 
-#: catalog/views.py:165
+#: catalog/views.py:177 core/navigation.py:119
+#: templates/catalog/device_model_list.html:3
+#: templates/catalog/device_model_list.html:4
+msgid "Device models"
+msgstr "Device models"
+
+#: catalog/views.py:195
+#, python-format
+msgid "Device model saved: %(name)s"
+msgstr "Device model saved: %(name)s"
+
+#: catalog/views.py:209
+#, python-format
+msgid "Device model deleted: %(name)s"
+msgstr "Device model deleted: %(name)s"
+
+#: catalog/views.py:239
 msgid ""
 "The import was stopped: no records were saved. Please fix the errors below."
 msgstr "The import was stopped: no records were saved. Please fix the errors below."
 
-#: catalog/views.py:183
+#: catalog/views.py:257
 msgid "The import session has expired. Please upload the file again."
 msgstr "The import session has expired. Please upload the file again."
 
-#: catalog/views.py:190
+#: catalog/views.py:264
 #, python-format
 msgid "Import completed: %(created)s new records, %(updated)s updated records."
 msgstr "Import completed: %(created)s new records, %(updated)s updated records."
 
-#: catalog/views.py:201
+#: catalog/views.py:275
 msgid "The import was cancelled; nothing was saved."
 msgstr "The import was cancelled; nothing was saved."
 
@@ -554,15 +606,15 @@ msgstr "The import was cancelled; nothing was saved."
 msgid "Admin"
 msgstr "Admin"
 
-#: core/constants.py:8 core/navigation.py:137
+#: core/constants.py:8 core/navigation.py:140
 msgid "Finance"
 msgstr "Finance"
 
-#: core/constants.py:9 core/navigation.py:138
+#: core/constants.py:9 core/navigation.py:141
 msgid "Logistics"
 msgstr "Logistics"
 
-#: core/constants.py:10 core/navigation.py:139
+#: core/constants.py:10 core/navigation.py:142
 msgid "Management"
 msgstr "Management"
 
@@ -722,35 +774,35 @@ msgstr "My reports"
 msgid "Product management"
 msgstr "Product management"
 
-#: core/navigation.py:119 templates/catalog/import_upload.html:3
+#: core/navigation.py:122 templates/catalog/import_upload.html:3
 #: templates/catalog/import_upload.html:4 templates/catalog/product_list.html:7
 msgid "Excel import"
 msgstr "Excel import"
 
-#: core/navigation.py:120 templates/dealers/dealer_list.html:4
+#: core/navigation.py:123 templates/dealers/dealer_list.html:4
 msgid "Dealer management"
 msgstr "Dealer management"
 
-#: core/navigation.py:122 templates/dealers/domain_form.html:3
+#: core/navigation.py:125 templates/dealers/domain_form.html:3
 #: templates/dealers/domain_list.html:3 templates/dealers/domain_list.html:4
 msgid "Domain mapping"
 msgstr "Domain mapping"
 
-#: core/navigation.py:125
+#: core/navigation.py:128
 msgid "User approvals"
 msgstr "User approvals"
 
-#: core/navigation.py:127 templates/accounts/user_list.html:3
+#: core/navigation.py:130 templates/accounts/user_list.html:3
 #: templates/accounts/user_list.html:4
 msgid "User management"
 msgstr "User management"
 
-#: core/navigation.py:129 templates/payments/exchange_rates.html:3
+#: core/navigation.py:132 templates/payments/exchange_rates.html:3
 #: templates/payments/exchange_rates.html:4
 msgid "System settings"
 msgstr "System settings"
 
-#: core/navigation.py:140
+#: core/navigation.py:143
 msgid "System administrator"
 msgstr "System administrator"
 
@@ -768,23 +820,33 @@ msgstr "%(date)s · TCMB"
 msgid "%(date)s · most recent business day"
 msgstr "%(date)s · most recent business day"
 
-#: dealers/forms.py:35
+#: dealers/forms.py:37
+msgid ""
+"Leave empty to allow every device model. Selecting one or more hides every "
+"other device's products from this dealer."
+msgstr "Leave empty to allow every device model. Selecting one or more hides every other device's products from this dealer."
+
+#: dealers/forms.py:44
 msgid "Identity"
 msgstr "Identity"
 
-#: dealers/forms.py:36
+#: dealers/forms.py:45
 msgid "Tax details"
 msgstr "Tax details"
 
-#: dealers/forms.py:37
+#: dealers/forms.py:46
 msgid "Contact"
 msgstr "Contact"
 
-#: dealers/forms.py:39
+#: dealers/forms.py:48
+msgid "Catalogue access"
+msgstr "Catalogue access"
+
+#: dealers/forms.py:49
 msgid "Other"
 msgstr "Other"
 
-#: dealers/forms.py:53
+#: dealers/forms.py:69
 msgid "Domain only, without the @ sign. Example: abcdealer.com"
 msgstr "Domain only, without the @ sign. Example: abcdealer.com"
 
@@ -832,19 +894,29 @@ msgstr "Square images work best; shown at 40x40 pixels in lists."
 msgid "notes"
 msgstr "notes"
 
-#: dealers/models.py:28
+#: dealers/models.py:27
+msgid "allowed device models"
+msgstr "allowed device models"
+
+#: dealers/models.py:31
+msgid ""
+"Restricts the catalogue to these device models. Leave empty to allow every "
+"device model (no restriction)."
+msgstr "Restricts the catalogue to these device models. Leave empty to allow every device model (no restriction)."
+
+#: dealers/models.py:38
 msgid "dealers"
 msgstr "dealers"
 
-#: dealers/models.py:46
+#: dealers/models.py:56
 msgid "email domain"
 msgstr "email domain"
 
-#: dealers/models.py:56
+#: dealers/models.py:66
 msgid "domain mapping"
 msgstr "domain mapping"
 
-#: dealers/models.py:57
+#: dealers/models.py:67
 msgid "domain mappings"
 msgstr "domain mappings"
 
@@ -1250,28 +1322,28 @@ msgid ""
 "your browser's print dialogue to save it as a PDF."
 msgstr "PDF generation is unavailable on this machine (the WeasyPrint system libraries are missing), so the order form is shown as a printable page. Use your browser's print dialogue to save it as a PDF."
 
-#: orders/views.py:244
+#: orders/views.py:247
 msgid "Your basket is empty."
 msgstr "Your basket is empty."
 
-#: orders/views.py:256
+#: orders/views.py:259
 #, python-format
 msgid "Your order has been submitted to finance. Order number: %(no)s"
 msgstr "Your order has been submitted to finance. Order number: %(no)s"
 
-#: orders/views.py:271
+#: orders/views.py:274
 msgid "The items were copied into a new draft. You can edit it before sending."
 msgstr "The items were copied into a new draft. You can edit it before sending."
 
-#: orders/views.py:281
+#: orders/views.py:284
 msgid "You are not allowed to cancel this order."
 msgstr "You are not allowed to cancel this order."
 
-#: orders/views.py:285
+#: orders/views.py:288
 msgid "A cancellation reason is required."
 msgstr "A cancellation reason is required."
 
-#: orders/views.py:289
+#: orders/views.py:292
 msgid "The order has been cancelled."
 msgstr "The order has been cancelled."
 
@@ -1581,6 +1653,7 @@ msgid "Profile information"
 msgstr "Profile information"
 
 #: templates/accounts/profile.html:18 templates/accounts/user_form.html:21
+#: templates/catalog/device_model_form.html:20
 #: templates/catalog/product_form.html:20
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
@@ -1635,6 +1708,7 @@ msgid ""
 msgstr "Reject the registration request of <strong>%(name)s</strong> (%(email)s)?"
 
 #: templates/accounts/reject_user.html:17 templates/accounts/user_form.html:22
+#: templates/catalog/device_model_form.html:21
 #: templates/catalog/import_preview.html:68
 #: templates/catalog/product_form.html:21
 #: templates/catalog/special_price_form.html:21
@@ -1664,8 +1738,10 @@ msgstr "New user"
 msgid "Language"
 msgstr "Language"
 
-#: templates/accounts/user_list.html:34 templates/catalog/product_form.html:38
-#: templates/catalog/product_list.html:36
+#: templates/accounts/user_list.html:34
+#: templates/catalog/device_model_list.html:34
+#: templates/catalog/product_form.html:38
+#: templates/catalog/product_list.html:39
 #: templates/catalog/special_price_list.html:31
 #: templates/dealers/dealer_list.html:36 templates/dealers/domain_list.html:30
 msgid "Edit"
@@ -1691,6 +1767,48 @@ msgstr "Menu"
 #: templates/orders/order_create.html:15
 msgid "All brands"
 msgstr "All brands"
+
+#: templates/catalog/device_model_form.html:4
+msgid "Edit device model"
+msgstr "Edit device model"
+
+#: templates/catalog/device_model_form.html:4
+#: templates/catalog/device_model_list.html:5
+msgid "New device model"
+msgstr "New device model"
+
+#: templates/catalog/device_model_list.html:8
+msgid ""
+"Restrict a dealer's catalogue to specific device models from the dealer's "
+"edit screen (Catalogue access section). A dealer with no restriction sees "
+"every product."
+msgstr "Restrict a dealer's catalogue to specific device models from the dealer's edit screen (Catalogue access section). A dealer with no restriction sees every product."
+
+#: templates/catalog/device_model_list.html:10
+msgid "Device model or brand"
+msgstr "Device model or brand"
+
+#: templates/catalog/device_model_list.html:20
+msgid "Dealers with access"
+msgstr "Dealers with access"
+
+#: templates/catalog/device_model_list.html:38
+msgid ""
+"Delete this device model? Its products stay, but lose the device-model tag."
+msgstr "Delete this device model? Its products stay, but lose the device-model tag."
+
+#: templates/catalog/device_model_list.html:39
+#: templates/catalog/product_list.html:44
+#: templates/catalog/special_price_list.html:34
+#: templates/dealers/domain_confirm_delete.html:12
+#: templates/dealers/domain_list.html:31
+#: templates/notifications/notification_list.html:55
+msgid "Delete"
+msgstr "Delete"
+
+#: templates/catalog/device_model_list.html:45
+msgid "No device models defined yet."
+msgstr "No device models defined yet."
 
 #: templates/catalog/import_preview.html:3
 #: templates/catalog/import_preview.html:4
@@ -1823,13 +1941,17 @@ msgstr "Add"
 msgid "No dealer specific price is defined for this product."
 msgstr "No dealer specific price is defined for this product."
 
-#: templates/catalog/product_list.html:21
+#: templates/catalog/product_list.html:22
 #: templates/orders/order_detail.html:100 templates/orders/order_review.html:18
 #, python-format
 msgid "VAT rate (%%)"
 msgstr "VAT rate (%%)"
 
-#: templates/catalog/product_list.html:39 templates/orders/order_create.html:92
+#: templates/catalog/product_list.html:43
+msgid "Delete this product? This cannot be undone."
+msgstr "Delete this product? This cannot be undone."
+
+#: templates/catalog/product_list.html:50 templates/orders/order_create.html:92
 msgid "No products found."
 msgstr "No products found."
 
@@ -1853,13 +1975,6 @@ msgstr "Dealer, product code or name"
 #: templates/catalog/special_price_list.html:34
 msgid "Delete this special price?"
 msgstr "Delete this special price?"
-
-#: templates/catalog/special_price_list.html:34
-#: templates/dealers/domain_confirm_delete.html:12
-#: templates/dealers/domain_list.html:31
-#: templates/notifications/notification_list.html:55
-msgid "Delete"
-msgstr "Delete"
 
 #: templates/catalog/special_price_list.html:39
 msgid "No dealer special price has been defined."

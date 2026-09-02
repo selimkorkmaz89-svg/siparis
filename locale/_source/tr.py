@@ -49,6 +49,41 @@ TRANSLATIONS = {
     "Fetch again even for days already stored, replacing manual entries.":
         "Kaydı olan günler için de yeniden çeker, manuel girişleri değiştirir.",
 
+    "Delete this product? This cannot be undone.":
+        "Bu ürün silinsin mi? Bu işlem geri alınamaz.",
+    "\"%(code)s\" cannot be deleted: it appears in existing orders, which must keep their history. Mark it inactive instead.":
+        "\"%(code)s\" silinemez: mevcut siparişlerde kullanılıyor ve sipariş geçmişi korunmalı. "
+        "Bunun yerine pasif yapın.",
+    "Product deleted: %(code)s": "Ürün silindi: %(code)s",
+
+    "Catalogue access": "Katalog Erişimi",
+    "Dealers with access": "Erişimi olan bayi",
+    "Delete this device model? Its products stay, but lose the device-model tag.":
+        "Bu cihaz modeli silinsin mi? Ürünleri kalır ama cihaz modeli etiketini kaybeder.",
+    "Device model": "Cihaz Modeli",
+    "Device model deleted: %(name)s": "Cihaz modeli silindi: %(name)s",
+    "Device model or brand": "Cihaz modeli veya marka",
+    "Device model saved: %(name)s": "Cihaz modeli kaydedildi: %(name)s",
+    "Device models": "Cihaz Modelleri",
+    "Edit device model": "Cihaz modelini düzenle",
+    "Leave empty to allow every device model. Selecting one or more hides every other device's products from this dealer.":
+        "Tüm cihaz modellerine izin vermek için boş bırakın. Bir veya daha fazla seçmek, "
+        "diğer tüm cihazların ürünlerini bu bayiden gizler.",
+    "New device model": "Yeni cihaz modeli",
+    "No device models defined yet.": "Henüz cihaz modeli tanımlanmamış.",
+    "Restrict a dealer's catalogue to specific device models from the dealer's edit screen (Catalogue access section). A dealer with no restriction sees every product.":
+        "Bir bayinin kataloğunu belirli cihaz modelleriyle sınırlamak için bayi düzenleme "
+        "ekranındaki (Katalog Erişimi bölümü) ayarı kullanın. Kısıtlaması olmayan bayi "
+        "tüm ürünleri görür.",
+    "Restricts the catalogue to these device models. Leave empty to allow every device model (no restriction).":
+        "Kataloğu bu cihaz modelleriyle sınırlar. Tüm cihaz modellerine izin vermek "
+        "için boş bırakın (kısıtlama yok).",
+    "Used to restrict which dealers may order this product.":
+        "Hangi bayilerin bu ürünü sipariş edebileceğini sınırlamak için kullanılır.",
+    "allowed device models": "izin verilen cihaz modelleri",
+    "device model": "cihaz modeli",
+    "device models": "cihaz modelleri",
+
     # --- roles, statuses, enums -------------------------------------------
     "Admin": "Yönetici",
     "Finance": "Finans",

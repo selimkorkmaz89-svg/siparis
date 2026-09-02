@@ -16,13 +16,14 @@ from io import BytesIO
 from django.utils.translation import gettext_lazy as _
 from openpyxl import Workbook, load_workbook
 
-from catalog.models import Product
+from catalog.models import DeviceModel, Product
 from dealers.models import Dealer
 
 PRODUCT_COLUMNS = [
     ("code", _("Product code")),
     ("name", _("Product name")),
     ("brand", _("Brand")),
+    ("device_model", _("Device model")),
     ("tests_per_pack", _("Tests per pack")),
     ("base_price_usd", _("List price (USD)")),
     ("vat_rate", _("VAT rate (%)")),
@@ -43,7 +44,9 @@ DEALER_COLUMNS = [
 ]
 
 SAMPLE_ROWS = {
-    "product": [["PRD-001", "Sample reagent kit", "Acme", 100, "125.00", "20", ""]],
+    "product": [
+        ["PRD-001", "Sample reagent kit", "Acme", "Acme X200", 100, "125.00", "20", ""]
+    ],
     "dealer": [
         ["Sample Dealer Ltd.", "D-001", "1234567890", "Kadıköy", "Jane Doe",
          "+90 216 000 00 00", "info@sampledealer.com", "İstanbul", "", ""]
@@ -193,6 +196,10 @@ def _clean_row(data: dict, kind: str) -> dict:
             "code": _text(data["code"]).upper(),
             "name": _text(data["name"]),
             "brand": _text(data["brand"]),
+            # Resolved to a DeviceModel instance in apply_preview - a plain
+            # name here so blank cells and unrecognised names stay easy to spot
+            # on the preview screen.
+            "device_model": _text(data["device_model"]),
             "tests_per_pack": _to_int(data["tests_per_pack"], _("Tests per pack")),
             "base_price_usd": _to_decimal(data["base_price_usd"], _("List price (USD)")),
             "vat_rate": _to_decimal(data["vat_rate"], _("VAT rate (%)")),
@@ -219,12 +226,13 @@ def _existing_keys(kind: str) -> dict:
                 "code": product.code,
                 "name": product.name,
                 "brand": product.brand,
+                "device_model": product.device_model.name if product.device_model_id else "",
                 "tests_per_pack": product.tests_per_pack,
                 "base_price_usd": product.base_price_usd,
                 "vat_rate": product.vat_rate,
                 "description": product.description,
             }
-            for product in Product.objects.all()
+            for product in Product.objects.select_related("device_model")
         }
     return {
         dealer.name: {
@@ -269,21 +277,43 @@ def apply_preview(preview: ImportPreview) -> dict:
     model = Product if preview.kind == "product" else Dealer
     lookup = "code" if preview.kind == "product" else "name"
     for row in preview.rows:
+        values = dict(row.values)
+        # device_model isn't a plain Product field - it's a name string that
+        # resolves to a DeviceModel row, so it is set after create/update.
+        device_model_name = values.pop("device_model", None) if model is Product else None
         if row.action == "create":
-            model.objects.create(**row.values)
+            obj = model.objects.create(**values)
             created += 1
         elif row.action == "update":
-            filter_value = row.values[lookup]
+            filter_value = values[lookup]
             obj = model.objects.filter(**{f"{lookup}__iexact": filter_value}).first()
             if obj is None:
-                model.objects.create(**row.values)
+                obj = model.objects.create(**values)
                 created += 1
-                continue
-            for key, value in row.values.items():
-                setattr(obj, key, value)
-            obj.save()
-            updated += 1
+            else:
+                for key, value in values.items():
+                    setattr(obj, key, value)
+                obj.save()
+                updated += 1
+        if model is Product:
+            _apply_device_model(obj, device_model_name, values.get("brand", ""))
     return {"created": created, "updated": updated}
+
+
+def _apply_device_model(product: Product, name: str | None, brand: str) -> None:
+    """Resolve an imported device-model name to a row, creating it if new."""
+    name = (name or "").strip()
+    if not name:
+        if product.device_model_id:
+            product.device_model = None
+            product.save(update_fields=["device_model"])
+        return
+    device_model, _created = DeviceModel.objects.get_or_create(
+        name=name, defaults={"brand": brand}
+    )
+    if product.device_model_id != device_model.id:
+        product.device_model = device_model
+        product.save(update_fields=["device_model"])
 
 
 def preview_to_session(preview: ImportPreview) -> dict:

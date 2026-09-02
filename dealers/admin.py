@@ -8,6 +8,7 @@ class DealerAdmin(admin.ModelAdmin):
     list_display = ("name", "code", "tax_no", "city", "contact_person", "is_active")
     search_fields = ("name", "code", "tax_no", "city")
     list_filter = ("is_active", "city")
+    filter_horizontal = ("allowed_device_models",)
 
 
 @admin.register(DomainDealerMap)

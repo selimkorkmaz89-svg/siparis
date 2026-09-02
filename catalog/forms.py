@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from catalog.models import DealerSpecialPrice, Product
+from catalog.models import DealerSpecialPrice, DeviceModel, Product
 from dealers.forms import BootstrapModelForm
 
 
@@ -9,9 +9,15 @@ class ProductForm(BootstrapModelForm):
     class Meta:
         model = Product
         fields = (
-            "code", "name", "brand", "tests_per_pack", "base_price_usd",
-            "vat_rate", "description", "is_active",
+            "code", "name", "brand", "device_model", "tests_per_pack",
+            "base_price_usd", "vat_rate", "description", "is_active",
         )
+
+
+class DeviceModelForm(BootstrapModelForm):
+    class Meta:
+        model = DeviceModel
+        fields = ("name", "brand", "is_active")
 
 
 class DealerSpecialPriceForm(BootstrapModelForm):

@@ -27,8 +27,17 @@ class DealerForm(BootstrapModelForm):
         fields = (
             "name", "code", "logo", "tax_no", "tax_office",
             "contact_person", "phone", "email", "city", "address",
-            "notes", "is_active",
+            "allowed_device_models", "notes", "is_active",
         )
+        widgets = {
+            "allowed_device_models": forms.SelectMultiple(attrs={"size": 8}),
+        }
+        help_texts = {
+            "allowed_device_models": _(
+                "Leave empty to allow every device model. Selecting one or more "
+                "hides every other device's products from this dealer."
+            ),
+        }
 
     #: Field names per section, used by templates/dealers/dealer_form.html.
     SECTIONS = (
@@ -36,8 +45,15 @@ class DealerForm(BootstrapModelForm):
         (_("Tax details"), ("tax_no", "tax_office")),
         (_("Contact"), ("contact_person", "phone", "email")),
         (_("Address"), ("city", "address")),
+        (_("Catalogue access"), ("allowed_device_models",)),
         (_("Other"), ("notes", "is_active")),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["allowed_device_models"].queryset = (
+            self.fields["allowed_device_models"].queryset.order_by("brand", "name")
+        )
 
     def sections(self):
         """Yield ``(title, bound_fields)`` so the template stays declarative."""

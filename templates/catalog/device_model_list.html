@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n ui %}
+{% block title %}{% translate "Device models" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block page_title %}{% translate "Device models" %}{% endblock %}
+{% block page_actions %}<a class="btn btn-primary" href="{% url 'catalog:device_model_create' %}">+ {% translate "New device model" %}</a>{% endblock %}
+{% block content %}
+<div class="alert alert-info">
+  {% translate "Restrict a dealer's catalogue to specific device models from the dealer's edit screen (Catalogue access section). A dealer with no restriction sees every product." %}
+</div>
+{% translate "Device model or brand" as ph %}
+{% include "partials/filters.html" with search_placeholder=ph export=1 show_dates=False %}
+<div class="card">
+  <div class="table-wrap">
+    <table data-filterable>
+      <thead>
+        <tr>
+          <th>{% sort_link 'brand' _('Brand') %}</th>
+          <th>{% sort_link 'name' _('Device model') %}</th>
+          <th class="num">{% translate "Products" %}</th>
+          <th class="num">{% translate "Dealers with access" %}</th>
+          <th>{% translate "Active" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for device in device_models %}
+          <tr>
+            <td>{{ device.brand|default:"-" }}</td>
+            <td><strong>{{ device.name }}</strong></td>
+            <td class="num">{{ device.products.count }}</td>
+            <td class="num">{{ device.dealers.count }}</td>
+            <td>{% if device.is_active %}<span class="badge badge-paid">{% translate "Yes" %}</span>{% else %}<span class="badge badge-cancelled">{% translate "No" %}</span>{% endif %}</td>
+            <td class="num">
+              <a class="btn btn-ghost btn-sm" href="{% url 'catalog:device_model_edit' device.pk %}">{% translate "Edit" %}</a>
+              <form method="post" action="{% url 'catalog:device_model_delete' device.pk %}" class="inline">
+                {% csrf_token %}
+                <button class="btn btn-ghost btn-sm" type="submit"
+                        data-confirm="{% translate 'Delete this device model? Its products stay, but lose the device-model tag.' %}">
+                  {% translate "Delete" %}
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="empty-state">{% translate "No device models defined yet." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

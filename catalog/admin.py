@@ -1,12 +1,21 @@
 from django.contrib import admin
 
-from catalog.models import DealerSpecialPrice, Product
+from catalog.models import DealerSpecialPrice, DeviceModel, Product
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("code", "name", "brand", "base_price_usd", "vat_rate", "is_active")
+    list_display = (
+        "code", "name", "brand", "device_model", "base_price_usd", "vat_rate", "is_active",
+    )
     search_fields = ("code", "name", "brand")
+    list_filter = ("brand", "device_model", "is_active")
+
+
+@admin.register(DeviceModel)
+class DeviceModelAdmin(admin.ModelAdmin):
+    list_display = ("name", "brand", "is_active")
+    search_fields = ("name", "brand")
     list_filter = ("brand", "is_active")
 
 

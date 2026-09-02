@@ -6,7 +6,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone, translation
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 from django.views.i18n import set_language as django_set_language
@@ -34,9 +34,13 @@ class AppLoginView(LoginView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        # This response is a redirect (empty body), so there is nothing here
+        # for translation.activate() to affect; LocaleMiddleware and
+        # UserLanguageMiddleware already activate the right language on every
+        # request from the profile's language field. The cookie is what makes
+        # it stick immediately, including for this same redirect's target.
         language = self.request.user.language
         if language:
-            translation.activate(language)
             response.set_cookie("siparis_language", language)
         return response
 
@@ -86,7 +90,9 @@ def profile(request):
     password_form = PasswordChangeForm(request.user)
     if request.method == "POST" and "save_profile" in request.POST and form.is_valid():
         user = form.save()
-        translation.activate(user.language)
+        # No translation.activate() needed: the redirect target's own request
+        # re-reads user.language (just saved) via UserLanguageMiddleware, and
+        # the cookie carries the choice everywhere else immediately.
         response = redirect("accounts:profile")
         response.set_cookie("siparis_language", user.language)
         messages.success(request, _("Your profile has been updated."))

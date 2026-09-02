@@ -22,6 +22,16 @@ class Dealer(TimeStampedModel):
     )
     notes = models.TextField(_("notes"), blank=True)
     is_active = models.BooleanField(_("active"), default=True)
+    allowed_device_models = models.ManyToManyField(
+        "catalog.DeviceModel",
+        verbose_name=_("allowed device models"),
+        blank=True,
+        related_name="dealers",
+        help_text=_(
+            "Restricts the catalogue to these device models. Leave empty to "
+            "allow every device model (no restriction)."
+        ),
+    )
 
     class Meta:
         verbose_name = _("dealer")

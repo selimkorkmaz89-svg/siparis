@@ -1,13 +1,15 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.db import transaction
+from django.db.models import ProtectedError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
 from catalog import imports
-from catalog.forms import DealerSpecialPriceForm, ImportUploadForm, ProductForm
-from catalog.models import DealerSpecialPrice, Product
+from catalog.forms import DealerSpecialPriceForm, DeviceModelForm, ImportUploadForm, ProductForm
+from catalog.models import DealerSpecialPrice, DeviceModel, Product
 from core.constants import Role
 from core.decorators import role_required
 from core.exports import excel_response
@@ -17,7 +19,7 @@ SESSION_KEY = "catalog_import_preview"
 
 
 def _product_queryset(request):
-    queryset = Product.objects.all()
+    queryset = Product.objects.select_related("device_model")
     brand = request.GET.get("brand") or ""
     if brand:
         queryset = queryset.filter(brand=brand)
@@ -89,6 +91,28 @@ def product_form(request, pk=None):
 
 
 @role_required(Role.ADMIN)
+@require_POST
+def product_delete(request, pk):
+    """Delete a product, unless it is used in an order (kept for history)."""
+    product = get_object_or_404(Product, pk=pk)
+    try:
+        with transaction.atomic():
+            product.delete()
+    except ProtectedError:
+        messages.error(
+            request,
+            _(
+                "\"%(code)s\" cannot be deleted: it appears in existing orders, "
+                "which must keep their history. Mark it inactive instead."
+            )
+            % {"code": product.code},
+        )
+        return redirect("catalog:product_list")
+    messages.success(request, _("Product deleted: %(code)s") % {"code": product.code})
+    return redirect("catalog:product_list")
+
+
+@role_required(Role.ADMIN)
 def special_price_list(request):
     queryset = DealerSpecialPrice.objects.select_related("dealer", "product")
     list_filter = ListFilter(
@@ -134,6 +158,56 @@ def special_price_delete(request, pk):
     get_object_or_404(DealerSpecialPrice, pk=pk).delete()
     messages.success(request, _("Special price deleted."))
     return redirect("catalog:special_price_list")
+
+
+@role_required(Role.ADMIN)
+def device_model_list(request):
+    """Devices used to restrict which dealers may order which products."""
+    queryset = DeviceModel.objects.all()
+    list_filter = ListFilter(
+        request,
+        search_fields=("name", "brand"),
+        ordering_map={"name": "name", "brand": "brand"},
+        default_ordering="brand",
+    )
+    queryset = list_filter.apply(queryset)
+    if request.GET.get("export") == "excel":
+        return excel_response(
+            "device-models",
+            str(_("Device models")),
+            [_("Device model"), _("Brand"), _("Active")],
+            [(d.name, d.brand, _("Yes") if d.is_active else _("No")) for d in queryset],
+        )
+    return render(
+        request,
+        "catalog/device_model_list.html",
+        {"device_models": queryset, **list_filter.as_context()},
+    )
+
+
+@role_required(Role.ADMIN)
+def device_model_form(request, pk=None):
+    instance = get_object_or_404(DeviceModel, pk=pk) if pk else None
+    form = DeviceModelForm(request.POST or None, instance=instance)
+    if request.method == "POST" and form.is_valid():
+        device_model = form.save()
+        messages.success(
+            request, _("Device model saved: %(name)s") % {"name": device_model.name}
+        )
+        return redirect("catalog:device_model_list")
+    return render(
+        request, "catalog/device_model_form.html", {"form": form, "object": instance}
+    )
+
+
+@role_required(Role.ADMIN)
+@require_POST
+def device_model_delete(request, pk):
+    device_model = get_object_or_404(DeviceModel, pk=pk)
+    name = device_model.name
+    device_model.delete()  # SET_NULL on Product, so existing products are kept
+    messages.success(request, _("Device model deleted: %(name)s") % {"name": name})
+    return redirect("catalog:device_model_list")
 
 
 @role_required(Role.ADMIN)
@@ -210,7 +284,7 @@ def product_search_api(request):
     dealer = user.dealer if user.is_dealer_user else None
     term = (request.GET.get("q") or "").strip()
     brand = (request.GET.get("brand") or "").strip()
-    queryset = Product.objects.filter(is_active=True)
+    queryset = Product.objects.filter(is_active=True).visible_to_dealer(dealer)
     if term:
         queryset = queryset.filter(code__icontains=term) | queryset.filter(
             name__icontains=term
