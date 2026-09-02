@@ -2,6 +2,7 @@
 {# One flat list per role; the definition lives in core/navigation.py. #}
 <nav class="menu" aria-label="{% translate 'Main menu' %}">
   {% for item in nav_items %}
+    {% if item.divider %}<span class="menu-divider" aria-hidden="true"></span>{% endif %}
     <a href="{{ item.url }}" class="menu-link{% if item.active %} active{% endif %}"
        {% if item.active %}aria-current="page"{% endif %}>
       {% icon item.icon 18 "menu-icon" %}

@@ -38,7 +38,7 @@
             <td>{% include "partials/dealer_badge.html" with dealer=order.dealer %}</td>
             <td>{{ order.submitted_at|date:"d.m.Y H:i" }}</td>
             <td class="num">${{ order.total_amount_usd|money }}</td>
-            <td class="num">{% if exchange_rate %}₺{% widthratio order.total_amount_usd 1 exchange_rate %}{% else %}—{% endif %}</td>
+            <td class="num">{% if exchange_rate %}₺{{ order.total_amount_usd|multiply:exchange_rate|money }}{% else %}—{% endif %}</td>
             <td>
               {% with payment=order.payments.last %}
                 {% if payment %}<span class="badge {{ payment.status|status_badge }}">₺{{ payment.amount_try|money }}</span>

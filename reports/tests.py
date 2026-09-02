@@ -121,7 +121,7 @@ class ReportingTests(TestCase):
 
     def test_dealer_only_sees_its_own_numbers(self):
         self.client.force_login(self.user_a)
-        response = self.client.get(reverse("reports:mine"))
+        response = self.client.get(reverse("reports:dashboard"))
         self.assertEqual(response.context["summary"]["total"], Decimal("240.00"))
         self.assertFalse(response.context["can_choose_dealer"])
 

@@ -155,7 +155,7 @@ def order_form_preview(request, pk):
 
 
 # -- dealer basket ---------------------------------------------------------
-@role_required(Role.DEALER)
+@role_required(Role.DEALER, allow_admin=False)
 def order_create(request):
     """Search + basket screen. The draft is the dealer user's live basket."""
     draft = services.get_or_create_draft(request.user)
@@ -195,7 +195,7 @@ def _basket_payload(order: Order) -> dict:
     }
 
 
-@role_required(Role.DEALER)
+@role_required(Role.DEALER, allow_admin=False)
 @require_POST
 def basket_add(request):
     draft = services.get_or_create_draft(request.user)
@@ -211,7 +211,7 @@ def basket_add(request):
     return JsonResponse(_basket_payload(draft))
 
 
-@role_required(Role.DEALER)
+@role_required(Role.DEALER, allow_admin=False)
 @require_POST
 def basket_update(request, item_id):
     draft = services.get_or_create_draft(request.user)
@@ -227,7 +227,7 @@ def basket_update(request, item_id):
     return JsonResponse(_basket_payload(draft))
 
 
-@role_required(Role.DEALER)
+@role_required(Role.DEALER, allow_admin=False)
 @require_POST
 def basket_remove(request, item_id):
     draft = services.get_or_create_draft(request.user)
@@ -236,7 +236,7 @@ def basket_remove(request, item_id):
     return JsonResponse(_basket_payload(draft))
 
 
-@role_required(Role.DEALER)
+@role_required(Role.DEALER, allow_admin=False)
 def order_review(request):
     """Summary/confirmation step shown before the order goes to finance."""
     draft = services.get_or_create_draft(request.user)
@@ -262,7 +262,7 @@ def order_review(request):
     )
 
 
-@role_required(Role.DEALER)
+@role_required(Role.DEALER, allow_admin=False)
 @require_POST
 def order_reorder(request, pk):
     source = _order_or_404(request, pk)
@@ -292,10 +292,10 @@ def order_cancel(request, pk):
     return redirect("orders:detail", pk=order.pk)
 
 
-@login_required
+@role_required(Role.DEALER, allow_admin=False)
 def my_drafts(request):
-    """Dealer's own drafts, kept out of the active order list."""
-    queryset = _visible_orders(request.user).filter(status=OrderStatus.DRAFT)
-    if request.user.is_dealer_user:
-        queryset = queryset.filter(created_by=request.user)
+    """The dealer user's own drafts - a private basket, not a staff screen."""
+    queryset = _visible_orders(request.user).filter(
+        status=OrderStatus.DRAFT, created_by=request.user
+    )
     return render(request, "orders/draft_list.html", {"orders": queryset})

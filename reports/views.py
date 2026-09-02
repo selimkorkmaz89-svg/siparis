@@ -1,6 +1,5 @@
 from decimal import Decimal
 
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
@@ -51,9 +50,13 @@ def _convert(value, factor) -> Decimal:
     return (Decimal(value or 0) * Decimal(str(factor))).quantize(Decimal("0.01"))
 
 
-@login_required
+@role_required(Role.FINANCE, Role.MANAGEMENT, Role.DEALER)
 def dashboard(request):
-    """Main reporting screen: dealer, product, brand and trend breakdowns."""
+    """Main reporting screen: dealer, product, brand and trend breakdowns.
+
+    One screen for everyone; the queryset is scoped by role, so a dealer sees
+    only its own figures and the menu simply labels it "My reports".
+    """
     context = _common_context(request)
     orders = services.base_orders(context["_date_from"], context["_date_to"], context["dealer"])
     factor = context["conversion_factor"]
@@ -178,9 +181,3 @@ def finance_report(request):
         }
     )
     return render(request, "reports/finance.html", context)
-
-
-@login_required
-def my_reports(request):
-    """Simplified, dealer-scoped version of the main report."""
-    return dashboard(request)

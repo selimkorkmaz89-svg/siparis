@@ -127,3 +127,14 @@ def asset(path):
     except Exception:  # pragma: no cover - never let an asset break a page
         pass
     return url
+
+
+@register.filter
+def multiply(value, factor):
+    """Multiply two decimals in a template - `widthratio` truncates to integers."""
+    try:
+        return (Decimal(str(value or 0)) * Decimal(str(factor or 0))).quantize(
+            Decimal("0.01")
+        )
+    except (InvalidOperation, ValueError, TypeError):
+        return ""

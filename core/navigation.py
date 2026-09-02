@@ -21,6 +21,9 @@ class NavItem:
     icon: str
     #: URL names that should also light this entry up (detail screens).
     also_active_for: tuple = ()
+    #: Draw a hairline above this entry. Long menus (the admin's) stay scannable
+    #: without the uppercase section headings that made the sidebar noisy.
+    divider: bool = False
 
     @property
     def url(self) -> str:
@@ -43,6 +46,15 @@ DEALER_HISTORY = NavItem(
     also_active_for=("dealers:history_detail",),
 )
 REPORTS = NavItem("reports:dashboard", _("Reports"), "reports")
+FINANCE_REPORT = NavItem("reports:finance", _("Finance and operations"), "payments")
+PENDING_PAYMENTS = NavItem(
+    "payments:pending", _("Awaiting approval"), "pending-approval",
+    also_active_for=("payments:approve", "payments:declare"),
+)
+PENDING_SHIPMENTS = NavItem(
+    "logistics:pending", _("Awaiting shipment"), "shipment",
+    also_active_for=("logistics:mark_shipped",),
+)
 
 NAV: dict[str, tuple[NavItem, ...]] = {
     Role.DEALER: (
@@ -50,28 +62,27 @@ NAV: dict[str, tuple[NavItem, ...]] = {
         NavItem("orders:create", _("Create order"), "new-order",
                 also_active_for=("orders:review",)),
         NavItem("orders:list", _("My orders"), "orders",
-                also_active_for=("orders:detail", "orders:pdf")),
+                also_active_for=("orders:detail", "orders:pdf", "orders:form_preview")),
         NavItem("orders:drafts", _("My drafts"), "drafts"),
         NavItem("payments:history", _("My payment history"), "payments"),
-        NavItem("reports:mine", _("My reports"), "reports"),
+        NavItem("reports:dashboard", _("My reports"), "reports"),
         NOTIFICATIONS,
         PROFILE,
     ),
     Role.FINANCE: (
         HOME,
-        NavItem("payments:pending", _("Awaiting approval"), "pending-approval",
-                also_active_for=("payments:approve", "payments:declare")),
+        PENDING_PAYMENTS,
         ALL_ORDERS,
         PAYMENT_HISTORY,
         DEALER_HISTORY,
         REPORTS,
+        FINANCE_REPORT,
         NOTIFICATIONS,
         PROFILE,
     ),
     Role.LOGISTICS: (
         HOME,
-        NavItem("logistics:pending", _("Awaiting shipment"), "shipment",
-                also_active_for=("logistics:mark_shipped",)),
+        PENDING_SHIPMENTS,
         ALL_ORDERS,
         PAYMENT_HISTORY,
         DEALER_HISTORY,
@@ -81,27 +92,38 @@ NAV: dict[str, tuple[NavItem, ...]] = {
     Role.MANAGEMENT: (
         HOME,
         ALL_ORDERS,
+        PAYMENT_HISTORY,
+        DEALER_HISTORY,
         REPORTS,
-        NavItem("reports:finance", _("Finance and operations"), "payments"),
+        FINANCE_REPORT,
         NOTIFICATIONS,
         PROFILE,
     ),
+    # The admin inherits every role, so its menu carries the operational queues
+    # as well as the management screens; hairlines keep the list readable.
     Role.ADMIN: (
         HOME,
+        PENDING_PAYMENTS,
+        PENDING_SHIPMENTS,
         ALL_ORDERS,
+        PAYMENT_HISTORY,
+        DEALER_HISTORY,
+        REPORTS,
+        FINANCE_REPORT,
         NavItem("catalog:product_list", _("Product management"), "products",
-                also_active_for=("catalog:product_create", "catalog:product_edit")),
+                also_active_for=("catalog:product_create", "catalog:product_edit"),
+                divider=True),
         NavItem("catalog:special_price_list", _("Dealer special prices"), "price-tag",
                 also_active_for=("catalog:special_price_create",
                                  "catalog:special_price_edit")),
-        NavItem("dealers:list", _("Dealer management"), "dealers",
-                also_active_for=("dealers:create", "dealers:edit",
-                                 "dealers:domain_list", "dealers:domain_create",
-                                 "dealers:domain_edit", "dealers:domain_delete")),
         NavItem("catalog:import_upload", _("Excel import"), "import"),
-        REPORTS,
+        NavItem("dealers:list", _("Dealer management"), "dealers",
+                also_active_for=("dealers:create", "dealers:edit")),
+        NavItem("dealers:domain_list", _("Domain mapping"), "settings",
+                also_active_for=("dealers:domain_create", "dealers:domain_edit",
+                                 "dealers:domain_delete")),
         NavItem("accounts:pending_users", _("User approvals"), "user-check",
-                also_active_for=("accounts:reject_user",)),
+                also_active_for=("accounts:reject_user",), divider=True),
         NavItem("accounts:user_list", _("User management"), "users",
                 also_active_for=("accounts:user_create", "accounts:user_edit")),
         NavItem("payments:exchange_rates", _("System settings"), "settings"),
@@ -132,6 +154,7 @@ def items_for(user, current_url_name: str = "") -> list[dict]:
             "label": item.label,
             "icon": item.icon,
             "active": item.is_active(current_url_name),
+            "divider": item.divider,
         }
         for item in NAV.get(user.role, ())
     ]

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 11:23+0300\n"
+"POT-Creation-Date: 2026-09-02 11:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -191,7 +191,7 @@ msgstr "user"
 msgid "users"
 msgstr "users"
 
-#: accounts/tests.py:134 accounts/tests.py:136 core/navigation.py:50
+#: accounts/tests.py:134 accounts/tests.py:136 core/navigation.py:62
 #: templates/core/home.html:7 templates/orders/draft_list.html:6
 #: templates/orders/order_create.html:3 templates/orders/order_create.html:4
 #: templates/orders/order_list.html:6
@@ -237,9 +237,9 @@ msgid "Role"
 msgstr "Role"
 
 #: accounts/views.py:187 catalog/views.py:107 core/constants.py:11
-#: core/navigation.py:114 dealers/views.py:132 logistics/views.py:36
+#: core/navigation.py:136 dealers/views.py:132 logistics/views.py:36
 #: orders/views.py:89 payments/views.py:44 payments/views.py:183
-#: reports/views.py:70 templates/accounts/profile.html:28
+#: reports/views.py:73 templates/accounts/profile.html:28
 #: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
 #: templates/catalog/special_price_list.html:14 templates/core/home.html:65
 #: templates/dealers/dealer_form.html:3 templates/dealers/dealer_history.html:8
@@ -512,7 +512,7 @@ msgstr "No"
 msgid "Product saved: %(code)s"
 msgstr "Product saved: %(code)s"
 
-#: catalog/views.py:106 core/navigation.py:94
+#: catalog/views.py:106 core/navigation.py:116
 #: templates/catalog/product_form.html:28
 #: templates/catalog/special_price_list.html:3
 #: templates/catalog/special_price_list.html:4
@@ -554,15 +554,15 @@ msgstr "The import was cancelled; nothing was saved."
 msgid "Admin"
 msgstr "Admin"
 
-#: core/constants.py:8 core/navigation.py:115
+#: core/constants.py:8 core/navigation.py:137
 msgid "Finance"
 msgstr "Finance"
 
-#: core/constants.py:9 core/navigation.py:116
+#: core/constants.py:9 core/navigation.py:138
 msgid "Logistics"
 msgstr "Logistics"
 
-#: core/constants.py:10 core/navigation.py:117
+#: core/constants.py:10 core/navigation.py:139
 msgid "Management"
 msgstr "Management"
 
@@ -652,100 +652,105 @@ msgstr "created at"
 msgid "updated at"
 msgstr "updated at"
 
-#: core/navigation.py:33
+#: core/navigation.py:36
 msgid "Overview"
 msgstr "Overview"
 
-#: core/navigation.py:34 templates/accounts/profile.html:3
+#: core/navigation.py:37 templates/accounts/profile.html:3
 #: templates/accounts/profile.html:4
 msgid "My profile"
 msgstr "My profile"
 
-#: core/navigation.py:35 templates/notifications/notification_list.html:3
+#: core/navigation.py:38 templates/notifications/notification_list.html:3
 #: templates/notifications/notification_list.html:4
 #: templates/partials/notification_bell.html:8
 #: templates/partials/notification_bell.html:17
 msgid "Notifications"
 msgstr "Notifications"
 
-#: core/navigation.py:37 templates/orders/order_list.html:4
+#: core/navigation.py:40 templates/orders/order_list.html:4
 msgid "All orders"
 msgstr "All orders"
 
-#: core/navigation.py:40 payments/views.py:182
+#: core/navigation.py:43 payments/views.py:182
 #: templates/payments/payment_history.html:3
 #: templates/payments/payment_history.html:4
 msgid "Payment history"
 msgstr "Payment history"
 
-#: core/navigation.py:42 dealers/views.py:90
+#: core/navigation.py:45 dealers/views.py:90
 #: templates/dealers/dealer_history.html:3
 #: templates/dealers/dealer_history.html:4
 msgid "Dealer history"
 msgstr "Dealer history"
 
-#: core/navigation.py:45
+#: core/navigation.py:48
 msgid "Reports"
 msgstr "Reports"
 
-#: core/navigation.py:52 templates/orders/order_list.html:4
-msgid "My orders"
-msgstr "My orders"
+#: core/navigation.py:49 templates/reports/finance.html:3
+msgid "Finance and operations"
+msgstr "Finance and operations"
 
-#: core/navigation.py:54 templates/core/home.html:43
-#: templates/orders/draft_list.html:3 templates/orders/draft_list.html:4
-msgid "My drafts"
-msgstr "My drafts"
-
-#: core/navigation.py:55 templates/payments/payment_history.html:4
-msgid "My payment history"
-msgstr "My payment history"
-
-#: core/navigation.py:56 templates/reports/dashboard.html:4
-msgid "My reports"
-msgstr "My reports"
-
-#: core/navigation.py:62 templates/payments/pending_approvals.html:3
+#: core/navigation.py:51 templates/payments/pending_approvals.html:3
 msgid "Awaiting approval"
 msgstr "Awaiting approval"
 
-#: core/navigation.py:73 templates/core/home.html:19
+#: core/navigation.py:55 templates/core/home.html:19
 #: templates/logistics/pending_shipments.html:3
 msgid "Awaiting shipment"
 msgstr "Awaiting shipment"
 
-#: core/navigation.py:85 templates/reports/finance.html:3
-msgid "Finance and operations"
-msgstr "Finance and operations"
+#: core/navigation.py:64 templates/orders/order_list.html:4
+msgid "My orders"
+msgstr "My orders"
 
-#: core/navigation.py:92 templates/catalog/product_list.html:4
+#: core/navigation.py:66 templates/core/home.html:43
+#: templates/orders/draft_list.html:3 templates/orders/draft_list.html:4
+msgid "My drafts"
+msgstr "My drafts"
+
+#: core/navigation.py:67 templates/payments/payment_history.html:4
+msgid "My payment history"
+msgstr "My payment history"
+
+#: core/navigation.py:68 templates/reports/dashboard.html:4
+msgid "My reports"
+msgstr "My reports"
+
+#: core/navigation.py:113 templates/catalog/product_list.html:4
 msgid "Product management"
 msgstr "Product management"
 
-#: core/navigation.py:97 templates/dealers/dealer_list.html:4
-msgid "Dealer management"
-msgstr "Dealer management"
-
-#: core/navigation.py:101 templates/catalog/import_upload.html:3
+#: core/navigation.py:119 templates/catalog/import_upload.html:3
 #: templates/catalog/import_upload.html:4 templates/catalog/product_list.html:7
 msgid "Excel import"
 msgstr "Excel import"
 
-#: core/navigation.py:103
+#: core/navigation.py:120 templates/dealers/dealer_list.html:4
+msgid "Dealer management"
+msgstr "Dealer management"
+
+#: core/navigation.py:122 templates/dealers/domain_form.html:3
+#: templates/dealers/domain_list.html:3 templates/dealers/domain_list.html:4
+msgid "Domain mapping"
+msgstr "Domain mapping"
+
+#: core/navigation.py:125
 msgid "User approvals"
 msgstr "User approvals"
 
-#: core/navigation.py:105 templates/accounts/user_list.html:3
+#: core/navigation.py:127 templates/accounts/user_list.html:3
 #: templates/accounts/user_list.html:4
 msgid "User management"
 msgstr "User management"
 
-#: core/navigation.py:107 templates/payments/exchange_rates.html:3
+#: core/navigation.py:129 templates/payments/exchange_rates.html:3
 #: templates/payments/exchange_rates.html:4
 msgid "System settings"
 msgstr "System settings"
 
-#: core/navigation.py:118
+#: core/navigation.py:140
 msgid "System administrator"
 msgstr "System administrator"
 
@@ -847,7 +852,7 @@ msgstr "domain mappings"
 msgid "Dealers"
 msgstr "Dealers"
 
-#: dealers/views.py:38 reports/views.py:70
+#: dealers/views.py:38 reports/views.py:73
 #: templates/dealers/dealer_history.html:22
 #: templates/dealers/dealer_list.html:20
 #: templates/logistics/pending_shipments.html:9
@@ -1443,69 +1448,69 @@ msgstr "Up to date"
 msgid "Using the most recent business day"
 msgstr "Using the most recent business day"
 
-#: reports/views.py:69
+#: reports/views.py:72
 msgid "Dealer report"
 msgstr "Dealer report"
 
-#: reports/views.py:70 templates/orders/order_create.html:51
+#: reports/views.py:73 templates/orders/order_create.html:51
 #: templates/reports/dashboard.html:45 templates/reports/dashboard.html:63
 #: templates/reports/dashboard.html:78
 msgid "Total"
 msgstr "Total"
 
-#: reports/views.py:70 templates/orders/order_list.html:19
+#: reports/views.py:73 templates/orders/order_list.html:19
 #: templates/reports/dashboard.html:15 templates/reports/dashboard.html:45
 msgid "Average order size"
 msgstr "Average order size"
 
-#: reports/views.py:158
+#: reports/views.py:161
 msgid "Finance report"
 msgstr "Finance report"
 
-#: reports/views.py:159
+#: reports/views.py:162
 msgid "Metric"
 msgstr "Metric"
 
-#: reports/views.py:159
+#: reports/views.py:162
 msgid "Value"
 msgstr "Value"
 
-#: reports/views.py:161 templates/payments/payment_history.html:11
+#: reports/views.py:164 templates/payments/payment_history.html:11
 #: templates/reports/finance.html:9
 msgid "Collected (TRY)"
 msgstr "Collected (TRY)"
 
-#: reports/views.py:162 templates/core/home.html:35
+#: reports/views.py:165 templates/core/home.html:35
 #: templates/payments/payment_history.html:13 templates/reports/finance.html:11
 msgid "Collected (USD)"
 msgstr "Collected (USD)"
 
-#: reports/views.py:163 templates/payments/payment_history.html:9
+#: reports/views.py:166 templates/payments/payment_history.html:9
 #: templates/reports/finance.html:13
 msgid "Approved payment count"
 msgstr "Approved payment count"
 
-#: reports/views.py:164 templates/core/home.html:31
+#: reports/views.py:167 templates/core/home.html:31
 msgid "Outstanding payments (USD)"
 msgstr "Outstanding payments (USD)"
 
-#: reports/views.py:165 templates/reports/finance.html:22
+#: reports/views.py:168 templates/reports/finance.html:22
 msgid "Orders awaiting payment"
 msgstr "Orders awaiting payment"
 
-#: reports/views.py:166
+#: reports/views.py:169
 msgid "Rejection rate (%)"
 msgstr "Rejection rate (%)"
 
-#: reports/views.py:167
+#: reports/views.py:170
 msgid "Average hours to payment"
 msgstr "Average hours to payment"
 
-#: reports/views.py:168
+#: reports/views.py:171
 msgid "Average hours to shipment"
 msgstr "Average hours to shipment"
 
-#: reports/views.py:169
+#: reports/views.py:172
 msgid "Average hours end to end"
 msgstr "Average hours end to end"
 
@@ -1956,11 +1961,6 @@ msgid ""
 "Existing users are not affected; only new sign-ups from this domain will be "
 "refused."
 msgstr "Existing users are not affected; only new sign-ups from this domain will be refused."
-
-#: templates/dealers/domain_form.html:3 templates/dealers/domain_list.html:3
-#: templates/dealers/domain_list.html:4
-msgid "Domain mapping"
-msgstr "Domain mapping"
 
 #: templates/dealers/domain_form.html:4
 msgid "Edit domain mapping"
