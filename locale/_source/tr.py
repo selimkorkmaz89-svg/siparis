@@ -761,6 +761,11 @@ TRANSLATIONS = {
     "Recorded payment": "Girilen ödeme",
     "Declared by": "Bildiren",
     "Receipt file": "Dekont dosyası",
+    "Enter the CHF list price - the USD price is calculated from it.":
+        "CHF liste fiyatını girin - USD fiyatı bundan hesaplanır.",
+    "No CHF exchange rate is available yet, so the USD price can't be calculated. Fetch or enter today's rate first.":
+        "Henüz bir CHF kuru yok, bu yüzden USD fiyatı hesaplanamıyor. Önce bugünün kurunu çekin veya girin.",
+    "This field is required.": "Bu alan zorunludur.",
     "Delete this device model?": "Bu cihaz modeli silinsin mi?",
     "Delete this product?": "Bu ürün silinsin mi?",
     "Generate a new token?": "Yeni bir token oluşturulsun mu?",

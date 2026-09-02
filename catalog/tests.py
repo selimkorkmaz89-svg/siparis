@@ -8,7 +8,9 @@ from django.utils import timezone, translation
 from openpyxl import Workbook
 
 from catalog import imports
+from catalog.forms import ProductForm
 from catalog.models import DealerSpecialPrice, DeviceModel, Product
+from payments.models import ExchangeRate
 
 
 def workbook_bytes(rows, headers=None):
@@ -336,3 +338,60 @@ class RepriceForeignCurrencyTests(TestCase):
 
         updated = reprice_foreign_currency_products("CHF", None)
         self.assertEqual(updated, 0)
+
+
+class ProductFormTests(TestCase):
+    """The manual product form prices a CHF item the same way the import
+    does - base_price_usd is derived, never typed in by hand."""
+
+    def _base_fields(self, **overrides):
+        fields = {
+            "code": "CHF-FORM", "name": "Swiss item", "brand": "", "device_model": "",
+            "product_group": "CONSUMABLE", "tests_per_pack": "0",
+            "price_currency": "CHF", "list_price": "264.00", "base_price_usd": "",
+            "vat_rate": "10.00", "description": "", "is_active": "on",
+            "mikro_stok_kodu": "",
+        }
+        fields.update(overrides)
+        return fields
+
+    def test_chf_price_is_computed_from_the_current_rate_without_a_manual_usd_entry(self):
+        ExchangeRate.objects.create(
+            rate_date=timezone.localdate(), usd_try_rate=Decimal("34.2500"),
+            chf_try_rate=Decimal("42.7500"),
+        )
+        form = ProductForm(data=self._base_fields())
+        self.assertTrue(form.is_valid(), form.errors)
+        product = form.save()
+        # cross-rate (42.7500 / 34.2500) quantized to 1.2482, times 264.00 -> 329.52
+        self.assertEqual(product.base_price_usd, Decimal("329.52"))
+
+    def test_chf_without_a_stored_rate_is_rejected_not_silently_zeroed(self):
+        form = ProductForm(data=self._base_fields())
+        self.assertFalse(form.is_valid())
+        self.assertIn("list_price", form.errors)
+
+    def test_chf_without_a_list_price_is_rejected(self):
+        ExchangeRate.objects.create(
+            rate_date=timezone.localdate(), usd_try_rate=Decimal("34.2500"),
+            chf_try_rate=Decimal("42.7500"),
+        )
+        form = ProductForm(data=self._base_fields(list_price=""))
+        self.assertFalse(form.is_valid())
+        self.assertIn("list_price", form.errors)
+
+    def test_usd_still_requires_a_manual_price(self):
+        form = ProductForm(data=self._base_fields(price_currency="USD", list_price=""))
+        self.assertFalse(form.is_valid())
+        self.assertIn("base_price_usd", form.errors)
+
+    def test_usd_product_saves_as_before(self):
+        form = ProductForm(
+            data=self._base_fields(
+                code="USD-FORM", price_currency="USD", list_price="", base_price_usd="99.00"
+            )
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        product = form.save()
+        self.assertEqual(product.base_price_usd, Decimal("99.00"))
+        self.assertIsNone(product.list_price)

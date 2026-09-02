@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 23:16+0300\n"
+"POT-Creation-Date: 2026-09-02 23:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -240,7 +240,7 @@ msgstr "Rol"
 #: core/navigation.py:140 dealers/views.py:101 dealers/views.py:147
 #: logistics/views.py:36 orders/views.py:89 payments/views.py:45
 #: payments/views.py:187 reports/views.py:73 templates/accounts/profile.html:28
-#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:33
+#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:34
 #: templates/catalog/special_price_list.html:14 templates/core/home.html:65
 #: templates/dealers/dealer_form.html:3 templates/dealers/dealer_history.html:8
 #: templates/dealers/dealer_history.html:34
@@ -281,27 +281,41 @@ msgstr "Kayıt tarihi"
 msgid "User saved: %(user)s"
 msgstr "Kullanıcı kaydedildi: %(user)s"
 
-#: catalog/forms.py:31
+#: catalog/forms.py:40
+msgid "Enter the CHF list price - the USD price is calculated from it."
+msgstr "CHF liste fiyatını girin - USD fiyatı bundan hesaplanır."
+
+#: catalog/forms.py:51
+msgid ""
+"No CHF exchange rate is available yet, so the USD price can't be calculated. "
+"Fetch or enter today's rate first."
+msgstr "Henüz bir CHF kuru yok, bu yüzden USD fiyatı hesaplanamıyor. Önce bugünün kurunu çekin veya girin."
+
+#: catalog/forms.py:62
+msgid "This field is required."
+msgstr "Bu alan zorunludur."
+
+#: catalog/forms.py:79
 msgid "Product catalogue"
 msgstr "Ürün kataloğu"
 
-#: catalog/forms.py:31
+#: catalog/forms.py:79
 msgid "Dealer cards"
 msgstr "Bayi cari kartları"
 
-#: catalog/forms.py:34
+#: catalog/forms.py:82
 msgid "Import type"
 msgstr "İçe aktarma türü"
 
-#: catalog/forms.py:39
+#: catalog/forms.py:87
 msgid "Excel file (.xlsx)"
 msgstr "Excel dosyası (.xlsx)"
 
-#: catalog/forms.py:46
+#: catalog/forms.py:94
 msgid "Please upload a file in .xlsx format."
 msgstr "Lütfen .xlsx biçiminde bir dosya yükleyin."
 
-#: catalog/forms.py:48
+#: catalog/forms.py:96
 msgid "The file may not be larger than 10 MB."
 msgstr "Dosya 10 MB'tan büyük olamaz."
 
@@ -616,13 +630,13 @@ msgid "Product deleted: %(code)s"
 msgstr "Ürün silindi: %(code)s"
 
 #: catalog/views.py:132 core/navigation.py:116
-#: templates/catalog/product_form.html:29
+#: templates/catalog/product_form.html:30
 #: templates/catalog/special_price_list.html:3
 #: templates/catalog/special_price_list.html:4
 msgid "Dealer special prices"
 msgstr "Bayi Özel Fiyatları"
 
-#: catalog/views.py:133 templates/catalog/product_form.html:33
+#: catalog/views.py:133 templates/catalog/product_form.html:34
 #: templates/catalog/special_price_list.html:18
 msgid "Special price (USD)"
 msgstr "Özel fiyat (USD)"
@@ -2105,7 +2119,7 @@ msgstr "Profil bilgileri"
 
 #: templates/accounts/profile.html:18 templates/accounts/user_form.html:21
 #: templates/catalog/device_model_form.html:20
-#: templates/catalog/product_form.html:21
+#: templates/catalog/product_form.html:22
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
 #: templates/integrations/settings.html:41
@@ -2164,7 +2178,7 @@ msgstr "<strong>%(name)s</strong> (%(email)s) kullanıcısının kayıt talebi r
 #: templates/catalog/device_model_form.html:21
 #: templates/catalog/device_model_list.html:57
 #: templates/catalog/import_preview.html:72
-#: templates/catalog/product_form.html:22
+#: templates/catalog/product_form.html:23
 #: templates/catalog/product_list.html:68
 #: templates/catalog/special_price_form.html:21
 #: templates/catalog/special_price_list.html:51
@@ -2202,7 +2216,7 @@ msgstr "Dil"
 
 #: templates/accounts/user_list.html:34
 #: templates/catalog/device_model_list.html:34
-#: templates/catalog/product_form.html:39
+#: templates/catalog/product_form.html:40
 #: templates/catalog/product_list.html:44
 #: templates/catalog/special_price_list.html:31
 #: templates/dealers/dealer_list.html:36 templates/dealers/domain_list.html:30
@@ -2403,13 +2417,13 @@ msgstr "Ürünü düzenle"
 msgid "New product"
 msgstr "Yeni ürün"
 
-#: templates/catalog/product_form.html:30
+#: templates/catalog/product_form.html:31
 #: templates/integrations/settings.html:127
 #: templates/orders/order_create.html:91
 msgid "Add"
 msgstr "Ekle"
 
-#: templates/catalog/product_form.html:42
+#: templates/catalog/product_form.html:43
 msgid "No dealer specific price is defined for this product."
 msgstr "Bu ürün için bayiye özel fiyat tanımlı değil."
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 23:16+0300\n"
+"POT-Creation-Date: 2026-09-02 23:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -240,7 +240,7 @@ msgstr "Role"
 #: core/navigation.py:140 dealers/views.py:101 dealers/views.py:147
 #: logistics/views.py:36 orders/views.py:89 payments/views.py:45
 #: payments/views.py:187 reports/views.py:73 templates/accounts/profile.html:28
-#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:33
+#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:34
 #: templates/catalog/special_price_list.html:14 templates/core/home.html:65
 #: templates/dealers/dealer_form.html:3 templates/dealers/dealer_history.html:8
 #: templates/dealers/dealer_history.html:34
@@ -281,27 +281,41 @@ msgstr "Registered at"
 msgid "User saved: %(user)s"
 msgstr "User saved: %(user)s"
 
-#: catalog/forms.py:31
+#: catalog/forms.py:40
+msgid "Enter the CHF list price - the USD price is calculated from it."
+msgstr "Enter the CHF list price - the USD price is calculated from it."
+
+#: catalog/forms.py:51
+msgid ""
+"No CHF exchange rate is available yet, so the USD price can't be calculated. "
+"Fetch or enter today's rate first."
+msgstr "No CHF exchange rate is available yet, so the USD price can't be calculated. Fetch or enter today's rate first."
+
+#: catalog/forms.py:62
+msgid "This field is required."
+msgstr "This field is required."
+
+#: catalog/forms.py:79
 msgid "Product catalogue"
 msgstr "Product catalogue"
 
-#: catalog/forms.py:31
+#: catalog/forms.py:79
 msgid "Dealer cards"
 msgstr "Dealer cards"
 
-#: catalog/forms.py:34
+#: catalog/forms.py:82
 msgid "Import type"
 msgstr "Import type"
 
-#: catalog/forms.py:39
+#: catalog/forms.py:87
 msgid "Excel file (.xlsx)"
 msgstr "Excel file (.xlsx)"
 
-#: catalog/forms.py:46
+#: catalog/forms.py:94
 msgid "Please upload a file in .xlsx format."
 msgstr "Please upload a file in .xlsx format."
 
-#: catalog/forms.py:48
+#: catalog/forms.py:96
 msgid "The file may not be larger than 10 MB."
 msgstr "The file may not be larger than 10 MB."
 
@@ -616,13 +630,13 @@ msgid "Product deleted: %(code)s"
 msgstr "Product deleted: %(code)s"
 
 #: catalog/views.py:132 core/navigation.py:116
-#: templates/catalog/product_form.html:29
+#: templates/catalog/product_form.html:30
 #: templates/catalog/special_price_list.html:3
 #: templates/catalog/special_price_list.html:4
 msgid "Dealer special prices"
 msgstr "Dealer special prices"
 
-#: catalog/views.py:133 templates/catalog/product_form.html:33
+#: catalog/views.py:133 templates/catalog/product_form.html:34
 #: templates/catalog/special_price_list.html:18
 msgid "Special price (USD)"
 msgstr "Special price (USD)"
@@ -2105,7 +2119,7 @@ msgstr "Profile information"
 
 #: templates/accounts/profile.html:18 templates/accounts/user_form.html:21
 #: templates/catalog/device_model_form.html:20
-#: templates/catalog/product_form.html:21
+#: templates/catalog/product_form.html:22
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
 #: templates/integrations/settings.html:41
@@ -2164,7 +2178,7 @@ msgstr "Reject the registration request of <strong>%(name)s</strong> (%(email)s)
 #: templates/catalog/device_model_form.html:21
 #: templates/catalog/device_model_list.html:57
 #: templates/catalog/import_preview.html:72
-#: templates/catalog/product_form.html:22
+#: templates/catalog/product_form.html:23
 #: templates/catalog/product_list.html:68
 #: templates/catalog/special_price_form.html:21
 #: templates/catalog/special_price_list.html:51
@@ -2202,7 +2216,7 @@ msgstr "Language"
 
 #: templates/accounts/user_list.html:34
 #: templates/catalog/device_model_list.html:34
-#: templates/catalog/product_form.html:39
+#: templates/catalog/product_form.html:40
 #: templates/catalog/product_list.html:44
 #: templates/catalog/special_price_list.html:31
 #: templates/dealers/dealer_list.html:36 templates/dealers/domain_list.html:30
@@ -2403,13 +2417,13 @@ msgstr "Edit product"
 msgid "New product"
 msgstr "New product"
 
-#: templates/catalog/product_form.html:30
+#: templates/catalog/product_form.html:31
 #: templates/integrations/settings.html:127
 #: templates/orders/order_create.html:91
 msgid "Add"
 msgstr "Add"
 
-#: templates/catalog/product_form.html:42
+#: templates/catalog/product_form.html:43
 msgid "No dealer specific price is defined for this product."
 msgstr "No dealer specific price is defined for this product."
 

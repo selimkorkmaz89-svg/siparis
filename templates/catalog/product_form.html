@@ -9,7 +9,8 @@
     <div class="form-row" data-provider-toggle="{{ form.price_currency.id_for_label }}">
       {% for field in form %}
         <div class="field {% if field.name == 'is_active' %}field-check{% endif %}"
-             {% if field.name == 'list_price' %}data-provider-group="CHF"{% endif %}>
+             {% if field.name == 'list_price' %}data-provider-group="CHF"{% endif %}
+             {% if field.name == 'base_price_usd' %}data-provider-group="USD"{% endif %}>
           <label for="{{ field.id_for_label }}">{{ field.label }}</label>
           {{ field }}
           {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
