@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 14:43+0300\n"
+"POT-Creation-Date: 2026-09-02 15:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -63,15 +63,15 @@ msgstr "Your account is waiting for administrator approval."
 msgid "Your registration request was rejected."
 msgstr "Your registration request was rejected."
 
-#: accounts/forms.py:57 accounts/views.py:187
+#: accounts/forms.py:57 accounts/views.py:193
 msgid "First name"
 msgstr "First name"
 
-#: accounts/forms.py:58 accounts/views.py:187
+#: accounts/forms.py:58 accounts/views.py:193
 msgid "Last name"
 msgstr "Last name"
 
-#: accounts/forms.py:60 accounts/views.py:188 catalog/imports.py:39
+#: accounts/forms.py:60 accounts/views.py:194 catalog/imports.py:39
 #: dealers/views.py:37 templates/orders/order_detail.html:83
 #: templates/orders/order_form_pdf.html:93
 msgid "Phone"
@@ -198,47 +198,47 @@ msgstr "users"
 msgid "Create order"
 msgstr "Create order"
 
-#: accounts/views.py:75
+#: accounts/views.py:79
 msgid ""
 "Your registration has been received. You can sign in once an administrator "
 "approves your account."
 msgstr "Your registration has been received. You can sign in once an administrator approves your account."
 
-#: accounts/views.py:92
+#: accounts/views.py:98
 msgid "Your profile has been updated."
 msgstr "Your profile has been updated."
 
-#: accounts/views.py:99
+#: accounts/views.py:105
 msgid "Your password has been changed."
 msgstr "Your password has been changed."
 
-#: accounts/views.py:141
+#: accounts/views.py:147
 #, python-format
 msgid "User approved: %(user)s"
 msgstr "User approved: %(user)s"
 
-#: accounts/views.py:154
+#: accounts/views.py:160
 #, python-format
 msgid "User rejected: %(user)s"
 msgstr "User rejected: %(user)s"
 
-#: accounts/views.py:185 templates/dealers/dealer_list.html:19
+#: accounts/views.py:191 templates/dealers/dealer_list.html:19
 msgid "Users"
 msgstr "Users"
 
-#: accounts/views.py:187 catalog/imports.py:40 core/constants.py:49
+#: accounts/views.py:193 catalog/imports.py:40 core/constants.py:49
 #: dealers/views.py:37
 msgid "Email"
 msgstr "Email"
 
-#: accounts/views.py:187 templates/accounts/_user_filters.html:2
+#: accounts/views.py:193 templates/accounts/_user_filters.html:2
 #: templates/accounts/profile.html:27 templates/accounts/user_list.html:16
 msgid "Role"
 msgstr "Role"
 
-#: accounts/views.py:187 catalog/views.py:131 core/constants.py:11
+#: accounts/views.py:193 catalog/views.py:131 core/constants.py:11
 #: core/navigation.py:139 dealers/views.py:132 logistics/views.py:36
-#: orders/views.py:89 payments/views.py:44 payments/views.py:183
+#: orders/views.py:89 payments/views.py:45 payments/views.py:184
 #: reports/views.py:73 templates/accounts/profile.html:28
 #: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
 #: templates/catalog/special_price_list.html:14 templates/core/home.html:65
@@ -256,8 +256,8 @@ msgstr "Role"
 msgid "Dealer"
 msgstr "Dealer"
 
-#: accounts/views.py:188 dealers/views.py:91 orders/views.py:89
-#: payments/views.py:185 templates/accounts/_user_filters.html:8
+#: accounts/views.py:194 dealers/views.py:91 orders/views.py:89
+#: payments/views.py:186 templates/accounts/_user_filters.html:8
 #: templates/accounts/profile.html:29 templates/accounts/user_list.html:18
 #: templates/core/home.html:67 templates/dealers/dealer_history.html:34
 #: templates/notifications/notification_list.html:31
@@ -269,11 +269,11 @@ msgstr "Dealer"
 msgid "Status"
 msgstr "Status"
 
-#: accounts/views.py:188 templates/accounts/pending_users.html:16
+#: accounts/views.py:194 templates/accounts/pending_users.html:16
 msgid "Registered at"
 msgstr "Registered at"
 
-#: accounts/views.py:221
+#: accounts/views.py:227
 #, python-format
 msgid "User saved: %(user)s"
 msgstr "User saved: %(user)s"
@@ -700,7 +700,7 @@ msgstr "TRY"
 msgid "created at"
 msgstr "created at"
 
-#: core/models.py:8
+#: core/models.py:8 notifications/models.py:145
 msgid "updated at"
 msgstr "updated at"
 
@@ -724,7 +724,7 @@ msgstr "Notifications"
 msgid "All orders"
 msgstr "All orders"
 
-#: core/navigation.py:43 payments/views.py:182
+#: core/navigation.py:43 payments/views.py:183
 #: templates/payments/payment_history.html:3
 #: templates/payments/payment_history.html:4
 msgid "Payment history"
@@ -940,7 +940,7 @@ msgid "Dealer saved: %(name)s"
 msgstr "Dealer saved: %(name)s"
 
 #: dealers/views.py:91 logistics/views.py:36 orders/views.py:89
-#: payments/views.py:44 payments/views.py:183 templates/core/home.html:64
+#: payments/views.py:45 payments/views.py:184 templates/core/home.html:64
 #: templates/dealers/dealer_history.html:32
 #: templates/logistics/pending_shipments.html:19
 #: templates/orders/order_detail.html:56 templates/orders/order_list.html:28
@@ -968,7 +968,7 @@ msgid "VAT total (USD)"
 msgstr "VAT total (USD)"
 
 #: dealers/views.py:92 logistics/views.py:36 orders/views.py:90
-#: payments/views.py:44 templates/core/home.html:68
+#: payments/views.py:45 templates/core/home.html:68
 #: templates/dealers/dealer_history.html:35
 #: templates/logistics/pending_shipments.html:23
 #: templates/orders/draft_list.html:18 templates/orders/order_list.html:33
@@ -1015,6 +1015,26 @@ msgstr "Paid at"
 #, python-format
 msgid "Order %(no)s has been marked as shipped."
 msgstr "Order %(no)s has been marked as shipped."
+
+#: notifications/forms.py:11 notifications/models.py:138
+msgid "SMTP password"
+msgstr "SMTP password"
+
+#: notifications/forms.py:16
+msgid "Stored on the server. Leave unchanged to keep the current password."
+msgstr "Stored on the server. Leave unchanged to keep the current password."
+
+#: notifications/forms.py:37
+msgid "TLS and SSL cannot both be enabled."
+msgstr "TLS and SSL cannot both be enabled."
+
+#: notifications/forms.py:39
+msgid "An SMTP host is required to enable email sending."
+msgstr "An SMTP host is required to enable email sending."
+
+#: notifications/forms.py:45
+msgid "Send test email to"
+msgstr "Send test email to"
 
 #: notifications/models.py:18 notifications/models.py:48
 #: notifications/models.py:84
@@ -1109,6 +1129,66 @@ msgstr "notification log"
 #: notifications/models.py:109
 msgid "notification logs"
 msgstr "notification logs"
+
+#: notifications/models.py:128
+msgid "enabled"
+msgstr "enabled"
+
+#: notifications/models.py:131
+msgid ""
+"While off, notification emails use the fallback configured on the server "
+"(the console backend in development)."
+msgstr "While off, notification emails use the fallback configured on the server (the console backend in development)."
+
+#: notifications/models.py:135
+msgid "SMTP host"
+msgstr "SMTP host"
+
+#: notifications/models.py:136
+msgid "SMTP port"
+msgstr "SMTP port"
+
+#: notifications/models.py:137
+msgid "SMTP username"
+msgstr "SMTP username"
+
+#: notifications/models.py:139
+msgid "use TLS"
+msgstr "use TLS"
+
+#: notifications/models.py:140
+msgid "use SSL"
+msgstr "use SSL"
+
+#: notifications/models.py:142
+msgid "from address"
+msgstr "from address"
+
+#: notifications/models.py:143
+msgid "Example: \"BASH Medikal\" <noreply@example.com>"
+msgstr "Example: \"BASH Medikal\" <noreply@example.com>"
+
+#: notifications/models.py:148
+msgid "updated by"
+msgstr "updated by"
+
+#: notifications/models.py:155 notifications/models.py:156
+msgid "email settings"
+msgstr "email settings"
+
+#: notifications/models.py:159
+msgid "Email settings"
+msgstr "Email settings"
+
+#: notifications/services.py:161
+#, python-format
+msgid "Test email from %(system)s"
+msgstr "Test email from %(system)s"
+
+#: notifications/services.py:163
+#, python-format
+msgid "If you received this, the SMTP settings for %(system)s are working."
+msgstr "If you received this, the SMTP settings for %(system)s are working."
 
 #: notifications/views.py:64
 msgid "All notifications have been marked as read."
@@ -1291,7 +1371,7 @@ msgstr "Add at least one product before submitting the order."
 msgid "Only orders awaiting payment approval can be approved."
 msgstr "Only orders awaiting payment approval can be approved."
 
-#: orders/services.py:126 payments/views.py:143
+#: orders/services.py:126 payments/views.py:144
 msgid "A rejection reason is required."
 msgstr "A rejection reason is required."
 
@@ -1420,103 +1500,121 @@ msgstr "payment"
 msgid "payments"
 msgstr "payments"
 
-#: payments/views.py:43 templates/payments/pending_approvals.html:4
+#: payments/views.py:44 templates/payments/pending_approvals.html:4
 msgid "Orders awaiting approval"
 msgstr "Orders awaiting approval"
 
-#: payments/views.py:44 templates/orders/order_detail.html:59
+#: payments/views.py:45 templates/orders/order_detail.html:59
 #: templates/orders/order_form_pdf.html:104
 #: templates/payments/pending_approvals.html:27
 msgid "Submitted at"
 msgstr "Submitted at"
 
-#: payments/views.py:66
+#: payments/views.py:67
 msgid "A payment can only be recorded for orders awaiting approval."
 msgstr "A payment can only be recorded for orders awaiting approval."
 
-#: payments/views.py:78
+#: payments/views.py:79
 msgid "The payment record has been saved for finance to review."
 msgstr "The payment record has been saved for finance to review."
 
-#: payments/views.py:107
+#: payments/views.py:108
 msgid "Record the payment details before approving the order."
 msgstr "Record the payment details before approving the order."
 
-#: payments/views.py:116
+#: payments/views.py:117
 #, python-format
 msgid "Payment approved. Order %(no)s is now ready for shipment."
 msgstr "Payment approved. Order %(no)s is now ready for shipment."
 
-#: payments/views.py:152
+#: payments/views.py:153
 msgid "The order was rejected and returned to the dealer."
 msgstr "The order was rejected and returned to the dealer."
 
-#: payments/views.py:183 templates/orders/order_detail.html:138
+#: payments/views.py:184 templates/orders/order_detail.html:138
 #: templates/payments/payment_approve.html:25
 #: templates/payments/payment_history.html:21
 msgid "Payment date"
 msgstr "Payment date"
 
-#: payments/views.py:183 templates/orders/order_detail.html:139
+#: payments/views.py:184 templates/orders/order_detail.html:139
 #: templates/payments/payment_approve.html:23
 #: templates/payments/payment_history.html:24
 msgid "Amount (TRY)"
 msgstr "Amount (TRY)"
 
-#: payments/views.py:184 templates/orders/order_detail.html:140
+#: payments/views.py:185 templates/orders/order_detail.html:140
 #: templates/payments/payment_history.html:25
 msgid "Exchange rate used"
 msgstr "Exchange rate used"
 
-#: payments/views.py:184 templates/orders/order_detail.html:141
+#: payments/views.py:185 templates/orders/order_detail.html:141
 #: templates/payments/payment_history.html:26
 msgid "Amount (USD)"
 msgstr "Amount (USD)"
 
-#: payments/views.py:184 templates/orders/order_detail.html:142
+#: payments/views.py:185 templates/orders/order_detail.html:142
 #: templates/payments/payment_approve.html:24
 #: templates/payments/payment_history.html:27
 msgid "Bank reference / receipt no"
 msgstr "Bank reference / receipt no"
 
-#: payments/views.py:185 templates/payments/payment_history.html:29
+#: payments/views.py:186 templates/payments/payment_history.html:29
 msgid "Approved by"
 msgstr "Approved by"
 
-#: payments/views.py:224
+#: payments/views.py:225
 msgid "The exchange rate has been saved."
 msgstr "The exchange rate has been saved."
 
-#: payments/views.py:234
+#: payments/views.py:235
 #, python-format
 msgid "The rate could not be fetched: %(error)s"
 msgstr "The rate could not be fetched: %(error)s"
 
-#: payments/views.py:242
+#: payments/views.py:243
 msgid ""
 "No rate could be fetched. Check that www.tcmb.gov.tr is reachable from the "
 "server; TCMB does not publish on weekends or holidays."
 msgstr "No rate could be fetched. Check that www.tcmb.gov.tr is reachable from the server; TCMB does not publish on weekends or holidays."
 
-#: payments/views.py:249
+#: payments/views.py:250
 #, python-format
 msgid "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s"
 msgstr "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s"
 
-#: payments/views.py:259
+#: payments/views.py:260
 #, python-format
 msgid "Already up to date. In effect: %(date)s = %(rate)s"
 msgstr "Already up to date. In effect: %(date)s = %(rate)s"
 
-#: payments/views.py:266
+#: payments/views.py:283
+msgid "Email settings saved."
+msgstr "Email settings saved."
+
+#: payments/views.py:285
+msgid "Please fix the errors below."
+msgstr "Please fix the errors below."
+
+#: payments/views.py:294
+#, python-format
+msgid "The test email could not be sent: %(error)s"
+msgstr "The test email could not be sent: %(error)s"
+
+#: payments/views.py:299
+#, python-format
+msgid "Test email sent to %(recipient)s."
+msgstr "Test email sent to %(recipient)s."
+
+#: payments/views.py:307
 msgid "No rate stored"
 msgstr "No rate stored"
 
-#: payments/views.py:268
+#: payments/views.py:309
 msgid "Up to date"
 msgstr "Up to date"
 
-#: payments/views.py:270
+#: payments/views.py:311
 msgid "Using the most recent business day"
 msgstr "Using the most recent business day"
 
@@ -1658,6 +1756,7 @@ msgstr "Profile information"
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
 #: templates/payments/exchange_rates.html:60
+#: templates/payments/exchange_rates.html:105
 #: templates/payments/payment_form.html:19
 msgid "Save"
 msgstr "Save"
@@ -2634,6 +2733,39 @@ msgstr "Source"
 #: templates/payments/exchange_rates.html:72
 msgid "No exchange rate has been recorded yet."
 msgstr "No exchange rate has been recorded yet."
+
+#: templates/payments/exchange_rates.html:82
+msgid "Email notifications"
+msgstr "Email notifications"
+
+#: templates/payments/exchange_rates.html:84
+msgid "Enabled"
+msgstr "Enabled"
+
+#: templates/payments/exchange_rates.html:84
+msgid "Disabled"
+msgstr "Disabled"
+
+#: templates/payments/exchange_rates.html:88
+msgid ""
+"Whether a given user receives these emails at all is controlled per user, "
+"from their own profile screen (Email notifications toggle). In-app "
+"notifications are always created regardless of this setting."
+msgstr "Whether a given user receives these emails at all is controlled per user, from their own profile screen (Email notifications toggle). In-app notifications are always created regardless of this setting."
+
+#: templates/payments/exchange_rates.html:109
+msgid "Send a test email"
+msgstr "Send a test email"
+
+#: templates/payments/exchange_rates.html:111
+msgid ""
+"Sends one message with the settings above (save first if you just changed "
+"them)."
+msgstr "Sends one message with the settings above (save first if you just changed them)."
+
+#: templates/payments/exchange_rates.html:121
+msgid "Send test email"
+msgstr "Send test email"
 
 #: templates/payments/payment_approve.html:4
 #, python-format

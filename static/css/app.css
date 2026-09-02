@@ -225,10 +225,10 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--brand-light
   border-bottom: 1px solid var(--line);
 }
 .field-grid { display: grid; gap: 14px 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.field-grid .field-wide { grid-column: 1 / -1; }
-.field-grid .field-check { display: flex; align-items: center; gap: 8px; }
-.field-grid .field-check label { margin: 0; order: 2; color: var(--ink); font-size: 14px; }
-.field-grid .field-check input { order: 1; width: auto; }
+.field-wide { grid-column: 1 / -1; }
+.field-check { display: flex; align-items: center; gap: 8px; }
+.field-check label { margin: 0; order: 2; color: var(--ink); font-size: 14px; }
+.field-check input { order: 1; width: auto; }
 .field-grid textarea { min-height: 84px; resize: vertical; }
 
 .entity-head { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }

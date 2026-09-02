@@ -84,6 +84,46 @@ TRANSLATIONS = {
     "device model": "cihaz modeli",
     "device models": "cihaz modelleri",
 
+    "An SMTP host is required to enable email sending.":
+        "E-posta gönderimini etkinleştirmek için bir SMTP sunucusu gereklidir.",
+    "Disabled": "Devre Dışı",
+    "Email notifications": "E-posta Bildirimleri",
+    "Email settings": "E-posta ayarları",
+    "Email settings saved.": "E-posta ayarları kaydedildi.",
+    "Enabled": "Etkin",
+    'Example: "BASH Medikal" <noreply@example.com>':
+        'Örnek: "BASH Medikal" <noreply@example.com>',
+    "If you received this, the SMTP settings for %(system)s are working.":
+        "Bu e-postayı aldıysanız, %(system)s için SMTP ayarları çalışıyor demektir.",
+    "Please fix the errors below.": "Lütfen aşağıdaki hataları düzeltin.",
+    "SMTP host": "SMTP sunucusu",
+    "SMTP password": "SMTP şifresi",
+    "SMTP port": "SMTP portu",
+    "SMTP username": "SMTP kullanıcı adı",
+    "Send a test email": "Test e-postası gönder",
+    "Send test email": "Test e-postası gönder",
+    "Send test email to": "Test e-postası gönderilecek adres",
+    "Sends one message with the settings above (save first if you just changed them).":
+        "Yukarıdaki ayarlarla bir e-posta gönderir (az önce değiştirdiyseniz önce kaydedin).",
+    "Stored on the server. Leave unchanged to keep the current password.":
+        "Sunucuda saklanır. Mevcut şifreyi korumak için değiştirmeden bırakın.",
+    "TLS and SSL cannot both be enabled.": "TLS ve SSL aynı anda etkin olamaz.",
+    "Test email from %(system)s": "%(system)s sisteminden test e-postası",
+    "Test email sent to %(recipient)s.": "Test e-postası gönderildi: %(recipient)s",
+    "The test email could not be sent: %(error)s": "Test e-postası gönderilemedi: %(error)s",
+    "Whether a given user receives these emails at all is controlled per user, from their own profile screen (Email notifications toggle). In-app notifications are always created regardless of this setting.":
+        "Bir kullanıcının bu e-postaları alıp almayacağı, kullanıcının kendi profil ekranından "
+        "(E-posta bildirimleri anahtarı) belirlenir. Sistem içi bildirimler bu ayardan bağımsız "
+        "olarak her zaman oluşturulur.",
+    "While off, notification emails use the fallback configured on the server (the console backend in development).":
+        "Kapalıyken bildirim e-postaları sunucudaki yedek ayarı kullanır (geliştirmede konsol arka ucu).",
+    "email settings": "e-posta ayarları",
+    "enabled": "etkin",
+    "from address": "gönderen adresi",
+    "updated by": "güncelleyen",
+    "use SSL": "SSL kullan",
+    "use TLS": "TLS kullan",
+
     # --- roles, statuses, enums -------------------------------------------
     "Admin": "Yönetici",
     "Finance": "Finans",

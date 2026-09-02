@@ -111,3 +111,75 @@ class NotificationLog(models.Model):
 
     def __str__(self) -> str:
         return f"{self.event_type} → {self.recipient_id} ({self.channel})"
+
+
+class EmailSettings(models.Model):
+    """SMTP configuration for outgoing notification emails.
+
+    A singleton row (always primary key 1), editable from System Settings so
+    an administrator can change it without a deployment. While disabled or
+    unconfigured, email sending falls back to Django's own EMAIL_* settings
+    (the console backend in development).
+    """
+
+    SINGLETON_ID = 1
+
+    enabled = models.BooleanField(
+        _("enabled"),
+        default=False,
+        help_text=_(
+            "While off, notification emails use the fallback configured on the "
+            "server (the console backend in development)."
+        ),
+    )
+    host = models.CharField(_("SMTP host"), max_length=255, blank=True)
+    port = models.PositiveIntegerField(_("SMTP port"), default=587)
+    username = models.CharField(_("SMTP username"), max_length=255, blank=True)
+    password = models.CharField(_("SMTP password"), max_length=255, blank=True)
+    use_tls = models.BooleanField(_("use TLS"), default=True)
+    use_ssl = models.BooleanField(_("use SSL"), default=False)
+    from_email = models.CharField(
+        _("from address"), max_length=255, blank=True,
+        help_text=_('Example: "BASH Medikal" <noreply@example.com>'),
+    )
+    updated_at = models.DateTimeField(_("updated at"), auto_now=True)
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_("updated by"),
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("email settings")
+        verbose_name_plural = _("email settings")
+
+    def __str__(self) -> str:
+        return str(_("Email settings"))
+
+    def save(self, *args, **kwargs):
+        self.pk = self.SINGLETON_ID
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls) -> "EmailSettings":
+        obj, _created = cls.objects.get_or_create(pk=cls.SINGLETON_ID)
+        return obj
+
+    def get_connection(self):
+        """A connection built from these settings, or ``None`` for the
+        project's default (settings.EMAIL_BACKEND, the console in dev)."""
+        if not self.enabled or not self.host:
+            return None
+        from django.core.mail import get_connection
+
+        return get_connection(
+            backend="django.core.mail.backends.smtp.EmailBackend",
+            host=self.host,
+            port=self.port,
+            username=self.username or None,
+            password=self.password or None,
+            use_tls=self.use_tls,
+            use_ssl=self.use_ssl,
+        )

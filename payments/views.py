@@ -1,5 +1,3 @@
-
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -12,6 +10,9 @@ from core.constants import OrderStatus, PaymentStatus, Role
 from core.decorators import role_required
 from core.exports import excel_response
 from core.filters import ListFilter
+from notifications import services as notify
+from notifications.forms import EmailSettingsForm, TestEmailForm
+from notifications.models import EmailSettings
 from orders import services as order_services
 from orders.forms import RejectionForm
 from orders.models import Order
@@ -260,6 +261,46 @@ def exchange_rates(request):
                 % {"date": rate.rate_date.strftime("%d.%m.%Y"), "rate": rate.usd_try_rate},
             )
         return redirect("payments:exchange_rates")
+
+    email_settings = EmailSettings.load()
+    # Captured before any form binds to email_settings: ModelForm._post_clean()
+    # writes cleaned values straight onto the instance during is_valid(), so
+    # reading email_settings.password afterwards would already see the blank
+    # submitted value rather than what was stored.
+    stored_password = email_settings.password
+    email_form = EmailSettingsForm(instance=email_settings)
+    test_email_form = TestEmailForm(initial={"recipient": request.user.email})
+    if request.method == "POST" and "save_email_settings" in request.POST:
+        email_form = EmailSettingsForm(request.POST, instance=email_settings)
+        if email_form.is_valid():
+            saved = email_form.save(commit=False)
+            if not email_form.cleaned_data.get("password"):
+                # Blank means "leave it alone" - the field never round-trips
+                # the stored password back into the form for display.
+                saved.password = stored_password
+            saved.updated_by = request.user
+            saved.save()
+            messages.success(request, _("Email settings saved."))
+        else:
+            messages.error(request, _("Please fix the errors below."))
+        return redirect("payments:exchange_rates")
+    if request.method == "POST" and "send_test_email" in request.POST:
+        test_email_form = TestEmailForm(request.POST)
+        if test_email_form.is_valid():
+            try:
+                notify.send_test_email(test_email_form.cleaned_data["recipient"])
+            except Exception as exc:
+                messages.error(
+                    request, _("The test email could not be sent: %(error)s") % {"error": exc}
+                )
+            else:
+                messages.success(
+                    request,
+                    _("Test email sent to %(recipient)s.")
+                    % {"recipient": test_email_form.cleaned_data["recipient"]},
+                )
+        return redirect("payments:exchange_rates")
+
     current = fx.get_rate()
     effective = fx.effective_rate_date()
     if current is None:
@@ -278,5 +319,8 @@ def exchange_rates(request):
             "effective_date": effective,
             "rate_status": status,
             "rate_is_stale": current is None or current.rate_date != effective,
+            "email_settings": email_settings,
+            "email_form": email_form,
+            "test_email_form": test_email_form,
         },
     )

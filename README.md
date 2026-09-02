@@ -18,11 +18,12 @@ data. The interface is fully available in **Turkish and English**.
 4. [Güncelleme](#güncelleme--staying-up-to-date)
 5. [Sipariş Formu](#sipariş-formu--order-form)
 6. [Kurumsal kimlik](#kurumsal-kimlik--branding)
-7. [Dil desteği](#dil-desteği--language-support)
-8. [İş kuralları](#iş-kuralları--business-rules)
-9. [VPS kurulumu](#vps-kurulumu--production-deployment)
-10. [Yedekleme](#yedekleme--backups)
-11. [Testler](#testler--tests)
+7. [E-posta ayarları](#e-posta-ayarları--email-settings)
+8. [Dil desteği](#dil-desteği--language-support)
+9. [İş kuralları](#iş-kuralları--business-rules)
+10. [VPS kurulumu](#vps-kurulumu--production-deployment)
+11. [Yedekleme](#yedekleme--backups)
+12. [Testler](#testler--tests)
 
 ---
 
@@ -165,6 +166,35 @@ COMPANY_LOGO=img/logo.png
 Sol menüde logo 34x34 piksellik kare bir alanda gösterilir, bu yüzden yazısız
 (sadece amblem) bir dosya en iyi sonucu verir; firma adı zaten yanında yazar.
 Menü altındaki "SİPARİŞ SİSTEMİ" satırı çeviriden gelir (`Order System`).
+
+## E-posta ayarları / Email settings
+
+SMTP ayarları (`.env` dosyasındaki `EMAIL_*` değişkenleri) yalnızca **başlangıç
+yedeğidir**. Asıl ayar yönetimi *Sistem Ayarları* ekranından (Admin →
+Sistem Ayarları → E-posta Bildirimleri) yapılır ve veritabanında saklanır —
+sunucuyu yeniden başlatmadan değiştirilebilir:
+
+| Alan | Açıklama |
+|---|---|
+| Etkin | Kapalıyken `.env`'deki (veya geliştirmede konsol) yedek ayar kullanılır |
+| SMTP sunucusu / portu / kullanıcı adı / şifresi | Standart SMTP kimlik bilgileri |
+| TLS / SSL | Aynı anda ikisi birden açılamaz |
+| Gönderen adresi | Örn. `"BASH Medikal" <noreply@example.com>` |
+
+Şifre alanı **hiçbir zaman tarayıcıya geri gönderilmez** — kaydedilmiş şifreyi
+korumak için alanı boş bırakmanız yeterlidir, sadece değiştirmek istediğinizde
+yeni şifreyi yazın.
+
+Ayarları kaydettikten sonra aynı ekrandaki **Test e-postası gönder** ile
+herhangi bir adrese anında bir deneme e-postası atıp yapılandırmayı
+doğrulayabilirsiniz.
+
+**Kullanıcı bazında açma/kapama** ayrı bir konudur ve zaten mevcuttu: her
+kullanıcı kendi *Profilim* ekranından e-posta bildirimlerini açıp kapatabilir
+(`E-posta bildirimlerini gönder` anahtarı). Sistem geneli SMTP anahtarı ile bu
+kullanıcı tercihi birbirinden bağımsızdır — SMTP etkin olsa bile, bildirimi
+kapatan bir kullanıcıya e-posta gitmez; sistem içi (zil) bildirim bundan
+etkilenmeden her zaman oluşur.
 
 ## Dil desteği / Language support
 

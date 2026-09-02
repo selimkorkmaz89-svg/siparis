@@ -15,9 +15,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import Context, Template
 from django.urls import reverse
 from django.utils import translation
+from django.utils.translation import gettext as _
 
 from core.constants import NotificationChannel, NotificationEvent, Role, UserStatus
-from notifications.models import Notification, NotificationLog, NotificationTemplate
+from notifications.models import EmailSettings, Notification, NotificationLog, NotificationTemplate
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -142,6 +143,33 @@ def notify(recipients, event_type: str, context: dict, order=None, url: str = ""
     return created
 
 
+def send_test_email(recipient: str) -> None:
+    """Send a one-off test message using the stored SMTP settings.
+
+    Raises whatever the underlying send raises - the caller (the System
+    Settings screen) reports the exact error to the administrator rather than
+    swallowing it, since the whole point is to verify the configuration.
+    """
+    email_settings = EmailSettings.load()
+    connection = email_settings.get_connection()
+    from_email = (
+        email_settings.from_email
+        if (connection is not None and email_settings.from_email)
+        else settings.DEFAULT_FROM_EMAIL
+    )
+    message = EmailMultiAlternatives(
+        subject=_("Test email from %(system)s") % {"system": settings.COMPANY_NAME},
+        body=_(
+            "If you received this, the SMTP settings for %(system)s are working."
+        )
+        % {"system": settings.COMPANY_NAME},
+        from_email=from_email,
+        to=[recipient],
+        connection=connection,
+    )
+    message.send(fail_silently=False)
+
+
 def _send_email(user, subject: str, body: str, event_type: str, order) -> None:
     if not user.email_notifications_enabled:
         NotificationLog.objects.create(
@@ -156,11 +184,19 @@ def _send_email(user, subject: str, body: str, event_type: str, order) -> None:
     if not user.email:
         return
     try:
+        email_settings = EmailSettings.load()
+        connection = email_settings.get_connection()
+        from_email = (
+            email_settings.from_email
+            if (connection is not None and email_settings.from_email)
+            else settings.DEFAULT_FROM_EMAIL
+        )
         message = EmailMultiAlternatives(
             subject=subject,
             body=body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
+            from_email=from_email,
             to=[user.email],
+            connection=connection,
         )
         message.attach_alternative(
             f"<div style='font-family:Arial,sans-serif;font-size:14px'>"

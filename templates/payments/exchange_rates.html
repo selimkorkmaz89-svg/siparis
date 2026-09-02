@@ -76,4 +76,54 @@
     </div>
   </div>
 </div>
+
+<div class="card mt">
+  <div class="card-head">
+    <h2>{% translate "Email notifications" %}</h2>
+    <span class="badge {% if email_settings.enabled %}badge-paid{% else %}badge-default{% endif %}">
+      {% if email_settings.enabled %}{% translate "Enabled" %}{% else %}{% translate "Disabled" %}{% endif %}
+    </span>
+  </div>
+  <p class="muted">
+    {% translate "Whether a given user receives these emails at all is controlled per user, from their own profile screen (Email notifications toggle). In-app notifications are always created regardless of this setting." %}
+  </p>
+  <div class="grid grid-2">
+    <form method="post">
+      {% csrf_token %}
+      {% if email_form.non_field_errors %}<div class="alert alert-error">{{ email_form.non_field_errors }}</div>{% endif %}
+      <div class="form-row">
+        {% for field in email_form %}
+          <div class="field
+                      {% if field.name == 'enabled' or field.name == 'use_tls' or field.name == 'use_ssl' %}field-check{% endif %}
+                      {% if field.name == 'enabled' or field.name == 'from_email' %}field-wide{% endif %}">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+            {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      <button class="btn btn-primary mt" type="submit" name="save_email_settings" value="1">
+        {% translate "Save" %}
+      </button>
+    </form>
+    <div>
+      <h3>{% translate "Send a test email" %}</h3>
+      <p class="muted">
+        {% translate "Sends one message with the settings above (save first if you just changed them)." %}
+      </p>
+      <form method="post">
+        {% csrf_token %}
+        <div class="field">
+          <label for="{{ test_email_form.recipient.id_for_label }}">{{ test_email_form.recipient.label }}</label>
+          {{ test_email_form.recipient }}
+          {% if test_email_form.recipient.errors %}<ul class="errorlist">{% for error in test_email_form.recipient.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+        <button class="btn btn-outline mt" type="submit" name="send_test_email" value="1">
+          {% translate "Send test email" %}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

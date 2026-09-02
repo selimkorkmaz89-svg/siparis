@@ -8,7 +8,8 @@ from django.utils import timezone
 from catalog.models import Product
 from core.constants import NotificationChannel, NotificationEvent, Role, UserStatus
 from dealers.models import Dealer
-from notifications.models import Notification, NotificationLog, NotificationTemplate
+from notifications import services as notify
+from notifications.models import EmailSettings, Notification, NotificationLog, NotificationTemplate
 from orders import services as order_services
 from payments.models import ExchangeRate, Payment
 
@@ -214,3 +215,109 @@ class NotificationBellMarkupTests(TestCase):
         )
         notification.refresh_from_db()
         self.assertTrue(notification.is_read)
+
+
+class EmailSettingsTests(TestCase):
+    """The SMTP settings screen: saving, the password round-trip, and the
+    per-user email toggle staying independent of the master switch."""
+
+    def setUp(self):
+        self.admin = User.objects.create_user(
+            email="smtp-admin@test.com", password="x", role=Role.ADMIN,
+            status=UserStatus.APPROVED,
+        )
+        self.client.force_login(self.admin)
+
+    def test_saving_settings_creates_the_singleton_row(self):
+        response = self.client.post("/payments/exchange-rates/", {
+            "save_email_settings": "1",
+            "enabled": "on", "host": "smtp.example.com", "port": "587",
+            "username": "no-reply@example.com", "password": "secret123",
+            "use_tls": "on", "from_email": "BASH Medikal <no-reply@example.com>",
+        })
+        self.assertEqual(response.status_code, 302)
+        settings_row = EmailSettings.load()
+        self.assertTrue(settings_row.enabled)
+        self.assertEqual(settings_row.host, "smtp.example.com")
+        self.assertEqual(settings_row.password, "secret123")
+        self.assertEqual(EmailSettings.objects.count(), 1)
+
+    def test_a_blank_password_on_save_keeps_the_stored_one(self):
+        EmailSettings.objects.create(
+            pk=EmailSettings.SINGLETON_ID, enabled=True, host="smtp.example.com",
+            password="original-secret",
+        )
+        self.client.post("/payments/exchange-rates/", {
+            "save_email_settings": "1",
+            "enabled": "on", "host": "smtp.example.com", "port": "587",
+            "username": "", "password": "",
+            "use_tls": "on", "from_email": "",
+        })
+        self.assertEqual(EmailSettings.load().password, "original-secret")
+
+    def test_the_stored_password_is_never_rendered_back_to_the_browser(self):
+        EmailSettings.objects.create(
+            pk=EmailSettings.SINGLETON_ID, host="smtp.example.com",
+            password="super-secret-value",
+        )
+        body = self.client.get("/payments/exchange-rates/").content.decode()
+        self.assertNotIn("super-secret-value", body)
+
+    def test_tls_and_ssl_cannot_both_be_on(self):
+        response = self.client.post("/payments/exchange-rates/", {
+            "save_email_settings": "1",
+            "enabled": "on", "host": "smtp.example.com", "port": "587",
+            "username": "", "password": "x",
+            "use_tls": "on", "use_ssl": "on", "from_email": "",
+        })
+        self.assertEqual(EmailSettings.load().host, "")  # nothing was saved
+
+    def test_enabling_without_a_host_is_refused(self):
+        response = self.client.post("/payments/exchange-rates/", {
+            "save_email_settings": "1",
+            "enabled": "on", "host": "", "port": "587",
+            "username": "", "password": "",
+            "use_tls": "on", "from_email": "",
+        })
+        self.assertFalse(EmailSettings.load().enabled)
+
+    def test_disabled_settings_use_the_project_fallback_connection(self):
+        EmailSettings.objects.create(pk=EmailSettings.SINGLETON_ID, enabled=False)
+        self.assertIsNone(EmailSettings.load().get_connection())
+
+    def test_enabled_settings_build_an_smtp_connection(self):
+        settings_row = EmailSettings.objects.create(
+            pk=EmailSettings.SINGLETON_ID, enabled=True, host="smtp.example.com",
+            port=587, username="u", password="p", use_tls=True,
+        )
+        connection = settings_row.get_connection()
+        self.assertIsNotNone(connection)
+        self.assertEqual(connection.host, "smtp.example.com")
+
+    def test_the_per_user_email_toggle_stays_independent_of_the_master_switch(self):
+        # The master switch only changes HOW mail is delivered, never whether
+        # a given user wants it - that stays entirely on the user's profile.
+        EmailSettings.objects.create(pk=EmailSettings.SINGLETON_ID, enabled=True)
+        dealer_user = User.objects.create_user(
+            email="off@test.com", password="x", role=Role.DEALER,
+            status=UserStatus.APPROVED, email_notifications_enabled=False,
+        )
+        from unittest import mock
+
+        with mock.patch("notifications.services._send_email") as send_email:
+            notify.notify([dealer_user], NotificationEvent.USER_APPROVED, {"user": "x"})
+        send_email.assert_called_once()
+        # _send_email itself is what checks the per-user flag and skips.
+
+    def test_send_test_email_uses_the_stored_settings(self):
+        EmailSettings.objects.create(pk=EmailSettings.SINGLETON_ID, enabled=False)
+        notify.send_test_email("someone@example.com")
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("someone@example.com", mail.outbox[0].to)
+
+    def test_the_admin_screen_offers_the_test_email_action(self):
+        response = self.client.post("/payments/exchange-rates/", {
+            "send_test_email": "1", "recipient": "check@example.com",
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
