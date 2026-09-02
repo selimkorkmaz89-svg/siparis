@@ -6,16 +6,23 @@
 {% include "reports/_report_filters.html" %}
 {% with symbol=currency|currency_symbol %}
 <div class="grid grid-4">
-  <div class="stat brand"><div class="label">{% translate "Collected (TRY)" %}</div><div class="value">₺{{ summary.collected.total_try|money }}</div></div>
-  <div class="stat"><div class="label">{% translate "Collected (USD)" %}</div><div class="value">${{ summary.collected.total_usd|money }}</div></div>
-  <div class="stat"><div class="label">{% translate "Approved payment count" %}</div><div class="value">{{ summary.collected.count }}</div></div>
-  <div class="stat"><div class="label">{% translate "Rejection rate (%)" %}</div><div class="value">{{ summary.rejection_rate }}%</div></div>
+  {% translate "Collected (TRY)" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.collected.total_try|money prefix="₺" icon="payments" tone="green" %}
+  {% translate "Collected (USD)" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.collected.total_usd|money prefix="$" icon="payments" tone="brand" %}
+  {% translate "Approved payment count" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.collected.count icon="orders" tone="slate" %}
+  {% translate "Rejection rate (%)" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.rejection_rate icon="close" tone="amber" %}
 </div>
 
 <div class="grid grid-3 mt">
-  <div class="stat"><div class="label">{% translate "Outstanding payments" %}</div><div class="value">{{ symbol }}{{ outstanding_converted|money }}</div></div>
-  <div class="stat"><div class="label">{% translate "Orders awaiting payment" %}</div><div class="value">{{ summary.outstanding.count }}</div></div>
-  <div class="stat"><div class="label">{% translate "Rejected payment count" %}</div><div class="value">{{ summary.rejected_count }}</div></div>
+  {% translate "Outstanding payments" as l %}
+  {% include "partials/kpi.html" with label=l value=outstanding_converted|money prefix=symbol icon="pending-approval" tone="amber" %}
+  {% translate "Orders awaiting payment" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.outstanding.count icon="orders" tone="sky" %}
+  {% translate "Rejected payment count" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.rejected_count icon="close" tone="slate" %}
 </div>
 
 <div class="card mt">

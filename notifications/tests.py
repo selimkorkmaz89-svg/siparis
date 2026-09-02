@@ -170,3 +170,47 @@ class NotificationDeliveryTests(TestCase):
             pass
         self.assertFalse(Notification.objects.filter(user=self.finance).exists())
         self.assertEqual(len(mail.outbox), 0)
+
+
+class NotificationBellMarkupTests(TestCase):
+    """The bell renders twice per page, so it must not rely on element ids."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            email="bell@test.com", password="x", role=Role.ADMIN,
+            status=UserStatus.APPROVED,
+        )
+        self.client.force_login(self.user)
+
+    def test_the_bell_markup_carries_no_duplicated_ids(self):
+        body = self.client.get("/").content.decode()
+        self.assertEqual(body.count("data-bell-panel"), 2)  # desktop + mobile
+        for dead_id in ('id="notificationBell"', 'id="notificationPanel"',
+                        'id="notificationBadge"'):
+            self.assertNotIn(dead_id, body)
+
+    def test_a_bell_entry_links_to_the_page_it_is_about_not_the_post_view(self):
+        Notification.objects.create(
+            user=self.user, event_type=NotificationEvent.USER_REGISTERED,
+            title="Yeni kullanıcı", body="", url="/accounts/pending/",
+        )
+        body = self.client.get("/").content.decode()
+        self.assertIn('href="/accounts/pending/"', body)
+        self.assertNotIn('href="/notifications/1/read/"', body)
+
+    def test_marking_read_is_a_post_and_the_link_target_answers_a_get(self):
+        notification = Notification.objects.create(
+            user=self.user, event_type=NotificationEvent.USER_REGISTERED,
+            title="Yeni kullanıcı", body="", url="/accounts/pending/",
+        )
+        # A GET on the mark-read view is refused; that is why the anchor must
+        # point at the target page instead.
+        self.assertEqual(
+            self.client.get(f"/notifications/{notification.pk}/read/").status_code, 405
+        )
+        self.assertEqual(self.client.get(notification.url).status_code, 200)
+        self.assertEqual(
+            self.client.post(f"/notifications/{notification.pk}/read/").status_code, 302
+        )
+        notification.refresh_from_db()
+        self.assertTrue(notification.is_read)

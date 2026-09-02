@@ -214,6 +214,18 @@ DRAFT / PENDING_PAYMENT ──cancel──► CANCELLED
 * Ödeme onaylandığı anda kullanılan kur `Payment.exchange_rate` alanına
   **donar**; raporlama ekranlarındaki USD/TL toggle ise **güncel** kur ile
   çalışır.
+* **Kuru kim çeker?** Üretimde Celery Beat (15:35, iş günleri). Celery
+  çalışmıyorsa hiçbir şey kuru çekmez — bu durumda *Sistem Ayarları* ekranındaki
+  **Kuru şimdi çek** butonunu kullanın veya sunucuda şu komutu çalıştırın:
+
+  ```bash
+  python manage.py fetch_rates          # bugün + eksik son 7 gün
+  python manage.py fetch_rates --days 30
+  python manage.py fetch_rates --date 2026-09-01
+  ```
+
+  Kur güncel değilse *Sistem Ayarları* ekranı bunu uyarı olarak gösterir.
+  Sunucunun `www.tcmb.gov.tr` adresine erişebilmesi gerekir.
 * Girilen TL tutar sipariş toplamından `PAYMENT_MISMATCH_TOLERANCE` oranından
   fazla saparsa uyarı gösterilir, ancak onay **engellenmez**.
 

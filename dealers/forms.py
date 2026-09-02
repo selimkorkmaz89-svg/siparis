@@ -20,12 +20,29 @@ class BootstrapModelForm(forms.ModelForm):
 
 
 class DealerForm(BootstrapModelForm):
+    """Dealer account card, grouped into sections by the template."""
+
     class Meta:
         model = Dealer
         fields = (
-            "name", "code", "tax_no", "tax_office", "contact_person", "phone",
-            "email", "city", "address", "notes", "is_active",
+            "name", "code", "logo", "tax_no", "tax_office",
+            "contact_person", "phone", "email", "city", "address",
+            "notes", "is_active",
         )
+
+    #: Field names per section, used by templates/dealers/dealer_form.html.
+    SECTIONS = (
+        (_("Identity"), ("name", "code", "logo")),
+        (_("Tax details"), ("tax_no", "tax_office")),
+        (_("Contact"), ("contact_person", "phone", "email")),
+        (_("Address"), ("city", "address")),
+        (_("Other"), ("notes", "is_active")),
+    )
+
+    def sections(self):
+        """Yield ``(title, bound_fields)`` so the template stays declarative."""
+        for title, names in self.SECTIONS:
+            yield title, [self[name] for name in names]
 
 
 class DomainDealerMapForm(BootstrapModelForm):

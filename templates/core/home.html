@@ -8,58 +8,48 @@
   {% endif %}
 {% endblock %}
 {% block content %}
+{% translate "Drafts and cancellations excluded" as note_orders %}
 <div class="grid grid-4">
-  <div class="stat brand">
-    <div class="label">{% translate "Total orders" %}</div>
-    <div class="value">{{ stats.total_orders }}</div>
-  </div>
-  <div class="stat">
-    <div class="label">{% translate "Awaiting payment" %}</div>
-    <div class="value">{{ stats.pending_payment }}</div>
-  </div>
-  <div class="stat">
-    <div class="label">{% translate "Awaiting shipment" %}</div>
-    <div class="value">{{ stats.paid }}</div>
-  </div>
-  <div class="stat">
-    <div class="label">{% translate "Shipped" %}</div>
-    <div class="value">{{ stats.shipped }}</div>
-  </div>
+  {% translate "Total orders" as l %}
+  {% include "partials/kpi.html" with label=l value=stats.total_orders icon="orders" tone="brand" note=note_orders url=links.orders %}
+
+  {% translate "Awaiting payment" as l %}
+  {% include "partials/kpi.html" with label=l value=stats.pending_payment icon="pending-approval" tone="amber" url=links.pending_payment %}
+
+  {% translate "Awaiting shipment" as l %}
+  {% include "partials/kpi.html" with label=l value=stats.paid icon="shipment" tone="sky" url=links.pending_shipment %}
+
+  {% translate "Shipped" as l %}
+  {% include "partials/kpi.html" with label=l value=stats.shipped icon="reports" tone="green" %}
 </div>
 
-<div class="grid grid-3 mt">
-  <div class="stat">
-    <div class="label">{% translate "Order volume (USD)" %}</div>
-    <div class="value">${{ stats.total_amount|money }}</div>
-  </div>
+<div class="grid grid-4 mt">
+  {% translate "Order volume (USD)" as l %}
+  {% include "partials/kpi.html" with label=l value=stats.total_amount|money prefix="$" icon="reports" tone="violet" %}
+
   {% if stats.pending_amount is not None %}
-    <div class="stat">
-      <div class="label">{% translate "Outstanding payments (USD)" %}</div>
-      <div class="value">${{ stats.pending_amount|money }}</div>
-    </div>
+    {% translate "Outstanding payments (USD)" as l %}
+    {% include "partials/kpi.html" with label=l value=stats.pending_amount|money prefix="$" icon="payments" tone="amber" %}
   {% endif %}
   {% if stats.collected is not None %}
-    <div class="stat">
-      <div class="label">{% translate "Collected (USD)" %}</div>
-      <div class="value">${{ stats.collected|money }}</div>
-    </div>
+    {% translate "Collected (USD)" as l %}
+    {% include "partials/kpi.html" with label=l value=stats.collected|money prefix="$" icon="payments" tone="green" %}
   {% endif %}
   {% if stats.pending_users %}
-    <div class="stat">
-      <div class="label">{% translate "Pending user approvals" %}</div>
-      <div class="value"><a href="{% url 'accounts:pending_users' %}">{{ stats.pending_users }}</a></div>
-    </div>
+    {% translate "Pending user approvals" as l %}
+    {% include "partials/kpi.html" with label=l value=stats.pending_users icon="user-check" tone="amber" url=links.pending_users %}
   {% endif %}
   {% if stats.my_drafts %}
-    <div class="stat">
-      <div class="label">{% translate "My drafts" %}</div>
-      <div class="value"><a href="{% url 'orders:drafts' %}">{{ stats.my_drafts }}</a></div>
-    </div>
+    {% translate "My drafts" as l %}
+    {% include "partials/kpi.html" with label=l value=stats.my_drafts icon="drafts" tone="slate" url=links.drafts %}
   {% endif %}
-  <div class="stat">
-    <div class="label">{% translate "USD/TRY rate in effect" %}</div>
-    <div class="value">{% if exchange_rate %}₺{{ exchange_rate|money:4 }}{% else %}—{% endif %}</div>
-  </div>
+
+  {% translate "USD/TRY rate in effect" as l %}
+  {% if exchange_rate %}
+    {% include "partials/kpi.html" with label=l value=exchange_rate|money:4 prefix="₺" icon="settings" tone="sky" note=rate_note url=links.rates %}
+  {% else %}
+    {% include "partials/kpi.html" with label=l value="—" icon="settings" tone="slate" note=rate_note url=links.rates %}
+  {% endif %}
 </div>
 
 <div class="card mt">
@@ -82,7 +72,7 @@
         {% for order in recent_orders %}
           <tr>
             <td><a href="{% url 'orders:detail' order.pk %}">{{ order.reference }}</a></td>
-            {% if user.can_see_all_dealers %}<td>{{ order.dealer.name }}</td>{% endif %}
+            {% if user.can_see_all_dealers %}<td>{% include "partials/dealer_badge.html" with dealer=order.dealer %}</td>{% endif %}
             <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
             <td><span class="badge {{ order.status|status_badge }}">{{ order.get_status_display }}</span></td>
             <td class="num">${{ order.total_amount_usd|money }}</td>

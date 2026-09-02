@@ -16,6 +16,10 @@ class Dealer(TimeStampedModel):
     phone = models.CharField(_("phone"), max_length=40, blank=True)
     email = models.EmailField(_("email"), blank=True)
     contact_person = models.CharField(_("contact person"), max_length=120, blank=True)
+    logo = models.ImageField(
+        _("dealer logo"), upload_to="dealer_logos/", blank=True, null=True,
+        help_text=_("Square images work best; shown at 40x40 pixels in lists."),
+    )
     notes = models.TextField(_("notes"), blank=True)
     is_active = models.BooleanField(_("active"), default=True)
 
@@ -26,6 +30,14 @@ class Dealer(TimeStampedModel):
 
     def __str__(self) -> str:
         return self.name
+
+    @property
+    def initials(self) -> str:
+        """Two-letter fallback shown when a dealer has no logo."""
+        parts = [word for word in self.name.split() if word]
+        if len(parts) >= 2:
+            return (parts[0][0] + parts[1][0]).upper()
+        return self.name[:2].upper()
 
 
 class DomainDealerMap(TimeStampedModel):

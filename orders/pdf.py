@@ -6,6 +6,8 @@ download.
 """
 from __future__ import annotations
 
+from pathlib import Path
+
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils import translation
@@ -34,11 +36,22 @@ def render_order_pdf(order, language: str | None = None, request=None) -> bytes:
                 },
                 "brand_color": settings.BRAND_COLOR,
                 "logo_url": _logo_path(),
+                "dealer_logo_url": _dealer_logo_path(order.dealer),
                 "exchange_rate": fx.current_rate_value(),
             },
         )
     base_url = request.build_absolute_uri("/") if request is not None else str(settings.BASE_DIR)
     return HTML(string=html, base_url=base_url).write_pdf()
+
+
+def _dealer_logo_path(dealer) -> str:
+    """Filesystem URL of the dealer's own logo, when one was uploaded."""
+    if not getattr(dealer, "logo", None):
+        return ""
+    try:
+        return Path(dealer.logo.path).as_uri()
+    except (NotImplementedError, ValueError):  # non-filesystem storage
+        return ""
 
 
 def _logo_path() -> str:

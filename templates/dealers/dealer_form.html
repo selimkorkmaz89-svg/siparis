@@ -1,22 +1,48 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n ui %}
 {% block title %}{% translate "Dealer" %} · {{ COMPANY_NAME }}{% endblock %}
 {% block page_title %}{% if object %}{% translate "Edit dealer" %}{% else %}{% translate "New dealer" %}{% endif %}{% endblock %}
 {% block content %}
-<div class="card">
-  <form method="post" novalidate>
+<div class="form-page">
+  <form method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
-    <div class="form-row">
-      {% for field in form %}
-        <div class="field">
-          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-          {{ field }}
-          {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+    {% if form.non_field_errors %}<div class="alert alert-error">{{ form.non_field_errors }}</div>{% endif %}
+
+    {% if object %}
+      <div class="card entity-head">
+        <div class="entity-logo">
+          {% if object.logo %}
+            <img src="{{ object.logo.url }}" alt="{{ object.name }}">
+          {% else %}
+            <span>{{ object.initials }}</span>
+          {% endif %}
         </div>
-      {% endfor %}
-    </div>
+        <div>
+          <h2>{{ object.name }}</h2>
+          <p class="muted">{{ object.code|default:"—" }} · {{ object.city|default:"—" }}</p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% for title, fields in form.sections %}
+      <section class="card form-section">
+        <h2>{{ title }}</h2>
+        <div class="field-grid">
+          {% for field in fields %}
+            <div class="field {% if field.name == 'address' or field.name == 'notes' %}field-wide{% endif %}
+                        {% if field.name == 'is_active' %}field-check{% endif %}">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+              {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endfor %}
+
     <div class="form-actions">
-      <button class="btn btn-primary" type="submit">{% translate "Save" %}</button>
+      <button class="btn btn-primary" type="submit">{% icon "drafts" 16 %} {% translate "Save" %}</button>
       <a class="btn btn-ghost" href="{% url 'dealers:list' %}">{% translate "Cancel" %}</a>
     </div>
   </form>

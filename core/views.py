@@ -2,7 +2,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from core.constants import OrderStatus, PaymentStatus, Role, UserStatus
 from orders.models import Order
@@ -17,14 +19,44 @@ def home(request):
     """Role aware landing page."""
     user = request.user
     orders = Order.objects.visible_to(user)
+    rate = fx.get_rate()
     context = {
-        "exchange_rate": fx.current_rate_value(),
+        "exchange_rate": rate.usd_try_rate if rate else None,
+        "rate_note": _rate_note(rate),
         "recent_orders": orders.exclude(status=OrderStatus.DRAFT)
         .select_related("dealer")[:8],
         "today": timezone.localdate(),
+        "links": _kpi_links(user),
+        "stats": _stats_for(user, orders),
     }
-    context["stats"] = _stats_for(user, orders)
     return render(request, "core/home.html", context)
+
+
+def _rate_note(rate):
+    """Caption under the rate KPI: which day it is from, or why it is missing."""
+    effective = fx.effective_rate_date()
+    if rate is None:
+        return _("No rate recorded yet - run the sync")
+    if rate.rate_date == effective:
+        return _("%(date)s · TCMB") % {"date": rate.rate_date.strftime("%d.%m.%Y")}
+    return _("%(date)s · most recent business day") % {
+        "date": rate.rate_date.strftime("%d.%m.%Y")
+    }
+
+
+def _kpi_links(user):
+    """Only link a KPI to a screen the role is allowed to open."""
+    links = {"orders": reverse("orders:list")}
+    if user.role in (Role.ADMIN, Role.FINANCE):
+        links["pending_payment"] = reverse("payments:pending")
+        links["rates"] = reverse("payments:exchange_rates") if user.is_admin else None
+    if user.role in (Role.ADMIN, Role.LOGISTICS):
+        links["pending_shipment"] = reverse("logistics:pending")
+    if user.is_admin:
+        links["pending_users"] = reverse("accounts:pending_users")
+    if user.is_dealer_user:
+        links["drafts"] = reverse("orders:drafts")
+    return links
 
 
 def _stats_for(user, orders):

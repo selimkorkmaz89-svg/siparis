@@ -54,7 +54,7 @@ def dealer_list(request):
 @role_required(Role.ADMIN)
 def dealer_form(request, pk=None):
     instance = get_object_or_404(Dealer, pk=pk) if pk else None
-    form = DealerForm(request.POST or None, instance=instance)
+    form = DealerForm(request.POST or None, request.FILES or None, instance=instance)
     if request.method == "POST" and form.is_valid():
         dealer = form.save()
         messages.success(request, _("Dealer saved: %(name)s") % {"name": dealer.name})

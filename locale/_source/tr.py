@@ -6,6 +6,38 @@ run ``python manage.py sync_translations`` after changing it.
 """
 
 TRANSLATIONS = {
+    # --- v2: KPI cards, confirmation dialog, exchange rate, dealer logo ---
+    "Identity": "Kimlik",
+    "Tax details": "Vergi bilgileri",
+    "Contact": "İletişim",
+    "Other": "Diğer",
+    "dealer logo": "bayi logosu",
+    "Square images work best; shown at 40x40 pixels in lists.":
+        "Kare görseller en iyi sonucu verir; listelerde 40x40 piksel gösterilir.",
+    "Approve & create order": "Onayla & Sipariş Oluştur",
+    "Send the order to finance?": "Sipariş finansa gönderilsin mi?",
+    "Yes, send it": "Evet, gönder",
+    "\n      %(count)s line items, %(total)s USD in total will be sent to finance for\n      payment approval and an order number will be issued. You cannot edit the\n      order afterwards unless finance rejects it.\n      ":
+        "\n      %(count)s kalem, toplam %(total)s USD tutarındaki sipariş ödeme onayı için\n      finansa gönderilecek ve sipariş numarası atanacak. Finans reddetmediği sürece\n      siparişi sonradan düzenleyemezsiniz.\n      ",
+    "Drafts and cancellations excluded": "Taslak ve iptaller hariç",
+    "The exchange rate is not up to date.": "Kur güncel değil.",
+    "\n    Nothing fetches it automatically unless Celery Beat is running. Use the\n    button below, or run <code>python manage.py fetch_rates</code> on the server.\n    ":
+        "\n    Celery Beat çalışmıyorsa kuru hiçbir şey otomatik çekmez. Aşağıdaki butonu\n    kullanın veya sunucuda <code>python manage.py fetch_rates</code> komutunu çalıştırın.\n    ",
+    "Fetch the rate now": "Kuru şimdi çek",
+    "No rate stored": "Kayıtlı kur yok",
+    "Up to date": "Güncel",
+    "Using the most recent business day": "En yakın iş gününün kuru kullanılıyor",
+    "No rate recorded yet - run the sync": "Henüz kur kaydı yok — senkronu çalıştırın",
+    "%(date)s · TCMB": "%(date)s · TCMB",
+    "%(date)s · most recent business day": "%(date)s · en yakın iş günü",
+    "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s":
+        "%(count)s yeni kur çekildi. Geçerli: %(date)s = %(rate)s",
+    "Already up to date. In effect: %(date)s = %(rate)s":
+        "Zaten güncel. Geçerli: %(date)s = %(rate)s",
+    "The rate could not be fetched: %(error)s": "Kur çekilemedi: %(error)s",
+    "No rate could be fetched. Check that www.tcmb.gov.tr is reachable from the server; TCMB does not publish on weekends or holidays.":
+        "Kur çekilemedi. Sunucunun www.tcmb.gov.tr adresine erişebildiğini kontrol edin; "
+        "TCMB hafta sonu ve resmi tatillerde kur yayınlamaz.",
     # --- roles, statuses, enums -------------------------------------------
     "Admin": "Yönetici",
     "Finance": "Finans",

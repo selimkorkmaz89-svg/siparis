@@ -1,12 +1,18 @@
 {% load i18n ui %}
-<div class="bell" id="notificationBell">
-  <button class="bell-button" type="button" aria-label="{% translate 'Notifications' %}">
+{% comment %}
+  Included twice (desktop top bar + mobile bar), so this markup carries no
+  id attributes - duplicated ids would leave getElementById bound to the
+  hidden copy and the visible bell would do nothing.
+{% endcomment %}
+<div class="bell" data-bell>
+  <button class="bell-button" type="button" aria-label="{% translate 'Notifications' %}"
+          aria-expanded="false">
     {% icon "bell" 20 "menu-icon" %}
-    <span class="badge {% if not unread_notification_count %}hidden{% endif %}" id="notificationBadge">
+    <span class="badge {% if not unread_notification_count %}hidden{% endif %}" data-bell-badge>
       {{ unread_notification_count }}
     </span>
   </button>
-  <div class="bell-panel hidden" id="notificationPanel">
+  <div class="bell-panel hidden" data-bell-panel>
     <div class="bell-panel-head">
       <strong>{% translate "Notifications" %}</strong>
       <form method="post" action="{% url 'notifications:mark_all_read' %}">
@@ -14,10 +20,14 @@
         <button class="btn-link" type="submit">{% translate "Mark all as read" %}</button>
       </form>
     </div>
-    <ul class="bell-list" id="notificationItems">
+    <ul class="bell-list">
       {% for item in recent_notifications %}
         <li class="{% if not item.is_read %}unread{% endif %}">
-          <a href="{% url 'notifications:mark_read' item.pk %}"
+          {% comment %}
+            The href is the page the notification is about, so the panel works
+            without JavaScript; the script marks it read on the way there.
+          {% endcomment %}
+          <a href="{{ item.url|default:'/notifications/' }}"
              data-notification="{{ item.pk }}" class="notification-link">
             <strong>{{ item.title }}</strong>
             <span>{{ item.body|truncatechars:110 }}</span>

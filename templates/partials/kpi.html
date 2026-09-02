@@ -1,0 +1,14 @@
+{% load ui %}
+{% comment %}
+  One KPI card. Callers pass: label, value, icon, tone (brand/amber/green/sky/
+  slate/violet), and optionally note (small caption) and url.
+{% endcomment %}
+<div class="kpi kpi-{{ tone|default:'slate' }}">
+  {% if url %}<a class="kpi-hit" href="{{ url }}" aria-label="{{ label }}"></a>{% endif %}
+  <div class="kpi-head">
+    <span class="kpi-label">{{ label }}</span>
+    <span class="kpi-icon">{% icon icon 20 %}</span>
+  </div>
+  <div class="kpi-value">{% if prefix %}<span class="kpi-prefix">{{ prefix }}</span>{% endif %}{{ value }}</div>
+  {% if note %}<div class="kpi-note">{{ note }}</div>{% endif %}
+</div>

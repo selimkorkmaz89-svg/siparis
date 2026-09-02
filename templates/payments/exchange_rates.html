@@ -3,21 +3,33 @@
 {% block title %}{% translate "System settings" %} · {{ COMPANY_NAME }}{% endblock %}
 {% block page_title %}{% translate "System settings" %}{% endblock %}
 {% block content %}
+{% if rate_is_stale %}
+  <div class="alert alert-warning">
+    <strong>{% translate "The exchange rate is not up to date." %}</strong>
+    {% blocktranslate %}
+    Nothing fetches it automatically unless Celery Beat is running. Use the
+    button below, or run <code>python manage.py fetch_rates</code> on the server.
+    {% endblocktranslate %}
+  </div>
+{% endif %}
 <div class="grid grid-3">
-  <div class="stat brand">
-    <div class="label">{% translate "USD/TRY rate in effect" %}</div>
-    <div class="value">{% if current %}₺{{ current.usd_try_rate|money:4 }}{% else %}—{% endif %}</div>
-    {% if current %}<small class="muted">{{ current.rate_date|date:"d.m.Y" }} · {{ current.rate_type }}</small>{% endif %}
-  </div>
-  <div class="stat">
-    <div class="label">{% translate "Effective rate date" %}</div>
-    <div class="value">{{ effective_date|date:"d.m.Y" }}</div>
-  </div>
-  <div class="stat">
-    <div class="label">{% translate "Manual synchronisation" %}</div>
-    <form method="post" class="mt">
+  {% translate "USD/TRY rate in effect" as l %}
+  {% if current %}
+    {% include "partials/kpi.html" with label=l value=current.usd_try_rate|money:4 prefix="₺" icon="settings" tone="brand" note=current.rate_type %}
+  {% else %}
+    {% include "partials/kpi.html" with label=l value="—" icon="settings" tone="slate" %}
+  {% endif %}
+  {% translate "Effective rate date" as l %}
+  {% include "partials/kpi.html" with label=l value=effective_date|date:"d.m.Y" icon="drafts" tone="sky" note=rate_status %}
+  <div class="kpi kpi-slate">
+    <div class="kpi-head">
+      <span class="kpi-label">{% translate "Manual synchronisation" %}</span>
+    </div>
+    <form method="post" style="margin-top:10px">
       {% csrf_token %}
-      <button class="btn btn-primary" type="submit" name="sync" value="1">{% translate "Fetch today's rate" %}</button>
+      <button class="btn btn-primary" type="submit" name="sync" value="1">
+        {% translate "Fetch the rate now" %}
+      </button>
     </form>
   </div>
 </div>

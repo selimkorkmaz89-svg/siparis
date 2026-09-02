@@ -150,10 +150,43 @@ h3 { font-size: 15px; margin: 0 0 8px; }
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .grid-4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
-.stat .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
-.stat .value { font-size: 24px; font-weight: 700; margin-top: 4px; }
-.stat.brand { border-top: 3px solid var(--brand); }
+/* ---------- KPI cards ---------- */
+.kpi {
+  position: relative; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow);
+  transition: box-shadow .15s, transform .15s;
+}
+.kpi:has(.kpi-hit:hover) { box-shadow: 0 4px 14px rgba(16, 24, 40, .10); transform: translateY(-1px); }
+.kpi-hit { position: absolute; inset: 0; border-radius: 12px; }
+.kpi-head { display: flex; align-items: flex-start; gap: 12px; }
+.kpi-label {
+  flex: 1; color: var(--slate-500); font-size: 10.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .1em; line-height: 1.5;
+}
+.kpi-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+}
+.kpi-value {
+  font-family: Manrope, Inter, sans-serif; font-size: 27px; font-weight: 800;
+  margin-top: 10px; letter-spacing: -.02em; line-height: 1.1;
+}
+.kpi-note { color: var(--slate-400); font-size: 11.5px; margin-top: 6px; }
+.kpi-prefix { font-size: 19px; font-weight: 700; opacity: .75; margin-right: 2px; }
+
+/* Tones: a tinted icon chip plus a matching figure, as in the credit system. */
+.kpi-brand  .kpi-icon { background: var(--brand-light); color: var(--brand); }
+.kpi-brand  .kpi-value { color: var(--brand-dark); }
+.kpi-amber  .kpi-icon { background: #fef3c7; color: #b45309; }
+.kpi-amber  .kpi-value { color: #b45309; }
+.kpi-green  .kpi-icon { background: #dcfce7; color: #15803d; }
+.kpi-green  .kpi-value { color: #15803d; }
+.kpi-sky    .kpi-icon { background: #e0f2fe; color: #0369a1; }
+.kpi-sky    .kpi-value { color: #0369a1; }
+.kpi-violet .kpi-icon { background: #ede9fe; color: #6d28d9; }
+.kpi-violet .kpi-value { color: #6d28d9; }
+.kpi-slate  .kpi-icon { background: var(--slate-100); color: var(--slate-600); }
+.kpi-slate  .kpi-value { color: var(--ink); }
 
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
@@ -177,6 +210,48 @@ input, select, textarea, .form-control, .form-select {
 input:focus, select:focus, textarea:focus { outline: 2px solid var(--brand-light); border-color: var(--brand); }
 .form-check-input { width: auto; }
 .form-row { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+
+/* ---------- form pages ---------- */
+/* Forms read badly when a handful of fields stretch across a wide monitor, so
+   they sit in a fixed column and group into titled sections. */
+.form-page { max-width: 860px; }
+.form-section { padding: 18px 20px; }
+.form-section h2 {
+  font-size: 12px; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--slate-500); margin-bottom: 14px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.field-grid { display: grid; gap: 14px 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.field-grid .field-wide { grid-column: 1 / -1; }
+.field-grid .field-check { display: flex; align-items: center; gap: 8px; }
+.field-grid .field-check label { margin: 0; order: 2; color: var(--ink); font-size: 14px; }
+.field-grid .field-check input { order: 1; width: auto; }
+.field-grid textarea { min-height: 84px; resize: vertical; }
+
+.entity-head { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
+.entity-head h2 { margin: 0 0 2px; font-size: 17px; }
+.entity-head p { margin: 0; font-size: 13px; }
+.entity-logo {
+  width: 56px; height: 56px; border-radius: 12px; flex-shrink: 0; overflow: hidden;
+  background: var(--brand-light); color: var(--brand-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 18px; border: 1px solid var(--line);
+}
+.entity-logo img { width: 100%; height: 100%; object-fit: contain; }
+
+/* Small dealer badge used in list rows. */
+.dealer-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.dealer-logo {
+  width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0; overflow: hidden;
+  background: var(--slate-100); color: var(--slate-600);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; border: 1px solid var(--line);
+}
+.dealer-logo img { width: 100%; height: 100%; object-fit: contain; }
+
+@media (max-width: 640px) {
+  .field-grid { grid-template-columns: 1fr; }
+}
 .form-actions { display: flex; gap: 10px; margin-top: 18px; }
 .helptext, .form-help { font-size: 12px; color: var(--muted); display: block; margin-top: 4px; }
 .errorlist { color: var(--danger); font-size: 12.5px; margin: 4px 0 0; padding-left: 16px; }
@@ -219,6 +294,19 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--brand-light
 .alert-info { background: var(--brand-light); border-color: #bae6fd; color: #075985; }
 .alert-warning { background: #fef3c7; border-color: #fcd34d; color: #78350f; }
 .alert-error, .alert-danger { background: #fee2e2; border-color: #fca5a5; color: #7f1d1d; }
+/* ---------- modal ---------- */
+.modal {
+  position: fixed; inset: 0; z-index: 80; display: flex; align-items: center;
+  justify-content: center; padding: 20px; background: rgba(15, 23, 42, .55);
+}
+.modal-card {
+  background: var(--surface); border-radius: 14px; padding: 24px; max-width: 460px;
+  width: 100%; box-shadow: 0 20px 50px rgba(16, 24, 40, .25);
+}
+.modal-card h2 { font-size: 17px; margin-bottom: 10px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.btn-lg { padding: 11px 20px; font-size: 14.5px; font-weight: 600; }
+
 .hidden { display: none !important; }
 .muted { color: var(--muted); }
 .text-right { text-align: right; }
@@ -268,12 +356,27 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--brand-light
 }
 .timeline .note { color: var(--muted); font-size: 13px; margin-top: 3px; }
 .chart-box { position: relative; height: 300px; }
-.progress-steps { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-.progress-steps span {
-  padding: 6px 12px; border-radius: 999px; background: #eef2f6; color: var(--muted); font-size: 12.5px;
+/* Order stages: one colour per stage so the step reached is obvious. */
+.progress-steps {
+  display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 18px; padding: 0; list-style: none;
 }
-.progress-steps span.done { background: var(--brand); color: #fff; }
-.progress-steps span.current { background: var(--brand-dark); color: #fff; }
+.progress-steps .step {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 600;
+  background: var(--slate-100); color: var(--slate-400);
+  border: 1px solid transparent;
+}
+/* A stage already passed keeps its colour, softly. */
+.progress-steps .step.done.draft    { background: #eef2f6; color: var(--slate-600); }
+.progress-steps .step.done.pending  { background: #fef3c7; color: #92400e; }
+.progress-steps .step.done.paid     { background: #dcfce7; color: #166534; }
+/* The stage the order sits at now is filled and outlined. */
+.progress-steps .step.current { color: #fff; box-shadow: var(--shadow); }
+.progress-steps .step.current.draft     { background: var(--slate-600); }
+.progress-steps .step.current.pending   { background: #d97706; }
+.progress-steps .step.current.paid      { background: #16a34a; }
+.progress-steps .step.current.shipped   { background: var(--brand); }
+.progress-steps .step.current.cancelled { background: var(--danger); }
 
 /* ---------- auth ---------- */
 .auth-shell {

@@ -18,7 +18,6 @@ from orders.models import Order
 from payments import services as fx
 from payments.forms import ExchangeRateForm, PaymentApprovalForm, PaymentDeclarationForm
 from payments.models import ExchangeRate, Payment
-from payments.tasks import fetch_daily_exchange_rate
 
 
 @role_required(Role.FINANCE)
@@ -225,22 +224,50 @@ def exchange_rates(request):
         messages.success(request, _("The exchange rate has been saved."))
         return redirect("payments:exchange_rates")
     if request.method == "POST" and "sync" in request.POST:
+        # Fill in every missing recent day, not just today: before 15:30, or on
+        # a weekend, today has no publication and only the backfill helps.
         try:
-            result = fetch_daily_exchange_rate.apply().get()
-        except Exception:  # Celery broker unavailable: run inline instead
-            rate = fx.fetch_tcmb_rate()
-            result = str(rate.usd_try_rate) if rate else None
-        if result:
-            messages.success(
-                request, _("Today's rate has been fetched: %(rate)s") % {"rate": result}
+            stored = fx.backfill_rates(days=7)
+        except Exception as exc:  # network problems must not break the screen
+            messages.error(
+                request,
+                _("The rate could not be fetched: %(error)s") % {"error": exc},
             )
-        else:
+            return redirect("payments:exchange_rates")
+        rate = fx.get_rate()
+        if rate is None:
             messages.warning(
                 request,
-                _("No rate could be fetched. TCMB does not publish on weekends and holidays."),
+                _(
+                    "No rate could be fetched. Check that www.tcmb.gov.tr is reachable "
+                    "from the server; TCMB does not publish on weekends or holidays."
+                ),
+            )
+        elif stored:
+            messages.success(
+                request,
+                _("%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s")
+                % {
+                    "count": stored,
+                    "date": rate.rate_date.strftime("%d.%m.%Y"),
+                    "rate": rate.usd_try_rate,
+                },
+            )
+        else:
+            messages.info(
+                request,
+                _("Already up to date. In effect: %(date)s = %(rate)s")
+                % {"date": rate.rate_date.strftime("%d.%m.%Y"), "rate": rate.usd_try_rate},
             )
         return redirect("payments:exchange_rates")
     current = fx.get_rate()
+    effective = fx.effective_rate_date()
+    if current is None:
+        status = _("No rate stored")
+    elif current.rate_date == effective:
+        status = _("Up to date")
+    else:
+        status = _("Using the most recent business day")
     return render(
         request,
         "payments/exchange_rates.html",
@@ -248,6 +275,8 @@ def exchange_rates(request):
             "rates": rates,
             "form": form,
             "current": current,
-            "effective_date": fx.effective_rate_date(),
+            "effective_date": effective,
+            "rate_status": status,
+            "rate_is_stale": current is None or current.rate_date != effective,
         },
     )

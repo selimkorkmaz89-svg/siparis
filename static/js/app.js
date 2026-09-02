@@ -43,28 +43,33 @@
     if (event.key === "Escape") setDrawer(false);
   });
 
-  /* ---- notification bell ---- */
-  const bell = document.getElementById("notificationBell");
-  if (bell) {
-    const panel = document.getElementById("notificationPanel");
-    bell.querySelector(".bell-button").addEventListener("click", function (event) {
+  /* ---- notification bell (rendered once per breakpoint) ---- */
+  document.querySelectorAll("[data-bell]").forEach(function (bell) {
+    const panel = bell.querySelector("[data-bell-panel]");
+    const button = bell.querySelector(".bell-button");
+    button.addEventListener("click", function (event) {
       event.stopPropagation();
-      panel.classList.toggle("hidden");
+      const open = panel.classList.toggle("hidden") === false;
+      button.setAttribute("aria-expanded", String(open));
     });
     document.addEventListener("click", function (event) {
-      if (!bell.contains(event.target)) panel.classList.add("hidden");
+      if (!bell.contains(event.target)) {
+        panel.classList.add("hidden");
+        button.setAttribute("aria-expanded", "false");
+      }
     });
-    bell.querySelectorAll(".notification-link").forEach(function (link) {
-      link.addEventListener("click", function (event) {
-        event.preventDefault();
-        const id = link.dataset.notification;
-        const target = link.getAttribute("data-url") || "";
-        post("/notifications/" + id + "/read/", new FormData()).finally(function () {
-          window.location.href = target || link.getAttribute("href");
-        });
-      });
+  });
+
+  /* ---- follow a notification, marking it read on the way ---- */
+  document.querySelectorAll(".notification-link").forEach(function (link) {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+      const target = link.getAttribute("href");
+      post("/notifications/" + link.dataset.notification + "/read/", new FormData())
+        .catch(function () { /* marking it read is best effort */ })
+        .finally(function () { window.location.href = target; });
     });
-  }
+  });
 
   /* ---- live search on list screens (no page reload while typing) ---- */
   document.querySelectorAll("form[data-live-search]").forEach(function (form) {
@@ -82,6 +87,46 @@
         });
       }, 150);
     });
+  });
+
+  /* ---- second confirmation dialog before an irreversible submit ---- */
+  document.querySelectorAll("[data-confirm-dialog]").forEach(function (trigger) {
+    const dialog = document.getElementById(trigger.getAttribute("data-confirm-dialog"));
+    if (!dialog) return;
+    const form = trigger.closest("form");
+    let confirmed = false;
+
+    function close() {
+      dialog.classList.add("hidden");
+      document.body.style.overflow = "";
+      trigger.focus();
+    }
+    trigger.addEventListener("click", function (event) {
+      if (confirmed) return;               // second pass: let the submit through
+      event.preventDefault();
+      dialog.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      const accept = dialog.querySelector("[data-modal-confirm]");
+      if (accept) accept.focus();
+    });
+    dialog.querySelectorAll("[data-modal-cancel]").forEach(function (button) {
+      button.addEventListener("click", close);
+    });
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) close();
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !dialog.classList.contains("hidden")) close();
+    });
+    const accept = dialog.querySelector("[data-modal-confirm]");
+    if (accept) {
+      accept.addEventListener("click", function () {
+        confirmed = true;
+        accept.disabled = true;            // no double submit
+        if (form) form.submit();
+        else trigger.click();
+      });
+    }
   });
 
   /* ---- confirm destructive actions ---- */

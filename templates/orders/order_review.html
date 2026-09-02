@@ -38,16 +38,42 @@
       </tfoot>
     </table>
   </div>
-  <form method="post" class="mt">
+  <form method="post" class="mt" id="submitOrderForm">
     {% csrf_token %}
     <div class="field">
       <label for="note">{% translate "Order note (optional)" %}</label>
       <textarea id="note" name="note" rows="2">{{ order.note }}</textarea>
     </div>
     <div class="form-actions">
-      <button class="btn btn-primary" type="submit">{% translate "Confirm and send to finance" %}</button>
+      <button class="btn btn-primary btn-lg" type="submit" data-confirm-dialog="confirmOrderDialog">
+        {% icon "new-order" 16 %} {% translate "Approve & create order" %}
+      </button>
       <a class="btn btn-ghost" href="{% url 'orders:create' %}">{% translate "Back to basket" %}</a>
     </div>
   </form>
+</div>
+
+{% comment %}
+  Second confirmation: submitting sends the order to finance and issues an
+  order number, so an accidental click must not be enough.
+{% endcomment %}
+<div class="modal hidden" id="confirmOrderDialog" role="dialog" aria-modal="true"
+     aria-labelledby="confirmOrderTitle">
+  <div class="modal-card">
+    <h2 id="confirmOrderTitle">{% translate "Send the order to finance?" %}</h2>
+    <p class="muted">
+      {% blocktranslate with count=items|length total=order.total_amount_usd|money %}
+      {{ count }} line items, {{ total }} USD in total will be sent to finance for
+      payment approval and an order number will be issued. You cannot edit the
+      order afterwards unless finance rejects it.
+      {% endblocktranslate %}
+    </p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" data-modal-cancel>{% translate "Cancel" %}</button>
+      <button class="btn btn-primary" type="button" data-modal-confirm>
+        {% translate "Yes, send it" %}
+      </button>
+    </div>
+  </div>
 </div>
 {% endblock %}

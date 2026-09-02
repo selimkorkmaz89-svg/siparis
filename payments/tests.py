@@ -1,6 +1,10 @@
 import datetime as dt
 from decimal import Decimal
+from io import StringIO
+from unittest import mock
 
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import TestCase
 from django.utils import timezone
 
@@ -55,3 +59,40 @@ class ExchangeRateRuleTests(TestCase):
 
     def test_tcmb_xml_parsing_prefers_the_effective_selling_rate(self):
         self.assertEqual(services._parse_tcmb_xml(TCMB_XML), Decimal("34.2500"))
+
+
+class FetchRatesCommandTests(TestCase):
+    """The command exists so a deployment without Celery can still get a rate."""
+
+    def test_it_reports_the_rate_in_effect(self):
+        ExchangeRate.objects.create(
+            rate_date=timezone.localdate() - dt.timedelta(days=1),
+            usd_try_rate=Decimal("35.0000"),
+        )
+        out = StringIO()
+        with mock.patch("payments.services.fetch_tcmb_rate", return_value=None):
+            call_command("fetch_rates", stdout=out)
+        self.assertIn("35.0000", out.getvalue())
+
+    def test_it_fails_loudly_when_nothing_can_be_fetched(self):
+        with mock.patch("payments.services.fetch_tcmb_rate", return_value=None):
+            with self.assertRaises(CommandError):
+                call_command("fetch_rates", stdout=StringIO())
+
+    def test_a_single_date_can_be_requested(self):
+        target = dt.date(2026, 9, 1)
+
+        def fake_fetch(date=None):
+            return ExchangeRate.objects.create(
+                rate_date=date, usd_try_rate=Decimal("34.5000")
+            )
+
+        out = StringIO()
+        with mock.patch("payments.services.fetch_tcmb_rate", side_effect=fake_fetch):
+            call_command("fetch_rates", date="2026-09-01", stdout=out)
+        self.assertIn("34.5000", out.getvalue())
+        self.assertTrue(ExchangeRate.objects.filter(rate_date=target).exists())
+
+    def test_an_invalid_date_is_rejected(self):
+        with self.assertRaises(CommandError):
+            call_command("fetch_rates", date="not-a-date", stdout=StringIO())

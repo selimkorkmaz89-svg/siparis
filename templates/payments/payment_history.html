@@ -6,9 +6,12 @@
 {% translate "Reference, order number or dealer" as ph %}
 {% include "partials/filters.html" with search_placeholder=ph export=1 extra_filters_template="payments/_payment_filters.html" %}
 <div class="grid grid-3">
-  <div class="stat"><div class="label">{% translate "Approved payment count" %}</div><div class="value">{{ totals.count }}</div></div>
-  <div class="stat brand"><div class="label">{% translate "Collected (TRY)" %}</div><div class="value">₺{{ totals.total_try|money }}</div></div>
-  <div class="stat"><div class="label">{% translate "Collected (USD)" %}</div><div class="value">${{ totals.total_usd|money }}</div></div>
+  {% translate "Approved payment count" as l %}
+  {% include "partials/kpi.html" with label=l value=totals.count icon="payments" tone="green" %}
+  {% translate "Collected (TRY)" as l %}
+  {% include "partials/kpi.html" with label=l value=totals.total_try|money prefix="₺" icon="reports" tone="brand" %}
+  {% translate "Collected (USD)" as l %}
+  {% include "partials/kpi.html" with label=l value=totals.total_usd|money prefix="$" icon="reports" tone="violet" %}
 </div>
 <div class="card mt">
   <div class="table-wrap">
@@ -31,7 +34,7 @@
           <tr>
             <td>{{ payment.payment_date|date:"d.m.Y" }}</td>
             <td><a href="{% url 'orders:detail' payment.order.pk %}">{{ payment.order.reference }}</a></td>
-            {% if user.can_see_all_dealers %}<td>{{ payment.order.dealer.name }}</td>{% endif %}
+            {% if user.can_see_all_dealers %}<td>{% include "partials/dealer_badge.html" with dealer=payment.order.dealer %}</td>{% endif %}
             <td class="num">₺{{ payment.amount_try|money }}</td>
             <td class="num">{{ payment.exchange_rate|money:4 }}</td>
             <td class="num">${{ payment.amount_usd|money }}</td>

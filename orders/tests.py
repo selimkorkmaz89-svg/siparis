@@ -3,7 +3,8 @@ from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from django.utils import timezone
+from django.urls import reverse
+from django.utils import timezone, translation
 
 from catalog.models import DealerSpecialPrice, Product
 from core.constants import OrderStatus, PaymentStatus, Role, ShipmentStatus, UserStatus
@@ -175,3 +176,57 @@ class OrderWorkflowTests(TestCase):
         self.assertEqual(copy.status, OrderStatus.DRAFT)
         self.assertEqual(copy.items.first().quantity, 4)
         self.assertIsNone(copy.order_no)
+
+
+class OrderScreenTests(TestCase):
+    """Order detail and the confirmation step before submitting."""
+
+    def setUp(self):
+        self.dealer = Dealer.objects.create(name="Ekran Bayi")
+        self.user = User.objects.create_user(
+            email="ekran@test.com", password="x", role=Role.DEALER,
+            dealer=self.dealer, status=UserStatus.APPROVED,
+        )
+        self.product = Product.objects.create(
+            code="PRD-9", name="Kit", base_price_usd=Decimal("100.00"),
+            vat_rate=Decimal("20.00"),
+        )
+        self.client.force_login(self.user)
+
+    def _draft(self):
+        draft = services.get_or_create_draft(self.user)
+        services.add_item(draft, self.product, 2)
+        return draft
+
+    def test_review_screen_names_the_button_and_arms_a_confirmation(self):
+        self._draft()
+        body = self.client.get(reverse("orders:review")).content.decode()
+        self.assertIn('data-confirm-dialog="confirmOrderDialog"', body)
+        self.assertIn('id="confirmOrderDialog"', body)
+        with translation.override("tr"):
+            body = self.client.get(reverse("orders:review")).content.decode()
+        self.assertIn("Onayla &amp; Sipariş Oluştur", body.replace("&", "&amp;"))
+
+    def test_each_stage_carries_its_own_class(self):
+        order = self._draft()
+        services.submit_order(order, self.user)
+        body = self.client.get(reverse("orders:detail", args=[order.pk])).content.decode()
+        # The stage the order sits at is current; the one before it is done.
+        self.assertIn('class="step draft done"', body.replace("\n", " "))
+        self.assertRegex(body, r'class="step pending\s+current')
+        # Four differently classed stages, not one repeated colour.
+        for stage in ("draft", "pending", "paid", "shipped"):
+            self.assertIn(f"step {stage}", body)
+
+    def test_a_cancelled_order_shows_only_the_cancelled_stage(self):
+        order = self._draft()
+        services.cancel_order(order, self.user, note="vazgeçildi")
+        body = self.client.get(reverse("orders:detail", args=[order.pk])).content.decode()
+        self.assertIn("step cancelled current", body)
+        self.assertNotIn("step pending", body)
+
+    def test_the_dealer_badge_falls_back_to_initials(self):
+        order = self._draft()
+        services.submit_order(order, self.user)
+        body = self.client.get(reverse("orders:detail", args=[order.pk])).content.decode()
+        self.assertIn("EB", body)  # "Ekran Bayi"

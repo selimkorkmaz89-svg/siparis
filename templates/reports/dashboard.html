@@ -6,10 +6,14 @@
 {% include "reports/_report_filters.html" %}
 {% with symbol=currency|currency_symbol %}
 <div class="grid grid-4">
-  <div class="stat brand"><div class="label">{% translate "Order count" %}</div><div class="value">{{ summary.count }}</div></div>
-  <div class="stat"><div class="label">{% translate "Total turnover" %}</div><div class="value">{{ symbol }}{{ summary.total|money }}</div></div>
-  <div class="stat"><div class="label">{% translate "VAT total" %}</div><div class="value">{{ symbol }}{{ summary.vat|money }}</div></div>
-  <div class="stat"><div class="label">{% translate "Average order size" %}</div><div class="value">{{ symbol }}{{ summary.average|money }}</div></div>
+  {% translate "Order count" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.count icon="orders" tone="brand" %}
+  {% translate "Total turnover" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.total|money prefix=symbol icon="reports" tone="violet" %}
+  {% translate "VAT total" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.vat|money prefix=symbol icon="payments" tone="slate" %}
+  {% translate "Average order size" as l %}
+  {% include "partials/kpi.html" with label=l value=summary.average|money prefix=symbol icon="reports" tone="sky" %}
 </div>
 
 <div class="grid grid-2 mt">

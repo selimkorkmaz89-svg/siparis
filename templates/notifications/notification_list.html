@@ -35,9 +35,13 @@
             <tr class="{% if not item.is_read %}unread{% endif %}">
               <td><input type="checkbox" name="ids" value="{{ item.pk }}"></td>
               <td>
-                <strong>{{ item.title }}</strong>
+                {% if item.url %}
+                  <a href="{{ item.url }}" class="notification-link"
+                     data-notification="{{ item.pk }}"><strong>{{ item.title }}</strong></a>
+                {% else %}
+                  <strong>{{ item.title }}</strong>
+                {% endif %}
                 <div class="muted">{{ item.body }}</div>
-                {% if item.url %}<a href="{{ item.url }}">{% translate "Open" %}</a>{% endif %}
               </td>
               <td>{{ item.created_at|date:"d.m.Y H:i" }}</td>
               <td>{% if item.is_read %}<span class="badge badge-default">{% translate "Read" %}</span>{% else %}<span class="badge badge-pending">{% translate "Unread" %}</span>{% endif %}</td>

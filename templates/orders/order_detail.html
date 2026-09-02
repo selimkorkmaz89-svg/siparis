@@ -18,13 +18,34 @@
   {% endif %}
 {% endblock %}
 {% block content %}
-<div class="progress-steps">
-  <span class="{% if order.status != 'CANCELLED' %}done{% endif %}{% if order.status == 'DRAFT' %} current{% endif %}">{% translate "Draft" %}</span>
-  <span class="{% if order.status == 'PENDING_PAYMENT' or order.status == 'PAID' or order.status == 'SHIPPED' %}done{% endif %}{% if order.status == 'PENDING_PAYMENT' %} current{% endif %}">{% translate "Awaiting payment approval" %}</span>
-  <span class="{% if order.status == 'PAID' or order.status == 'SHIPPED' %}done{% endif %}{% if order.status == 'PAID' %} current{% endif %}">{% translate "Paid" %}</span>
-  <span class="{% if order.status == 'SHIPPED' %}done current{% endif %}">{% translate "Shipped" %}</span>
-  {% if order.status == 'CANCELLED' %}<span class="current">{% translate "Cancelled" %}</span>{% endif %}
-</div>
+{% if order.status == 'CANCELLED' %}
+  <div class="progress-steps">
+    <span class="step cancelled current">{% icon "close" 16 %} {% translate "Cancelled" %}</span>
+  </div>
+{% else %}
+  {% comment %}
+    Each stage carries its own colour: grey draft, amber waiting, green paid,
+    brand blue shipped. Stages already passed stay filled, the rest are muted.
+  {% endcomment %}
+  <ol class="progress-steps">
+    <li class="step draft {% if order.status == 'DRAFT' %}current{% else %}done{% endif %}">
+      {% icon "drafts" 16 %} {% translate "Draft" %}
+    </li>
+    <li class="step pending
+        {% if order.status == 'PENDING_PAYMENT' %}current
+        {% elif order.status == 'PAID' or order.status == 'SHIPPED' %}done{% endif %}">
+      {% icon "pending-approval" 16 %} {% translate "Awaiting payment approval" %}
+    </li>
+    <li class="step paid
+        {% if order.status == 'PAID' %}current
+        {% elif order.status == 'SHIPPED' %}done{% endif %}">
+      {% icon "payments" 16 %} {% translate "Paid" %}
+    </li>
+    <li class="step shipped {% if order.status == 'SHIPPED' %}current{% endif %}">
+      {% icon "shipment" 16 %} {% translate "Shipped" %}
+    </li>
+  </ol>
+{% endif %}
 
 <div class="grid grid-2">
   <div class="card">
@@ -44,8 +65,17 @@
   </div>
   <div class="card">
     <h2>{% translate "Dealer" %}</h2>
+    <div class="entity-head" style="padding:0 0 14px">
+      <div class="entity-logo">
+        {% if order.dealer.logo %}<img src="{{ order.dealer.logo.url }}" alt="">
+        {% else %}<span>{{ order.dealer.initials }}</span>{% endif %}
+      </div>
+      <div>
+        <h2 style="margin:0">{{ order.dealer.name }}</h2>
+        <p class="muted">{{ order.dealer.code|default:"—" }}</p>
+      </div>
+    </div>
     <table>
-      <tr><td>{% translate "Dealer name" %}</td><td><strong>{{ order.dealer.name }}</strong></td></tr>
       {% if order.dealer.tax_no %}<tr><td>{% translate "Tax number" %}</td><td>{{ order.dealer.tax_no }}</td></tr>{% endif %}
       {% if order.dealer.contact_person %}<tr><td>{% translate "Contact person" %}</td><td>{{ order.dealer.contact_person }}</td></tr>{% endif %}
       {% if order.dealer.phone %}<tr><td>{% translate "Phone" %}</td><td>{{ order.dealer.phone }}</td></tr>{% endif %}

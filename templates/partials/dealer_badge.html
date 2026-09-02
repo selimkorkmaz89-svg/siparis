@@ -1,0 +1,7 @@
+{% comment %}Dealer name with its logo (or initials). Pass `dealer`.{% endcomment %}
+<span class="dealer-cell">
+  <span class="dealer-logo">
+    {% if dealer.logo %}<img src="{{ dealer.logo.url }}" alt="">{% else %}{{ dealer.initials }}{% endif %}
+  </span>
+  <span>{{ dealer.name }}</span>
+</span>

@@ -64,6 +64,7 @@
 <div class="panels">
   <div class="panel">
     <h2>{% translate "Dealer" %}</h2>
+    {% if dealer_logo_url %}<img src="{{ dealer_logo_url }}" style="max-height:34px;margin-bottom:6px">{% endif %}
     <table>
       <tr><td class="k">{% translate "Dealer name" %}</td><td>{{ order.dealer.name }}</td></tr>
       {% if order.dealer.tax_no %}<tr><td class="k">{% translate "Tax number" %}</td><td>{{ order.dealer.tax_no }}</td></tr>{% endif %}

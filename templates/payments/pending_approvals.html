@@ -6,10 +6,16 @@
 {% translate "Order number, dealer or product" as ph %}
 {% include "partials/filters.html" with search_placeholder=ph export=1 %}
 <div class="grid grid-3">
-  <div class="stat"><div class="label">{% translate "Order count" %}</div><div class="value">{{ totals.count }}</div></div>
-  <div class="stat brand"><div class="label">{% translate "Total (USD)" %}</div><div class="value">${{ totals.total_usd|money }}</div></div>
-  <div class="stat"><div class="label">{% translate "USD/TRY rate in effect" %}</div>
-    <div class="value">{% if exchange_rate %}₺{{ exchange_rate|money:4 }}{% else %}—{% endif %}</div></div>
+  {% translate "Order count" as l %}
+  {% include "partials/kpi.html" with label=l value=totals.count icon="pending-approval" tone="amber" %}
+  {% translate "Total (USD)" as l %}
+  {% include "partials/kpi.html" with label=l value=totals.total_usd|money prefix="$" icon="reports" tone="brand" %}
+  {% translate "USD/TRY rate in effect" as l %}
+  {% if exchange_rate %}
+    {% include "partials/kpi.html" with label=l value=exchange_rate|money:4 prefix="₺" icon="settings" tone="sky" %}
+  {% else %}
+    {% include "partials/kpi.html" with label=l value="—" icon="settings" tone="slate" %}
+  {% endif %}
 </div>
 <div class="card mt">
   <div class="table-wrap">
@@ -29,7 +35,7 @@
         {% for order in orders %}
           <tr>
             <td><a href="{% url 'orders:detail' order.pk %}"><strong>{{ order.order_no }}</strong></a></td>
-            <td>{{ order.dealer.name }}</td>
+            <td>{% include "partials/dealer_badge.html" with dealer=order.dealer %}</td>
             <td>{{ order.submitted_at|date:"d.m.Y H:i" }}</td>
             <td class="num">${{ order.total_amount_usd|money }}</td>
             <td class="num">{% if exchange_rate %}₺{% widthratio order.total_amount_usd 1 exchange_rate %}{% else %}—{% endif %}</td>

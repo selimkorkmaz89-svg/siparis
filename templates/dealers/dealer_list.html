@@ -25,7 +25,7 @@
       <tbody>
         {% for dealer in dealers %}
           <tr>
-            <td><strong>{{ dealer.name }}</strong></td>
+            <td>{% include "partials/dealer_badge.html" with dealer=dealer %}</td>
             <td>{{ dealer.code|default:"-" }}</td>
             <td>{{ dealer.tax_no|default:"-" }}</td>
             <td>{{ dealer.contact_person|default:"-" }}</td>

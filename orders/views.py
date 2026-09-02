@@ -3,7 +3,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Count, Sum
+from django.db.models import Avg, Count, Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
@@ -55,7 +55,12 @@ def order_list(request):
     queryset = list_filter.apply(queryset).distinct()
     if request.GET.get("export") == "excel":
         return _orders_excel(queryset)
-    totals = queryset.aggregate(total_usd=Sum("total_amount_usd"), count=Count("id"))
+    totals = queryset.aggregate(
+        total_usd=Sum("total_amount_usd"),
+        vat_usd=Sum("vat_total_usd"),
+        average_usd=Avg("total_amount_usd"),
+        count=Count("id"),
+    )
     page = Paginator(queryset, 25).get_page(request.GET.get("page"))
     from dealers.models import Dealer
 
