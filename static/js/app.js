@@ -25,17 +25,22 @@
   }
   window.postForm = post;
 
-  /* ---- mobile menu ---- */
-  const toggle = document.getElementById("menuToggle");
-  if (toggle) {
-    toggle.addEventListener("click", function () {
-      document.getElementById("sidebar").classList.toggle("open");
-    });
+  /* ---- mobile drawer ---- */
+  const sidebar = document.getElementById("sidebar");
+  const backdrop = document.getElementById("drawerBackdrop");
+  function setDrawer(open) {
+    if (!sidebar) return;
+    sidebar.classList.toggle("open", open);
+    if (backdrop) backdrop.hidden = !open;
+    document.body.style.overflow = open ? "hidden" : "";
   }
-
-  /* ---- highlight the active menu entry ---- */
-  document.querySelectorAll(".menu a").forEach(function (link) {
-    if (link.getAttribute("href") === window.location.pathname) link.classList.add("active");
+  const toggle = document.getElementById("menuToggle");
+  if (toggle) toggle.addEventListener("click", function () { setDrawer(true); });
+  const closeButton = document.getElementById("drawerClose");
+  if (closeButton) closeButton.addEventListener("click", function () { setDrawer(false); });
+  if (backdrop) backdrop.addEventListener("click", function () { setDrawer(false); });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") setDrawer(false);
   });
 
   /* ---- notification bell ---- */

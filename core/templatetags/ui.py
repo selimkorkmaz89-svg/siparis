@@ -3,6 +3,9 @@ from decimal import Decimal, InvalidOperation
 
 from django import template
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
+
+from core.icons import ICONS
 
 from core.constants import OrderStatus, PaymentStatus
 
@@ -90,3 +93,15 @@ def brand_color():
     from django.conf import settings
 
     return settings.BRAND_COLOR
+
+
+@register.simple_tag
+def icon(name, size=18, css_class="icon"):
+    """Render one of the inline Phosphor duotone icons."""
+    body = ICONS.get(name)
+    if body is None:
+        return ""
+    return mark_safe(
+        f'<svg class="{css_class}" width="{size}" height="{size}" viewBox="0 0 256 256" '
+        f'fill="currentColor" aria-hidden="true" focusable="false">{body}</svg>'
+    )

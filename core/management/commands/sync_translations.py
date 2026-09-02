@@ -37,6 +37,27 @@ def quote(value: str) -> str:
     return "".join(out)
 
 
+def strip_fuzzy(prefix: str) -> str:
+    """Drop the fuzzy marker from an entry's comment block.
+
+    ``makemessages`` marks a new string fuzzy when it resembles an existing
+    one, and ``msgfmt`` silently leaves fuzzy entries out of the compiled
+    catalogue - the translation would sit in the .po file and never reach a
+    page. Since we are writing the real translation here, the guess markers go.
+    """
+    lines = []
+    for line in prefix.splitlines():
+        if line.startswith("#|"):  # "previous msgid" hint
+            continue
+        if line.startswith("#,"):
+            flags = [f.strip() for f in line[2:].split(",") if f.strip() != "fuzzy"]
+            if not flags:
+                continue
+            line = "#, " + ", ".join(flags)
+        lines.append(line)
+    return "".join(f"{line}\n" for line in lines)
+
+
 class Command(BaseCommand):
     help = "Writes the translations from locale/_source into the .po catalogues."
 
@@ -104,7 +125,8 @@ class Command(BaseCommand):
                 else:
                     value = msgid
                 filled += 1
-                return f'{match.group("prefix")}msgid {match.group("msgid")}msgstr {quote(value)}'
+                prefix = strip_fuzzy(match.group("prefix"))
+                return f'{prefix}msgid {match.group("msgid")}msgstr {quote(value)}'
 
             content = ENTRY_RE.sub(replace, content)
             content = self.fix_header(content, language)

@@ -1,7 +1,7 @@
-{% load i18n %}
+{% load i18n ui %}
 <div class="bell" id="notificationBell">
   <button class="bell-button" type="button" aria-label="{% translate 'Notifications' %}">
-    🔔
+    {% icon "bell" 20 "menu-icon" %}
     <span class="badge {% if not unread_notification_count %}hidden{% endif %}" id="notificationBadge">
       {{ unread_notification_count }}
     </span>

@@ -1,55 +1,84 @@
-{% load i18n static %}<!-- layout shell -->
+{% load i18n static ui %}<!-- layout shell -->
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{{ COMPANY_NAME }}{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   {% block extra_head %}{% endblock %}
 </head>
 <body class="{% if user.is_authenticated %}app{% else %}auth{% endif %}">
 {% if user.is_authenticated %}
-<header class="topbar">
-  <button class="menu-toggle" id="menuToggle" aria-label="{% translate 'Menu' %}">☰</button>
-  <a class="brand" href="{% url 'core:home' %}">
-    <img src="{% static COMPANY_LOGO %}" alt="{{ COMPANY_NAME }}" onerror="this.style.display='none'">
-    <span>{{ COMPANY_NAME }}</span>
-  </a>
-  <div class="topbar-right">
-    {% include "partials/language_switcher.html" %}
-    {% include "partials/notification_bell.html" %}
-    <div class="user-chip">
-      {% if user.profile_photo %}<img src="{{ user.profile_photo.url }}" alt="">{% endif %}
-      <div>
-        <strong>{{ user.get_full_name|default:user.email }}</strong>
-        <small>{{ user.get_role_display }}{% if user.dealer %} · {{ user.dealer.name }}{% endif %}</small>
-      </div>
+
+  {# ---------- sidebar (desktop) ---------- #}
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <a class="brand" href="{% url 'core:home' %}">
+        <img src="{% static COMPANY_LOGO %}" alt="{{ COMPANY_NAME }}" onerror="this.style.display='none'">
+        <div>
+          <div class="brand-name">{{ COMPANY_NAME }}</div>
+          <div class="brand-sub">{% translate "Order System" %}</div>
+        </div>
+      </a>
+      <button class="drawer-close" id="drawerClose" aria-label="{% translate 'Close' %}">
+        {% icon "close" 20 "menu-icon" %}
+      </button>
     </div>
-    <form method="post" action="{% url 'accounts:logout' %}" class="inline">
-      {% csrf_token %}
-      <button class="btn btn-ghost" type="submit">{% translate "Sign out" %}</button>
-    </form>
+    {% include "partials/menu.html" %}
+    {% include "partials/sidebar_footer.html" %}
+  </aside>
+  <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+
+  {# ---------- mobile top bar ---------- #}
+  <div class="mobile-bar">
+    <button class="menu-toggle" id="menuToggle" aria-label="{% translate 'Menu' %}">
+      {% icon "menu" 22 "menu-icon" %}
+    </button>
+    <a class="brand" href="{% url 'core:home' %}">
+      <img src="{% static COMPANY_LOGO %}" alt="{{ COMPANY_NAME }}" onerror="this.style.display='none'">
+      <span class="brand-name">{{ COMPANY_NAME }}</span>
+    </a>
+    <div class="mobile-bar-actions">
+      {% include "partials/language_switcher.html" %}
+      {% include "partials/notification_bell.html" %}
+    </div>
   </div>
-</header>
-<div class="layout">
-  <nav class="sidebar" id="sidebar">{% include "partials/menu.html" %}</nav>
-  <main class="content">
-    {% block breadcrumb %}{% endblock %}
-    {% if messages %}
-      <div class="messages">
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
+
+  {# ---------- main ---------- #}
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="topbar-role">{{ nav_role_label }}</div>
+        <div class="topbar-name">
+          {{ user.get_full_name|default:user.email }}{% if user.dealer %} · {{ user.dealer.name }}{% endif %}
+        </div>
       </div>
-    {% endif %}
-    <div class="page-head">
-      <h1>{% block page_title %}{% endblock %}</h1>
-      <div class="page-actions">{% block page_actions %}{% endblock %}</div>
+      <div class="topbar-right">
+        {% include "partials/language_switcher.html" %}
+        {% include "partials/notification_bell.html" %}
+      </div>
+    </header>
+
+    <div class="content">
+      {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="page-head">
+        <h1>{% block page_title %}{% endblock %}</h1>
+        <div class="page-actions">{% block page_actions %}{% endblock %}</div>
+      </div>
+      {% block content %}{% endblock %}
     </div>
-    {% block content %}{% endblock %}
   </main>
-</div>
+
 {% else %}
   <main class="auth-shell">
     <div class="auth-lang">{% include "partials/language_switcher.html" %}</div>

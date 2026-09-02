@@ -329,6 +329,13 @@ TRANSLATIONS = {
 
     # --- navigation and layout ---------------------------------------------
     "Home": "Ana Sayfa",
+    "Overview": "Genel Bakış",
+    "Reports": "Raporlar",
+    "User approvals": "Kullanıcı Onayları",
+    "System administrator": "Sistem Yöneticisi",
+    "Order System": "Sipariş Sistemi",
+    "Main menu": "Ana menü",
+    "Close": "Kapat",
     "Menu": "Menü",
     "Sign in": "Giriş Yap",
     "Sign out": "Çıkış Yap",

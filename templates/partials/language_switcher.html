@@ -1,5 +1,6 @@
-{% load i18n %}
+{% load i18n ui %}
 <form action="{% url 'set_language' %}" method="post" class="lang-form">
+  {% icon "globe" 16 "menu-icon" %}
   {% csrf_token %}
   <input type="hidden" name="next" value="{{ request.get_full_path }}">
   <select name="language" onchange="this.form.submit()" aria-label="{% translate 'Language' %}">

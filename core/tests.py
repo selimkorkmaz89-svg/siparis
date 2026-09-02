@@ -10,6 +10,7 @@ from catalog.models import Product
 from core.constants import Role, UserStatus
 from dealers.models import Dealer
 from orders import services
+from orders.models import Order
 from payments.models import ExchangeRate
 
 User = get_user_model()
@@ -132,3 +133,74 @@ class RoleAccessTests(TestCase):
         response = self.client.get(reverse("catalog:product_search_api") + "?q=PRD")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["results"][0]["price"], "100.00")
+
+
+class NavigationTests(TestCase):
+    """The sidebar: one flat list per role, exactly one entry highlighted."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.dealer = Dealer.objects.create(name="Bayi A")
+        cls.users = {}
+        for role in [Role.ADMIN, Role.FINANCE, Role.LOGISTICS, Role.MANAGEMENT, Role.DEALER]:
+            cls.users[role] = User.objects.create_user(
+                email=f"nav-{role.lower()}@test.com", password="x", role=role,
+                status=UserStatus.APPROVED,
+                dealer=cls.dealer if role == Role.DEALER else None,
+            )
+
+    def _items(self, role, path="/"):
+        self.client.force_login(self.users[role])
+        return self.client.get(path).context["nav_items"]
+
+    def test_every_role_gets_a_menu(self):
+        for role in self.users:
+            with self.subTest(role=role):
+                self.assertTrue(self._items(role))
+
+    def test_menu_stays_short_enough_to_scan(self):
+        for role in self.users:
+            with self.subTest(role=role):
+                self.assertLessEqual(len(self._items(role)), 11)
+
+    def test_exactly_one_entry_is_active(self):
+        pages = {
+            Role.DEALER: ["/", "/orders/new/", "/orders/", "/orders/drafts/",
+                          "/reports/mine/", "/accounts/profile/"],
+            Role.FINANCE: ["/", "/payments/pending/", "/orders/", "/payments/history/"],
+            Role.LOGISTICS: ["/", "/logistics/pending/", "/orders/"],
+            Role.MANAGEMENT: ["/", "/orders/", "/reports/", "/reports/finance/"],
+            Role.ADMIN: ["/", "/orders/", "/catalog/products/", "/dealers/",
+                         "/accounts/users/", "/payments/exchange-rates/"],
+        }
+        for role, paths in pages.items():
+            for path in paths:
+                with self.subTest(role=role, path=path):
+                    active = [i for i in self._items(role, path) if i["active"]]
+                    self.assertEqual(len(active), 1, f"{role} {path}: {active}")
+
+    def test_detail_screens_keep_their_section_lit(self):
+        order = Order.objects.create(dealer=self.dealer, created_by=self.users[Role.DEALER])
+        items = self._items(Role.FINANCE, f"/orders/{order.pk}/")
+        active = [i["label"] for i in items if i["active"]]
+        self.assertEqual([str(label) for label in active], ["Tüm Siparişler"])
+
+    def test_menu_never_advertises_a_screen_the_role_cannot_open(self):
+        for role in self.users:
+            self.client.force_login(self.users[role])
+            for item in self._items(role):
+                with self.subTest(role=role, url=item["url"]):
+                    response = self.client.get(item["url"])
+                    self.assertNotEqual(response.status_code, 403)
+
+    def test_the_icon_of_every_entry_exists(self):
+        from core.icons import ICONS
+
+        for role in self.users:
+            for item in self._items(role):
+                with self.subTest(role=role, icon=item["icon"]):
+                    self.assertIn(item["icon"], ICONS)
+
+    def test_anonymous_visitors_get_no_menu(self):
+        response = self.client.get(reverse("accounts:login"))
+        self.assertEqual(response.context["nav_items"], [])

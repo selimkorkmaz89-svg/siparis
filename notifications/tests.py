@@ -8,7 +8,6 @@ from django.utils import timezone
 from catalog.models import Product
 from core.constants import NotificationChannel, NotificationEvent, Role, UserStatus
 from dealers.models import Dealer
-from notifications import services as notify
 from notifications.models import Notification, NotificationLog, NotificationTemplate
 from orders import services as order_services
 from payments.models import ExchangeRate, Payment

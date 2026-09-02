@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 01:04+0300\n"
+"POT-Creation-Date: 2026-09-02 09:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -63,15 +63,15 @@ msgstr "Your account is waiting for administrator approval."
 msgid "Your registration request was rejected."
 msgstr "Your registration request was rejected."
 
-#: accounts/forms.py:57 accounts/views.py:168
+#: accounts/forms.py:57 accounts/views.py:187
 msgid "First name"
 msgstr "First name"
 
-#: accounts/forms.py:58 accounts/views.py:168
+#: accounts/forms.py:58 accounts/views.py:187
 msgid "Last name"
 msgstr "Last name"
 
-#: accounts/forms.py:60 accounts/views.py:169 catalog/imports.py:38
+#: accounts/forms.py:60 accounts/views.py:188 catalog/imports.py:38
 #: dealers/views.py:37 templates/orders/order_detail.html:51
 #: templates/orders/order_form_pdf.html:72
 msgid "Phone"
@@ -81,12 +81,12 @@ msgstr "Phone"
 msgid "Interface language"
 msgstr "Interface language"
 
-#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:107
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:112
 #: notifications/models.py:53
 msgid "Turkish"
 msgstr "Turkish"
 
-#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:108
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:113
 #: notifications/models.py:53
 msgid "English"
 msgstr "English"
@@ -191,56 +191,56 @@ msgstr "user"
 msgid "users"
 msgstr "users"
 
-#: accounts/tests.py:111 accounts/tests.py:113 templates/core/home.html:7
-#: templates/orders/draft_list.html:6 templates/orders/order_create.html:3
-#: templates/orders/order_create.html:4 templates/orders/order_list.html:6
-#: templates/partials/menu.html:6
+#: accounts/tests.py:134 accounts/tests.py:136 core/navigation.py:49
+#: templates/core/home.html:7 templates/orders/draft_list.html:6
+#: templates/orders/order_create.html:3 templates/orders/order_create.html:4
+#: templates/orders/order_list.html:6
 msgid "Create order"
 msgstr "Create order"
 
-#: accounts/views.py:56
+#: accounts/views.py:75
 msgid ""
 "Your registration has been received. You can sign in once an administrator "
 "approves your account."
 msgstr "Your registration has been received. You can sign in once an administrator approves your account."
 
-#: accounts/views.py:73
+#: accounts/views.py:92
 msgid "Your profile has been updated."
 msgstr "Your profile has been updated."
 
-#: accounts/views.py:80
+#: accounts/views.py:99
 msgid "Your password has been changed."
 msgstr "Your password has been changed."
 
-#: accounts/views.py:122
+#: accounts/views.py:141
 #, python-format
 msgid "User approved: %(user)s"
 msgstr "User approved: %(user)s"
 
-#: accounts/views.py:135
+#: accounts/views.py:154
 #, python-format
 msgid "User rejected: %(user)s"
 msgstr "User rejected: %(user)s"
 
-#: accounts/views.py:166 templates/dealers/dealer_list.html:19
+#: accounts/views.py:185 templates/dealers/dealer_list.html:19
 msgid "Users"
 msgstr "Users"
 
-#: accounts/views.py:168 catalog/imports.py:39 core/constants.py:49
+#: accounts/views.py:187 catalog/imports.py:39 core/constants.py:49
 #: dealers/views.py:37
 msgid "Email"
 msgstr "Email"
 
-#: accounts/views.py:168 templates/accounts/_user_filters.html:2
+#: accounts/views.py:187 templates/accounts/_user_filters.html:2
 #: templates/accounts/profile.html:27 templates/accounts/user_list.html:16
 msgid "Role"
 msgstr "Role"
 
-#: accounts/views.py:168 catalog/views.py:107 core/constants.py:11
-#: dealers/views.py:132 logistics/views.py:36 orders/views.py:84
-#: payments/views.py:45 payments/views.py:184 reports/views.py:70
-#: templates/accounts/profile.html:28 templates/accounts/user_list.html:17
-#: templates/catalog/product_form.html:32
+#: accounts/views.py:187 catalog/views.py:107 core/constants.py:11
+#: core/navigation.py:108 dealers/views.py:132 logistics/views.py:36
+#: orders/views.py:84 payments/views.py:45 payments/views.py:184
+#: reports/views.py:70 templates/accounts/profile.html:28
+#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
 #: templates/catalog/special_price_list.html:14 templates/core/home.html:75
 #: templates/dealers/dealer_form.html:3 templates/dealers/dealer_history.html:8
 #: templates/dealers/domain_list.html:18
@@ -256,7 +256,7 @@ msgstr "Role"
 msgid "Dealer"
 msgstr "Dealer"
 
-#: accounts/views.py:169 dealers/views.py:91 orders/views.py:84
+#: accounts/views.py:188 dealers/views.py:91 orders/views.py:84
 #: payments/views.py:186 templates/accounts/_user_filters.html:8
 #: templates/accounts/profile.html:29 templates/accounts/user_list.html:18
 #: templates/core/home.html:77 templates/dealers/dealer_history.html:32
@@ -269,11 +269,11 @@ msgstr "Dealer"
 msgid "Status"
 msgstr "Status"
 
-#: accounts/views.py:169 templates/accounts/pending_users.html:16
+#: accounts/views.py:188 templates/accounts/pending_users.html:16
 msgid "Registered at"
 msgstr "Registered at"
 
-#: accounts/views.py:202
+#: accounts/views.py:221
 #, python-format
 msgid "User saved: %(user)s"
 msgstr "User saved: %(user)s"
@@ -512,9 +512,10 @@ msgstr "No"
 msgid "Product saved: %(code)s"
 msgstr "Product saved: %(code)s"
 
-#: catalog/views.py:106 templates/catalog/product_form.html:28
+#: catalog/views.py:106 core/navigation.py:89
+#: templates/catalog/product_form.html:28
 #: templates/catalog/special_price_list.html:3
-#: templates/catalog/special_price_list.html:4 templates/partials/menu.html:44
+#: templates/catalog/special_price_list.html:4
 msgid "Dealer special prices"
 msgstr "Dealer special prices"
 
@@ -553,15 +554,15 @@ msgstr "The import was cancelled; nothing was saved."
 msgid "Admin"
 msgstr "Admin"
 
-#: core/constants.py:8 templates/partials/menu.html:14
+#: core/constants.py:8 core/navigation.py:109
 msgid "Finance"
 msgstr "Finance"
 
-#: core/constants.py:9 templates/partials/menu.html:20
+#: core/constants.py:9 core/navigation.py:110
 msgid "Logistics"
 msgstr "Logistics"
 
-#: core/constants.py:10
+#: core/constants.py:10 core/navigation.py:111
 msgid "Management"
 msgstr "Management"
 
@@ -651,6 +652,96 @@ msgstr "created at"
 msgid "updated at"
 msgstr "updated at"
 
+#: core/navigation.py:33
+msgid "Overview"
+msgstr "Overview"
+
+#: core/navigation.py:34 templates/accounts/profile.html:3
+#: templates/accounts/profile.html:4
+msgid "My profile"
+msgstr "My profile"
+
+#: core/navigation.py:36 templates/orders/order_list.html:4
+msgid "All orders"
+msgstr "All orders"
+
+#: core/navigation.py:39 payments/views.py:183
+#: templates/payments/payment_history.html:3
+#: templates/payments/payment_history.html:4
+msgid "Payment history"
+msgstr "Payment history"
+
+#: core/navigation.py:41 dealers/views.py:90
+#: templates/dealers/dealer_history.html:3
+#: templates/dealers/dealer_history.html:4
+msgid "Dealer history"
+msgstr "Dealer history"
+
+#: core/navigation.py:44
+msgid "Reports"
+msgstr "Reports"
+
+#: core/navigation.py:51 templates/orders/order_list.html:4
+msgid "My orders"
+msgstr "My orders"
+
+#: core/navigation.py:53 templates/core/home.html:55
+#: templates/orders/draft_list.html:3 templates/orders/draft_list.html:4
+msgid "My drafts"
+msgstr "My drafts"
+
+#: core/navigation.py:54 templates/payments/payment_history.html:4
+msgid "My payment history"
+msgstr "My payment history"
+
+#: core/navigation.py:55 templates/reports/dashboard.html:4
+msgid "My reports"
+msgstr "My reports"
+
+#: core/navigation.py:60 templates/payments/pending_approvals.html:3
+msgid "Awaiting approval"
+msgstr "Awaiting approval"
+
+#: core/navigation.py:70 templates/core/home.html:21
+#: templates/logistics/pending_shipments.html:3
+msgid "Awaiting shipment"
+msgstr "Awaiting shipment"
+
+#: core/navigation.py:81 templates/reports/finance.html:3
+msgid "Finance and operations"
+msgstr "Finance and operations"
+
+#: core/navigation.py:87 templates/catalog/product_list.html:4
+msgid "Product management"
+msgstr "Product management"
+
+#: core/navigation.py:92 templates/dealers/dealer_list.html:4
+msgid "Dealer management"
+msgstr "Dealer management"
+
+#: core/navigation.py:96 templates/catalog/import_upload.html:3
+#: templates/catalog/import_upload.html:4 templates/catalog/product_list.html:7
+msgid "Excel import"
+msgstr "Excel import"
+
+#: core/navigation.py:98
+msgid "User approvals"
+msgstr "User approvals"
+
+#: core/navigation.py:100 templates/accounts/user_list.html:3
+#: templates/accounts/user_list.html:4
+msgid "User management"
+msgstr "User management"
+
+#: core/navigation.py:102 templates/payments/exchange_rates.html:3
+#: templates/payments/exchange_rates.html:4
+msgid "System settings"
+msgstr "System settings"
+
+#: core/navigation.py:112
+msgid "System administrator"
+msgstr "System administrator"
+
 #: dealers/forms.py:36
 msgid "Domain only, without the @ sign. Example: abcdealer.com"
 msgstr "Domain only, without the @ sign. Example: abcdealer.com"
@@ -725,11 +816,6 @@ msgstr "Order count"
 #, python-format
 msgid "Dealer saved: %(name)s"
 msgstr "Dealer saved: %(name)s"
-
-#: dealers/views.py:90 templates/dealers/dealer_history.html:3
-#: templates/dealers/dealer_history.html:4 templates/partials/menu.html:28
-msgid "Dealer history"
-msgstr "Dealer history"
 
 #: dealers/views.py:91 logistics/views.py:36 orders/views.py:84
 #: payments/views.py:45 payments/views.py:184 templates/core/home.html:74
@@ -1099,7 +1185,6 @@ msgid "Only draft or pending orders can be cancelled."
 msgstr "Only draft or pending orders can be cancelled."
 
 #: orders/views.py:83 templates/orders/order_list.html:3
-#: templates/partials/menu.html:25
 msgid "Orders"
 msgstr "Orders"
 
@@ -1235,12 +1320,6 @@ msgstr "Payment approved. Order %(no)s is now ready for shipment."
 #: payments/views.py:153
 msgid "The order was rejected and returned to the dealer."
 msgstr "The order was rejected and returned to the dealer."
-
-#: payments/views.py:183 templates/partials/menu.html:16
-#: templates/payments/payment_history.html:3
-#: templates/payments/payment_history.html:4
-msgid "Payment history"
-msgstr "Payment history"
 
 #: payments/views.py:184 templates/orders/order_detail.html:106
 #: templates/payments/payment_approve.html:25
@@ -1382,7 +1461,6 @@ msgstr "Register"
 
 #: templates/accounts/pending_users.html:3
 #: templates/accounts/pending_users.html:4 templates/core/home.html:49
-#: templates/partials/menu.html:40
 msgid "Pending user approvals"
 msgstr "Pending user approvals"
 
@@ -1416,11 +1494,6 @@ msgstr "Reject"
 #: templates/accounts/pending_users.html:36
 msgid "There are no users awaiting approval."
 msgstr "There are no users awaiting approval."
-
-#: templates/accounts/profile.html:3 templates/accounts/profile.html:4
-#: templates/partials/menu.html:51
-msgid "My profile"
-msgstr "My profile"
 
 #: templates/accounts/profile.html:8
 msgid "Profile information"
@@ -1504,13 +1577,8 @@ msgstr "Edit user"
 msgid "New user"
 msgstr "New user"
 
-#: templates/accounts/user_list.html:3 templates/accounts/user_list.html:4
-#: templates/partials/menu.html:41
-msgid "User management"
-msgstr "User management"
-
 #: templates/accounts/user_list.html:19
-#: templates/partials/language_switcher.html:5
+#: templates/partials/language_switcher.html:6
 msgid "Language"
 msgstr "Language"
 
@@ -1525,13 +1593,17 @@ msgstr "Edit"
 msgid "No users found."
 msgstr "No users found."
 
-#: templates/base.html:14
+#: templates/base.html:24
+msgid "Order System"
+msgstr "Order System"
+
+#: templates/base.html:27
+msgid "Close"
+msgstr "Close"
+
+#: templates/base.html:38
 msgid "Menu"
 msgstr "Menu"
-
-#: templates/base.html:31
-msgid "Sign out"
-msgstr "Sign out"
 
 #: templates/catalog/_product_filters.html:4
 #: templates/orders/order_create.html:15
@@ -1588,12 +1660,6 @@ msgstr "No change"
 #: templates/catalog/import_preview.html:64
 msgid "Confirm and import"
 msgstr "Confirm and import"
-
-#: templates/catalog/import_upload.html:3
-#: templates/catalog/import_upload.html:4 templates/catalog/product_list.html:7
-#: templates/partials/menu.html:45
-msgid "Excel import"
-msgstr "Excel import"
 
 #: templates/catalog/import_upload.html:8
 msgid "1. Download the template"
@@ -1675,10 +1741,6 @@ msgstr "Add"
 msgid "No dealer specific price is defined for this product."
 msgstr "No dealer specific price is defined for this product."
 
-#: templates/catalog/product_list.html:4 templates/partials/menu.html:43
-msgid "Product management"
-msgstr "Product management"
-
 #: templates/catalog/product_list.html:21 templates/orders/order_detail.html:68
 #: templates/orders/order_review.html:18
 #, python-format
@@ -1721,7 +1783,7 @@ msgstr "Delete"
 msgid "No dealer special price has been defined."
 msgstr "No dealer special price has been defined."
 
-#: templates/core/home.html:3 templates/partials/menu.html:3
+#: templates/core/home.html:3
 msgid "Home"
 msgstr "Home"
 
@@ -1738,19 +1800,9 @@ msgstr "Total orders"
 msgid "Awaiting payment"
 msgstr "Awaiting payment"
 
-#: templates/core/home.html:21 templates/logistics/pending_shipments.html:3
-#: templates/partials/menu.html:21
-msgid "Awaiting shipment"
-msgstr "Awaiting shipment"
-
 #: templates/core/home.html:32
 msgid "Order volume (USD)"
 msgstr "Order volume (USD)"
-
-#: templates/core/home.html:55 templates/orders/draft_list.html:3
-#: templates/orders/draft_list.html:4 templates/partials/menu.html:8
-msgid "My drafts"
-msgstr "My drafts"
 
 #: templates/core/home.html:60 templates/payments/exchange_rates.html:8
 #: templates/payments/payment_approve.html:53
@@ -1798,10 +1850,6 @@ msgstr "This dealer has no orders yet."
 msgid "No dealer has been defined yet."
 msgstr "No dealer has been defined yet."
 
-#: templates/dealers/dealer_list.html:4 templates/partials/menu.html:42
-msgid "Dealer management"
-msgstr "Dealer management"
-
 #: templates/dealers/dealer_list.html:7
 msgid "Dealer name, code or city"
 msgstr "Dealer name, code or city"
@@ -1829,7 +1877,7 @@ msgid ""
 msgstr "Existing users are not affected; only new sign-ups from this domain will be refused."
 
 #: templates/dealers/domain_form.html:3 templates/dealers/domain_list.html:3
-#: templates/dealers/domain_list.html:4 templates/partials/menu.html:46
+#: templates/dealers/domain_list.html:4
 msgid "Domain mapping"
 msgstr "Domain mapping"
 
@@ -1911,7 +1959,7 @@ msgstr "There are no orders awaiting shipment."
 
 #: templates/notifications/notification_list.html:3
 #: templates/notifications/notification_list.html:4
-#: templates/partials/menu.html:52 templates/partials/notification_bell.html:3
+#: templates/partials/notification_bell.html:3
 #: templates/partials/notification_bell.html:11
 msgid "Notifications"
 msgstr "Notifications"
@@ -2201,14 +2249,6 @@ msgid ""
 "summary of the order record and carries no legal or fiscal value."
 msgstr "This document is not an official invoice or waybill. It is a readable summary of the order record and carries no legal or fiscal value."
 
-#: templates/orders/order_list.html:4 templates/partials/menu.html:7
-msgid "My orders"
-msgstr "My orders"
-
-#: templates/orders/order_list.html:4 templates/partials/menu.html:26
-msgid "All orders"
-msgstr "All orders"
-
 #: templates/orders/order_list.html:9
 msgid "Order number, product code or name"
 msgstr "Order number, product code or name"
@@ -2271,43 +2311,9 @@ msgstr "Clear filters"
 msgid "Export to Excel"
 msgstr "Export to Excel"
 
-#: templates/partials/menu.html:9 templates/payments/payment_history.html:4
-msgid "My payment history"
-msgstr "My payment history"
-
-#: templates/partials/menu.html:10 templates/reports/dashboard.html:4
-msgid "My reports"
-msgstr "My reports"
-
-#: templates/partials/menu.html:15 templates/payments/pending_approvals.html:3
-msgid "Awaiting approval"
-msgstr "Awaiting approval"
-
-#: templates/partials/menu.html:33 templates/reports/dashboard.html:3
-#: templates/reports/dashboard.html:4
-msgid "Reporting"
-msgstr "Reporting"
-
-#: templates/partials/menu.html:34
-msgid "Dealer / product / brand"
-msgstr "Dealer / product / brand"
-
-#: templates/partials/menu.html:35 templates/reports/finance.html:3
-msgid "Finance and operations"
-msgstr "Finance and operations"
-
-#: templates/partials/menu.html:39
-msgid "Administration"
-msgstr "Administration"
-
-#: templates/partials/menu.html:47 templates/payments/exchange_rates.html:3
-#: templates/payments/exchange_rates.html:4
-msgid "System settings"
-msgstr "System settings"
-
-#: templates/partials/menu.html:50
-msgid "Account"
-msgstr "Account"
+#: templates/partials/menu.html:3
+msgid "Main menu"
+msgstr "Main menu"
 
 #: templates/partials/notification_bell.html:32
 msgid "View all notifications"
@@ -2325,6 +2331,10 @@ msgstr "Page %(current)s of %(total)s"
 #: templates/partials/pagination.html:9
 msgid "Next"
 msgstr "Next"
+
+#: templates/partials/sidebar_footer.html:20
+msgid "Sign out"
+msgstr "Sign out"
 
 #: templates/payments/exchange_rates.html:13
 msgid "Effective rate date"
@@ -2500,6 +2510,10 @@ msgid ""
 "individual payments are not used here."
 msgstr "Amounts are converted with the current rate (%(rate)s); the rates frozen on individual payments are not used here."
 
+#: templates/reports/dashboard.html:3 templates/reports/dashboard.html:4
+msgid "Reporting"
+msgstr "Reporting"
+
 #: templates/reports/dashboard.html:10
 msgid "Total turnover"
 msgstr "Total turnover"
@@ -2581,3 +2595,9 @@ msgstr "Order → shipment (end to end)"
 #: templates/reports/finance.html:31
 msgid "Sample size"
 msgstr "Sample size"
+
+#~ msgid "Dealer / product / brand"
+#~ msgstr "Dealer / product / brand"
+
+#~ msgid "Account"
+#~ msgstr "Account"

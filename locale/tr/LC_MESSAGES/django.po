@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 01:04+0300\n"
+"POT-Creation-Date: 2026-09-02 09:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -63,15 +63,15 @@ msgstr "Hesabınız yönetici onayı bekliyor."
 msgid "Your registration request was rejected."
 msgstr "Kayıt talebiniz reddedildi."
 
-#: accounts/forms.py:57 accounts/views.py:168
+#: accounts/forms.py:57 accounts/views.py:187
 msgid "First name"
 msgstr "Ad"
 
-#: accounts/forms.py:58 accounts/views.py:168
+#: accounts/forms.py:58 accounts/views.py:187
 msgid "Last name"
 msgstr "Soyad"
 
-#: accounts/forms.py:60 accounts/views.py:169 catalog/imports.py:38
+#: accounts/forms.py:60 accounts/views.py:188 catalog/imports.py:38
 #: dealers/views.py:37 templates/orders/order_detail.html:51
 #: templates/orders/order_form_pdf.html:72
 msgid "Phone"
@@ -81,12 +81,12 @@ msgstr "Telefon"
 msgid "Interface language"
 msgstr "Arayüz dili"
 
-#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:107
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:112
 #: notifications/models.py:53
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:108
+#: accounts/forms.py:63 accounts/models.py:74 config/settings.py:113
 #: notifications/models.py:53
 msgid "English"
 msgstr "İngilizce"
@@ -191,56 +191,56 @@ msgstr "kullanıcı"
 msgid "users"
 msgstr "kullanıcılar"
 
-#: accounts/tests.py:111 accounts/tests.py:113 templates/core/home.html:7
-#: templates/orders/draft_list.html:6 templates/orders/order_create.html:3
-#: templates/orders/order_create.html:4 templates/orders/order_list.html:6
-#: templates/partials/menu.html:6
+#: accounts/tests.py:134 accounts/tests.py:136 core/navigation.py:49
+#: templates/core/home.html:7 templates/orders/draft_list.html:6
+#: templates/orders/order_create.html:3 templates/orders/order_create.html:4
+#: templates/orders/order_list.html:6
 msgid "Create order"
 msgstr "Sipariş Oluştur"
 
-#: accounts/views.py:56
+#: accounts/views.py:75
 msgid ""
 "Your registration has been received. You can sign in once an administrator "
 "approves your account."
 msgstr "Kaydınız alındı. Yönetici hesabınızı onayladıktan sonra giriş yapabilirsiniz."
 
-#: accounts/views.py:73
+#: accounts/views.py:92
 msgid "Your profile has been updated."
 msgstr "Profiliniz güncellendi."
 
-#: accounts/views.py:80
+#: accounts/views.py:99
 msgid "Your password has been changed."
 msgstr "Şifreniz değiştirildi."
 
-#: accounts/views.py:122
+#: accounts/views.py:141
 #, python-format
 msgid "User approved: %(user)s"
 msgstr "Kullanıcı onaylandı: %(user)s"
 
-#: accounts/views.py:135
+#: accounts/views.py:154
 #, python-format
 msgid "User rejected: %(user)s"
 msgstr "Kullanıcı reddedildi: %(user)s"
 
-#: accounts/views.py:166 templates/dealers/dealer_list.html:19
+#: accounts/views.py:185 templates/dealers/dealer_list.html:19
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: accounts/views.py:168 catalog/imports.py:39 core/constants.py:49
+#: accounts/views.py:187 catalog/imports.py:39 core/constants.py:49
 #: dealers/views.py:37
 msgid "Email"
 msgstr "E-posta"
 
-#: accounts/views.py:168 templates/accounts/_user_filters.html:2
+#: accounts/views.py:187 templates/accounts/_user_filters.html:2
 #: templates/accounts/profile.html:27 templates/accounts/user_list.html:16
 msgid "Role"
 msgstr "Rol"
 
-#: accounts/views.py:168 catalog/views.py:107 core/constants.py:11
-#: dealers/views.py:132 logistics/views.py:36 orders/views.py:84
-#: payments/views.py:45 payments/views.py:184 reports/views.py:70
-#: templates/accounts/profile.html:28 templates/accounts/user_list.html:17
-#: templates/catalog/product_form.html:32
+#: accounts/views.py:187 catalog/views.py:107 core/constants.py:11
+#: core/navigation.py:108 dealers/views.py:132 logistics/views.py:36
+#: orders/views.py:84 payments/views.py:45 payments/views.py:184
+#: reports/views.py:70 templates/accounts/profile.html:28
+#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
 #: templates/catalog/special_price_list.html:14 templates/core/home.html:75
 #: templates/dealers/dealer_form.html:3 templates/dealers/dealer_history.html:8
 #: templates/dealers/domain_list.html:18
@@ -256,7 +256,7 @@ msgstr "Rol"
 msgid "Dealer"
 msgstr "Bayi"
 
-#: accounts/views.py:169 dealers/views.py:91 orders/views.py:84
+#: accounts/views.py:188 dealers/views.py:91 orders/views.py:84
 #: payments/views.py:186 templates/accounts/_user_filters.html:8
 #: templates/accounts/profile.html:29 templates/accounts/user_list.html:18
 #: templates/core/home.html:77 templates/dealers/dealer_history.html:32
@@ -269,11 +269,11 @@ msgstr "Bayi"
 msgid "Status"
 msgstr "Durum"
 
-#: accounts/views.py:169 templates/accounts/pending_users.html:16
+#: accounts/views.py:188 templates/accounts/pending_users.html:16
 msgid "Registered at"
 msgstr "Kayıt tarihi"
 
-#: accounts/views.py:202
+#: accounts/views.py:221
 #, python-format
 msgid "User saved: %(user)s"
 msgstr "Kullanıcı kaydedildi: %(user)s"
@@ -512,9 +512,10 @@ msgstr "Hayır"
 msgid "Product saved: %(code)s"
 msgstr "Ürün kaydedildi: %(code)s"
 
-#: catalog/views.py:106 templates/catalog/product_form.html:28
+#: catalog/views.py:106 core/navigation.py:89
+#: templates/catalog/product_form.html:28
 #: templates/catalog/special_price_list.html:3
-#: templates/catalog/special_price_list.html:4 templates/partials/menu.html:44
+#: templates/catalog/special_price_list.html:4
 msgid "Dealer special prices"
 msgstr "Bayi Özel Fiyatları"
 
@@ -553,15 +554,15 @@ msgstr "İçe aktarma iptal edildi; hiçbir kayıt kaydedilmedi."
 msgid "Admin"
 msgstr "Yönetici"
 
-#: core/constants.py:8 templates/partials/menu.html:14
+#: core/constants.py:8 core/navigation.py:109
 msgid "Finance"
 msgstr "Finans"
 
-#: core/constants.py:9 templates/partials/menu.html:20
+#: core/constants.py:9 core/navigation.py:110
 msgid "Logistics"
 msgstr "Lojistik"
 
-#: core/constants.py:10
+#: core/constants.py:10 core/navigation.py:111
 msgid "Management"
 msgstr "Yönetim"
 
@@ -651,6 +652,96 @@ msgstr "oluşturulma tarihi"
 msgid "updated at"
 msgstr "güncellenme tarihi"
 
+#: core/navigation.py:33
+msgid "Overview"
+msgstr "Genel Bakış"
+
+#: core/navigation.py:34 templates/accounts/profile.html:3
+#: templates/accounts/profile.html:4
+msgid "My profile"
+msgstr "Profilim"
+
+#: core/navigation.py:36 templates/orders/order_list.html:4
+msgid "All orders"
+msgstr "Tüm Siparişler"
+
+#: core/navigation.py:39 payments/views.py:183
+#: templates/payments/payment_history.html:3
+#: templates/payments/payment_history.html:4
+msgid "Payment history"
+msgstr "Ödeme Geçmişi"
+
+#: core/navigation.py:41 dealers/views.py:90
+#: templates/dealers/dealer_history.html:3
+#: templates/dealers/dealer_history.html:4
+msgid "Dealer history"
+msgstr "Bayi Geçmişi"
+
+#: core/navigation.py:44
+msgid "Reports"
+msgstr "Raporlar"
+
+#: core/navigation.py:51 templates/orders/order_list.html:4
+msgid "My orders"
+msgstr "Siparişlerim"
+
+#: core/navigation.py:53 templates/core/home.html:55
+#: templates/orders/draft_list.html:3 templates/orders/draft_list.html:4
+msgid "My drafts"
+msgstr "Taslaklarım"
+
+#: core/navigation.py:54 templates/payments/payment_history.html:4
+msgid "My payment history"
+msgstr "Ödeme Geçmişim"
+
+#: core/navigation.py:55 templates/reports/dashboard.html:4
+msgid "My reports"
+msgstr "Raporlarım"
+
+#: core/navigation.py:60 templates/payments/pending_approvals.html:3
+msgid "Awaiting approval"
+msgstr "Onay Bekleyenler"
+
+#: core/navigation.py:70 templates/core/home.html:21
+#: templates/logistics/pending_shipments.html:3
+msgid "Awaiting shipment"
+msgstr "Sevkiyat Bekleyenler"
+
+#: core/navigation.py:81 templates/reports/finance.html:3
+msgid "Finance and operations"
+msgstr "Finans ve Operasyon"
+
+#: core/navigation.py:87 templates/catalog/product_list.html:4
+msgid "Product management"
+msgstr "Ürün Yönetimi"
+
+#: core/navigation.py:92 templates/dealers/dealer_list.html:4
+msgid "Dealer management"
+msgstr "Bayi Yönetimi"
+
+#: core/navigation.py:96 templates/catalog/import_upload.html:3
+#: templates/catalog/import_upload.html:4 templates/catalog/product_list.html:7
+msgid "Excel import"
+msgstr "Excel İçe Aktarma"
+
+#: core/navigation.py:98
+msgid "User approvals"
+msgstr "Kullanıcı Onayları"
+
+#: core/navigation.py:100 templates/accounts/user_list.html:3
+#: templates/accounts/user_list.html:4
+msgid "User management"
+msgstr "Kullanıcı Yönetimi"
+
+#: core/navigation.py:102 templates/payments/exchange_rates.html:3
+#: templates/payments/exchange_rates.html:4
+msgid "System settings"
+msgstr "Sistem Ayarları"
+
+#: core/navigation.py:112
+msgid "System administrator"
+msgstr "Sistem Yöneticisi"
+
 #: dealers/forms.py:36
 msgid "Domain only, without the @ sign. Example: abcdealer.com"
 msgstr "Yalnızca alan adı, @ işareti olmadan. Örnek: abcbayi.com"
@@ -725,11 +816,6 @@ msgstr "Sipariş adedi"
 #, python-format
 msgid "Dealer saved: %(name)s"
 msgstr "Bayi kaydedildi: %(name)s"
-
-#: dealers/views.py:90 templates/dealers/dealer_history.html:3
-#: templates/dealers/dealer_history.html:4 templates/partials/menu.html:28
-msgid "Dealer history"
-msgstr "Bayi Geçmişi"
 
 #: dealers/views.py:91 logistics/views.py:36 orders/views.py:84
 #: payments/views.py:45 payments/views.py:184 templates/core/home.html:74
@@ -1099,7 +1185,6 @@ msgid "Only draft or pending orders can be cancelled."
 msgstr "Yalnızca taslak veya onay bekleyen siparişler iptal edilebilir."
 
 #: orders/views.py:83 templates/orders/order_list.html:3
-#: templates/partials/menu.html:25
 msgid "Orders"
 msgstr "Siparişler"
 
@@ -1235,12 +1320,6 @@ msgstr "Ödeme onaylandı. %(no)s numaralı sipariş sevkiyata hazır."
 #: payments/views.py:153
 msgid "The order was rejected and returned to the dealer."
 msgstr "Sipariş reddedildi ve bayiye geri gönderildi."
-
-#: payments/views.py:183 templates/partials/menu.html:16
-#: templates/payments/payment_history.html:3
-#: templates/payments/payment_history.html:4
-msgid "Payment history"
-msgstr "Ödeme Geçmişi"
 
 #: payments/views.py:184 templates/orders/order_detail.html:106
 #: templates/payments/payment_approve.html:25
@@ -1382,7 +1461,6 @@ msgstr "Kayıt Ol"
 
 #: templates/accounts/pending_users.html:3
 #: templates/accounts/pending_users.html:4 templates/core/home.html:49
-#: templates/partials/menu.html:40
 msgid "Pending user approvals"
 msgstr "Bekleyen Kullanıcı Onayları"
 
@@ -1416,11 +1494,6 @@ msgstr "Reddet"
 #: templates/accounts/pending_users.html:36
 msgid "There are no users awaiting approval."
 msgstr "Onay bekleyen kullanıcı yok."
-
-#: templates/accounts/profile.html:3 templates/accounts/profile.html:4
-#: templates/partials/menu.html:51
-msgid "My profile"
-msgstr "Profilim"
 
 #: templates/accounts/profile.html:8
 msgid "Profile information"
@@ -1504,13 +1577,8 @@ msgstr "Kullanıcıyı düzenle"
 msgid "New user"
 msgstr "Yeni kullanıcı"
 
-#: templates/accounts/user_list.html:3 templates/accounts/user_list.html:4
-#: templates/partials/menu.html:41
-msgid "User management"
-msgstr "Kullanıcı Yönetimi"
-
 #: templates/accounts/user_list.html:19
-#: templates/partials/language_switcher.html:5
+#: templates/partials/language_switcher.html:6
 msgid "Language"
 msgstr "Dil"
 
@@ -1525,13 +1593,17 @@ msgstr "Düzenle"
 msgid "No users found."
 msgstr "Kullanıcı bulunamadı."
 
-#: templates/base.html:14
+#: templates/base.html:24
+msgid "Order System"
+msgstr "Sipariş Sistemi"
+
+#: templates/base.html:27
+msgid "Close"
+msgstr "Kapat"
+
+#: templates/base.html:38
 msgid "Menu"
 msgstr "Menü"
-
-#: templates/base.html:31
-msgid "Sign out"
-msgstr "Çıkış Yap"
 
 #: templates/catalog/_product_filters.html:4
 #: templates/orders/order_create.html:15
@@ -1588,12 +1660,6 @@ msgstr "Değişiklik yok"
 #: templates/catalog/import_preview.html:64
 msgid "Confirm and import"
 msgstr "Onayla ve İçe Aktar"
-
-#: templates/catalog/import_upload.html:3
-#: templates/catalog/import_upload.html:4 templates/catalog/product_list.html:7
-#: templates/partials/menu.html:45
-msgid "Excel import"
-msgstr "Excel İçe Aktarma"
 
 #: templates/catalog/import_upload.html:8
 msgid "1. Download the template"
@@ -1675,10 +1741,6 @@ msgstr "Ekle"
 msgid "No dealer specific price is defined for this product."
 msgstr "Bu ürün için bayiye özel fiyat tanımlı değil."
 
-#: templates/catalog/product_list.html:4 templates/partials/menu.html:43
-msgid "Product management"
-msgstr "Ürün Yönetimi"
-
 #: templates/catalog/product_list.html:21 templates/orders/order_detail.html:68
 #: templates/orders/order_review.html:18
 #, python-format
@@ -1721,7 +1783,7 @@ msgstr "Sil"
 msgid "No dealer special price has been defined."
 msgstr "Tanımlı bayi özel fiyatı yok."
 
-#: templates/core/home.html:3 templates/partials/menu.html:3
+#: templates/core/home.html:3
 msgid "Home"
 msgstr "Ana Sayfa"
 
@@ -1738,19 +1800,9 @@ msgstr "Toplam sipariş"
 msgid "Awaiting payment"
 msgstr "Ödeme bekleyen"
 
-#: templates/core/home.html:21 templates/logistics/pending_shipments.html:3
-#: templates/partials/menu.html:21
-msgid "Awaiting shipment"
-msgstr "Sevkiyat Bekleyenler"
-
 #: templates/core/home.html:32
 msgid "Order volume (USD)"
 msgstr "Sipariş hacmi (USD)"
-
-#: templates/core/home.html:55 templates/orders/draft_list.html:3
-#: templates/orders/draft_list.html:4 templates/partials/menu.html:8
-msgid "My drafts"
-msgstr "Taslaklarım"
 
 #: templates/core/home.html:60 templates/payments/exchange_rates.html:8
 #: templates/payments/payment_approve.html:53
@@ -1798,10 +1850,6 @@ msgstr "Bu bayinin henüz siparişi yok."
 msgid "No dealer has been defined yet."
 msgstr "Henüz bayi tanımlanmamış."
 
-#: templates/dealers/dealer_list.html:4 templates/partials/menu.html:42
-msgid "Dealer management"
-msgstr "Bayi Yönetimi"
-
 #: templates/dealers/dealer_list.html:7
 msgid "Dealer name, code or city"
 msgstr "Bayi adı, kodu veya şehri"
@@ -1829,7 +1877,7 @@ msgid ""
 msgstr "Mevcut kullanıcılar etkilenmez; yalnızca bu alan adından yeni kayıtlar reddedilir."
 
 #: templates/dealers/domain_form.html:3 templates/dealers/domain_list.html:3
-#: templates/dealers/domain_list.html:4 templates/partials/menu.html:46
+#: templates/dealers/domain_list.html:4
 msgid "Domain mapping"
 msgstr "Alan Adı Eşleştirme"
 
@@ -1911,7 +1959,7 @@ msgstr "Sevkiyat bekleyen sipariş yok."
 
 #: templates/notifications/notification_list.html:3
 #: templates/notifications/notification_list.html:4
-#: templates/partials/menu.html:52 templates/partials/notification_bell.html:3
+#: templates/partials/notification_bell.html:3
 #: templates/partials/notification_bell.html:11
 msgid "Notifications"
 msgstr "Bildirimler"
@@ -2201,14 +2249,6 @@ msgid ""
 "summary of the order record and carries no legal or fiscal value."
 msgstr "Bu belge resmi fatura veya irsaliye değildir. Sipariş kaydının okunabilir özetidir ve hukuki ya da mali hüküm taşımaz."
 
-#: templates/orders/order_list.html:4 templates/partials/menu.html:7
-msgid "My orders"
-msgstr "Siparişlerim"
-
-#: templates/orders/order_list.html:4 templates/partials/menu.html:26
-msgid "All orders"
-msgstr "Tüm Siparişler"
-
 #: templates/orders/order_list.html:9
 msgid "Order number, product code or name"
 msgstr "Sipariş numarası, ürün kodu veya adı"
@@ -2271,43 +2311,9 @@ msgstr "Filtreleri Temizle"
 msgid "Export to Excel"
 msgstr "Excel'e Aktar"
 
-#: templates/partials/menu.html:9 templates/payments/payment_history.html:4
-msgid "My payment history"
-msgstr "Ödeme Geçmişim"
-
-#: templates/partials/menu.html:10 templates/reports/dashboard.html:4
-msgid "My reports"
-msgstr "Raporlarım"
-
-#: templates/partials/menu.html:15 templates/payments/pending_approvals.html:3
-msgid "Awaiting approval"
-msgstr "Onay Bekleyenler"
-
-#: templates/partials/menu.html:33 templates/reports/dashboard.html:3
-#: templates/reports/dashboard.html:4
-msgid "Reporting"
-msgstr "Raporlama"
-
-#: templates/partials/menu.html:34
-msgid "Dealer / product / brand"
-msgstr "Bayi / Ürün / Marka"
-
-#: templates/partials/menu.html:35 templates/reports/finance.html:3
-msgid "Finance and operations"
-msgstr "Finans ve Operasyon"
-
-#: templates/partials/menu.html:39
-msgid "Administration"
-msgstr "Yönetim"
-
-#: templates/partials/menu.html:47 templates/payments/exchange_rates.html:3
-#: templates/payments/exchange_rates.html:4
-msgid "System settings"
-msgstr "Sistem Ayarları"
-
-#: templates/partials/menu.html:50
-msgid "Account"
-msgstr "Hesap"
+#: templates/partials/menu.html:3
+msgid "Main menu"
+msgstr "Ana menü"
 
 #: templates/partials/notification_bell.html:32
 msgid "View all notifications"
@@ -2325,6 +2331,10 @@ msgstr "Sayfa %(current)s / %(total)s"
 #: templates/partials/pagination.html:9
 msgid "Next"
 msgstr "Sonraki"
+
+#: templates/partials/sidebar_footer.html:20
+msgid "Sign out"
+msgstr "Çıkış Yap"
 
 #: templates/payments/exchange_rates.html:13
 msgid "Effective rate date"
@@ -2500,6 +2510,10 @@ msgid ""
 "individual payments are not used here."
 msgstr "Tutarlar güncel kur (%(rate)s) ile çevrilmiştir; ödeme kayıtlarındaki donmuş kurlar burada kullanılmaz."
 
+#: templates/reports/dashboard.html:3 templates/reports/dashboard.html:4
+msgid "Reporting"
+msgstr "Raporlama"
+
 #: templates/reports/dashboard.html:10
 msgid "Total turnover"
 msgstr "Toplam ciro"
@@ -2581,3 +2595,9 @@ msgstr "Sipariş → sevkiyat (uçtan uca)"
 #: templates/reports/finance.html:31
 msgid "Sample size"
 msgstr "Örneklem büyüklüğü"
+
+#~ msgid "Dealer / product / brand"
+#~ msgstr "Bayi / Ürün / Marka"
+
+#~ msgid "Account"
+#~ msgstr "Hesap"

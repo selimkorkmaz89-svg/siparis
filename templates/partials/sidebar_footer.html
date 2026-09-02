@@ -1,0 +1,23 @@
+{% load i18n %}
+<div class="sidebar-foot">
+  <div class="sidebar-user">
+    <div class="avatar">
+      {% if user.profile_photo %}
+        <img src="{{ user.profile_photo.url }}" alt="{{ user.get_full_name }}">
+      {% else %}
+        {{ user.get_full_name|default:user.email|slice:":2"|upper }}
+      {% endif %}
+    </div>
+    <div class="sidebar-user-text">
+      <div class="role">{{ nav_role_label }}</div>
+      <div class="name">{{ user.get_full_name|default:user.email }}</div>
+      {% if user.dealer %}<div class="dealer">{{ user.dealer.name }}</div>{% endif %}
+    </div>
+  </div>
+  <form method="post" action="{% url 'accounts:logout' %}">
+    {% csrf_token %}
+    <button class="sidebar-logout" type="submit">
+      {% load ui %}{% icon "sign-out" 14 "menu-icon" %} {% translate "Sign out" %}
+    </button>
+  </form>
+</div>
