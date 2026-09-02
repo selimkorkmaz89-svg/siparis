@@ -164,7 +164,7 @@ COMPANY_TAX_NO = config("COMPANY_TAX_NO", default="")
 COMPANY_ADDRESS = config("COMPANY_ADDRESS", default="")
 COMPANY_PHONE = config("COMPANY_PHONE", default="")
 COMPANY_EMAIL = config("COMPANY_EMAIL", default="")
-COMPANY_LOGO = config("COMPANY_LOGO", default="img/logo.svg")
+COMPANY_LOGO = config("COMPANY_LOGO", default="img/logo.png")
 BRAND_COLOR = "#0D8DBE"
 ORDER_NO_PREFIX = config("ORDER_NO_PREFIX", default="BSH")
 

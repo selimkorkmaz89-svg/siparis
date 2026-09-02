@@ -153,8 +153,8 @@ Firma adı, logo ve vurgu rengi ayardan gelir; şablonlarda sabit yazılmaz.
 
 | Ayar | Varsayılan | Nerede görünür |
 |---|---|---|
-| `COMPANY_NAME` | `BASH Medikal` | Sol menü başlığı, sayfa başlıkları, PDF |
-| `COMPANY_LOGO` | `img/logo.svg` | Sol menü, mobil başlık, giriş ekranı, PDF |
+| `COMPANY_NAME` | `BASH Medikal` | Sayfa başlıkları, `alt` metni, PDF |
+| `COMPANY_LOGO` | `img/logo.png` | Sol menü, mobil başlık, giriş ekranı, PDF |
 | `BRAND_COLOR` | `#0D8DBE` | PDF vurgu rengi |
 
 Kendi logo dosyanızı kullanmak için dosyayı `static/img/` altına koyup `.env`
@@ -164,9 +164,11 @@ içinde yolunu verin:
 COMPANY_LOGO=img/logo.png
 ```
 
-Sol menüde logo 34x34 piksellik kare bir alanda gösterilir, bu yüzden yazısız
-(sadece amblem) bir dosya en iyi sonucu verir; firma adı zaten yanında yazar.
-Menü altındaki "SİPARİŞ SİSTEMİ" satırı çeviriden gelir (`Order System`).
+Sol menüde artık yazı yok — sadece logo (büyütülmüş) ve altında "SİPARİŞ
+SİSTEMİ" satırı var (çeviriden gelir, `Order System`); `COMPANY_NAME` yalnızca
+sayfa başlığında, `alt` metninde ve PDF'te kullanılır. Şeffaf arka planlı,
+kare olmayan bir dosya (PNG/SVG) en iyi sonucu verir — sol menüde 56px
+yükseklikte, giriş ekranında 64px yükseklikte, oranı korunarak gösterilir.
 
 ## E-posta ayarları / Email settings
 

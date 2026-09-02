@@ -18,10 +18,7 @@
     <div class="sidebar-head">
       <a class="brand" href="{% url 'core:home' %}">
         <img src="{% static COMPANY_LOGO %}" alt="{{ COMPANY_NAME }}" onerror="this.style.display='none'">
-        <div>
-          <div class="brand-name">{{ COMPANY_NAME }}</div>
-          <div class="brand-sub">{% translate "Order System" %}</div>
-        </div>
+        <span class="brand-sub">{% translate "Order System" %}</span>
       </a>
       <button class="drawer-close" id="drawerClose" aria-label="{% translate 'Close' %}">
         {% icon "close" 20 "menu-icon" %}
@@ -39,7 +36,6 @@
     </button>
     <a class="brand" href="{% url 'core:home' %}">
       <img src="{% static COMPANY_LOGO %}" alt="{{ COMPANY_NAME }}" onerror="this.style.display='none'">
-      <span class="brand-name">{{ COMPANY_NAME }}</span>
     </a>
     <div class="mobile-bar-actions">
       {% include "partials/language_switcher.html" %}

@@ -39,7 +39,7 @@ body {
   margin: 0; background: var(--bg); color: var(--ink);
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px;
 }
-h1, h2, h3, .brand-name, .topbar-name { font-family: Manrope, Inter, "Segoe UI", Arial, sans-serif; }
+h1, h2, h3, .topbar-name { font-family: Manrope, Inter, "Segoe UI", Arial, sans-serif; }
 a { color: var(--brand); text-decoration: none; }
 a:hover { text-decoration: underline; }
 h1 { font-size: 20px; margin: 0; letter-spacing: -.01em; }
@@ -57,17 +57,15 @@ h3 { font-size: 15px; margin: 0 0 8px; }
   display: flex; align-items: center; gap: 8px;
   padding: 16px 20px; border-bottom: 1px solid var(--slate-800);
 }
-.brand > div { min-width: 0; }
-.brand { display: flex; align-items: center; gap: 12px; color: inherit; min-width: 0; }
-.brand:hover { text-decoration: none; }
-.brand img { height: 34px; width: 34px; border-radius: 9px; object-fit: contain; flex-shrink: 0; }
-.brand-name {
-  font-weight: 700; color: #fff; line-height: 1.2; letter-spacing: -.01em; font-size: 15px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+.brand {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: inherit; min-width: 0; width: 100%;
 }
+.brand:hover { text-decoration: none; }
+.brand img { height: 56px; width: auto; max-width: 100%; object-fit: contain; }
 .brand-sub {
   font-size: 9.5px; color: var(--slate-400); text-transform: uppercase; letter-spacing: .12em;
-  margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .drawer-close { display: none; margin-left: auto; background: none; border: 0; color: var(--slate-300); cursor: pointer; }
 
@@ -399,7 +397,7 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--brand-light
 .auth-card h1 { font-size: 20px; margin-bottom: 6px; }
 .auth-card .subtitle { color: var(--muted); margin-bottom: 20px; }
 .auth-logo { text-align: center; margin-bottom: 18px; }
-.auth-logo img { height: 46px; }
+.auth-logo img { height: 64px; }
 .field { margin-bottom: 14px; }
 
 .import-diff { font-size: 12.5px; }
@@ -417,7 +415,7 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--brand-light
     position: sticky; top: 0; z-index: 40; background: var(--surface);
     border-bottom: 1px solid var(--line); padding: 10px 14px;
   }
-  .mobile-bar .brand-name { color: var(--ink); font-size: 14px; }
+  .mobile-bar .brand { flex-direction: row; width: auto; }
   .mobile-bar .brand img { height: 28px; }
   .mobile-bar-actions { display: flex; align-items: center; gap: 10px; }
   .menu-toggle { background: none; border: 0; color: var(--ink); cursor: pointer; padding: 4px; }
