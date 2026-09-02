@@ -570,6 +570,7 @@ TRANSLATIONS = {
     "Total (USD)": "Toplam (USD)",
     "This dealer has no orders yet.": "Bu bayinin henüz siparişi yok.",
     "No dealer has been defined yet.": "Henüz bayi tanımlanmamış.",
+    "Every dealer": "Tümü",
     "Delete domain mapping": "Alan adı eşleştirmesini sil",
     "Delete the mapping of <strong>@%(domain)s</strong> to <strong>%(dealer)s</strong>?":
         "<strong>@%(domain)s</strong> alan adının <strong>%(dealer)s</strong> bayisine eşleştirmesi silinsin mi?",

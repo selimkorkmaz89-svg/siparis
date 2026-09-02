@@ -64,42 +64,56 @@ def dealer_form(request, pk=None):
 
 @role_required(Role.FINANCE, Role.LOGISTICS, Role.MANAGEMENT)
 def dealer_history(request, pk=None):
-    """Dealer-by-dealer order history for finance, logistics and management."""
+    """Dealer-by-dealer order history for finance, logistics and management.
+
+    With no pk, shows every dealer's orders together ("Tümü") with a Dealer
+    column, instead of forcing a single dealer to be picked first.
+    """
     dealers = Dealer.objects.filter(is_active=True).order_by("name")
-    dealer = get_object_or_404(Dealer, pk=pk) if pk else dealers.first()
-    orders = Order.objects.none()
+    dealer = get_object_or_404(Dealer, pk=pk) if pk else None
+    has_dealers = dealers.exists()
     totals = {}
-    if dealer is not None:
+    context_filter = {}
+    orders = Order.objects.none()
+    if dealer is not None or has_dealers:
         orders = (
-            Order.objects.filter(dealer=dealer)
-            .exclude(status=OrderStatus.DRAFT)
-            .select_related("created_by")
+            Order.objects.exclude(status=OrderStatus.DRAFT)
+            .select_related("created_by", "dealer")
             .prefetch_related("items")
         )
+        if dealer is not None:
+            orders = orders.filter(dealer=dealer)
+        search_fields = ("order_no", "items__product_code", "items__product_name")
+        ordering_map = {"order_no": "order_no", "date": "created_at",
+                        "total": "total_amount_usd", "status": "status"}
+        if dealer is None:
+            search_fields += ("dealer__name",)
+            ordering_map["dealer"] = "dealer__name"
         list_filter = ListFilter(
-            request,
-            search_fields=("order_no", "items__product_code", "items__product_name"),
-            ordering_map={"order_no": "order_no", "date": "created_at",
-                          "total": "total_amount_usd", "status": "status"},
+            request, search_fields=search_fields, ordering_map=ordering_map,
         )
         orders = list_filter.apply(orders).distinct()
         totals = orders.aggregate(total_usd=Sum("total_amount_usd"), count=Count("id"))
         if request.GET.get("export") == "excel":
+            columns = [_("Order number"), _("Date"), _("Status"), _("Subtotal (USD)"),
+                       _("VAT total (USD)"), _("Grand total (USD)"), _("Created by")]
+            if dealer is None:
+                columns.insert(1, _("Dealer"))
+            rows = []
+            for o in orders:
+                row = [o.order_no or "-", o.created_at, o.get_status_display(),
+                       o.subtotal_usd, o.vat_total_usd, o.total_amount_usd,
+                       str(o.created_by)]
+                if dealer is None:
+                    row.insert(1, o.dealer.name)
+                rows.append(tuple(row))
             return excel_response(
-                f"dealer-history-{dealer.name}",
+                f"dealer-history-{dealer.name}" if dealer else "dealer-history-all",
                 str(_("Dealer history")),
-                [_("Order number"), _("Date"), _("Status"), _("Subtotal (USD)"),
-                 _("VAT total (USD)"), _("Grand total (USD)"), _("Created by")],
-                [
-                    (o.order_no or "-", o.created_at, o.get_status_display(),
-                     o.subtotal_usd, o.vat_total_usd, o.total_amount_usd,
-                     str(o.created_by))
-                    for o in orders
-                ],
+                columns,
+                rows,
             )
         context_filter = list_filter.as_context()
-    else:
-        context_filter = {}
     page = Paginator(orders, 25).get_page(request.GET.get("page"))
     return render(
         request,
@@ -107,6 +121,7 @@ def dealer_history(request, pk=None):
         {
             "dealers": dealers,
             "dealer": dealer,
+            "has_dealers": has_dealers,
             "page_obj": page,
             "orders": page.object_list,
             "totals": totals,
