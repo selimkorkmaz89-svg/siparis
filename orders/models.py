@@ -44,7 +44,10 @@ class OrderNumberSequence(models.Model):
 class OrderQuerySet(models.QuerySet):
     def visible_to(self, user):
         if user.can_see_all_dealers:
-            return self
+            # Orders cancelled before ever getting an official number were
+            # never really placed - they're just a dealer's discarded draft,
+            # and only that dealer needs to see them.
+            return self.exclude(status=OrderStatus.CANCELLED, order_no__isnull=True)
         return self.filter(dealer=user.dealer)
 
     def active(self):

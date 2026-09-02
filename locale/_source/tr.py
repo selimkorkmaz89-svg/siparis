@@ -761,8 +761,10 @@ TRANSLATIONS = {
     "Recorded payment": "Girilen ödeme",
     "Declared by": "Bildiren",
     "Receipt file": "Dekont dosyası",
-    "Approve this payment and mark the order as paid?":
-        "Bu ödeme onaylanıp sipariş ödendi olarak işaretlensin mi?",
+    "Approve this payment?": "Bu ödeme onaylansın mı?",
+    "The order will be marked as paid and moved forward in the workflow. This cannot be undone from this screen.":
+        "Sipariş ödendi olarak işaretlenip iş akışında ilerletilecek. Bu ekrandan geri alınamaz.",
+    "Yes, approve it": "Evet, onayla",
     "No payment has been recorded for this order yet.":
         "Bu sipariş için henüz ödeme kaydı girilmemiş.",
     "Order summary": "Sipariş özeti",

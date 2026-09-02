@@ -27,14 +27,13 @@
         {% if payment.receipt %}<tr><td>{% translate "Receipt file" %}</td><td><a href="{{ payment.receipt.url }}" target="_blank">{% translate "Open" %}</a></td></tr>{% endif %}
         {% if payment.note %}<tr><td>{% translate "Note" %}</td><td>{{ payment.note }}</td></tr>{% endif %}
       </table>
-      <form method="post" class="mt">
+      <form method="post" class="mt" id="approvePaymentForm">
         {% csrf_token %}
         <div class="field">
           <label for="{{ form.note.id_for_label }}">{{ form.note.label }}</label>
           {{ form.note }}
         </div>
-        <button class="btn btn-success" type="submit"
-                data-confirm="{% translate 'Approve this payment and mark the order as paid?' %}">
+        <button class="btn btn-success" type="submit" data-confirm-dialog="confirmApproveDialog">
           {% translate "Approve payment" %}
         </button>
       </form>
@@ -56,4 +55,26 @@
     <a class="btn btn-ghost mt" href="{% url 'orders:detail' order.pk %}">{% translate "Open order detail" %}</a>
   </div>
 </div>
+
+{% if payment %}
+{% comment %}
+  Second confirmation: approving marks the order paid and cannot be undone
+  from here, so an accidental click must not be enough.
+{% endcomment %}
+<div class="modal hidden" id="confirmApproveDialog" role="dialog" aria-modal="true"
+     aria-labelledby="confirmApproveTitle">
+  <div class="modal-card">
+    <h2 id="confirmApproveTitle">{% translate "Approve this payment?" %}</h2>
+    <p class="muted">
+      {% translate "The order will be marked as paid and moved forward in the workflow. This cannot be undone from this screen." %}
+    </p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" data-modal-cancel>{% translate "Cancel" %}</button>
+      <button class="btn btn-success" type="button" data-modal-confirm>
+        {% translate "Yes, approve it" %}
+      </button>
+    </div>
+  </div>
+</div>
+{% endif %}
 {% endblock %}

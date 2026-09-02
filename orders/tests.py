@@ -171,6 +171,25 @@ class OrderWorkflowTests(TestCase):
         self.assertEqual(Order.objects.visible_to(other_user).count(), 0)
         self.assertEqual(Order.objects.visible_to(self.finance).count(), 1)
 
+    def test_cancelled_draft_only_visible_to_its_own_dealer(self):
+        """A draft cancelled before ever being submitted has no order number
+        and is nobody else's business - not finance, not admin."""
+        draft = self._draft_with_item()
+        services.cancel_order(draft, self.dealer_user)
+        self.assertIsNone(draft.order_no)
+        self.assertEqual(draft.status, OrderStatus.CANCELLED)
+        self.assertEqual(Order.objects.visible_to(self.dealer_user).count(), 1)
+        self.assertEqual(Order.objects.visible_to(self.finance).count(), 0)
+
+    def test_cancelled_submitted_order_stays_visible_to_finance(self):
+        """Once an order has an official number, cancelling it later still
+        leaves it visible to staff - it was really placed."""
+        order = self._draft_with_item()
+        services.submit_order(order, self.dealer_user)
+        services.cancel_order(order, self.dealer_user)
+        self.assertIsNotNone(order.order_no)
+        self.assertEqual(Order.objects.visible_to(self.finance).count(), 1)
+
     def test_reorder_copies_the_basket(self):
         order = self._draft_with_item(4)
         services.submit_order(order, self.dealer_user)

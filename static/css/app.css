@@ -350,11 +350,20 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--brand-light
 .bell-list li.empty { padding: 18px; text-align: center; color: var(--muted); }
 
 /* ---------- order screen ---------- */
-.order-layout { display: grid; grid-template-columns: 1fr 380px; gap: 18px; align-items: start; }
+.order-layout { display: grid; grid-template-columns: 1fr 440px; gap: 18px; align-items: start; }
+/* A grid track's default min-width is the size of its content, so the wide
+   product table would otherwise stretch this track (and the basket with it)
+   past the viewport instead of scrolling inside its own .table-wrap. */
+.order-layout > * { min-width: 0; }
 .basket { position: sticky; top: 70px; }
 .basket-total { display: flex; justify-content: space-between; padding: 5px 0; }
 .basket-total.grand { border-top: 2px solid var(--line); margin-top: 8px; padding-top: 10px; font-size: 16px; font-weight: 700; }
 .qty-input { width: 78px; }
+/* The basket sits in a narrower fixed column than other tables, so its cells
+   need tighter padding to keep the remove button on screen without scrolling. */
+.basket table th, .basket table td { padding: 8px 6px; }
+.basket .qty-input { width: 52px; padding: 6px 4px; text-align: center; }
+.basket table td:last-child, .basket table th:last-child { padding-left: 0; }
 .product-results tbody tr td { padding: 7px 10px; }
 .timeline { list-style: none; margin: 0; padding: 0; }
 .timeline li { padding: 10px 0 10px 18px; border-left: 2px solid var(--line); position: relative; }

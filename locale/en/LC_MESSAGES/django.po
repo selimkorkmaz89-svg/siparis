@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 22:06+0300\n"
+"POT-Creation-Date: 2026-09-02 22:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -142,7 +142,7 @@ msgid "email address"
 msgstr "email address"
 
 #: accounts/models.py:49 catalog/models.py:150 dealers/models.py:44
-#: dealers/models.py:66 orders/models.py:65
+#: dealers/models.py:66 orders/models.py:68
 msgid "dealer"
 msgstr "dealer"
 
@@ -150,7 +150,7 @@ msgstr "dealer"
 msgid "role"
 msgstr "role"
 
-#: accounts/models.py:59 notifications/models.py:104 orders/models.py:76
+#: accounts/models.py:59 notifications/models.py:104 orders/models.py:79
 #: payments/models.py:82
 msgid "status"
 msgstr "status"
@@ -250,7 +250,7 @@ msgstr "Role"
 #: templates/orders/_order_filters.html:11
 #: templates/orders/order_detail.html:69
 #: templates/orders/order_form_pdf.html:86 templates/orders/order_list.html:29
-#: templates/payments/payment_approve.html:51
+#: templates/payments/payment_approve.html:50
 #: templates/payments/payment_form.html:28
 #: templates/payments/payment_history.html:23
 #: templates/payments/pending_approvals.html:26
@@ -335,7 +335,7 @@ msgid "Currency"
 msgstr "Currency"
 
 #: catalog/imports.py:32 catalog/imports.py:297 catalog/models.py:110
-#: catalog/views.py:49 integrations/models.py:109 orders/models.py:229
+#: catalog/views.py:49 integrations/models.py:109 orders/models.py:232
 msgid "VAT rate (%)"
 msgstr "VAT rate (%)"
 
@@ -485,7 +485,7 @@ msgstr "%(field)s '%(value)s' is not recognised."
 msgid "device model"
 msgstr "device model"
 
-#: catalog/models.py:22 catalog/models.py:70 orders/models.py:222
+#: catalog/models.py:22 catalog/models.py:70 orders/models.py:225
 msgid "brand"
 msgstr "brand"
 
@@ -498,11 +498,11 @@ msgstr "active"
 msgid "device models"
 msgstr "device models"
 
-#: catalog/models.py:68 orders/models.py:220
+#: catalog/models.py:68 orders/models.py:223
 msgid "product code"
 msgstr "product code"
 
-#: catalog/models.py:69 orders/models.py:221
+#: catalog/models.py:69 orders/models.py:224
 msgid "product name"
 msgstr "product name"
 
@@ -552,7 +552,7 @@ msgid ""
 "containing it can be sent to Mikro."
 msgstr "This product's stock (stok) code in Mikro. Required before an order containing it can be sent to Mikro."
 
-#: catalog/models.py:129 catalog/models.py:156 orders/models.py:216
+#: catalog/models.py:129 catalog/models.py:156 orders/models.py:219
 msgid "product"
 msgstr "product"
 
@@ -1055,7 +1055,7 @@ msgstr "Dealer saved: %(name)s"
 #: templates/integrations/settings.html:126
 #: templates/logistics/pending_shipments.html:19
 #: templates/orders/order_detail.html:56 templates/orders/order_list.html:28
-#: templates/payments/payment_approve.html:50
+#: templates/payments/payment_approve.html:49
 #: templates/payments/payment_form.html:27
 #: templates/payments/payment_history.html:22
 #: templates/payments/pending_approvals.html:25
@@ -1073,7 +1073,7 @@ msgstr "Date"
 msgid "Subtotal (USD)"
 msgstr "Subtotal (USD)"
 
-#: dealers/views.py:99 orders/models.py:87 orders/views.py:90
+#: dealers/views.py:99 orders/models.py:90 orders/views.py:90
 #: templates/orders/order_list.html:17
 msgid "VAT total (USD)"
 msgstr "VAT total (USD)"
@@ -1083,7 +1083,7 @@ msgstr "VAT total (USD)"
 #: templates/dealers/dealer_history.html:37
 #: templates/logistics/pending_shipments.html:23
 #: templates/orders/draft_list.html:18 templates/orders/order_list.html:33
-#: templates/payments/payment_approve.html:52
+#: templates/payments/payment_approve.html:51
 #: templates/payments/payment_form.html:29
 #: templates/payments/pending_approvals.html:28
 msgid "Grand total (USD)"
@@ -1347,8 +1347,8 @@ msgstr "title"
 msgid "body"
 msgstr "body"
 
-#: notifications/models.py:24 notifications/models.py:97 orders/models.py:124
-#: orders/models.py:212 orders/models.py:268 payments/models.py:63
+#: notifications/models.py:24 notifications/models.py:97 orders/models.py:127
+#: orders/models.py:215 orders/models.py:271 payments/models.py:63
 msgid "order"
 msgstr "order"
 
@@ -1562,132 +1562,132 @@ msgstr "order number sequence"
 msgid "order number sequences"
 msgstr "order number sequences"
 
-#: orders/models.py:61
+#: orders/models.py:64
 msgid "order number"
 msgstr "order number"
 
-#: orders/models.py:71
+#: orders/models.py:74
 msgid "created by"
 msgstr "created by"
 
-#: orders/models.py:84
+#: orders/models.py:87
 msgid "subtotal (USD)"
 msgstr "subtotal (USD)"
 
-#: orders/models.py:90
+#: orders/models.py:93
 msgid "grand total (USD)"
 msgstr "grand total (USD)"
 
-#: orders/models.py:93
+#: orders/models.py:96
 msgid "shipment status"
 msgstr "shipment status"
 
-#: orders/models.py:98
+#: orders/models.py:101
 msgid "shipped at"
 msgstr "shipped at"
 
-#: orders/models.py:101
+#: orders/models.py:104
 msgid "shipped by"
 msgstr "shipped by"
 
-#: orders/models.py:107
+#: orders/models.py:110
 msgid "tracking number"
 msgstr "tracking number"
 
-#: orders/models.py:108
+#: orders/models.py:111
 msgid "carrier"
 msgstr "carrier"
 
-#: orders/models.py:109
+#: orders/models.py:112
 msgid "submitted at"
 msgstr "submitted at"
 
-#: orders/models.py:110
+#: orders/models.py:113
 msgid "paid at"
 msgstr "paid at"
 
-#: orders/models.py:111
+#: orders/models.py:114
 msgid "dealer note"
 msgstr "dealer note"
 
-#: orders/models.py:114
+#: orders/models.py:117
 msgid "Mikro sync status"
 msgstr "Mikro sync status"
 
-#: orders/models.py:117
+#: orders/models.py:120
 msgid "sent to Mikro at"
 msgstr "sent to Mikro at"
 
-#: orders/models.py:118
+#: orders/models.py:121
 msgid "Mikro reference"
 msgstr "Mikro reference"
 
-#: orders/models.py:119
+#: orders/models.py:122
 msgid "Mikro sync error"
 msgstr "Mikro sync error"
 
-#: orders/models.py:125
+#: orders/models.py:128
 msgid "orders"
 msgstr "orders"
 
-#: orders/models.py:144
+#: orders/models.py:147
 #, python-format
 msgid "Draft #%(pk)s"
 msgstr "Draft #%(pk)s"
 
-#: orders/models.py:224
+#: orders/models.py:227
 msgid "quantity"
 msgstr "quantity"
 
-#: orders/models.py:227
+#: orders/models.py:230
 msgid "unit price (USD)"
 msgstr "unit price (USD)"
 
-#: orders/models.py:231
+#: orders/models.py:234
 msgid "line total (USD)"
 msgstr "line total (USD)"
 
-#: orders/models.py:234 templates/orders/order_detail.html:101
+#: orders/models.py:237 templates/orders/order_detail.html:101
 msgid "VAT amount (USD)"
 msgstr "VAT amount (USD)"
 
-#: orders/models.py:238
+#: orders/models.py:241
 msgid "order item"
 msgstr "order item"
 
-#: orders/models.py:239
+#: orders/models.py:242
 msgid "order items"
 msgstr "order items"
 
-#: orders/models.py:271
+#: orders/models.py:274
 msgid "from status"
 msgstr "from status"
 
-#: orders/models.py:274
+#: orders/models.py:277
 msgid "to status"
 msgstr "to status"
 
-#: orders/models.py:277
+#: orders/models.py:280
 msgid "order number at the time"
 msgstr "order number at the time"
 
-#: orders/models.py:281
+#: orders/models.py:284
 msgid "changed by"
 msgstr "changed by"
 
-#: orders/models.py:286
+#: orders/models.py:289
 msgid "changed at"
 msgstr "changed at"
 
-#: orders/models.py:287 payments/models.py:105
+#: orders/models.py:290 payments/models.py:105
 msgid "note"
 msgstr "note"
 
-#: orders/models.py:290
+#: orders/models.py:293
 msgid "order status change"
 msgstr "order status change"
 
-#: orders/models.py:291
+#: orders/models.py:294
 msgid "order status history"
 msgstr "order status history"
 
@@ -2162,6 +2162,7 @@ msgstr "Reject the registration request of <strong>%(name)s</strong> (%(email)s)
 #: templates/dealers/domain_form.html:21
 #: templates/logistics/mark_shipped.html:20
 #: templates/orders/order_review.html:72
+#: templates/payments/payment_approve.html:72
 #: templates/payments/payment_form.html:20
 msgid "Cancel"
 msgstr "Cancel"
@@ -2458,7 +2459,7 @@ msgid "Order volume (USD)"
 msgstr "Order volume (USD)"
 
 #: templates/core/home.html:47 templates/payments/exchange_rates.html:16
-#: templates/payments/payment_approve.html:53
+#: templates/payments/payment_approve.html:52
 #: templates/payments/payment_form.html:30
 #: templates/payments/pending_approvals.html:13
 msgid "USD/TRY rate in effect"
@@ -2856,12 +2857,12 @@ msgstr "Preview"
 
 #: templates/orders/order_detail.html:9
 #: templates/payments/payment_approve.html:3
-#: templates/payments/payment_approve.html:38
+#: templates/payments/payment_approve.html:37
 msgid "Approve payment"
 msgstr "Approve payment"
 
 #: templates/orders/order_detail.html:15
-#: templates/payments/payment_approve.html:43
+#: templates/payments/payment_approve.html:42
 #: templates/payments/payment_form.html:3
 msgid "Record payment"
 msgstr "Record payment"
@@ -3256,27 +3257,37 @@ msgstr "Receipt file"
 msgid "Open"
 msgstr "Open"
 
-#: templates/payments/payment_approve.html:37
-msgid "Approve this payment and mark the order as paid?"
-msgstr "Approve this payment and mark the order as paid?"
-
-#: templates/payments/payment_approve.html:42
+#: templates/payments/payment_approve.html:41
 msgid "No payment has been recorded for this order yet."
 msgstr "No payment has been recorded for this order yet."
 
-#: templates/payments/payment_approve.html:48
+#: templates/payments/payment_approve.html:47
 #: templates/payments/payment_form.html:25
 msgid "Order summary"
 msgstr "Order summary"
 
-#: templates/payments/payment_approve.html:54
+#: templates/payments/payment_approve.html:53
 #: templates/payments/payment_form.html:31
 msgid "Expected amount (TRY)"
 msgstr "Expected amount (TRY)"
 
-#: templates/payments/payment_approve.html:56
+#: templates/payments/payment_approve.html:55
 msgid "Open order detail"
 msgstr "Open order detail"
+
+#: templates/payments/payment_approve.html:67
+msgid "Approve this payment?"
+msgstr "Approve this payment?"
+
+#: templates/payments/payment_approve.html:69
+msgid ""
+"The order will be marked as paid and moved forward in the workflow. This "
+"cannot be undone from this screen."
+msgstr "The order will be marked as paid and moved forward in the workflow. This cannot be undone from this screen."
+
+#: templates/payments/payment_approve.html:74
+msgid "Yes, approve it"
+msgstr "Yes, approve it"
 
 #: templates/payments/payment_form.html:4
 #, python-format
@@ -3418,6 +3429,9 @@ msgstr "Order → shipment (end to end)"
 #: templates/reports/finance.html:38
 msgid "Sample size"
 msgstr "Sample size"
+
+#~ msgid "Approve this payment and mark the order as paid?"
+#~ msgstr "Approve this payment and mark the order as paid?"
 
 #~ msgid "Example: \"BASH Medikal\" <noreply@example.com>"
 #~ msgstr "Example: \"BASH Medikal\" <noreply@example.com>"
