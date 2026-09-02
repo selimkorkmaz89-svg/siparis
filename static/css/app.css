@@ -55,7 +55,7 @@ h3 { font-size: 15px; margin: 0 0 8px; }
 }
 .sidebar-head {
   display: flex; align-items: center; gap: 8px;
-  padding: 20px 20px; border-bottom: 1px solid var(--slate-800);
+  padding: 16px 20px; border-bottom: 1px solid var(--slate-800);
 }
 .brand > div { min-width: 0; }
 .brand { display: flex; align-items: center; gap: 12px; color: inherit; min-width: 0; }
@@ -72,12 +72,12 @@ h3 { font-size: 15px; margin: 0 0 8px; }
 .drawer-close { display: none; margin-left: auto; background: none; border: 0; color: var(--slate-300); cursor: pointer; }
 
 .menu {
-  flex: 1; display: flex; flex-direction: column; gap: 4px;
-  padding: 12px 12px 12px 0; overflow-y: auto;
+  flex: 1; display: flex; flex-direction: column; gap: 2px;
+  padding: 10px 12px 10px 0; overflow-y: auto;
 }
 .menu-link {
   display: flex; align-items: center; gap: 12px;
-  padding: 10px 14px; border-radius: 0 8px 8px 0;
+  padding: 8px 14px; border-radius: 0 8px 8px 0;
   font-size: 13.5px; color: var(--slate-300);
   border-left: 4px solid transparent; transition: background .15s, color .15s;
 }
@@ -88,12 +88,12 @@ h3 { font-size: 15px; margin: 0 0 8px; }
 }
 .menu-link span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .menu-divider {
-  display: block; height: 1px; margin: 8px 14px 8px 18px; background: var(--slate-800);
+  display: block; height: 1px; margin: 6px 14px 6px 18px; background: var(--slate-800);
 }
 
 .sidebar-foot {
-  padding: 16px; border-top: 1px solid var(--slate-800);
-  display: flex; flex-direction: column; gap: 10px;
+  padding: 14px 16px; border-top: 1px solid var(--slate-800);
+  display: flex; flex-direction: column; gap: 8px;
 }
 .sidebar-user { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .avatar {
