@@ -354,3 +354,39 @@ class MoneyFilterTests(TestCase):
 
         self.assertEqual(multiply(None, None), Decimal("0.00"))
         self.assertEqual(multiply("abc", 2), "")
+
+
+class SeedDemoGuardTests(TestCase):
+    """seed_demo must never touch a production (DEBUG=False) database."""
+
+    def test_it_refuses_to_run_without_debug_or_force(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+        from django.core.management.base import CommandError
+        from django.test import override_settings
+
+        with override_settings(DEBUG=False):
+            with self.assertRaises(CommandError):
+                call_command("seed_demo", orders=0, stdout=StringIO())
+        self.assertEqual(Dealer.objects.count(), 0)
+
+    def test_force_bypasses_the_guard(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+        from django.test import override_settings
+
+        with override_settings(DEBUG=False):
+            call_command("seed_demo", orders=0, force=True, stdout=StringIO())
+        self.assertTrue(Dealer.objects.exists())
+
+    def test_it_runs_normally_under_debug(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+        from django.test import override_settings
+
+        with override_settings(DEBUG=True):
+            call_command("seed_demo", orders=0, stdout=StringIO())
+        self.assertTrue(Dealer.objects.exists())

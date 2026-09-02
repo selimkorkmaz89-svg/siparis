@@ -70,11 +70,11 @@ def usd_to_try(amount_usd: Decimal, rate: Decimal) -> Decimal:
     return (Decimal(amount_usd) * Decimal(rate)).quantize(Decimal("0.01"))
 
 
-def _parse_tcmb_xml(payload: bytes) -> Decimal | None:
-    """Pull the USD effective selling rate out of a TCMB daily XML document."""
+def _parse_tcmb_xml(payload: bytes, currency_code: str = "USD") -> Decimal | None:
+    """Pull one currency's effective selling rate out of a TCMB daily XML document."""
     root = ElementTree.fromstring(payload)
     for currency in root.findall("Currency"):
-        if currency.get("CurrencyCode") != "USD":
+        if currency.get("CurrencyCode") != currency_code:
             continue
         for tag in ("BanknoteSelling", "ForexSelling"):
             node = currency.find(tag)
@@ -87,7 +87,12 @@ def _parse_tcmb_xml(payload: bytes) -> Decimal | None:
 
 
 def fetch_tcmb_rate(date: dt.date | None = None) -> ExchangeRate | None:
-    """Fetch and store the TCMB rate for ``date`` (today's file when omitted)."""
+    """Fetch and store the TCMB USD and CHF rates for ``date`` (today's file when omitted).
+
+    A missing CHF figure never blocks the USD rate from being stored - CHF
+    only feeds the small reprice step for Swiss-Franc list prices, USD/TRY is
+    what the rest of the app depends on.
+    """
     date = date or timezone.localdate()
     urls = [settings.TCMB_TODAY_URL] if date == timezone.localdate() else []
     urls.append(
@@ -103,20 +108,36 @@ def fetch_tcmb_rate(date: dt.date | None = None) -> ExchangeRate | None:
             logger.warning("TCMB request failed (%s): %s", url, exc)
             continue
         try:
-            value = _parse_tcmb_xml(response.content)
+            usd_value = _parse_tcmb_xml(response.content, "USD")
+            chf_value = _parse_tcmb_xml(response.content, "CHF")
         except ElementTree.ParseError as exc:
             logger.warning("TCMB response could not be parsed (%s): %s", url, exc)
             continue
-        if value is None:
+        if usd_value is None:
             continue
+        defaults = {"usd_try_rate": usd_value, "rate_type": "efektif satış", "source": "TCMB"}
+        if chf_value is not None:
+            defaults["chf_try_rate"] = chf_value
         rate, _created = ExchangeRate.objects.update_or_create(
-            rate_date=date,
-            defaults={"usd_try_rate": value, "rate_type": "efektif satış", "source": "TCMB"},
+            rate_date=date, defaults=defaults,
         )
-        logger.info("TCMB rate stored: %s = %s", date, value)
+        logger.info("TCMB rate stored: %s = %s (CHF %s)", date, usd_value, chf_value)
+        reprice_chf_products(rate)
         return rate
     logger.warning("No TCMB rate available for %s (weekend or holiday?)", date)
     return None
+
+
+def reprice_chf_products(rate: ExchangeRate) -> None:
+    if not rate.chf_to_usd_rate:
+        return
+    from catalog.services import reprice_foreign_currency_products
+    from core.constants import Currency
+
+    try:
+        reprice_foreign_currency_products(Currency.CHF, rate.chf_to_usd_rate)
+    except Exception:
+        logger.exception("Could not reprice CHF-listed products")
 
 
 #: Placeholder rows a real fetch is allowed to overwrite. A MANUAL row is a

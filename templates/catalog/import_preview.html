@@ -9,6 +9,10 @@
   {% endblocktranslate %}
 </div>
 
+{% for warning in preview.warnings %}
+  <div class="alert alert-warning">{{ warning }}</div>
+{% endfor %}
+
 {% if preview.creates %}
 <div class="card">
   <h2>✅ {% translate "To be created" %}</h2>

@@ -53,3 +53,11 @@ class ExchangeRateForm(forms.Form):
         decimal_places=4,
         widget=forms.NumberInput(attrs={"class": "form-control", "step": "0.0001"}),
     )
+    chf_try_rate = forms.DecimalField(
+        label=_("CHF/TRY rate"),
+        max_digits=12,
+        decimal_places=4,
+        required=False,
+        widget=forms.NumberInput(attrs={"class": "form-control", "step": "0.0001"}),
+        help_text=_("Optional - only needed to price Swiss-Franc list items."),
+    )

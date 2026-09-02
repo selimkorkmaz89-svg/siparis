@@ -4,7 +4,7 @@ from io import BytesIO
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import translation
+from django.utils import timezone, translation
 from openpyxl import Workbook
 
 from catalog import imports
@@ -25,7 +25,9 @@ def workbook_bytes(rows, headers=None):
 
 class ProductImportTests(TestCase):
     def test_new_rows_are_previewed_not_written(self):
-        stream = workbook_bytes([["PRD-1", "Kit A", "Acme", "", 100, "50.00", "20", ""]])
+        stream = workbook_bytes(
+            [["PRD-1", "Kit A", "50.00", "USD", "20", "Acme", "", "Sarf", 100, ""]]
+        )
         preview = imports.parse_workbook(stream, "product")
         self.assertFalse(preview.blocked)
         self.assertEqual(len(preview.creates), 1)
@@ -33,9 +35,9 @@ class ProductImportTests(TestCase):
 
     def test_duplicate_code_in_the_file_stops_the_whole_import(self):
         stream = workbook_bytes([
-            ["PRD-1", "Kit A", "Acme", "", 100, "50.00", "20", ""],
-            ["PRD-2", "Kit B", "Acme", "", 100, "60.00", "20", ""],
-            ["PRD-1", "Kit C", "Acme", "", 100, "70.00", "20", ""],
+            ["PRD-1", "Kit A", "50.00", "USD", "20", "Acme", "", "Sarf", 100, ""],
+            ["PRD-2", "Kit B", "60.00", "USD", "20", "Acme", "", "Sarf", 100, ""],
+            ["PRD-1", "Kit C", "70.00", "USD", "20", "Acme", "", "Sarf", 100, ""],
         ])
         preview = imports.parse_workbook(stream, "product")
         self.assertTrue(preview.blocked)
@@ -46,8 +48,11 @@ class ProductImportTests(TestCase):
         Product.objects.create(
             code="PRD-1", name="Kit A", brand="Acme", tests_per_pack=100,
             base_price_usd=Decimal("50.00"), vat_rate=Decimal("20.00"),
+            mikro_stok_kodu="PRD-1",
         )
-        stream = workbook_bytes([["PRD-1", "Kit A", "Acme", "", 100, "75.00", "20", ""]])
+        stream = workbook_bytes(
+            [["PRD-1", "Kit A", "75.00", "USD", "20", "Acme", "", "Sarf", 100, ""]]
+        )
         preview = imports.parse_workbook(stream, "product")
         self.assertEqual(len(preview.updates), 1)
         changes = preview.updates[0].changes
@@ -59,22 +64,68 @@ class ProductImportTests(TestCase):
         self.assertEqual(changes[0][2], Decimal("75.00"))
 
     def test_invalid_number_is_reported_as_an_error(self):
-        stream = workbook_bytes([["PRD-1", "Kit A", "Acme", "", 100, "abc", "20", ""]])
+        stream = workbook_bytes(
+            [["PRD-1", "Kit A", "abc", "USD", "20", "Acme", "", "Sarf", 100, ""]]
+        )
+        preview = imports.parse_workbook(stream, "product")
+        self.assertTrue(preview.blocked)
+
+    def test_an_unrecognised_currency_is_reported_as_an_error(self):
+        stream = workbook_bytes(
+            [["PRD-1", "Kit A", "50.00", "Yen", "20", "Acme", "", "Sarf", 100, ""]]
+        )
+        preview = imports.parse_workbook(stream, "product")
+        self.assertTrue(preview.blocked)
+
+    def test_an_unrecognised_product_group_is_reported_as_an_error(self):
+        stream = workbook_bytes(
+            [["PRD-1", "Kit A", "50.00", "USD", "20", "Acme", "", "Ekipman", 100, ""]]
+        )
         preview = imports.parse_workbook(stream, "product")
         self.assertTrue(preview.blocked)
 
     def test_confirmed_preview_writes_the_rows(self):
         stream = workbook_bytes([
-            ["PRD-1", "Kit A", "Acme", "", 100, "50.00", "20", ""],
-            ["PRD-2", "Kit B", "Nordis", "", 50, "80.00", "10", ""],
+            ["PRD-1", "Kit A", "50.00", "USD", "20", "Acme", "", "Sarf", 100, ""],
+            ["PRD-2", "Kit B", "80.00", "USD", "10", "Nordis", "", "Cihaz", 50, ""],
         ])
         preview = imports.parse_workbook(stream, "product")
         result = imports.apply_preview(preview)
         self.assertEqual(result, {"created": 2, "updated": 0})
         self.assertEqual(Product.objects.count(), 2)
-        self.assertEqual(
-            Product.objects.get(code="PRD-2").base_price_usd, Decimal("80.00")
+        product_2 = Product.objects.get(code="PRD-2")
+        self.assertEqual(product_2.base_price_usd, Decimal("80.00"))
+        self.assertEqual(product_2.product_group, "DEVICE")
+        self.assertEqual(product_2.mikro_stok_kodu, "PRD-2")
+
+    def test_a_chf_row_is_converted_using_the_current_rate(self):
+        from payments.models import ExchangeRate
+
+        ExchangeRate.objects.create(
+            rate_date=timezone.localdate(), usd_try_rate=Decimal("34.0000"),
+            chf_try_rate=Decimal("42.5000"),
         )
+        stream = workbook_bytes(
+            [["PRD-CHF", "Swiss Kit", "100.00", "İsviçre Frangı", "20",
+              "Acme", "", "Sarf", 0, ""]]
+        )
+        preview = imports.parse_workbook(stream, "product")
+        self.assertFalse(preview.blocked)
+        imports.apply_preview(preview)
+        product = Product.objects.get(code="PRD-CHF")
+        self.assertEqual(product.price_currency, "CHF")
+        self.assertEqual(product.list_price, Decimal("100.00"))
+        self.assertEqual(product.base_price_usd, Decimal("125.00"))
+
+    def test_a_chf_row_with_no_rate_yet_imports_at_zero_with_a_warning(self):
+        stream = workbook_bytes(
+            [["PRD-CHF", "Swiss Kit", "100.00", "CHF", "20", "Acme", "", "Sarf", 0, ""]]
+        )
+        preview = imports.parse_workbook(stream, "product")
+        self.assertFalse(preview.blocked)
+        self.assertTrue(preview.warnings)
+        imports.apply_preview(preview)
+        self.assertEqual(Product.objects.get(code="PRD-CHF").base_price_usd, Decimal("0.00"))
 
     def test_template_download_has_the_expected_headers(self):
         payload = imports.build_template("product")
@@ -217,7 +268,7 @@ class DeviceModelAccessTests(TestCase):
 class DeviceModelImportTests(TestCase):
     def test_a_new_device_model_name_is_created_on_import(self):
         stream = workbook_bytes(
-            [["PRD-1", "Kit A", "Acme", "Acme X200", 100, "50.00", "20", ""]]
+            [["PRD-1", "Kit A", "50.00", "USD", "20", "Acme", "Acme X200", "Sarf", 100, ""]]
         )
         preview = imports.parse_workbook(stream, "product")
         self.assertFalse(preview.blocked)
@@ -227,7 +278,9 @@ class DeviceModelImportTests(TestCase):
         self.assertEqual(product.device_model.brand, "Acme")
 
     def test_a_blank_device_model_leaves_the_product_unclassified(self):
-        stream = workbook_bytes([["PRD-2", "Kit B", "Acme", "", 100, "50.00", "20", ""]])
+        stream = workbook_bytes(
+            [["PRD-2", "Kit B", "50.00", "USD", "20", "Acme", "", "Sarf", 100, ""]]
+        )
         preview = imports.parse_workbook(stream, "product")
         imports.apply_preview(preview)
         self.assertIsNone(Product.objects.get(code="PRD-2").device_model)
@@ -235,8 +288,51 @@ class DeviceModelImportTests(TestCase):
     def test_reimporting_reuses_the_existing_device_model(self):
         DeviceModel.objects.create(name="Acme X200", brand="Acme")
         stream = workbook_bytes(
-            [["PRD-3", "Kit C", "Acme", "Acme X200", 100, "50.00", "20", ""]]
+            [["PRD-3", "Kit C", "50.00", "USD", "20", "Acme", "Acme X200", "Sarf", 100, ""]]
         )
         preview = imports.parse_workbook(stream, "product")
         imports.apply_preview(preview)
         self.assertEqual(DeviceModel.objects.filter(name="Acme X200").count(), 1)
+
+
+class RepriceForeignCurrencyTests(TestCase):
+    """catalog.services.reprice_foreign_currency_products, in isolation."""
+
+    def test_a_chf_products_usd_price_is_recomputed_from_its_list_price(self):
+        from catalog.services import reprice_foreign_currency_products
+
+        product = Product.objects.create(
+            code="CHF-A", name="Swiss item", price_currency="CHF",
+            list_price=Decimal("200.00"), base_price_usd=Decimal("0.00"),
+        )
+        updated = reprice_foreign_currency_products("CHF", Decimal("1.2500"))
+        self.assertEqual(updated, 1)
+        product.refresh_from_db()
+        self.assertEqual(product.base_price_usd, Decimal("250.00"))
+
+    def test_usd_products_are_never_touched(self):
+        from catalog.services import reprice_foreign_currency_products
+
+        product = Product.objects.create(
+            code="USD-A", name="Dollar item", base_price_usd=Decimal("100.00"),
+        )
+        updated = reprice_foreign_currency_products("CHF", Decimal("1.2500"))
+        self.assertEqual(updated, 0)
+        product.refresh_from_db()
+        self.assertEqual(product.base_price_usd, Decimal("100.00"))
+
+    def test_a_chf_product_with_no_list_price_yet_is_skipped(self):
+        from catalog.services import reprice_foreign_currency_products
+
+        Product.objects.create(
+            code="CHF-B", name="Unpriced Swiss item", price_currency="CHF",
+            base_price_usd=Decimal("0.00"),
+        )
+        updated = reprice_foreign_currency_products("CHF", Decimal("1.2500"))
+        self.assertEqual(updated, 0)
+
+    def test_a_zero_rate_is_a_no_op(self):
+        from catalog.services import reprice_foreign_currency_products
+
+        updated = reprice_foreign_currency_products("CHF", None)
+        self.assertEqual(updated, 0)

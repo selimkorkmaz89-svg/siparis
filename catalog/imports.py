@@ -17,18 +17,59 @@ from django.utils.translation import gettext_lazy as _
 from openpyxl import Workbook, load_workbook
 
 from catalog.models import DeviceModel, Product
+from core.constants import Currency, ProductGroup
 from dealers.models import Dealer
 
+#: Column order matches Mikro's own stock export (KODU, ADI, FİYAT, DVZ,
+#: TOPTAN KDV, MARKA, CİHAZ TÜRÜ, ÜRÜN GRUBU) so that file can be re-headered
+#: and used almost as-is; tests_per_pack/description are ours, Mikro has no
+#: equivalent column and they're left blank on that kind of import.
 PRODUCT_COLUMNS = [
     ("code", _("Product code")),
     ("name", _("Product name")),
+    ("price", _("List price")),
+    ("price_currency", _("Currency")),
+    ("vat_rate", _("VAT rate (%)")),
     ("brand", _("Brand")),
     ("device_model", _("Device model")),
+    ("product_group", _("Product group")),
     ("tests_per_pack", _("Tests per pack")),
-    ("base_price_usd", _("List price (USD)")),
-    ("vat_rate", _("VAT rate (%)")),
     ("description", _("Description")),
 ]
+
+#: Labels for the fields actually written to Product - a superset of
+#: PRODUCT_COLUMNS, since one input column (price + currency) becomes three
+#: output fields (base_price_usd, list_price, price_currency).
+PRODUCT_FIELD_LABELS = dict(PRODUCT_COLUMNS)
+PRODUCT_FIELD_LABELS.update({
+    "base_price_usd": _("List price (USD)"),
+    "list_price": _("List price (native currency)"),
+    "mikro_stok_kodu": _("Mikro stock code"),
+})
+
+#: Free-text currency names as they appear in a Mikro export, lower-cased.
+#: "İ" lower-cases to "i̇" (with a combining dot) in Python, not plain "i" -
+#: both the exact and the ASCII-ish spelling are listed so either survives a
+#: copy/paste or a manual retype.
+CURRENCY_TEXT_MAP = {
+    "usd": Currency.USD,
+    "amerikan doları": Currency.USD,
+    "amerikan dolari": Currency.USD,
+    "dolar": Currency.USD,
+    "chf": Currency.CHF,
+    "isviçre frangı": Currency.CHF,
+    "i̇sviçre frangı": Currency.CHF,
+    "isvicre frangi": Currency.CHF,
+}
+
+#: Free-text product group names as they appear in a Mikro export, with the
+#: casing inconsistencies actually seen in practice ("Sarf" vs "sarf").
+PRODUCT_GROUP_TEXT_MAP = {
+    "cihaz": ProductGroup.DEVICE,
+    "sarf": ProductGroup.CONSUMABLE,
+    "yedek parça": ProductGroup.SPARE_PART,
+    "yedek parca": ProductGroup.SPARE_PART,
+}
 
 DEALER_COLUMNS = [
     ("name", _("Dealer name")),
@@ -45,7 +86,8 @@ DEALER_COLUMNS = [
 
 SAMPLE_ROWS = {
     "product": [
-        ["PRD-001", "Sample reagent kit", "Acme", "Acme X200", 100, "125.00", "20", ""]
+        ["PRD-001", "Sample reagent kit", "125.00", "USD", "20", "Acme",
+         "Acme X200", "Sarf", 100, ""]
     ],
     "dealer": [
         ["Sample Dealer Ltd.", "D-001", "1234567890", "Kadıköy", "Jane Doe",
@@ -89,6 +131,7 @@ class ImportPreview:
     rows: list = field(default_factory=list)
     duplicates: list = field(default_factory=list)
     errors: list = field(default_factory=list)
+    warnings: list = field(default_factory=list)
 
     @property
     def blocked(self) -> bool:
@@ -141,8 +184,17 @@ def parse_workbook(file_obj, kind: str) -> ImportPreview:
         preview.errors.append(_("The file contains no data rows."))
         return preview
 
+    chf_to_usd_rate = None
+    if kind == "product":
+        from payments import services as fx
+
+        current_rate = fx.get_rate()
+        chf_to_usd_rate = current_rate.chf_to_usd_rate if current_rate else None
+
+    diff_labels = PRODUCT_FIELD_LABELS if kind == "product" else dict(columns)
     seen: dict[str, int] = {}
     existing = _existing_keys(kind)
+    chf_rows_without_rate = 0
     for offset, raw in enumerate(rows, start=2):
         values = list(raw) + [None] * (len(columns) - len(raw))
         if all(_text(value) == "" for value in values[: len(columns)]):
@@ -165,17 +217,19 @@ def parse_workbook(file_obj, kind: str) -> ImportPreview:
             continue
         seen[key] = offset
         try:
-            cleaned = _clean_row(data, kind)
+            cleaned = _clean_row(data, kind, chf_to_usd_rate)
         except ValueError as exc:
             preview.errors.append(_("Row %(row)s: %(error)s") % {"row": offset, "error": exc})
             continue
+        if kind == "product" and cleaned.get("price_currency") == Currency.CHF and not chf_to_usd_rate:
+            chf_rows_without_rate += 1
         current = existing.get(key)
         if current is None:
             preview.rows.append(
                 RowResult(row_no=offset, key=key, action="create", values=cleaned)
             )
         else:
-            changes = _diff(current, cleaned, columns)
+            changes = _diff(current, cleaned, diff_labels)
             preview.rows.append(
                 RowResult(
                     row_no=offset,
@@ -187,23 +241,64 @@ def parse_workbook(file_obj, kind: str) -> ImportPreview:
             )
     if not preview.rows and not preview.blocked:
         preview.errors.append(_("The file contains no importable rows."))
+    if chf_rows_without_rate:
+        preview.warnings.append(
+            _(
+                "%(count)s CHF-priced product(s) have no CHF/TRY rate to convert with yet "
+                "and will import with a USD price of 0.00 - fetch the rate (System Settings) "
+                "and they will be repriced automatically."
+            )
+            % {"count": chf_rows_without_rate}
+        )
     return preview
 
 
-def _clean_row(data: dict, kind: str) -> dict:
+def _map_choice(value, mapping: dict, label) -> str:
+    key = _text(value).strip().lower()
+    if not key:
+        raise ValueError(_("%(field)s is required.") % {"field": label})
+    if key not in mapping:
+        raise ValueError(
+            _("%(field)s '%(value)s' is not recognised.")
+            % {"field": label, "value": _text(value)}
+        )
+    return mapping[key]
+
+
+def _clean_row(data: dict, kind: str, chf_to_usd_rate: Decimal | None = None) -> dict:
     if kind == "product":
+        price = _to_decimal(data["price"], _("List price"))
+        currency = _map_choice(data["price_currency"], CURRENCY_TEXT_MAP, _("Currency"))
+        if currency == Currency.CHF:
+            list_price = price
+            base_price_usd = (
+                (price * chf_to_usd_rate).quantize(Decimal("0.01"))
+                if chf_to_usd_rate else Decimal("0.00")
+            )
+        else:
+            list_price = None
+            base_price_usd = price
+        code = _text(data["code"]).upper()
         return {
-            "code": _text(data["code"]).upper(),
+            "code": code,
             "name": _text(data["name"]),
             "brand": _text(data["brand"]),
             # Resolved to a DeviceModel instance in apply_preview - a plain
             # name here so blank cells and unrecognised names stay easy to spot
             # on the preview screen.
             "device_model": _text(data["device_model"]),
+            "product_group": _map_choice(
+                data["product_group"], PRODUCT_GROUP_TEXT_MAP, _("Product group")
+            ),
             "tests_per_pack": _to_int(data["tests_per_pack"], _("Tests per pack")),
-            "base_price_usd": _to_decimal(data["base_price_usd"], _("List price (USD)")),
+            "price_currency": currency,
+            "list_price": list_price,
+            "base_price_usd": base_price_usd,
             "vat_rate": _to_decimal(data["vat_rate"], _("VAT rate (%)")),
             "description": _text(data["description"]),
+            # This importer's source is Mikro's own stock export, so the
+            # product code already is the Mikro stock code.
+            "mikro_stok_kodu": code,
         }
     return {
         "name": _text(data["name"]),
@@ -227,10 +322,14 @@ def _existing_keys(kind: str) -> dict:
                 "name": product.name,
                 "brand": product.brand,
                 "device_model": product.device_model.name if product.device_model_id else "",
+                "product_group": product.product_group,
                 "tests_per_pack": product.tests_per_pack,
+                "price_currency": product.price_currency,
+                "list_price": product.list_price,
                 "base_price_usd": product.base_price_usd,
                 "vat_rate": product.vat_rate,
                 "description": product.description,
+                "mikro_stok_kodu": product.mikro_stok_kodu,
             }
             for product in Product.objects.select_related("device_model")
         }
@@ -261,8 +360,7 @@ def _same(old, new) -> bool:
     return str(old or "") == str(new or "")
 
 
-def _diff(current: dict, new: dict, columns) -> list:
-    labels = dict(columns)
+def _diff(current: dict, new: dict, labels: dict) -> list:
     changes = []
     for key, value in new.items():
         old = current.get(key)
@@ -324,7 +422,9 @@ def preview_to_session(preview: ImportPreview) -> dict:
                 "row_no": row.row_no,
                 "key": row.key,
                 "action": row.action,
-                "values": {k: str(v) for k, v in row.values.items()},
+                "values": {
+                    k: (None if v is None else str(v)) for k, v in row.values.items()
+                },
             }
             for row in preview.rows
         ],
@@ -339,6 +439,7 @@ def preview_from_session(payload: dict) -> ImportPreview:
             values = {
                 **values,
                 "tests_per_pack": int(values["tests_per_pack"]),
+                "list_price": Decimal(values["list_price"]) if values.get("list_price") else None,
                 "base_price_usd": Decimal(values["base_price_usd"]),
                 "vat_rate": Decimal(values["vat_rate"]),
             }

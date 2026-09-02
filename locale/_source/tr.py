@@ -83,6 +83,13 @@ TRANSLATIONS = {
     "allowed device models": "izin verilen cihaz modelleri",
     "device model": "cihaz modeli",
     "device models": "cihaz modelleri",
+    "product group": "ürün grubu",
+    "list price currency": "liste fiyatı para birimi",
+    "list price (native currency)": "liste fiyatı (yerel para birimi)",
+    "The currency the supplier actually quotes this product in. base_price_usd stays the authoritative USD figure either way.":
+        "Tedarikçinin bu ürünü aslında hangi para biriminde fiyatlandırdığı. base_price_usd her durumda geçerli USD rakamı olarak kalır.",
+    "Only used when the list price currency above isn't USD - the supplier's own price, before conversion.":
+        "Yalnızca yukarıdaki liste fiyatı para birimi USD değilken kullanılır - tedarikçinin dönüştürülmeden önceki kendi fiyatı.",
 
     "An SMTP host is required to enable email sending.":
         "E-posta gönderimini etkinleştirmek için bir SMTP sunucusu gereklidir.",
@@ -165,6 +172,7 @@ TRANSLATIONS = {
     "In-app": "Sistem içi",
     "USD": "USD",
     "TRY": "TL",
+    "CHF": "CHF",
     "Turkish": "Türkçe",
     "English": "İngilizce",
     "Order submitted to finance": "Sipariş finansa gönderildi",
@@ -320,6 +328,11 @@ TRANSLATIONS = {
     "The amount must be greater than zero.": "Tutar sıfırdan büyük olmalıdır.",
     "Rate date": "Kur tarihi",
     "USD/TRY rate": "USD/TL kuru",
+    "CHF/TRY rate": "CHF/TL kuru",
+    "Optional - only needed to price Swiss-Franc list items.":
+        "İsteğe bağlı - yalnızca İsviçre Frangı ile fiyatlanan kalemler için gereklidir.",
+    "Used only to convert Swiss-Franc list prices to USD.":
+        "Yalnızca İsviçre Frangı liste fiyatlarını USD'ye çevirmek için kullanılır.",
     "The dealer sees this text, so please be specific.":
         "Bu açıklamayı bayi görecektir, lütfen net yazın.",
     "Carrier": "Kargo firması",
@@ -342,9 +355,20 @@ TRANSLATIONS = {
     "Brand": "Marka",
     "Tests per pack": "Test Sayısı",
     "List price (USD)": "Liste Fiyatı (USD)",
+    "List price": "Liste Fiyatı",
+    "List price (native currency)": "Liste Fiyatı (Yerel Para Birimi)",
+    "Currency": "Para Birimi",
+    "Product group": "Ürün Grubu",
+    "Group": "Grup",
+    "Device": "Cihaz",
+    "Consumable": "Sarf",
+    "Spare part": "Yedek Parça",
     "VAT rate (%)": "KDV Oranı (%)",
     "VAT rate (%%)": "KDV Oranı (%%)",
     "Description": "Açıklama",
+    "%(field)s '%(value)s' is not recognised.": "%(field)s '%(value)s' tanınmıyor.",
+    "%(count)s CHF-priced product(s) have no CHF/TRY rate to convert with yet and will import with a USD price of 0.00 - fetch the rate (System Settings) and they will be repriced automatically.":
+        "%(count)s CHF fiyatlı ürünün henüz dönüştürülebileceği bir CHF/TL kuru yok, bu yüzden USD fiyatı 0,00 olarak içeri alınacak - kuru çektiğinizde (Sistem Ayarları) otomatik olarak yeniden fiyatlanacaklar.",
     "Dealer name": "Bayi Adı",
     "Dealer code": "Bayi Kodu",
     "Tax number": "Vergi No",

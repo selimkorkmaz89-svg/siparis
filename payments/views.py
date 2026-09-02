@@ -216,13 +216,15 @@ def exchange_rates(request):
     rates = ExchangeRate.objects.all()[:60]
     form = ExchangeRateForm(request.POST or None)
     if request.method == "POST" and "manual" in request.POST and form.is_valid():
-        ExchangeRate.objects.update_or_create(
+        rate, _created = ExchangeRate.objects.update_or_create(
             rate_date=form.cleaned_data["rate_date"],
             defaults={
                 "usd_try_rate": form.cleaned_data["usd_try_rate"],
+                "chf_try_rate": form.cleaned_data["chf_try_rate"],
                 "source": "MANUAL",
             },
         )
+        fx.reprice_chf_products(rate)
         messages.success(request, _("The exchange rate has been saved."))
         return redirect("payments:exchange_rates")
     if request.method == "POST" and "sync" in request.POST:

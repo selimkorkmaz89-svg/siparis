@@ -53,6 +53,13 @@ class NotificationChannel(models.TextChoices):
 class Currency(models.TextChoices):
     USD = "USD", _("USD")
     TRY = "TRY", _("TRY")
+    CHF = "CHF", _("CHF")
+
+
+class ProductGroup(models.TextChoices):
+    DEVICE = "DEVICE", _("Device")
+    CONSUMABLE = "CONSUMABLE", _("Consumable")
+    SPARE_PART = "SPARE_PART", _("Spare part")
 
 
 class MikroSyncStatus(models.TextChoices):

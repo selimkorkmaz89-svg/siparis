@@ -64,12 +64,17 @@
     <h2>{% translate "Rate history" %}</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>{% translate "Rate date" %}</th><th class="num">{% translate "USD/TRY rate" %}</th><th>{% translate "Source" %}</th></tr></thead>
+        <thead><tr><th>{% translate "Rate date" %}</th><th class="num">{% translate "USD/TRY rate" %}</th><th class="num">{% translate "CHF/TRY rate" %}</th><th>{% translate "Source" %}</th></tr></thead>
         <tbody>
           {% for rate in rates %}
-            <tr><td>{{ rate.rate_date|date:"d.m.Y" }}</td><td class="num">{{ rate.usd_try_rate|money:4 }}</td><td>{{ rate.source }}</td></tr>
+            <tr>
+              <td>{{ rate.rate_date|date:"d.m.Y" }}</td>
+              <td class="num">{{ rate.usd_try_rate|money:4 }}</td>
+              <td class="num">{% if rate.chf_try_rate %}{{ rate.chf_try_rate|money:4 }}{% else %}—{% endif %}</td>
+              <td>{{ rate.source }}</td>
+            </tr>
           {% empty %}
-            <tr><td colspan="3" class="empty-state">{% translate "No exchange rate has been recorded yet." %}</td></tr>
+            <tr><td colspan="4" class="empty-state">{% translate "No exchange rate has been recorded yet." %}</td></tr>
           {% endfor %}
         </tbody>
       </table>

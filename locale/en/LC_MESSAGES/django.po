@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 16:32+0300\n"
+"POT-Creation-Date: 2026-09-02 22:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -71,7 +71,7 @@ msgstr "First name"
 msgid "Last name"
 msgstr "Last name"
 
-#: accounts/forms.py:60 accounts/views.py:194 catalog/imports.py:39
+#: accounts/forms.py:60 accounts/views.py:194 catalog/imports.py:80
 #: dealers/views.py:37 templates/orders/order_detail.html:83
 #: templates/orders/order_form_pdf.html:93
 msgid "Phone"
@@ -141,7 +141,7 @@ msgstr "username"
 msgid "email address"
 msgstr "email address"
 
-#: accounts/models.py:49 catalog/models.py:116 dealers/models.py:44
+#: accounts/models.py:49 catalog/models.py:150 dealers/models.py:44
 #: dealers/models.py:66 orders/models.py:65
 msgid "dealer"
 msgstr "dealer"
@@ -151,7 +151,7 @@ msgid "role"
 msgstr "role"
 
 #: accounts/models.py:59 notifications/models.py:104 orders/models.py:76
-#: payments/models.py:66
+#: payments/models.py:82
 msgid "status"
 msgstr "status"
 
@@ -171,11 +171,11 @@ msgstr "email notifications enabled"
 msgid "interface language"
 msgstr "interface language"
 
-#: accounts/models.py:79 payments/models.py:82
+#: accounts/models.py:79 payments/models.py:98
 msgid "approved by"
 msgstr "approved by"
 
-#: accounts/models.py:85 payments/models.py:88
+#: accounts/models.py:85 payments/models.py:104
 msgid "approved at"
 msgstr "approved at"
 
@@ -226,7 +226,7 @@ msgstr "User rejected: %(user)s"
 msgid "Users"
 msgstr "Users"
 
-#: accounts/views.py:193 catalog/imports.py:40 core/constants.py:49
+#: accounts/views.py:193 catalog/imports.py:81 core/constants.py:49
 #: dealers/views.py:37
 msgid "Email"
 msgstr "Email"
@@ -236,11 +236,11 @@ msgstr "Email"
 msgid "Role"
 msgstr "Role"
 
-#: accounts/views.py:193 catalog/views.py:131 core/constants.py:11
+#: accounts/views.py:193 catalog/views.py:133 core/constants.py:11
 #: core/navigation.py:140 dealers/views.py:101 dealers/views.py:147
 #: logistics/views.py:36 orders/views.py:89 payments/views.py:45
 #: payments/views.py:185 reports/views.py:73 templates/accounts/profile.html:28
-#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
+#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:33
 #: templates/catalog/special_price_list.html:14 templates/core/home.html:65
 #: templates/dealers/dealer_form.html:3 templates/dealers/dealer_history.html:8
 #: templates/dealers/dealer_history.html:34
@@ -305,7 +305,7 @@ msgstr "Please upload a file in .xlsx format."
 msgid "The file may not be larger than 10 MB."
 msgstr "The file may not be larger than 10 MB."
 
-#: catalog/imports.py:23 catalog/views.py:47 catalog/views.py:131
+#: catalog/imports.py:28 catalog/views.py:47 catalog/views.py:133
 #: templates/catalog/product_list.html:16
 #: templates/catalog/special_price_list.html:15
 #: templates/logistics/mark_shipped.html:28
@@ -315,7 +315,7 @@ msgstr "The file may not be larger than 10 MB."
 msgid "Product code"
 msgstr "Product code"
 
-#: catalog/imports.py:24 catalog/views.py:47 catalog/views.py:131
+#: catalog/imports.py:29 catalog/views.py:47 catalog/views.py:133
 #: templates/catalog/product_list.html:17
 #: templates/catalog/special_price_list.html:16
 #: templates/logistics/mark_shipped.html:28
@@ -325,7 +325,21 @@ msgstr "Product code"
 msgid "Product name"
 msgstr "Product name"
 
-#: catalog/imports.py:25 catalog/views.py:47 catalog/views.py:178
+#: catalog/imports.py:30 catalog/imports.py:270
+msgid "List price"
+msgstr "List price"
+
+#: catalog/imports.py:31 catalog/imports.py:271
+#: templates/reports/_report_filters.html:15
+msgid "Currency"
+msgstr "Currency"
+
+#: catalog/imports.py:32 catalog/imports.py:297 catalog/models.py:110
+#: catalog/views.py:49 integrations/models.py:109 orders/models.py:229
+msgid "VAT rate (%)"
+msgstr "VAT rate (%)"
+
+#: catalog/imports.py:33 catalog/views.py:47 catalog/views.py:180
 #: templates/catalog/_product_filters.html:2
 #: templates/catalog/device_model_list.html:17
 #: templates/catalog/product_list.html:18 templates/orders/order_create.html:13
@@ -334,187 +348,227 @@ msgstr "Product name"
 msgid "Brand"
 msgstr "Brand"
 
-#: catalog/imports.py:26 catalog/views.py:178
+#: catalog/imports.py:34 catalog/views.py:47 catalog/views.py:180
 #: templates/catalog/device_model_form.html:3
 #: templates/catalog/device_model_list.html:18
 #: templates/catalog/product_list.html:19
 msgid "Device model"
 msgstr "Device model"
 
-#: catalog/imports.py:27 catalog/imports.py:203 catalog/views.py:47
-#: templates/catalog/product_list.html:20 templates/orders/order_create.html:27
+#: catalog/imports.py:35 catalog/imports.py:291 catalog/views.py:48
+msgid "Product group"
+msgstr "Product group"
+
+#: catalog/imports.py:36 catalog/imports.py:293 catalog/views.py:48
+#: templates/catalog/product_list.html:21 templates/orders/order_create.html:27
 msgid "Tests per pack"
 msgstr "Tests per pack"
 
-#: catalog/imports.py:28 catalog/imports.py:204 catalog/views.py:48
-#: templates/catalog/product_list.html:21
+#: catalog/imports.py:37
+msgid "Description"
+msgstr "Description"
+
+#: catalog/imports.py:45 catalog/views.py:48
+#: templates/catalog/product_list.html:22
 #: templates/catalog/special_price_list.html:17
 msgid "List price (USD)"
 msgstr "List price (USD)"
 
-#: catalog/imports.py:29 catalog/imports.py:205 catalog/models.py:76
-#: catalog/views.py:48 integrations/models.py:109 orders/models.py:229
-msgid "VAT rate (%)"
-msgstr "VAT rate (%)"
+#: catalog/imports.py:46
+msgid "List price (native currency)"
+msgstr "List price (native currency)"
 
-#: catalog/imports.py:30
-msgid "Description"
-msgstr "Description"
+#: catalog/imports.py:47 catalog/models.py:119 catalog/views.py:49
+msgid "Mikro stock code"
+msgstr "Mikro stock code"
 
-#: catalog/imports.py:34 dealers/views.py:36
+#: catalog/imports.py:75 dealers/views.py:36
 #: templates/dealers/dealer_list.html:14
 #: templates/orders/order_form_pdf.html:89
 msgid "Dealer name"
 msgstr "Dealer name"
 
-#: catalog/imports.py:35 dealers/views.py:36
+#: catalog/imports.py:76 dealers/views.py:36
 #: templates/dealers/dealer_list.html:15
 msgid "Dealer code"
 msgstr "Dealer code"
 
-#: catalog/imports.py:36 dealers/views.py:36
+#: catalog/imports.py:77 dealers/views.py:36
 #: templates/dealers/dealer_list.html:16 templates/orders/order_detail.html:81
 #: templates/orders/order_form_pdf.html:70
 #: templates/orders/order_form_pdf.html:90
 msgid "Tax number"
 msgstr "Tax number"
 
-#: catalog/imports.py:37 dealers/views.py:36
+#: catalog/imports.py:78 dealers/views.py:36
 #: templates/orders/order_form_pdf.html:91
 msgid "Tax office"
 msgstr "Tax office"
 
-#: catalog/imports.py:38 dealers/views.py:37
+#: catalog/imports.py:79 dealers/views.py:37
 #: templates/dealers/dealer_list.html:17 templates/orders/order_detail.html:82
 #: templates/orders/order_form_pdf.html:92
 msgid "Contact person"
 msgstr "Contact person"
 
-#: catalog/imports.py:41 dealers/views.py:37
+#: catalog/imports.py:82 dealers/views.py:37
 #: templates/dealers/dealer_list.html:18
 msgid "City"
 msgstr "City"
 
-#: catalog/imports.py:42 dealers/forms.py:47 dealers/views.py:37
+#: catalog/imports.py:83 dealers/forms.py:47 dealers/views.py:37
 #: templates/orders/order_detail.html:84
 #: templates/orders/order_form_pdf.html:94
 msgid "Address"
 msgstr "Address"
 
-#: catalog/imports.py:43
+#: catalog/imports.py:84
 msgid "Notes"
 msgstr "Notes"
 
-#: catalog/imports.py:109
+#: catalog/imports.py:152 catalog/imports.py:259
 #, python-format
 msgid "%(field)s is required."
 msgstr "%(field)s is required."
 
-#: catalog/imports.py:113
+#: catalog/imports.py:156
 #, python-format
 msgid "%(field)s must be a number."
 msgstr "%(field)s must be a number."
 
-#: catalog/imports.py:122
+#: catalog/imports.py:165
 #, python-format
 msgid "%(field)s must be a whole number."
 msgstr "%(field)s must be a whole number."
 
-#: catalog/imports.py:136
+#: catalog/imports.py:179
 msgid "The file could not be read. Please upload a valid .xlsx file."
 msgstr "The file could not be read. Please upload a valid .xlsx file."
 
-#: catalog/imports.py:141
+#: catalog/imports.py:184
 msgid "The file contains no data rows."
 msgstr "The file contains no data rows."
 
-#: catalog/imports.py:156
+#: catalog/imports.py:208
 #, python-format
 msgid "Row %(row)s: %(field)s is empty."
 msgstr "Row %(row)s: %(field)s is empty."
 
-#: catalog/imports.py:162
+#: catalog/imports.py:214
 #, python-format
 msgid "Row %(row)s: '%(key)s' already appears on row %(first)s."
 msgstr "Row %(row)s: '%(key)s' already appears on row %(first)s."
 
-#: catalog/imports.py:170
+#: catalog/imports.py:222
 #, python-format
 msgid "Row %(row)s: %(error)s"
 msgstr "Row %(row)s: %(error)s"
 
-#: catalog/imports.py:189
+#: catalog/imports.py:243
 msgid "The file contains no importable rows."
 msgstr "The file contains no importable rows."
 
-#: catalog/models.py:20 catalog/models.py:25 catalog/models.py:61
+#: catalog/imports.py:247
+#, python-format
+msgid ""
+"%(count)s CHF-priced product(s) have no CHF/TRY rate to convert with yet and "
+"will import with a USD price of 0.00 - fetch the rate (System Settings) and "
+"they will be repriced automatically."
+msgstr "%(count)s CHF-priced product(s) have no CHF/TRY rate to convert with yet and will import with a USD price of 0.00 - fetch the rate (System Settings) and they will be repriced automatically."
+
+#: catalog/imports.py:262
+#, python-format
+msgid "%(field)s '%(value)s' is not recognised."
+msgstr "%(field)s '%(value)s' is not recognised."
+
+#: catalog/models.py:21 catalog/models.py:26 catalog/models.py:73
 msgid "device model"
 msgstr "device model"
 
-#: catalog/models.py:21 catalog/models.py:58 orders/models.py:222
+#: catalog/models.py:22 catalog/models.py:70 orders/models.py:222
 msgid "brand"
 msgstr "brand"
 
-#: catalog/models.py:22 catalog/models.py:83 dealers/models.py:24
+#: catalog/models.py:23 catalog/models.py:117 dealers/models.py:24
 #: dealers/models.py:70 notifications/models.py:59
 msgid "active"
 msgstr "active"
 
-#: catalog/models.py:26
+#: catalog/models.py:27
 msgid "device models"
 msgstr "device models"
 
-#: catalog/models.py:56 orders/models.py:220
+#: catalog/models.py:68 orders/models.py:220
 msgid "product code"
 msgstr "product code"
 
-#: catalog/models.py:57 orders/models.py:221
+#: catalog/models.py:69 orders/models.py:221
 msgid "product name"
 msgstr "product name"
 
-#: catalog/models.py:66
+#: catalog/models.py:78
 msgid "Used to restrict which dealers may order this product."
 msgstr "Used to restrict which dealers may order this product."
 
-#: catalog/models.py:68
+#: catalog/models.py:81
+msgid "product group"
+msgstr "product group"
+
+#: catalog/models.py:84
 msgid "tests per pack"
 msgstr "tests per pack"
 
-#: catalog/models.py:70
+#: catalog/models.py:86
+msgid "list price currency"
+msgstr "list price currency"
+
+#: catalog/models.py:90
+msgid ""
+"The currency the supplier actually quotes this product in. base_price_usd "
+"stays the authoritative USD figure either way."
+msgstr "The currency the supplier actually quotes this product in. base_price_usd stays the authoritative USD figure either way."
+
+#: catalog/models.py:95
+msgid "list price (native currency)"
+msgstr "list price (native currency)"
+
+#: catalog/models.py:99
+msgid ""
+"Only used when the list price currency above isn't USD - the supplier's own "
+"price, before conversion."
+msgstr "Only used when the list price currency above isn't USD - the supplier's own price, before conversion."
+
+#: catalog/models.py:104
 msgid "list price (USD)"
 msgstr "list price (USD)"
 
-#: catalog/models.py:82
+#: catalog/models.py:116
 msgid "description"
 msgstr "description"
 
-#: catalog/models.py:85
-msgid "Mikro stock code"
-msgstr "Mikro stock code"
-
-#: catalog/models.py:87
+#: catalog/models.py:121
 msgid ""
 "This product's stock (stok) code in Mikro. Required before an order "
 "containing it can be sent to Mikro."
 msgstr "This product's stock (stok) code in Mikro. Required before an order containing it can be sent to Mikro."
 
-#: catalog/models.py:95 catalog/models.py:122 orders/models.py:216
+#: catalog/models.py:129 catalog/models.py:156 orders/models.py:216
 msgid "product"
 msgstr "product"
 
-#: catalog/models.py:96
+#: catalog/models.py:130
 msgid "products"
 msgstr "products"
 
-#: catalog/models.py:127
+#: catalog/models.py:161
 msgid "special price (USD)"
 msgstr "special price (USD)"
 
-#: catalog/models.py:134
+#: catalog/models.py:168
 msgid "dealer special price"
 msgstr "dealer special price"
 
-#: catalog/models.py:135
+#: catalog/models.py:169
 msgid "dealer special prices"
 msgstr "dealer special prices"
 
@@ -523,95 +577,95 @@ msgstr "dealer special prices"
 msgid "Products"
 msgstr "Products"
 
-#: catalog/views.py:48 catalog/views.py:178 dealers/views.py:38
+#: catalog/views.py:49 catalog/views.py:180 dealers/views.py:38
 #: dealers/views.py:147 templates/catalog/device_model_list.html:21
-#: templates/catalog/product_list.html:23 templates/dealers/dealer_list.html:21
+#: templates/catalog/product_list.html:24 templates/dealers/dealer_list.html:21
 #: templates/dealers/domain_list.html:19
 msgid "Active"
 msgstr "Active"
 
-#: catalog/views.py:51 catalog/views.py:179 dealers/views.py:41
+#: catalog/views.py:53 catalog/views.py:181 dealers/views.py:41
 #: dealers/views.py:148 templates/catalog/device_model_list.html:32
-#: templates/catalog/product_list.html:37 templates/dealers/dealer_list.html:35
+#: templates/catalog/product_list.html:42 templates/dealers/dealer_list.html:35
 #: templates/dealers/domain_list.html:28
 msgid "Yes"
 msgstr "Yes"
 
-#: catalog/views.py:51 catalog/views.py:179 dealers/views.py:41
+#: catalog/views.py:53 catalog/views.py:181 dealers/views.py:41
 #: dealers/views.py:148 templates/catalog/device_model_list.html:32
-#: templates/catalog/product_list.html:37 templates/dealers/dealer_list.html:35
+#: templates/catalog/product_list.html:42 templates/dealers/dealer_list.html:35
 #: templates/dealers/domain_list.html:28
 msgid "No"
 msgstr "No"
 
-#: catalog/views.py:81
+#: catalog/views.py:83
 #, python-format
 msgid "Product saved: %(code)s"
 msgstr "Product saved: %(code)s"
 
-#: catalog/views.py:105
+#: catalog/views.py:107
 #, python-format
 msgid ""
 "\"%(code)s\" cannot be deleted: it appears in existing orders, which must "
 "keep their history. Mark it inactive instead."
 msgstr "\"%(code)s\" cannot be deleted: it appears in existing orders, which must keep their history. Mark it inactive instead."
 
-#: catalog/views.py:111
+#: catalog/views.py:113
 #, python-format
 msgid "Product deleted: %(code)s"
 msgstr "Product deleted: %(code)s"
 
-#: catalog/views.py:130 core/navigation.py:116
-#: templates/catalog/product_form.html:28
+#: catalog/views.py:132 core/navigation.py:116
+#: templates/catalog/product_form.html:29
 #: templates/catalog/special_price_list.html:3
 #: templates/catalog/special_price_list.html:4
 msgid "Dealer special prices"
 msgstr "Dealer special prices"
 
-#: catalog/views.py:131 templates/catalog/product_form.html:32
+#: catalog/views.py:133 templates/catalog/product_form.html:33
 #: templates/catalog/special_price_list.html:18
 msgid "Special price (USD)"
 msgstr "Special price (USD)"
 
-#: catalog/views.py:148
+#: catalog/views.py:150
 msgid "Special price saved."
 msgstr "Special price saved."
 
-#: catalog/views.py:159
+#: catalog/views.py:161
 msgid "Special price deleted."
 msgstr "Special price deleted."
 
-#: catalog/views.py:177 core/navigation.py:119
+#: catalog/views.py:179 core/navigation.py:119
 #: templates/catalog/device_model_list.html:3
 #: templates/catalog/device_model_list.html:4
 msgid "Device models"
 msgstr "Device models"
 
-#: catalog/views.py:195
+#: catalog/views.py:197
 #, python-format
 msgid "Device model saved: %(name)s"
 msgstr "Device model saved: %(name)s"
 
-#: catalog/views.py:209
+#: catalog/views.py:211
 #, python-format
 msgid "Device model deleted: %(name)s"
 msgstr "Device model deleted: %(name)s"
 
-#: catalog/views.py:239
+#: catalog/views.py:241
 msgid ""
 "The import was stopped: no records were saved. Please fix the errors below."
 msgstr "The import was stopped: no records were saved. Please fix the errors below."
 
-#: catalog/views.py:257
+#: catalog/views.py:259
 msgid "The import session has expired. Please upload the file again."
 msgstr "The import session has expired. Please upload the file again."
 
-#: catalog/views.py:264
+#: catalog/views.py:266
 #, python-format
 msgid "Import completed: %(created)s new records, %(updated)s updated records."
 msgstr "Import completed: %(created)s new records, %(updated)s updated records."
 
-#: catalog/views.py:275
+#: catalog/views.py:277
 msgid "The import was cancelled; nothing was saved."
 msgstr "The import was cancelled; nothing was saved."
 
@@ -709,19 +763,35 @@ msgstr "USD"
 msgid "TRY"
 msgstr "TRY"
 
-#: core/constants.py:59
+#: core/constants.py:56
+msgid "CHF"
+msgstr "CHF"
+
+#: core/constants.py:60
+msgid "Device"
+msgstr "Device"
+
+#: core/constants.py:61
+msgid "Consumable"
+msgstr "Consumable"
+
+#: core/constants.py:62
+msgid "Spare part"
+msgstr "Spare part"
+
+#: core/constants.py:66
 msgid "Not queued"
 msgstr "Not queued"
 
-#: core/constants.py:60
+#: core/constants.py:67
 msgid "Waiting to be sent"
 msgstr "Waiting to be sent"
 
-#: core/constants.py:61
+#: core/constants.py:68
 msgid "Sent to Mikro"
 msgstr "Sent to Mikro"
 
-#: core/constants.py:62 notifications/models.py:80
+#: core/constants.py:69 notifications/models.py:80
 msgid "Failed"
 msgstr "Failed"
 
@@ -1187,7 +1257,7 @@ msgstr "The connector reported a failure."
 msgid "Mikro settings saved."
 msgstr "Mikro settings saved."
 
-#: integrations/views.py:109 integrations/views.py:118 payments/views.py:289
+#: integrations/views.py:109 integrations/views.py:118 payments/views.py:291
 msgid "Please fix the errors below."
 msgstr "Please fix the errors below."
 
@@ -1278,7 +1348,7 @@ msgid "body"
 msgstr "body"
 
 #: notifications/models.py:24 notifications/models.py:97 orders/models.py:124
-#: orders/models.py:212 orders/models.py:268 payments/models.py:47
+#: orders/models.py:212 orders/models.py:268 payments/models.py:63
 msgid "order"
 msgstr "order"
 
@@ -1609,7 +1679,7 @@ msgstr "changed by"
 msgid "changed at"
 msgstr "changed at"
 
-#: orders/models.py:287 payments/models.py:89
+#: orders/models.py:287 payments/models.py:105
 msgid "note"
 msgstr "note"
 
@@ -1706,63 +1776,76 @@ msgstr "Rate date"
 msgid "USD/TRY rate"
 msgstr "USD/TRY rate"
 
+#: payments/forms.py:57 payments/models.py:23
+#: templates/payments/exchange_rates.html:67
+msgid "CHF/TRY rate"
+msgstr "CHF/TRY rate"
+
+#: payments/forms.py:62
+msgid "Optional - only needed to price Swiss-Franc list items."
+msgstr "Optional - only needed to price Swiss-Franc list items."
+
 #: payments/models.py:15
 msgid "rate date"
 msgstr "rate date"
 
-#: payments/models.py:23
+#: payments/models.py:29
+msgid "Used only to convert Swiss-Franc list prices to USD."
+msgstr "Used only to convert Swiss-Franc list prices to USD."
+
+#: payments/models.py:32
 msgid "rate type"
 msgstr "rate type"
 
-#: payments/models.py:25
+#: payments/models.py:34
 msgid "source"
 msgstr "source"
 
-#: payments/models.py:26
+#: payments/models.py:35
 msgid "fetched at"
 msgstr "fetched at"
 
-#: payments/models.py:29
+#: payments/models.py:38
 msgid "exchange rate"
 msgstr "exchange rate"
 
-#: payments/models.py:30
+#: payments/models.py:39
 msgid "exchange rates"
 msgstr "exchange rates"
 
-#: payments/models.py:52
+#: payments/models.py:68
 msgid "amount (TRY)"
 msgstr "amount (TRY)"
 
-#: payments/models.py:58
+#: payments/models.py:74
 msgid "exchange rate used"
 msgstr "exchange rate used"
 
-#: payments/models.py:61
+#: payments/models.py:77
 msgid "amount (USD)"
 msgstr "amount (USD)"
 
-#: payments/models.py:63
+#: payments/models.py:79
 msgid "bank reference / receipt no"
 msgstr "bank reference / receipt no"
 
-#: payments/models.py:64
+#: payments/models.py:80
 msgid "payment date"
 msgstr "payment date"
 
-#: payments/models.py:72
+#: payments/models.py:88
 msgid "receipt file"
 msgstr "receipt file"
 
-#: payments/models.py:76
+#: payments/models.py:92
 msgid "declared by"
 msgstr "declared by"
 
-#: payments/models.py:92
+#: payments/models.py:108
 msgid "payment"
 msgstr "payment"
 
-#: payments/models.py:93
+#: payments/models.py:109
 msgid "payments"
 msgstr "payments"
 
@@ -1829,54 +1912,54 @@ msgstr "Bank reference / receipt no"
 msgid "Approved by"
 msgstr "Approved by"
 
-#: payments/views.py:226
+#: payments/views.py:228
 msgid "The exchange rate has been saved."
 msgstr "The exchange rate has been saved."
 
-#: payments/views.py:236
+#: payments/views.py:238
 #, python-format
 msgid "The rate could not be fetched: %(error)s"
 msgstr "The rate could not be fetched: %(error)s"
 
-#: payments/views.py:244
+#: payments/views.py:246
 msgid ""
 "No rate could be fetched. Check that www.tcmb.gov.tr is reachable from the "
 "server; TCMB does not publish on weekends or holidays."
 msgstr "No rate could be fetched. Check that www.tcmb.gov.tr is reachable from the server; TCMB does not publish on weekends or holidays."
 
-#: payments/views.py:251
+#: payments/views.py:253
 #, python-format
 msgid "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s"
 msgstr "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s"
 
-#: payments/views.py:261
+#: payments/views.py:263
 #, python-format
 msgid "Already up to date. In effect: %(date)s = %(rate)s"
 msgstr "Already up to date. In effect: %(date)s = %(rate)s"
 
-#: payments/views.py:287
+#: payments/views.py:289
 msgid "Email settings saved."
 msgstr "Email settings saved."
 
-#: payments/views.py:298
+#: payments/views.py:300
 #, python-format
 msgid "The test email could not be sent: %(error)s"
 msgstr "The test email could not be sent: %(error)s"
 
-#: payments/views.py:303
+#: payments/views.py:305
 #, python-format
 msgid "Test email sent to %(recipient)s."
 msgstr "Test email sent to %(recipient)s."
 
-#: payments/views.py:311
+#: payments/views.py:313
 msgid "No rate stored"
 msgstr "No rate stored"
 
-#: payments/views.py:313
+#: payments/views.py:315
 msgid "Up to date"
 msgstr "Up to date"
 
-#: payments/views.py:315
+#: payments/views.py:317
 msgid "Using the most recent business day"
 msgstr "Using the most recent business day"
 
@@ -2014,12 +2097,12 @@ msgstr "Profile information"
 
 #: templates/accounts/profile.html:18 templates/accounts/user_form.html:21
 #: templates/catalog/device_model_form.html:20
-#: templates/catalog/product_form.html:20
+#: templates/catalog/product_form.html:21
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
 #: templates/integrations/settings.html:41
 #: templates/payments/exchange_rates.html:60
-#: templates/payments/exchange_rates.html:109
+#: templates/payments/exchange_rates.html:114
 #: templates/payments/payment_form.html:19
 msgid "Save"
 msgstr "Save"
@@ -2071,8 +2154,8 @@ msgstr "Reject the registration request of <strong>%(name)s</strong> (%(email)s)
 
 #: templates/accounts/reject_user.html:17 templates/accounts/user_form.html:22
 #: templates/catalog/device_model_form.html:21
-#: templates/catalog/import_preview.html:68
-#: templates/catalog/product_form.html:21
+#: templates/catalog/import_preview.html:72
+#: templates/catalog/product_form.html:22
 #: templates/catalog/special_price_form.html:21
 #: templates/dealers/dealer_form.html:46
 #: templates/dealers/domain_confirm_delete.html:13
@@ -2102,8 +2185,8 @@ msgstr "Language"
 
 #: templates/accounts/user_list.html:34
 #: templates/catalog/device_model_list.html:34
-#: templates/catalog/product_form.html:38
-#: templates/catalog/product_list.html:39
+#: templates/catalog/product_form.html:39
+#: templates/catalog/product_list.html:44
 #: templates/catalog/special_price_list.html:31
 #: templates/dealers/dealer_list.html:36 templates/dealers/domain_list.html:30
 msgid "Edit"
@@ -2113,15 +2196,15 @@ msgstr "Edit"
 msgid "No users found."
 msgstr "No users found."
 
-#: templates/base.html:23
+#: templates/base.html:21
 msgid "Order System"
 msgstr "Order System"
 
-#: templates/base.html:26
+#: templates/base.html:23
 msgid "Close"
 msgstr "Close"
 
-#: templates/base.html:37
+#: templates/base.html:34
 msgid "Menu"
 msgstr "Menu"
 
@@ -2160,7 +2243,7 @@ msgid ""
 msgstr "Delete this device model? Its products stay, but lose the device-model tag."
 
 #: templates/catalog/device_model_list.html:39
-#: templates/catalog/product_list.html:44
+#: templates/catalog/product_list.html:49
 #: templates/catalog/special_price_list.html:34
 #: templates/dealers/domain_confirm_delete.html:12
 #: templates/dealers/domain_list.html:31
@@ -2190,37 +2273,37 @@ msgstr ""
 "  %(created)s records will be created and %(updated)s records will be updated. Nothing has been saved yet.\n"
 "  "
 
-#: templates/catalog/import_preview.html:14
+#: templates/catalog/import_preview.html:18
 msgid "To be created"
 msgstr "To be created"
 
-#: templates/catalog/import_preview.html:17
-#: templates/catalog/import_preview.html:39
+#: templates/catalog/import_preview.html:21
+#: templates/catalog/import_preview.html:43
 msgid "Row"
 msgstr "Row"
 
-#: templates/catalog/import_preview.html:17
-#: templates/catalog/import_preview.html:39
+#: templates/catalog/import_preview.html:21
+#: templates/catalog/import_preview.html:43
 msgid "Key"
 msgstr "Key"
 
-#: templates/catalog/import_preview.html:17
+#: templates/catalog/import_preview.html:21
 msgid "Values"
 msgstr "Values"
 
-#: templates/catalog/import_preview.html:36
+#: templates/catalog/import_preview.html:40
 msgid "To be updated"
 msgstr "To be updated"
 
-#: templates/catalog/import_preview.html:39
+#: templates/catalog/import_preview.html:43
 msgid "Changes (old → new)"
 msgstr "Changes (old → new)"
 
-#: templates/catalog/import_preview.html:49
+#: templates/catalog/import_preview.html:53
 msgid "No change"
 msgstr "No change"
 
-#: templates/catalog/import_preview.html:64
+#: templates/catalog/import_preview.html:68
 msgid "Confirm and import"
 msgstr "Confirm and import"
 
@@ -2296,27 +2379,31 @@ msgstr "Edit product"
 msgid "New product"
 msgstr "New product"
 
-#: templates/catalog/product_form.html:29
+#: templates/catalog/product_form.html:30
 #: templates/integrations/settings.html:115
 #: templates/orders/order_create.html:91
 msgid "Add"
 msgstr "Add"
 
-#: templates/catalog/product_form.html:41
+#: templates/catalog/product_form.html:42
 msgid "No dealer specific price is defined for this product."
 msgstr "No dealer specific price is defined for this product."
 
-#: templates/catalog/product_list.html:22
+#: templates/catalog/product_list.html:20
+msgid "Group"
+msgstr "Group"
+
+#: templates/catalog/product_list.html:23
 #: templates/orders/order_detail.html:100 templates/orders/order_review.html:18
 #, python-format
 msgid "VAT rate (%%)"
 msgstr "VAT rate (%%)"
 
-#: templates/catalog/product_list.html:43
+#: templates/catalog/product_list.html:48
 msgid "Delete this product? This cannot be undone."
 msgstr "Delete this product? This cannot be undone."
 
-#: templates/catalog/product_list.html:50 templates/orders/order_create.html:92
+#: templates/catalog/product_list.html:55 templates/orders/order_create.html:92
 msgid "No products found."
 msgstr "No products found."
 
@@ -2494,12 +2581,12 @@ msgid "Connection"
 msgstr "Connection"
 
 #: templates/integrations/settings.html:19
-#: templates/payments/exchange_rates.html:84
+#: templates/payments/exchange_rates.html:89
 msgid "Enabled"
 msgstr "Enabled"
 
 #: templates/integrations/settings.html:19
-#: templates/payments/exchange_rates.html:84
+#: templates/payments/exchange_rates.html:89
 msgid "Disabled"
 msgstr "Disabled"
 
@@ -3100,32 +3187,32 @@ msgstr "Rate history"
 msgid "Source"
 msgstr "Source"
 
-#: templates/payments/exchange_rates.html:72
+#: templates/payments/exchange_rates.html:77
 msgid "No exchange rate has been recorded yet."
 msgstr "No exchange rate has been recorded yet."
 
-#: templates/payments/exchange_rates.html:82
+#: templates/payments/exchange_rates.html:87
 msgid "Email notifications"
 msgstr "Email notifications"
 
-#: templates/payments/exchange_rates.html:88
+#: templates/payments/exchange_rates.html:93
 msgid ""
 "Whether a given user receives these emails at all is controlled per user, "
 "from their own profile screen (Email notifications toggle). In-app "
 "notifications are always created regardless of this setting."
 msgstr "Whether a given user receives these emails at all is controlled per user, from their own profile screen (Email notifications toggle). In-app notifications are always created regardless of this setting."
 
-#: templates/payments/exchange_rates.html:113
+#: templates/payments/exchange_rates.html:118
 msgid "Send a test email"
 msgstr "Send a test email"
 
-#: templates/payments/exchange_rates.html:115
+#: templates/payments/exchange_rates.html:120
 msgid ""
 "Sends one message with the settings above (save first if you just changed "
 "them)."
 msgstr "Sends one message with the settings above (save first if you just changed them)."
 
-#: templates/payments/exchange_rates.html:125
+#: templates/payments/exchange_rates.html:130
 msgid "Send test email"
 msgstr "Send test email"
 
@@ -3238,10 +3325,6 @@ msgstr "There are no orders awaiting approval."
 #: templates/reports/_report_filters.html:8
 msgid "All dealers"
 msgstr "All dealers"
-
-#: templates/reports/_report_filters.html:15
-msgid "Currency"
-msgstr "Currency"
 
 #: templates/reports/_report_filters.html:29
 #, python-format

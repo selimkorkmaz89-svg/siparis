@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 16:32+0300\n"
+"POT-Creation-Date: 2026-09-02 22:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -71,7 +71,7 @@ msgstr "Ad"
 msgid "Last name"
 msgstr "Soyad"
 
-#: accounts/forms.py:60 accounts/views.py:194 catalog/imports.py:39
+#: accounts/forms.py:60 accounts/views.py:194 catalog/imports.py:80
 #: dealers/views.py:37 templates/orders/order_detail.html:83
 #: templates/orders/order_form_pdf.html:93
 msgid "Phone"
@@ -141,7 +141,7 @@ msgstr "kullanıcı adı"
 msgid "email address"
 msgstr "e-posta adresi"
 
-#: accounts/models.py:49 catalog/models.py:116 dealers/models.py:44
+#: accounts/models.py:49 catalog/models.py:150 dealers/models.py:44
 #: dealers/models.py:66 orders/models.py:65
 msgid "dealer"
 msgstr "bayi"
@@ -151,7 +151,7 @@ msgid "role"
 msgstr "rol"
 
 #: accounts/models.py:59 notifications/models.py:104 orders/models.py:76
-#: payments/models.py:66
+#: payments/models.py:82
 msgid "status"
 msgstr "durum"
 
@@ -171,11 +171,11 @@ msgstr "e-posta bildirimleri açık"
 msgid "interface language"
 msgstr "arayüz dili"
 
-#: accounts/models.py:79 payments/models.py:82
+#: accounts/models.py:79 payments/models.py:98
 msgid "approved by"
 msgstr "onaylayan"
 
-#: accounts/models.py:85 payments/models.py:88
+#: accounts/models.py:85 payments/models.py:104
 msgid "approved at"
 msgstr "onay tarihi"
 
@@ -226,7 +226,7 @@ msgstr "Kullanıcı reddedildi: %(user)s"
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: accounts/views.py:193 catalog/imports.py:40 core/constants.py:49
+#: accounts/views.py:193 catalog/imports.py:81 core/constants.py:49
 #: dealers/views.py:37
 msgid "Email"
 msgstr "E-posta"
@@ -236,11 +236,11 @@ msgstr "E-posta"
 msgid "Role"
 msgstr "Rol"
 
-#: accounts/views.py:193 catalog/views.py:131 core/constants.py:11
+#: accounts/views.py:193 catalog/views.py:133 core/constants.py:11
 #: core/navigation.py:140 dealers/views.py:101 dealers/views.py:147
 #: logistics/views.py:36 orders/views.py:89 payments/views.py:45
 #: payments/views.py:185 reports/views.py:73 templates/accounts/profile.html:28
-#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
+#: templates/accounts/user_list.html:17 templates/catalog/product_form.html:33
 #: templates/catalog/special_price_list.html:14 templates/core/home.html:65
 #: templates/dealers/dealer_form.html:3 templates/dealers/dealer_history.html:8
 #: templates/dealers/dealer_history.html:34
@@ -305,7 +305,7 @@ msgstr "Lütfen .xlsx biçiminde bir dosya yükleyin."
 msgid "The file may not be larger than 10 MB."
 msgstr "Dosya 10 MB'tan büyük olamaz."
 
-#: catalog/imports.py:23 catalog/views.py:47 catalog/views.py:131
+#: catalog/imports.py:28 catalog/views.py:47 catalog/views.py:133
 #: templates/catalog/product_list.html:16
 #: templates/catalog/special_price_list.html:15
 #: templates/logistics/mark_shipped.html:28
@@ -315,7 +315,7 @@ msgstr "Dosya 10 MB'tan büyük olamaz."
 msgid "Product code"
 msgstr "Ürün Kodu"
 
-#: catalog/imports.py:24 catalog/views.py:47 catalog/views.py:131
+#: catalog/imports.py:29 catalog/views.py:47 catalog/views.py:133
 #: templates/catalog/product_list.html:17
 #: templates/catalog/special_price_list.html:16
 #: templates/logistics/mark_shipped.html:28
@@ -325,7 +325,21 @@ msgstr "Ürün Kodu"
 msgid "Product name"
 msgstr "Ürün Adı"
 
-#: catalog/imports.py:25 catalog/views.py:47 catalog/views.py:178
+#: catalog/imports.py:30 catalog/imports.py:270
+msgid "List price"
+msgstr "Liste Fiyatı"
+
+#: catalog/imports.py:31 catalog/imports.py:271
+#: templates/reports/_report_filters.html:15
+msgid "Currency"
+msgstr "Para birimi"
+
+#: catalog/imports.py:32 catalog/imports.py:297 catalog/models.py:110
+#: catalog/views.py:49 integrations/models.py:109 orders/models.py:229
+msgid "VAT rate (%)"
+msgstr "KDV Oranı (%)"
+
+#: catalog/imports.py:33 catalog/views.py:47 catalog/views.py:180
 #: templates/catalog/_product_filters.html:2
 #: templates/catalog/device_model_list.html:17
 #: templates/catalog/product_list.html:18 templates/orders/order_create.html:13
@@ -334,187 +348,227 @@ msgstr "Ürün Adı"
 msgid "Brand"
 msgstr "Marka"
 
-#: catalog/imports.py:26 catalog/views.py:178
+#: catalog/imports.py:34 catalog/views.py:47 catalog/views.py:180
 #: templates/catalog/device_model_form.html:3
 #: templates/catalog/device_model_list.html:18
 #: templates/catalog/product_list.html:19
 msgid "Device model"
 msgstr "Cihaz Modeli"
 
-#: catalog/imports.py:27 catalog/imports.py:203 catalog/views.py:47
-#: templates/catalog/product_list.html:20 templates/orders/order_create.html:27
+#: catalog/imports.py:35 catalog/imports.py:291 catalog/views.py:48
+msgid "Product group"
+msgstr "Ürün Grubu"
+
+#: catalog/imports.py:36 catalog/imports.py:293 catalog/views.py:48
+#: templates/catalog/product_list.html:21 templates/orders/order_create.html:27
 msgid "Tests per pack"
 msgstr "Test Sayısı"
 
-#: catalog/imports.py:28 catalog/imports.py:204 catalog/views.py:48
-#: templates/catalog/product_list.html:21
+#: catalog/imports.py:37
+msgid "Description"
+msgstr "Açıklama"
+
+#: catalog/imports.py:45 catalog/views.py:48
+#: templates/catalog/product_list.html:22
 #: templates/catalog/special_price_list.html:17
 msgid "List price (USD)"
 msgstr "Liste Fiyatı (USD)"
 
-#: catalog/imports.py:29 catalog/imports.py:205 catalog/models.py:76
-#: catalog/views.py:48 integrations/models.py:109 orders/models.py:229
-msgid "VAT rate (%)"
-msgstr "KDV Oranı (%)"
+#: catalog/imports.py:46
+msgid "List price (native currency)"
+msgstr "Liste Fiyatı (Yerel Para Birimi)"
 
-#: catalog/imports.py:30
-msgid "Description"
-msgstr "Açıklama"
+#: catalog/imports.py:47 catalog/models.py:119 catalog/views.py:49
+msgid "Mikro stock code"
+msgstr "Mikro stok kodu"
 
-#: catalog/imports.py:34 dealers/views.py:36
+#: catalog/imports.py:75 dealers/views.py:36
 #: templates/dealers/dealer_list.html:14
 #: templates/orders/order_form_pdf.html:89
 msgid "Dealer name"
 msgstr "Bayi Adı"
 
-#: catalog/imports.py:35 dealers/views.py:36
+#: catalog/imports.py:76 dealers/views.py:36
 #: templates/dealers/dealer_list.html:15
 msgid "Dealer code"
 msgstr "Bayi Kodu"
 
-#: catalog/imports.py:36 dealers/views.py:36
+#: catalog/imports.py:77 dealers/views.py:36
 #: templates/dealers/dealer_list.html:16 templates/orders/order_detail.html:81
 #: templates/orders/order_form_pdf.html:70
 #: templates/orders/order_form_pdf.html:90
 msgid "Tax number"
 msgstr "Vergi No"
 
-#: catalog/imports.py:37 dealers/views.py:36
+#: catalog/imports.py:78 dealers/views.py:36
 #: templates/orders/order_form_pdf.html:91
 msgid "Tax office"
 msgstr "Vergi Dairesi"
 
-#: catalog/imports.py:38 dealers/views.py:37
+#: catalog/imports.py:79 dealers/views.py:37
 #: templates/dealers/dealer_list.html:17 templates/orders/order_detail.html:82
 #: templates/orders/order_form_pdf.html:92
 msgid "Contact person"
 msgstr "Yetkili Kişi"
 
-#: catalog/imports.py:41 dealers/views.py:37
+#: catalog/imports.py:82 dealers/views.py:37
 #: templates/dealers/dealer_list.html:18
 msgid "City"
 msgstr "Şehir"
 
-#: catalog/imports.py:42 dealers/forms.py:47 dealers/views.py:37
+#: catalog/imports.py:83 dealers/forms.py:47 dealers/views.py:37
 #: templates/orders/order_detail.html:84
 #: templates/orders/order_form_pdf.html:94
 msgid "Address"
 msgstr "Adres"
 
-#: catalog/imports.py:43
+#: catalog/imports.py:84
 msgid "Notes"
 msgstr "Notlar"
 
-#: catalog/imports.py:109
+#: catalog/imports.py:152 catalog/imports.py:259
 #, python-format
 msgid "%(field)s is required."
 msgstr "%(field)s zorunludur."
 
-#: catalog/imports.py:113
+#: catalog/imports.py:156
 #, python-format
 msgid "%(field)s must be a number."
 msgstr "%(field)s sayı olmalıdır."
 
-#: catalog/imports.py:122
+#: catalog/imports.py:165
 #, python-format
 msgid "%(field)s must be a whole number."
 msgstr "%(field)s tam sayı olmalıdır."
 
-#: catalog/imports.py:136
+#: catalog/imports.py:179
 msgid "The file could not be read. Please upload a valid .xlsx file."
 msgstr "Dosya okunamadı. Lütfen geçerli bir .xlsx dosyası yükleyin."
 
-#: catalog/imports.py:141
+#: catalog/imports.py:184
 msgid "The file contains no data rows."
 msgstr "Dosyada veri satırı bulunamadı."
 
-#: catalog/imports.py:156
+#: catalog/imports.py:208
 #, python-format
 msgid "Row %(row)s: %(field)s is empty."
 msgstr "%(row)s. satır: %(field)s boş."
 
-#: catalog/imports.py:162
+#: catalog/imports.py:214
 #, python-format
 msgid "Row %(row)s: '%(key)s' already appears on row %(first)s."
 msgstr "%(row)s. satır: '%(key)s' zaten %(first)s. satırda geçiyor."
 
-#: catalog/imports.py:170
+#: catalog/imports.py:222
 #, python-format
 msgid "Row %(row)s: %(error)s"
 msgstr "%(row)s. satır: %(error)s"
 
-#: catalog/imports.py:189
+#: catalog/imports.py:243
 msgid "The file contains no importable rows."
 msgstr "Dosyada içe aktarılabilir satır bulunamadı."
 
-#: catalog/models.py:20 catalog/models.py:25 catalog/models.py:61
+#: catalog/imports.py:247
+#, python-format
+msgid ""
+"%(count)s CHF-priced product(s) have no CHF/TRY rate to convert with yet and "
+"will import with a USD price of 0.00 - fetch the rate (System Settings) and "
+"they will be repriced automatically."
+msgstr "%(count)s CHF fiyatlı ürünün henüz dönüştürülebileceği bir CHF/TL kuru yok, bu yüzden USD fiyatı 0,00 olarak içeri alınacak - kuru çektiğinizde (Sistem Ayarları) otomatik olarak yeniden fiyatlanacaklar."
+
+#: catalog/imports.py:262
+#, python-format
+msgid "%(field)s '%(value)s' is not recognised."
+msgstr "%(field)s '%(value)s' tanınmıyor."
+
+#: catalog/models.py:21 catalog/models.py:26 catalog/models.py:73
 msgid "device model"
 msgstr "cihaz modeli"
 
-#: catalog/models.py:21 catalog/models.py:58 orders/models.py:222
+#: catalog/models.py:22 catalog/models.py:70 orders/models.py:222
 msgid "brand"
 msgstr "marka"
 
-#: catalog/models.py:22 catalog/models.py:83 dealers/models.py:24
+#: catalog/models.py:23 catalog/models.py:117 dealers/models.py:24
 #: dealers/models.py:70 notifications/models.py:59
 msgid "active"
 msgstr "aktif"
 
-#: catalog/models.py:26
+#: catalog/models.py:27
 msgid "device models"
 msgstr "cihaz modelleri"
 
-#: catalog/models.py:56 orders/models.py:220
+#: catalog/models.py:68 orders/models.py:220
 msgid "product code"
 msgstr "ürün kodu"
 
-#: catalog/models.py:57 orders/models.py:221
+#: catalog/models.py:69 orders/models.py:221
 msgid "product name"
 msgstr "ürün adı"
 
-#: catalog/models.py:66
+#: catalog/models.py:78
 msgid "Used to restrict which dealers may order this product."
 msgstr "Hangi bayilerin bu ürünü sipariş edebileceğini sınırlamak için kullanılır."
 
-#: catalog/models.py:68
+#: catalog/models.py:81
+msgid "product group"
+msgstr "ürün grubu"
+
+#: catalog/models.py:84
 msgid "tests per pack"
 msgstr "test sayısı"
 
-#: catalog/models.py:70
+#: catalog/models.py:86
+msgid "list price currency"
+msgstr "liste fiyatı para birimi"
+
+#: catalog/models.py:90
+msgid ""
+"The currency the supplier actually quotes this product in. base_price_usd "
+"stays the authoritative USD figure either way."
+msgstr "Tedarikçinin bu ürünü aslında hangi para biriminde fiyatlandırdığı. base_price_usd her durumda geçerli USD rakamı olarak kalır."
+
+#: catalog/models.py:95
+msgid "list price (native currency)"
+msgstr "liste fiyatı (yerel para birimi)"
+
+#: catalog/models.py:99
+msgid ""
+"Only used when the list price currency above isn't USD - the supplier's own "
+"price, before conversion."
+msgstr "Yalnızca yukarıdaki liste fiyatı para birimi USD değilken kullanılır - tedarikçinin dönüştürülmeden önceki kendi fiyatı."
+
+#: catalog/models.py:104
 msgid "list price (USD)"
 msgstr "liste fiyatı (USD)"
 
-#: catalog/models.py:82
+#: catalog/models.py:116
 msgid "description"
 msgstr "açıklama"
 
-#: catalog/models.py:85
-msgid "Mikro stock code"
-msgstr "Mikro stok kodu"
-
-#: catalog/models.py:87
+#: catalog/models.py:121
 msgid ""
 "This product's stock (stok) code in Mikro. Required before an order "
 "containing it can be sent to Mikro."
 msgstr "Bu ürünün Mikro'daki stok kodu. Bu ürünü içeren bir siparişin Mikro'ya gönderilebilmesi için gereklidir."
 
-#: catalog/models.py:95 catalog/models.py:122 orders/models.py:216
+#: catalog/models.py:129 catalog/models.py:156 orders/models.py:216
 msgid "product"
 msgstr "ürün"
 
-#: catalog/models.py:96
+#: catalog/models.py:130
 msgid "products"
 msgstr "ürünler"
 
-#: catalog/models.py:127
+#: catalog/models.py:161
 msgid "special price (USD)"
 msgstr "özel fiyat (USD)"
 
-#: catalog/models.py:134
+#: catalog/models.py:168
 msgid "dealer special price"
 msgstr "bayi özel fiyatı"
 
-#: catalog/models.py:135
+#: catalog/models.py:169
 msgid "dealer special prices"
 msgstr "bayi özel fiyatları"
 
@@ -523,95 +577,95 @@ msgstr "bayi özel fiyatları"
 msgid "Products"
 msgstr "Ürünler"
 
-#: catalog/views.py:48 catalog/views.py:178 dealers/views.py:38
+#: catalog/views.py:49 catalog/views.py:180 dealers/views.py:38
 #: dealers/views.py:147 templates/catalog/device_model_list.html:21
-#: templates/catalog/product_list.html:23 templates/dealers/dealer_list.html:21
+#: templates/catalog/product_list.html:24 templates/dealers/dealer_list.html:21
 #: templates/dealers/domain_list.html:19
 msgid "Active"
 msgstr "Aktif"
 
-#: catalog/views.py:51 catalog/views.py:179 dealers/views.py:41
+#: catalog/views.py:53 catalog/views.py:181 dealers/views.py:41
 #: dealers/views.py:148 templates/catalog/device_model_list.html:32
-#: templates/catalog/product_list.html:37 templates/dealers/dealer_list.html:35
+#: templates/catalog/product_list.html:42 templates/dealers/dealer_list.html:35
 #: templates/dealers/domain_list.html:28
 msgid "Yes"
 msgstr "Evet"
 
-#: catalog/views.py:51 catalog/views.py:179 dealers/views.py:41
+#: catalog/views.py:53 catalog/views.py:181 dealers/views.py:41
 #: dealers/views.py:148 templates/catalog/device_model_list.html:32
-#: templates/catalog/product_list.html:37 templates/dealers/dealer_list.html:35
+#: templates/catalog/product_list.html:42 templates/dealers/dealer_list.html:35
 #: templates/dealers/domain_list.html:28
 msgid "No"
 msgstr "Hayır"
 
-#: catalog/views.py:81
+#: catalog/views.py:83
 #, python-format
 msgid "Product saved: %(code)s"
 msgstr "Ürün kaydedildi: %(code)s"
 
-#: catalog/views.py:105
+#: catalog/views.py:107
 #, python-format
 msgid ""
 "\"%(code)s\" cannot be deleted: it appears in existing orders, which must "
 "keep their history. Mark it inactive instead."
 msgstr "\"%(code)s\" silinemez: mevcut siparişlerde kullanılıyor ve sipariş geçmişi korunmalı. Bunun yerine pasif yapın."
 
-#: catalog/views.py:111
+#: catalog/views.py:113
 #, python-format
 msgid "Product deleted: %(code)s"
 msgstr "Ürün silindi: %(code)s"
 
-#: catalog/views.py:130 core/navigation.py:116
-#: templates/catalog/product_form.html:28
+#: catalog/views.py:132 core/navigation.py:116
+#: templates/catalog/product_form.html:29
 #: templates/catalog/special_price_list.html:3
 #: templates/catalog/special_price_list.html:4
 msgid "Dealer special prices"
 msgstr "Bayi Özel Fiyatları"
 
-#: catalog/views.py:131 templates/catalog/product_form.html:32
+#: catalog/views.py:133 templates/catalog/product_form.html:33
 #: templates/catalog/special_price_list.html:18
 msgid "Special price (USD)"
 msgstr "Özel fiyat (USD)"
 
-#: catalog/views.py:148
+#: catalog/views.py:150
 msgid "Special price saved."
 msgstr "Özel fiyat kaydedildi."
 
-#: catalog/views.py:159
+#: catalog/views.py:161
 msgid "Special price deleted."
 msgstr "Özel fiyat silindi."
 
-#: catalog/views.py:177 core/navigation.py:119
+#: catalog/views.py:179 core/navigation.py:119
 #: templates/catalog/device_model_list.html:3
 #: templates/catalog/device_model_list.html:4
 msgid "Device models"
 msgstr "Cihaz Modelleri"
 
-#: catalog/views.py:195
+#: catalog/views.py:197
 #, python-format
 msgid "Device model saved: %(name)s"
 msgstr "Cihaz modeli kaydedildi: %(name)s"
 
-#: catalog/views.py:209
+#: catalog/views.py:211
 #, python-format
 msgid "Device model deleted: %(name)s"
 msgstr "Cihaz modeli silindi: %(name)s"
 
-#: catalog/views.py:239
+#: catalog/views.py:241
 msgid ""
 "The import was stopped: no records were saved. Please fix the errors below."
 msgstr "İçe aktarma durduruldu: hiçbir kayıt kaydedilmedi. Lütfen aşağıdaki hataları düzeltin."
 
-#: catalog/views.py:257
+#: catalog/views.py:259
 msgid "The import session has expired. Please upload the file again."
 msgstr "İçe aktarma oturumu sona erdi. Lütfen dosyayı tekrar yükleyin."
 
-#: catalog/views.py:264
+#: catalog/views.py:266
 #, python-format
 msgid "Import completed: %(created)s new records, %(updated)s updated records."
 msgstr "İçe aktarma tamamlandı: %(created)s yeni kayıt, %(updated)s güncellenen kayıt."
 
-#: catalog/views.py:275
+#: catalog/views.py:277
 msgid "The import was cancelled; nothing was saved."
 msgstr "İçe aktarma iptal edildi; hiçbir kayıt kaydedilmedi."
 
@@ -709,19 +763,35 @@ msgstr "USD"
 msgid "TRY"
 msgstr "TL"
 
-#: core/constants.py:59
+#: core/constants.py:56
+msgid "CHF"
+msgstr "CHF"
+
+#: core/constants.py:60
+msgid "Device"
+msgstr "Cihaz"
+
+#: core/constants.py:61
+msgid "Consumable"
+msgstr "Sarf"
+
+#: core/constants.py:62
+msgid "Spare part"
+msgstr "Yedek Parça"
+
+#: core/constants.py:66
 msgid "Not queued"
 msgstr "Kuyrukta değil"
 
-#: core/constants.py:60
+#: core/constants.py:67
 msgid "Waiting to be sent"
 msgstr "Gönderim bekliyor"
 
-#: core/constants.py:61
+#: core/constants.py:68
 msgid "Sent to Mikro"
 msgstr "Mikro'ya gönderildi"
 
-#: core/constants.py:62 notifications/models.py:80
+#: core/constants.py:69 notifications/models.py:80
 msgid "Failed"
 msgstr "Başarısız"
 
@@ -1187,7 +1257,7 @@ msgstr "Aktarım servisi bir hata bildirdi."
 msgid "Mikro settings saved."
 msgstr "Mikro ayarları kaydedildi."
 
-#: integrations/views.py:109 integrations/views.py:118 payments/views.py:289
+#: integrations/views.py:109 integrations/views.py:118 payments/views.py:291
 msgid "Please fix the errors below."
 msgstr "Lütfen aşağıdaki hataları düzeltin."
 
@@ -1278,7 +1348,7 @@ msgid "body"
 msgstr "içerik"
 
 #: notifications/models.py:24 notifications/models.py:97 orders/models.py:124
-#: orders/models.py:212 orders/models.py:268 payments/models.py:47
+#: orders/models.py:212 orders/models.py:268 payments/models.py:63
 msgid "order"
 msgstr "sipariş"
 
@@ -1609,7 +1679,7 @@ msgstr "değiştiren"
 msgid "changed at"
 msgstr "değişiklik tarihi"
 
-#: orders/models.py:287 payments/models.py:89
+#: orders/models.py:287 payments/models.py:105
 msgid "note"
 msgstr "not"
 
@@ -1706,63 +1776,76 @@ msgstr "Kur tarihi"
 msgid "USD/TRY rate"
 msgstr "USD/TL kuru"
 
+#: payments/forms.py:57 payments/models.py:23
+#: templates/payments/exchange_rates.html:67
+msgid "CHF/TRY rate"
+msgstr "CHF/TL kuru"
+
+#: payments/forms.py:62
+msgid "Optional - only needed to price Swiss-Franc list items."
+msgstr "İsteğe bağlı - yalnızca İsviçre Frangı ile fiyatlanan kalemler için gereklidir."
+
 #: payments/models.py:15
 msgid "rate date"
 msgstr "kur tarihi"
 
-#: payments/models.py:23
+#: payments/models.py:29
+msgid "Used only to convert Swiss-Franc list prices to USD."
+msgstr "Yalnızca İsviçre Frangı liste fiyatlarını USD'ye çevirmek için kullanılır."
+
+#: payments/models.py:32
 msgid "rate type"
 msgstr "kur tipi"
 
-#: payments/models.py:25
+#: payments/models.py:34
 msgid "source"
 msgstr "kaynak"
 
-#: payments/models.py:26
+#: payments/models.py:35
 msgid "fetched at"
 msgstr "çekilme zamanı"
 
-#: payments/models.py:29
+#: payments/models.py:38
 msgid "exchange rate"
 msgstr "döviz kuru"
 
-#: payments/models.py:30
+#: payments/models.py:39
 msgid "exchange rates"
 msgstr "döviz kurları"
 
-#: payments/models.py:52
+#: payments/models.py:68
 msgid "amount (TRY)"
 msgstr "tutar (TL)"
 
-#: payments/models.py:58
+#: payments/models.py:74
 msgid "exchange rate used"
 msgstr "kullanılan kur"
 
-#: payments/models.py:61
+#: payments/models.py:77
 msgid "amount (USD)"
 msgstr "tutar (USD)"
 
-#: payments/models.py:63
+#: payments/models.py:79
 msgid "bank reference / receipt no"
 msgstr "dekont / referans no"
 
-#: payments/models.py:64
+#: payments/models.py:80
 msgid "payment date"
 msgstr "ödeme tarihi"
 
-#: payments/models.py:72
+#: payments/models.py:88
 msgid "receipt file"
 msgstr "dekont dosyası"
 
-#: payments/models.py:76
+#: payments/models.py:92
 msgid "declared by"
 msgstr "bildiren"
 
-#: payments/models.py:92
+#: payments/models.py:108
 msgid "payment"
 msgstr "ödeme"
 
-#: payments/models.py:93
+#: payments/models.py:109
 msgid "payments"
 msgstr "ödemeler"
 
@@ -1829,54 +1912,54 @@ msgstr "Dekont / referans no"
 msgid "Approved by"
 msgstr "Onaylayan"
 
-#: payments/views.py:226
+#: payments/views.py:228
 msgid "The exchange rate has been saved."
 msgstr "Kur kaydedildi."
 
-#: payments/views.py:236
+#: payments/views.py:238
 #, python-format
 msgid "The rate could not be fetched: %(error)s"
 msgstr "Kur çekilemedi: %(error)s"
 
-#: payments/views.py:244
+#: payments/views.py:246
 msgid ""
 "No rate could be fetched. Check that www.tcmb.gov.tr is reachable from the "
 "server; TCMB does not publish on weekends or holidays."
 msgstr "Kur çekilemedi. Sunucunun www.tcmb.gov.tr adresine erişebildiğini kontrol edin; TCMB hafta sonu ve resmi tatillerde kur yayınlamaz."
 
-#: payments/views.py:251
+#: payments/views.py:253
 #, python-format
 msgid "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s"
 msgstr "%(count)s yeni kur çekildi. Geçerli: %(date)s = %(rate)s"
 
-#: payments/views.py:261
+#: payments/views.py:263
 #, python-format
 msgid "Already up to date. In effect: %(date)s = %(rate)s"
 msgstr "Zaten güncel. Geçerli: %(date)s = %(rate)s"
 
-#: payments/views.py:287
+#: payments/views.py:289
 msgid "Email settings saved."
 msgstr "E-posta ayarları kaydedildi."
 
-#: payments/views.py:298
+#: payments/views.py:300
 #, python-format
 msgid "The test email could not be sent: %(error)s"
 msgstr "Test e-postası gönderilemedi: %(error)s"
 
-#: payments/views.py:303
+#: payments/views.py:305
 #, python-format
 msgid "Test email sent to %(recipient)s."
 msgstr "Test e-postası gönderildi: %(recipient)s"
 
-#: payments/views.py:311
+#: payments/views.py:313
 msgid "No rate stored"
 msgstr "Kayıtlı kur yok"
 
-#: payments/views.py:313
+#: payments/views.py:315
 msgid "Up to date"
 msgstr "Güncel"
 
-#: payments/views.py:315
+#: payments/views.py:317
 msgid "Using the most recent business day"
 msgstr "En yakın iş gününün kuru kullanılıyor"
 
@@ -2014,12 +2097,12 @@ msgstr "Profil bilgileri"
 
 #: templates/accounts/profile.html:18 templates/accounts/user_form.html:21
 #: templates/catalog/device_model_form.html:20
-#: templates/catalog/product_form.html:20
+#: templates/catalog/product_form.html:21
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
 #: templates/integrations/settings.html:41
 #: templates/payments/exchange_rates.html:60
-#: templates/payments/exchange_rates.html:109
+#: templates/payments/exchange_rates.html:114
 #: templates/payments/payment_form.html:19
 msgid "Save"
 msgstr "Kaydet"
@@ -2071,8 +2154,8 @@ msgstr "<strong>%(name)s</strong> (%(email)s) kullanıcısının kayıt talebi r
 
 #: templates/accounts/reject_user.html:17 templates/accounts/user_form.html:22
 #: templates/catalog/device_model_form.html:21
-#: templates/catalog/import_preview.html:68
-#: templates/catalog/product_form.html:21
+#: templates/catalog/import_preview.html:72
+#: templates/catalog/product_form.html:22
 #: templates/catalog/special_price_form.html:21
 #: templates/dealers/dealer_form.html:46
 #: templates/dealers/domain_confirm_delete.html:13
@@ -2102,8 +2185,8 @@ msgstr "Dil"
 
 #: templates/accounts/user_list.html:34
 #: templates/catalog/device_model_list.html:34
-#: templates/catalog/product_form.html:38
-#: templates/catalog/product_list.html:39
+#: templates/catalog/product_form.html:39
+#: templates/catalog/product_list.html:44
 #: templates/catalog/special_price_list.html:31
 #: templates/dealers/dealer_list.html:36 templates/dealers/domain_list.html:30
 msgid "Edit"
@@ -2113,15 +2196,15 @@ msgstr "Düzenle"
 msgid "No users found."
 msgstr "Kullanıcı bulunamadı."
 
-#: templates/base.html:23
+#: templates/base.html:21
 msgid "Order System"
 msgstr "Sipariş Sistemi"
 
-#: templates/base.html:26
+#: templates/base.html:23
 msgid "Close"
 msgstr "Kapat"
 
-#: templates/base.html:37
+#: templates/base.html:34
 msgid "Menu"
 msgstr "Menü"
 
@@ -2160,7 +2243,7 @@ msgid ""
 msgstr "Bu cihaz modeli silinsin mi? Ürünleri kalır ama cihaz modeli etiketini kaybeder."
 
 #: templates/catalog/device_model_list.html:39
-#: templates/catalog/product_list.html:44
+#: templates/catalog/product_list.html:49
 #: templates/catalog/special_price_list.html:34
 #: templates/dealers/domain_confirm_delete.html:12
 #: templates/dealers/domain_list.html:31
@@ -2190,37 +2273,37 @@ msgstr ""
 "  %(created)s kayıt eklenecek, %(updated)s kayıt güncellenecek. Henüz hiçbir şey kaydedilmedi.\n"
 "  "
 
-#: templates/catalog/import_preview.html:14
+#: templates/catalog/import_preview.html:18
 msgid "To be created"
 msgstr "Yeni Eklenecek"
 
-#: templates/catalog/import_preview.html:17
-#: templates/catalog/import_preview.html:39
+#: templates/catalog/import_preview.html:21
+#: templates/catalog/import_preview.html:43
 msgid "Row"
 msgstr "Satır"
 
-#: templates/catalog/import_preview.html:17
-#: templates/catalog/import_preview.html:39
+#: templates/catalog/import_preview.html:21
+#: templates/catalog/import_preview.html:43
 msgid "Key"
 msgstr "Anahtar"
 
-#: templates/catalog/import_preview.html:17
+#: templates/catalog/import_preview.html:21
 msgid "Values"
 msgstr "Değerler"
 
-#: templates/catalog/import_preview.html:36
+#: templates/catalog/import_preview.html:40
 msgid "To be updated"
 msgstr "Güncellenecek"
 
-#: templates/catalog/import_preview.html:39
+#: templates/catalog/import_preview.html:43
 msgid "Changes (old → new)"
 msgstr "Değişiklikler (eski → yeni)"
 
-#: templates/catalog/import_preview.html:49
+#: templates/catalog/import_preview.html:53
 msgid "No change"
 msgstr "Değişiklik yok"
 
-#: templates/catalog/import_preview.html:64
+#: templates/catalog/import_preview.html:68
 msgid "Confirm and import"
 msgstr "Onayla ve İçe Aktar"
 
@@ -2296,27 +2379,31 @@ msgstr "Ürünü düzenle"
 msgid "New product"
 msgstr "Yeni ürün"
 
-#: templates/catalog/product_form.html:29
+#: templates/catalog/product_form.html:30
 #: templates/integrations/settings.html:115
 #: templates/orders/order_create.html:91
 msgid "Add"
 msgstr "Ekle"
 
-#: templates/catalog/product_form.html:41
+#: templates/catalog/product_form.html:42
 msgid "No dealer specific price is defined for this product."
 msgstr "Bu ürün için bayiye özel fiyat tanımlı değil."
 
-#: templates/catalog/product_list.html:22
+#: templates/catalog/product_list.html:20
+msgid "Group"
+msgstr "Grup"
+
+#: templates/catalog/product_list.html:23
 #: templates/orders/order_detail.html:100 templates/orders/order_review.html:18
 #, python-format
 msgid "VAT rate (%%)"
 msgstr "KDV Oranı (%%)"
 
-#: templates/catalog/product_list.html:43
+#: templates/catalog/product_list.html:48
 msgid "Delete this product? This cannot be undone."
 msgstr "Bu ürün silinsin mi? Bu işlem geri alınamaz."
 
-#: templates/catalog/product_list.html:50 templates/orders/order_create.html:92
+#: templates/catalog/product_list.html:55 templates/orders/order_create.html:92
 msgid "No products found."
 msgstr "Ürün bulunamadı."
 
@@ -2494,12 +2581,12 @@ msgid "Connection"
 msgstr "Bağlantı"
 
 #: templates/integrations/settings.html:19
-#: templates/payments/exchange_rates.html:84
+#: templates/payments/exchange_rates.html:89
 msgid "Enabled"
 msgstr "Etkin"
 
 #: templates/integrations/settings.html:19
-#: templates/payments/exchange_rates.html:84
+#: templates/payments/exchange_rates.html:89
 msgid "Disabled"
 msgstr "Devre Dışı"
 
@@ -3100,32 +3187,32 @@ msgstr "Kur geçmişi"
 msgid "Source"
 msgstr "Kaynak"
 
-#: templates/payments/exchange_rates.html:72
+#: templates/payments/exchange_rates.html:77
 msgid "No exchange rate has been recorded yet."
 msgstr "Henüz kur kaydı yok."
 
-#: templates/payments/exchange_rates.html:82
+#: templates/payments/exchange_rates.html:87
 msgid "Email notifications"
 msgstr "E-posta Bildirimleri"
 
-#: templates/payments/exchange_rates.html:88
+#: templates/payments/exchange_rates.html:93
 msgid ""
 "Whether a given user receives these emails at all is controlled per user, "
 "from their own profile screen (Email notifications toggle). In-app "
 "notifications are always created regardless of this setting."
 msgstr "Bir kullanıcının bu e-postaları alıp almayacağı, kullanıcının kendi profil ekranından (E-posta bildirimleri anahtarı) belirlenir. Sistem içi bildirimler bu ayardan bağımsız olarak her zaman oluşturulur."
 
-#: templates/payments/exchange_rates.html:113
+#: templates/payments/exchange_rates.html:118
 msgid "Send a test email"
 msgstr "Test e-postası gönder"
 
-#: templates/payments/exchange_rates.html:115
+#: templates/payments/exchange_rates.html:120
 msgid ""
 "Sends one message with the settings above (save first if you just changed "
 "them)."
 msgstr "Yukarıdaki ayarlarla bir e-posta gönderir (az önce değiştirdiyseniz önce kaydedin)."
 
-#: templates/payments/exchange_rates.html:125
+#: templates/payments/exchange_rates.html:130
 msgid "Send test email"
 msgstr "Test e-postası gönder"
 
@@ -3238,10 +3325,6 @@ msgstr "Onay bekleyen sipariş yok."
 #: templates/reports/_report_filters.html:8
 msgid "All dealers"
 msgstr "Tüm bayiler"
-
-#: templates/reports/_report_filters.html:15
-msgid "Currency"
-msgstr "Para birimi"
 
 #: templates/reports/_report_filters.html:29
 #, python-format

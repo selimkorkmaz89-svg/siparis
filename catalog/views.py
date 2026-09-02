@@ -44,11 +44,13 @@ def product_list(request):
         return excel_response(
             "products",
             str(_("Products")),
-            [_("Product code"), _("Product name"), _("Brand"), _("Tests per pack"),
-             _("List price (USD)"), _("VAT rate (%)"), _("Active")],
+            [_("Product code"), _("Product name"), _("Brand"), _("Device model"),
+             _("Product group"), _("Tests per pack"), _("List price (USD)"),
+             _("VAT rate (%)"), _("Active"), _("Mikro stock code")],
             [
-                (p.code, p.name, p.brand, p.tests_per_pack, p.base_price_usd,
-                 p.vat_rate, _("Yes") if p.is_active else _("No"))
+                (p.code, p.name, p.brand, p.device_model.name if p.device_model_id else "",
+                 p.get_product_group_display(), p.tests_per_pack, p.base_price_usd,
+                 p.vat_rate, _("Yes") if p.is_active else _("No"), p.mikro_stok_kodu)
                 for p in queryset
             ],
         )

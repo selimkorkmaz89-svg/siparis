@@ -6,10 +6,11 @@ from catalog.models import DealerSpecialPrice, DeviceModel, Product
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        "code", "name", "brand", "device_model", "base_price_usd", "vat_rate", "is_active",
+        "code", "name", "brand", "device_model", "product_group",
+        "base_price_usd", "price_currency", "vat_rate", "is_active",
     )
-    search_fields = ("code", "name", "brand")
-    list_filter = ("brand", "device_model", "is_active")
+    search_fields = ("code", "name", "brand", "mikro_stok_kodu")
+    list_filter = ("brand", "device_model", "product_group", "price_currency", "is_active")
 
 
 @admin.register(DeviceModel)

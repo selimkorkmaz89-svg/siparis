@@ -21,6 +21,11 @@ TCMB_XML = b"""<?xml version="1.0" encoding="UTF-8"?>
   <Currency CurrencyCode="EUR">
     <BanknoteSelling>40.0000</BanknoteSelling>
   </Currency>
+  <Currency CurrencyCode="CHF">
+    <ForexBuying>42.0000</ForexBuying>
+    <ForexSelling>42.1000</ForexSelling>
+    <BanknoteSelling>42.7500</BanknoteSelling>
+  </Currency>
 </Tarih_Date>"""
 
 
@@ -59,6 +64,58 @@ class ExchangeRateRuleTests(TestCase):
 
     def test_tcmb_xml_parsing_prefers_the_effective_selling_rate(self):
         self.assertEqual(services._parse_tcmb_xml(TCMB_XML), Decimal("34.2500"))
+
+    def test_tcmb_xml_parsing_also_reads_chf(self):
+        self.assertEqual(services._parse_tcmb_xml(TCMB_XML, "CHF"), Decimal("42.7500"))
+
+    def test_chf_to_usd_rate_is_derived_from_both_try_legs(self):
+        rate = ExchangeRate(usd_try_rate=Decimal("34.0000"), chf_try_rate=Decimal("42.5000"))
+        self.assertEqual(rate.chf_to_usd_rate, Decimal("1.2500"))
+
+    def test_chf_to_usd_rate_is_none_without_a_chf_leg(self):
+        rate = ExchangeRate(usd_try_rate=Decimal("34.0000"))
+        self.assertIsNone(rate.chf_to_usd_rate)
+
+
+class TcmbFetchTests(TestCase):
+    """fetch_tcmb_rate stores both legs and reprices CHF-listed products."""
+
+    def test_fetching_stores_both_usd_and_chf(self):
+        response = mock.Mock(content=TCMB_XML)
+        response.raise_for_status = mock.Mock()
+        with mock.patch("payments.services.requests.get", return_value=response):
+            rate = services.fetch_tcmb_rate(dt.date(2026, 9, 1))
+        self.assertEqual(rate.usd_try_rate, Decimal("34.2500"))
+        self.assertEqual(rate.chf_try_rate, Decimal("42.7500"))
+
+    def test_fetching_reprices_chf_listed_products(self):
+        from catalog.models import Product
+
+        product = Product.objects.create(
+            code="CHF-1", name="Swiss item", price_currency="CHF",
+            list_price=Decimal("100.00"), base_price_usd=Decimal("0.00"),
+        )
+        response = mock.Mock(content=TCMB_XML)
+        response.raise_for_status = mock.Mock()
+        with mock.patch("payments.services.requests.get", return_value=response):
+            services.fetch_tcmb_rate(dt.date(2026, 9, 1))
+        product.refresh_from_db()
+        # 42.7500 / 34.2500 = 1.2482 (quantized to 4dp), * 100 = 124.82
+        self.assertEqual(product.base_price_usd, Decimal("124.82"))
+
+    def test_a_missing_chf_leg_does_not_block_the_usd_rate(self):
+        xml_without_chf = b"""<?xml version="1.0" encoding="UTF-8"?>
+<Tarih_Date Tarih="01.09.2026">
+  <Currency CurrencyCode="USD">
+    <BanknoteSelling>34.2500</BanknoteSelling>
+  </Currency>
+</Tarih_Date>"""
+        response = mock.Mock(content=xml_without_chf)
+        response.raise_for_status = mock.Mock()
+        with mock.patch("payments.services.requests.get", return_value=response):
+            rate = services.fetch_tcmb_rate(dt.date(2026, 9, 1))
+        self.assertEqual(rate.usd_try_rate, Decimal("34.2500"))
+        self.assertIsNone(rate.chf_try_rate)
 
 
 class FetchRatesCommandTests(TestCase):
@@ -148,6 +205,6 @@ class DemoRateShadowingTests(TestCase):
             rate_date=services.effective_rate_date(),
             usd_try_rate=Decimal("48.3337"), source="TCMB",
         )
-        call_command("seed_demo", orders=0, stdout=StringIO())
+        call_command("seed_demo", orders=0, force=True, stdout=StringIO())
         self.assertFalse(ExchangeRate.objects.filter(source="DEMO").exists())
         self.assertEqual(services.get_rate().source, "TCMB")

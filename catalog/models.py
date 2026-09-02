@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from core.constants import Currency, ProductGroup
 from core.models import TimeStampedModel
 
 
@@ -51,7 +52,18 @@ class ProductQuerySet(models.QuerySet):
 
 
 class Product(TimeStampedModel):
-    """Catalogue item. All list prices are kept in USD."""
+    """Catalogue item. Every calculation in the app (cart, orders, VAT,
+    reports, the Mikro sync) reads ``base_price_usd`` - it is always in USD.
+
+    A product priced by its supplier in another currency (``price_currency``
+    + ``list_price``, e.g. Mikro's Swiss Franc items) still gets its
+    ``base_price_usd`` kept in USD: it is recomputed from ``list_price``
+    whenever a fresh exchange rate is fetched (see
+    ``catalog.services.reprice_foreign_currency_products``), the same way a
+    TRY payment is only ever converted through the live USD rate. USD-priced
+    products simply have ``list_price`` blank - ``base_price_usd`` is already
+    the authoritative number and nothing recomputes it.
+    """
 
     code = models.CharField(_("product code"), max_length=64, unique=True)
     name = models.CharField(_("product name"), max_length=255)
@@ -65,7 +77,29 @@ class Product(TimeStampedModel):
         related_name="products",
         help_text=_("Used to restrict which dealers may order this product."),
     )
+    product_group = models.CharField(
+        _("product group"), max_length=12,
+        choices=ProductGroup.choices, default=ProductGroup.CONSUMABLE,
+    )
     tests_per_pack = models.PositiveIntegerField(_("tests per pack"), default=0)
+    price_currency = models.CharField(
+        _("list price currency"), max_length=3,
+        choices=[(Currency.USD, Currency.USD.label), (Currency.CHF, Currency.CHF.label)],
+        default=Currency.USD,
+        help_text=_(
+            "The currency the supplier actually quotes this product in. "
+            "base_price_usd stays the authoritative USD figure either way."
+        ),
+    )
+    list_price = models.DecimalField(
+        _("list price (native currency)"), max_digits=12, decimal_places=2,
+        null=True, blank=True,
+        validators=[MinValueValidator(Decimal("0"))],
+        help_text=_(
+            "Only used when the list price currency above isn't USD - the "
+            "supplier's own price, before conversion."
+        ),
+    )
     base_price_usd = models.DecimalField(
         _("list price (USD)"),
         max_digits=12,

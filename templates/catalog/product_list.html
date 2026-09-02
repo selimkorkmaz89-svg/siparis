@@ -17,6 +17,7 @@
           <th>{% sort_link 'name' _('Product name') %}</th>
           <th>{% sort_link 'brand' _('Brand') %}</th>
           <th>{% translate "Device model" %}</th>
+          <th>{% translate "Group" %}</th>
           <th class="num">{% translate "Tests per pack" %}</th>
           <th class="num">{% sort_link 'price' _('List price (USD)') %}</th>
           <th class="num">{% translate "VAT rate (%)" %}</th>
@@ -31,8 +32,12 @@
             <td>{{ product.name }}</td>
             <td>{{ product.brand|default:"-" }}</td>
             <td>{{ product.device_model.name|default:"-" }}</td>
+            <td>{{ product.get_product_group_display }}</td>
             <td class="num">{{ product.tests_per_pack }}</td>
-            <td class="num">${{ product.base_price_usd|money }}</td>
+            <td class="num">
+              ${{ product.base_price_usd|money }}
+              {% if product.price_currency != "USD" %}<span class="badge badge-default">{{ product.list_price|money }} {{ product.price_currency }}</span>{% endif %}
+            </td>
             <td class="num">%{{ product.vat_rate|money }}</td>
             <td>{% if product.is_active %}<span class="badge badge-paid">{% translate "Yes" %}</span>{% else %}<span class="badge badge-cancelled">{% translate "No" %}</span>{% endif %}</td>
             <td class="num">
@@ -47,7 +52,7 @@
             </td>
           </tr>
         {% empty %}
-          <tr><td colspan="9" class="empty-state">{% translate "No products found." %}</td></tr>
+          <tr><td colspan="10" class="empty-state">{% translate "No products found." %}</td></tr>
         {% endfor %}
       </tbody>
     </table>

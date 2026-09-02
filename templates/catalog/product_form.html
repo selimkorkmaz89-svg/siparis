@@ -6,9 +6,10 @@
 <div class="card">
   <form method="post" novalidate>
     {% csrf_token %}
-    <div class="form-row">
+    <div class="form-row" data-provider-toggle="{{ form.price_currency.id_for_label }}">
       {% for field in form %}
-        <div class="field">
+        <div class="field {% if field.name == 'is_active' %}field-check{% endif %}"
+             {% if field.name == 'list_price' %}data-provider-group="CHF"{% endif %}>
           <label for="{{ field.id_for_label }}">{{ field.label }}</label>
           {{ field }}
           {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}

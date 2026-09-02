@@ -95,6 +95,15 @@ python manage.py runserver
 | `yonetim@sirket.com` | Yönetim |
 | `ali@bayi1.com` | Bayi |
 
+> **`seed_demo` production'da çalışmaz.** Sahte bayi/ürün/sipariş verisi
+> ürettiği için, `DEBUG=False` olan bir ortamda (yani `.env` kopyalanmış her
+> production/staging kurulumunda) çalıştırılırsa kendini reddeder — canlıya
+> geçerken bu komutu **hiç çağırmayın**; production kurulumu zaten sadece
+> `createsuperuser` kullanır (bkz. [VPS kurulumu](#vps-kurulumu--production-deployment)),
+> demo veri hiçbir zaman oraya karışmaz. Bilerek `DEBUG=False` altında
+> çalıştırmak isterseniz (örn. bir staging ortamını demo verisiyle doldurmak
+> için) `--force` bayrağı gerekir.
+
 > **Yerelde `.env` dosyası oluşturmayın.** Dosya yokken proje SQLite ve düz
 > HTTP ile çalışır; Postgres, Redis veya Celery gerekmez. `.env.example`
 > sunucu (Docker) kurulumu içindir — yerelde kopyalarsanız `DEBUG=False`
@@ -328,8 +337,16 @@ DRAFT / PENDING_PAYMENT ──cancel──► CANCELLED
 
 **Fiyat ve KDV**
 
-* Tüm fiyatlar USD'dir. Bayiye özel fiyat (`DealerSpecialPrice`) varsa liste
-  fiyatının önüne geçer.
+* Sistemin işlettiği fiyat her zaman `Product.base_price_usd` — yani USD'dir.
+  Bayiye özel fiyat (`DealerSpecialPrice`) varsa liste fiyatının önüne geçer.
+* Bir ürün tedarikçiden **CHF** ile geliyorsa (`price_currency=CHF`), asıl
+  fiyatı `list_price` alanında CHF olarak saklanır; `base_price_usd` bundan
+  otomatik hesaplanır ve **TCMB'den her yeni USD/TRY + CHF/TRY kuru
+  çekildiğinde yeniden hesaplanır** (aynı elle-girilen kur mantığı, TRY yerine
+  CHF/USD çapraz kuruyla). Yani CHF kuru değiştiğinde dosyayı tekrar
+  yüklemenize gerek yok — bir sonraki kur çekiminde otomatik güncellenir.
+  Henüz hiç CHF kuru çekilmemişse, içe aktarılan CHF ürünleri geçici olarak
+  0,00 USD ile kaydedilir ve önizleme ekranında uyarı gösterilir.
 * Sipariş kalemi oluşturulduğunda birim fiyat ve KDV oranı **kopyalanır ve
   donar**; katalogdaki sonraki değişiklikler geçmiş siparişleri etkilemez.
 
@@ -362,6 +379,21 @@ DRAFT / PENDING_PAYMENT ──cancel──► CANCELLED
 
 **Excel içe aktarma**
 
+* Ürün şablonunun sütun sırası **Mikro'nun kendi stok export'uyla aynıdır**:
+  `KODU, ADI, FİYAT, DVZ, TOPTAN KDV, MARKA, CİHAZ TÜRÜ, ÜRÜN GRUBU` — Mikro'dan
+  aldığınız dosyayı, başlık satırını değiştirmeden neredeyse olduğu gibi
+  yükleyebilirsiniz. `Test sayısı` ve `Açıklama` bizim eklediğimiz, Mikro'da
+  karşılığı olmayan iki isteğe bağlı sütundur (sonda).
+  - **DVZ**: "Amerikan Doları" / "USD" → USD, "İsviçre Frangı" / "CHF" → CHF.
+    Tanınmayan bir değer o satırı hataya düşürür.
+  - **ÜRÜN GRUBU**: "Cihaz" → Device, "Sarf" → Consumable, "Yedek Parça" →
+    Spare part (büyük/küçük harf önemsiz). Tanınmayan bir değer hataya düşer.
+  - **CİHAZ TÜRÜ**: bir `DeviceModel` adı olarak okunur, yoksa otomatik
+    oluşturulur (adı ve markası ile) — bayi-cihaz filtrelemesi bunun üzerine
+    kurulur.
+  - Ürünün Mikro stok kodu (`mikro_stok_kodu`) **otomatik olarak `KODU` ile
+    aynı** kabul edilir, çünkü bu şablonun kaynağı zaten Mikro'nun kendi
+    export'u.
 * Dosya içinde **mükerrer kod** varsa import tamamen durur, hiçbir kayıt
   yazılmaz, hatalı satırlar listelenir.
 * Diğer satırlar önizleme ekranında "yeni eklenecek" / "güncellenecek (eski →
@@ -419,7 +451,7 @@ gunzip -c backups/db-20260901-020000.sql.gz | \
 ## Testler / Tests
 
 ```bash
-python manage.py test              # 104 test: iş kuralları, yetkiler, i18n, PDF, Excel
+python manage.py test              # 192 test: iş kuralları, yetkiler, i18n, PDF, Excel
 python manage.py test orders        # sipariş durum makinesi ve numaralandırma
 python manage.py test payments      # kur kuralları (15:30, hafta sonu, tatil)
 python manage.py test catalog       # Excel import doğrulaması

@@ -19,6 +19,15 @@ class ExchangeRate(models.Model):
         decimal_places=4,
         validators=[MinValueValidator(Decimal("0.0001"))],
     )
+    chf_try_rate = models.DecimalField(
+        _("CHF/TRY rate"),
+        max_digits=12,
+        decimal_places=4,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(Decimal("0.0001"))],
+        help_text=_("Used only to convert Swiss-Franc list prices to USD."),
+    )
     rate_type = models.CharField(
         _("rate type"), max_length=40, default="efektif satış"
     )
@@ -29,6 +38,13 @@ class ExchangeRate(models.Model):
         verbose_name = _("exchange rate")
         verbose_name_plural = _("exchange rates")
         ordering = ("-rate_date",)
+
+    @property
+    def chf_to_usd_rate(self) -> Decimal | None:
+        """How many USD one CHF is worth, derived from the two TRY legs."""
+        if not self.chf_try_rate or not self.usd_try_rate:
+            return None
+        return (self.chf_try_rate / self.usd_try_rate).quantize(Decimal("0.0001"))
 
     def __str__(self) -> str:
         return f"{self.rate_date}: {self.usd_try_rate}"

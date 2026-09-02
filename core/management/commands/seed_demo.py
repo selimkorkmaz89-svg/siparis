@@ -3,8 +3,9 @@ import datetime as dt
 import random
 from decimal import Decimal
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.utils import timezone
 
 from catalog.models import DealerSpecialPrice, Product
@@ -19,13 +20,23 @@ BRANDS = ["Acme Diagnostics", "Vitalab", "Nordis", "Prime Bio"]
 
 
 class Command(BaseCommand):
-    help = "Creates demo dealers, products, users and orders."
+    help = "Creates demo dealers, products, users and orders. Local development only."
 
     def add_arguments(self, parser):
         parser.add_argument("--password", default="Demo12345!", help="Password for all demo users")
         parser.add_argument("--orders", type=int, default=12, help="Number of demo orders")
+        parser.add_argument(
+            "--force", action="store_true",
+            help="Bypass the DEBUG=False guard. Never use this against a live/production database.",
+        )
 
     def handle(self, *args, **options):
+        if not settings.DEBUG and not options["force"]:
+            raise CommandError(
+                "seed_demo creates fake dealers, products and orders; it refuses to run "
+                "with DEBUG=False (a production settings profile) unless --force is passed. "
+                "Going live should use 'createsuperuser', not this command."
+            )
         password = options["password"]
         random.seed(42)
 
