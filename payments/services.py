@@ -119,13 +119,24 @@ def fetch_tcmb_rate(date: dt.date | None = None) -> ExchangeRate | None:
     return None
 
 
-def backfill_rates(days: int = 10) -> int:
-    """Fetch any missing rates for the last ``days`` days. Returns the count."""
+#: Placeholder rows a real fetch is allowed to overwrite. A MANUAL row is a
+#: deliberate correction by an administrator and is never replaced on its own;
+#: a DEMO row comes from ``seed_demo`` and must not shadow the live rate.
+REPLACEABLE_SOURCES = {"DEMO"}
+
+
+def backfill_rates(days: int = 10, force: bool = False) -> int:
+    """Fetch the rates missing from the last ``days`` days.
+
+    A date that only holds a placeholder row is fetched again, otherwise demo
+    data seeded for today would permanently hide the real TCMB rate.
+    """
     today = timezone.localdate()
     stored = 0
     for offset in range(days):
         date = today - dt.timedelta(days=offset)
-        if ExchangeRate.objects.filter(rate_date=date).exists():
+        existing = ExchangeRate.objects.filter(rate_date=date).first()
+        if existing and not force and existing.source not in REPLACEABLE_SOURCES:
             continue
         if fetch_tcmb_rate(date):
             stored += 1

@@ -159,9 +159,11 @@ class NavigationTests(TestCase):
                 self.assertTrue(self._items(role))
 
     def test_menu_stays_short_enough_to_scan(self):
+        # Flat lists only: the admin's twelve entries replace what used to be
+        # fourteen rows split across five section headings.
         for role in self.users:
             with self.subTest(role=role):
-                self.assertLessEqual(len(self._items(role)), 11)
+                self.assertLessEqual(len(self._items(role)), 12)
 
     def test_exactly_one_entry_is_active(self):
         pages = {
@@ -254,3 +256,26 @@ class RenderedMarkupTests(TestCase):
         self.client.force_login(self.admin)
         body = self.client.get(reverse("core:home")).content.decode()
         self.assertRegex(body, r'href="/static/css/app\.css\?v=\d+"')
+
+
+class SidebarContentTests(TestCase):
+    """Entries that must never fall out of the menu."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.dealer = Dealer.objects.create(name="Menü Bayi")
+        cls.users = {}
+        for role in [Role.ADMIN, Role.FINANCE, Role.LOGISTICS, Role.MANAGEMENT, Role.DEALER]:
+            cls.users[role] = User.objects.create_user(
+                email=f"menu-{role.lower()}@test.com", password="x", role=role,
+                status=UserStatus.APPROVED,
+                dealer=cls.dealer if role == Role.DEALER else None,
+            )
+
+    def test_every_role_can_reach_notifications_and_the_profile_from_the_menu(self):
+        for role in self.users:
+            self.client.force_login(self.users[role])
+            urls = [item["url"] for item in self.client.get("/").context["nav_items"]]
+            with self.subTest(role=role):
+                self.assertIn(reverse("notifications:list"), urls)
+                self.assertIn(reverse("accounts:profile"), urls)

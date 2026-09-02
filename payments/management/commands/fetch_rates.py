@@ -25,6 +25,10 @@ class Command(BaseCommand):
             "--days", type=int, default=7,
             help="How many days back to fill in when a rate is missing (default 7).",
         )
+        parser.add_argument(
+            "--force", action="store_true",
+            help="Fetch again even for days already stored, replacing manual entries.",
+        )
 
     def handle(self, *args, **options):
         if options["date"]:
@@ -40,7 +44,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f"{rate.rate_date}: {rate.usd_try_rate}"))
             return
 
-        stored = services.backfill_rates(options["days"])
+        stored = services.backfill_rates(options["days"], force=options["force"])
         effective = services.effective_rate_date()
         current = services.get_rate()
         if current is None:

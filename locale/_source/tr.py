@@ -38,6 +38,17 @@ TRANSLATIONS = {
     "No rate could be fetched. Check that www.tcmb.gov.tr is reachable from the server; TCMB does not publish on weekends or holidays.":
         "Kur çekilemedi. Sunucunun www.tcmb.gov.tr adresine erişebildiğini kontrol edin; "
         "TCMB hafta sonu ve resmi tatillerde kur yayınlamaz.",
+    "Printable order form": "Yazdırılabilir sipariş formu",
+    "Print / Save as PDF": "Yazdır / PDF olarak kaydet",
+    "Back to the order": "Siparişe dön",
+    "Preview": "Önizleme",
+    "PDF generation is unavailable on this machine (the WeasyPrint system libraries are missing), so the order form is shown as a printable page. Use your browser's print dialogue to save it as a PDF.":
+        "Bu makinede PDF üretimi kullanılamıyor (WeasyPrint sistem kütüphaneleri kurulu değil), "
+        "bu yüzden sipariş formu yazdırılabilir sayfa olarak gösteriliyor. Tarayıcınızın yazdırma "
+        "penceresinden PDF olarak kaydedebilirsiniz.",
+    "Fetch again even for days already stored, replacing manual entries.":
+        "Kaydı olan günler için de yeniden çeker, manuel girişleri değiştirir.",
+
     # --- roles, statuses, enums -------------------------------------------
     "Admin": "Yönetici",
     "Finance": "Finans",

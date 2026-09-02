@@ -96,3 +96,58 @@ class FetchRatesCommandTests(TestCase):
     def test_an_invalid_date_is_rejected(self):
         with self.assertRaises(CommandError):
             call_command("fetch_rates", date="not-a-date", stdout=StringIO())
+
+
+class DemoRateShadowingTests(TestCase):
+    """A seeded placeholder must never outrank a real TCMB rate."""
+
+    def test_backfill_replaces_a_demo_row_but_keeps_a_manual_one(self):
+        today = timezone.localdate()
+        ExchangeRate.objects.create(
+            rate_date=today, usd_try_rate=Decimal("34.0000"), source="DEMO"
+        )
+        ExchangeRate.objects.create(
+            rate_date=today - dt.timedelta(days=1),
+            usd_try_rate=Decimal("30.0000"), source="MANUAL",
+        )
+        fetched = []
+
+        def fake_fetch(date=None):
+            fetched.append(date)
+            return ExchangeRate.objects.update_or_create(
+                rate_date=date,
+                defaults={"usd_try_rate": Decimal("48.3337"), "source": "TCMB"},
+            )[0]
+
+        with mock.patch("payments.services.fetch_tcmb_rate", side_effect=fake_fetch):
+            services.backfill_rates(days=2)
+
+        self.assertIn(today, fetched)                       # DEMO was replaced
+        self.assertNotIn(today - dt.timedelta(days=1), fetched)  # MANUAL kept
+        self.assertEqual(
+            ExchangeRate.objects.get(rate_date=today).source, "TCMB"
+        )
+        self.assertEqual(
+            ExchangeRate.objects.get(rate_date=today - dt.timedelta(days=1)).usd_try_rate,
+            Decimal("30.0000"),
+        )
+
+    def test_force_replaces_a_manual_row_too(self):
+        today = timezone.localdate()
+        ExchangeRate.objects.create(
+            rate_date=today, usd_try_rate=Decimal("30.0000"), source="MANUAL"
+        )
+        with mock.patch("payments.services.fetch_tcmb_rate") as fetch:
+            services.backfill_rates(days=1, force=True)
+        fetch.assert_called_once()
+
+    def test_seeding_demo_data_leaves_real_rates_alone(self):
+        # Dated on the effective day, so it is the rate in force whatever the
+        # clock says relative to the 15:30 publication.
+        ExchangeRate.objects.create(
+            rate_date=services.effective_rate_date(),
+            usd_try_rate=Decimal("48.3337"), source="TCMB",
+        )
+        call_command("seed_demo", orders=0, stdout=StringIO())
+        self.assertFalse(ExchangeRate.objects.filter(source="DEMO").exists())
+        self.assertEqual(services.get_rate().source, "TCMB")

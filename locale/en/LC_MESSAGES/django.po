@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 10:56+0300\n"
+"POT-Creation-Date: 2026-09-02 11:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -72,8 +72,8 @@ msgid "Last name"
 msgstr "Last name"
 
 #: accounts/forms.py:60 accounts/views.py:188 catalog/imports.py:38
-#: dealers/views.py:37 templates/orders/order_detail.html:82
-#: templates/orders/order_form_pdf.html:73
+#: dealers/views.py:37 templates/orders/order_detail.html:83
+#: templates/orders/order_form_pdf.html:93
 msgid "Phone"
 msgstr "Phone"
 
@@ -191,7 +191,7 @@ msgstr "user"
 msgid "users"
 msgstr "users"
 
-#: accounts/tests.py:134 accounts/tests.py:136 core/navigation.py:49
+#: accounts/tests.py:134 accounts/tests.py:136 core/navigation.py:50
 #: templates/core/home.html:7 templates/orders/draft_list.html:6
 #: templates/orders/order_create.html:3 templates/orders/order_create.html:4
 #: templates/orders/order_list.html:6
@@ -237,7 +237,7 @@ msgid "Role"
 msgstr "Role"
 
 #: accounts/views.py:187 catalog/views.py:107 core/constants.py:11
-#: core/navigation.py:108 dealers/views.py:132 logistics/views.py:36
+#: core/navigation.py:114 dealers/views.py:132 logistics/views.py:36
 #: orders/views.py:89 payments/views.py:44 payments/views.py:183
 #: reports/views.py:70 templates/accounts/profile.html:28
 #: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
@@ -246,8 +246,8 @@ msgstr "Role"
 #: templates/dealers/domain_list.html:18
 #: templates/logistics/pending_shipments.html:20
 #: templates/orders/_order_filters.html:11
-#: templates/orders/order_detail.html:68
-#: templates/orders/order_form_pdf.html:66 templates/orders/order_list.html:29
+#: templates/orders/order_detail.html:69
+#: templates/orders/order_form_pdf.html:86 templates/orders/order_list.html:29
 #: templates/payments/payment_approve.html:51
 #: templates/payments/payment_form.html:28
 #: templates/payments/payment_history.html:23
@@ -261,9 +261,9 @@ msgstr "Dealer"
 #: templates/accounts/profile.html:29 templates/accounts/user_list.html:18
 #: templates/core/home.html:67 templates/dealers/dealer_history.html:34
 #: templates/notifications/notification_list.html:31
-#: templates/orders/_order_filters.html:2 templates/orders/order_detail.html:56
-#: templates/orders/order_detail.html:142
-#: templates/orders/order_form_pdf.html:80 templates/orders/order_list.html:31
+#: templates/orders/_order_filters.html:2 templates/orders/order_detail.html:57
+#: templates/orders/order_detail.html:143
+#: templates/orders/order_form_pdf.html:100 templates/orders/order_list.html:31
 #: templates/payments/_payment_filters.html:2
 #: templates/payments/payment_history.html:28
 msgid "Status"
@@ -306,8 +306,8 @@ msgstr "The file may not be larger than 10 MB."
 #: templates/catalog/product_list.html:16
 #: templates/catalog/special_price_list.html:15
 #: templates/logistics/mark_shipped.html:28
-#: templates/orders/order_create.html:24 templates/orders/order_detail.html:94
-#: templates/orders/order_form_pdf.html:96
+#: templates/orders/order_create.html:24 templates/orders/order_detail.html:95
+#: templates/orders/order_form_pdf.html:116
 #: templates/orders/order_review.html:14 templates/reports/dashboard.html:63
 msgid "Product code"
 msgstr "Product code"
@@ -316,8 +316,8 @@ msgstr "Product code"
 #: templates/catalog/product_list.html:17
 #: templates/catalog/special_price_list.html:16
 #: templates/logistics/mark_shipped.html:28
-#: templates/orders/order_create.html:25 templates/orders/order_detail.html:95
-#: templates/orders/order_form_pdf.html:97
+#: templates/orders/order_create.html:25 templates/orders/order_detail.html:96
+#: templates/orders/order_form_pdf.html:117
 #: templates/orders/order_review.html:15 templates/reports/dashboard.html:63
 msgid "Product name"
 msgstr "Product name"
@@ -325,7 +325,7 @@ msgstr "Product name"
 #: catalog/imports.py:25 catalog/views.py:45
 #: templates/catalog/_product_filters.html:2
 #: templates/catalog/product_list.html:18 templates/orders/order_create.html:13
-#: templates/orders/order_create.html:26 templates/orders/order_detail.html:96
+#: templates/orders/order_create.html:26 templates/orders/order_detail.html:97
 #: templates/reports/dashboard.html:78
 msgid "Brand"
 msgstr "Brand"
@@ -352,7 +352,7 @@ msgstr "Description"
 
 #: catalog/imports.py:33 dealers/views.py:36
 #: templates/dealers/dealer_list.html:14
-#: templates/orders/order_form_pdf.html:69
+#: templates/orders/order_form_pdf.html:89
 msgid "Dealer name"
 msgstr "Dealer name"
 
@@ -362,20 +362,20 @@ msgid "Dealer code"
 msgstr "Dealer code"
 
 #: catalog/imports.py:35 dealers/views.py:36
-#: templates/dealers/dealer_list.html:16 templates/orders/order_detail.html:80
-#: templates/orders/order_form_pdf.html:50
+#: templates/dealers/dealer_list.html:16 templates/orders/order_detail.html:81
 #: templates/orders/order_form_pdf.html:70
+#: templates/orders/order_form_pdf.html:90
 msgid "Tax number"
 msgstr "Tax number"
 
 #: catalog/imports.py:36 dealers/views.py:36
-#: templates/orders/order_form_pdf.html:71
+#: templates/orders/order_form_pdf.html:91
 msgid "Tax office"
 msgstr "Tax office"
 
 #: catalog/imports.py:37 dealers/views.py:37
-#: templates/dealers/dealer_list.html:17 templates/orders/order_detail.html:81
-#: templates/orders/order_form_pdf.html:72
+#: templates/dealers/dealer_list.html:17 templates/orders/order_detail.html:82
+#: templates/orders/order_form_pdf.html:92
 msgid "Contact person"
 msgstr "Contact person"
 
@@ -385,8 +385,8 @@ msgid "City"
 msgstr "City"
 
 #: catalog/imports.py:41 dealers/forms.py:38 dealers/views.py:37
-#: templates/orders/order_detail.html:83
-#: templates/orders/order_form_pdf.html:74
+#: templates/orders/order_detail.html:84
+#: templates/orders/order_form_pdf.html:94
 msgid "Address"
 msgstr "Address"
 
@@ -512,7 +512,7 @@ msgstr "No"
 msgid "Product saved: %(code)s"
 msgstr "Product saved: %(code)s"
 
-#: catalog/views.py:106 core/navigation.py:89
+#: catalog/views.py:106 core/navigation.py:94
 #: templates/catalog/product_form.html:28
 #: templates/catalog/special_price_list.html:3
 #: templates/catalog/special_price_list.html:4
@@ -554,15 +554,15 @@ msgstr "The import was cancelled; nothing was saved."
 msgid "Admin"
 msgstr "Admin"
 
-#: core/constants.py:8 core/navigation.py:109
+#: core/constants.py:8 core/navigation.py:115
 msgid "Finance"
 msgstr "Finance"
 
-#: core/constants.py:9 core/navigation.py:110
+#: core/constants.py:9 core/navigation.py:116
 msgid "Logistics"
 msgstr "Logistics"
 
-#: core/constants.py:10 core/navigation.py:111
+#: core/constants.py:10 core/navigation.py:117
 msgid "Management"
 msgstr "Management"
 
@@ -571,7 +571,7 @@ msgid "Pending approval"
 msgstr "Pending approval"
 
 #: core/constants.py:16 core/constants.py:35
-#: templates/orders/order_form_pdf.html:83
+#: templates/orders/order_form_pdf.html:103
 msgid "Approved"
 msgstr "Approved"
 
@@ -579,24 +579,24 @@ msgstr "Approved"
 msgid "Rejected"
 msgstr "Rejected"
 
-#: core/constants.py:21 templates/orders/order_detail.html:33
+#: core/constants.py:21 templates/orders/order_detail.html:34
 msgid "Draft"
 msgstr "Draft"
 
-#: core/constants.py:22 templates/orders/order_detail.html:38
+#: core/constants.py:22 templates/orders/order_detail.html:39
 msgid "Awaiting payment approval"
 msgstr "Awaiting payment approval"
 
-#: core/constants.py:23 templates/orders/order_detail.html:43
+#: core/constants.py:23 templates/orders/order_detail.html:44
 msgid "Paid"
 msgstr "Paid"
 
 #: core/constants.py:24 core/constants.py:30 templates/core/home.html:22
-#: templates/orders/order_detail.html:46
+#: templates/orders/order_detail.html:47
 msgid "Shipped"
 msgstr "Shipped"
 
-#: core/constants.py:25 templates/orders/order_detail.html:23
+#: core/constants.py:25 templates/orders/order_detail.html:24
 msgid "Cancelled"
 msgstr "Cancelled"
 
@@ -661,84 +661,91 @@ msgstr "Overview"
 msgid "My profile"
 msgstr "My profile"
 
-#: core/navigation.py:36 templates/orders/order_list.html:4
+#: core/navigation.py:35 templates/notifications/notification_list.html:3
+#: templates/notifications/notification_list.html:4
+#: templates/partials/notification_bell.html:8
+#: templates/partials/notification_bell.html:17
+msgid "Notifications"
+msgstr "Notifications"
+
+#: core/navigation.py:37 templates/orders/order_list.html:4
 msgid "All orders"
 msgstr "All orders"
 
-#: core/navigation.py:39 payments/views.py:182
+#: core/navigation.py:40 payments/views.py:182
 #: templates/payments/payment_history.html:3
 #: templates/payments/payment_history.html:4
 msgid "Payment history"
 msgstr "Payment history"
 
-#: core/navigation.py:41 dealers/views.py:90
+#: core/navigation.py:42 dealers/views.py:90
 #: templates/dealers/dealer_history.html:3
 #: templates/dealers/dealer_history.html:4
 msgid "Dealer history"
 msgstr "Dealer history"
 
-#: core/navigation.py:44
+#: core/navigation.py:45
 msgid "Reports"
 msgstr "Reports"
 
-#: core/navigation.py:51 templates/orders/order_list.html:4
+#: core/navigation.py:52 templates/orders/order_list.html:4
 msgid "My orders"
 msgstr "My orders"
 
-#: core/navigation.py:53 templates/core/home.html:43
+#: core/navigation.py:54 templates/core/home.html:43
 #: templates/orders/draft_list.html:3 templates/orders/draft_list.html:4
 msgid "My drafts"
 msgstr "My drafts"
 
-#: core/navigation.py:54 templates/payments/payment_history.html:4
+#: core/navigation.py:55 templates/payments/payment_history.html:4
 msgid "My payment history"
 msgstr "My payment history"
 
-#: core/navigation.py:55 templates/reports/dashboard.html:4
+#: core/navigation.py:56 templates/reports/dashboard.html:4
 msgid "My reports"
 msgstr "My reports"
 
-#: core/navigation.py:60 templates/payments/pending_approvals.html:3
+#: core/navigation.py:62 templates/payments/pending_approvals.html:3
 msgid "Awaiting approval"
 msgstr "Awaiting approval"
 
-#: core/navigation.py:70 templates/core/home.html:19
+#: core/navigation.py:73 templates/core/home.html:19
 #: templates/logistics/pending_shipments.html:3
 msgid "Awaiting shipment"
 msgstr "Awaiting shipment"
 
-#: core/navigation.py:81 templates/reports/finance.html:3
+#: core/navigation.py:85 templates/reports/finance.html:3
 msgid "Finance and operations"
 msgstr "Finance and operations"
 
-#: core/navigation.py:87 templates/catalog/product_list.html:4
+#: core/navigation.py:92 templates/catalog/product_list.html:4
 msgid "Product management"
 msgstr "Product management"
 
-#: core/navigation.py:92 templates/dealers/dealer_list.html:4
+#: core/navigation.py:97 templates/dealers/dealer_list.html:4
 msgid "Dealer management"
 msgstr "Dealer management"
 
-#: core/navigation.py:96 templates/catalog/import_upload.html:3
+#: core/navigation.py:101 templates/catalog/import_upload.html:3
 #: templates/catalog/import_upload.html:4 templates/catalog/product_list.html:7
 msgid "Excel import"
 msgstr "Excel import"
 
-#: core/navigation.py:98
+#: core/navigation.py:103
 msgid "User approvals"
 msgstr "User approvals"
 
-#: core/navigation.py:100 templates/accounts/user_list.html:3
+#: core/navigation.py:105 templates/accounts/user_list.html:3
 #: templates/accounts/user_list.html:4
 msgid "User management"
 msgstr "User management"
 
-#: core/navigation.py:102 templates/payments/exchange_rates.html:3
+#: core/navigation.py:107 templates/payments/exchange_rates.html:3
 #: templates/payments/exchange_rates.html:4
 msgid "System settings"
 msgstr "System settings"
 
-#: core/navigation.py:112
+#: core/navigation.py:118
 msgid "System administrator"
 msgstr "System administrator"
 
@@ -859,7 +866,7 @@ msgstr "Dealer saved: %(name)s"
 #: payments/views.py:44 payments/views.py:183 templates/core/home.html:64
 #: templates/dealers/dealer_history.html:32
 #: templates/logistics/pending_shipments.html:19
-#: templates/orders/order_detail.html:55 templates/orders/order_list.html:28
+#: templates/orders/order_detail.html:56 templates/orders/order_list.html:28
 #: templates/payments/payment_approve.html:50
 #: templates/payments/payment_form.html:27
 #: templates/payments/payment_history.html:22
@@ -896,8 +903,8 @@ msgstr "Grand total (USD)"
 
 #: dealers/views.py:92 orders/views.py:91
 #: templates/dealers/dealer_history.html:36
-#: templates/orders/order_detail.html:63
-#: templates/orders/order_form_pdf.html:87
+#: templates/orders/order_detail.html:64
+#: templates/orders/order_form_pdf.html:107
 msgid "Created by"
 msgstr "Created by"
 
@@ -923,7 +930,7 @@ msgid "Orders awaiting shipment"
 msgstr "Orders awaiting shipment"
 
 #: logistics/views.py:36 templates/logistics/pending_shipments.html:21
-#: templates/orders/order_detail.html:59
+#: templates/orders/order_detail.html:60
 msgid "Paid at"
 msgstr "Paid at"
 
@@ -1039,17 +1046,17 @@ msgstr "%(count)s notifications deleted."
 msgid "The dealer sees this text, so please be specific."
 msgstr "The dealer sees this text, so please be specific."
 
-#: orders/forms.py:17 templates/orders/order_detail.html:61
+#: orders/forms.py:17 templates/orders/order_detail.html:62
 msgid "Carrier"
 msgstr "Carrier"
 
-#: orders/forms.py:21 templates/orders/order_detail.html:62
-#: templates/orders/order_form_pdf.html:86
+#: orders/forms.py:21 templates/orders/order_detail.html:63
+#: templates/orders/order_form_pdf.html:106
 msgid "Tracking number"
 msgstr "Tracking number"
 
 #: orders/forms.py:25 payments/forms.py:39
-#: templates/orders/order_form_pdf.html:136
+#: templates/orders/order_form_pdf.html:156
 #: templates/payments/payment_approve.html:28
 msgid "Note"
 msgstr "Note"
@@ -1147,7 +1154,7 @@ msgstr "unit price (USD)"
 msgid "line total (USD)"
 msgstr "line total (USD)"
 
-#: orders/models.py:226 templates/orders/order_detail.html:100
+#: orders/models.py:226 templates/orders/order_detail.html:101
 msgid "VAT amount (USD)"
 msgstr "VAT amount (USD)"
 
@@ -1227,32 +1234,39 @@ msgstr "Only draft or pending orders can be cancelled."
 msgid "Orders"
 msgstr "Orders"
 
-#: orders/views.py:89 templates/orders/order_form_pdf.html:81
+#: orders/views.py:89 templates/orders/order_form_pdf.html:101
 msgid "Shipment status"
 msgstr "Shipment status"
 
-#: orders/views.py:222
+#: orders/views.py:137
+msgid ""
+"PDF generation is unavailable on this machine (the WeasyPrint system "
+"libraries are missing), so the order form is shown as a printable page. Use "
+"your browser's print dialogue to save it as a PDF."
+msgstr "PDF generation is unavailable on this machine (the WeasyPrint system libraries are missing), so the order form is shown as a printable page. Use your browser's print dialogue to save it as a PDF."
+
+#: orders/views.py:244
 msgid "Your basket is empty."
 msgstr "Your basket is empty."
 
-#: orders/views.py:234
+#: orders/views.py:256
 #, python-format
 msgid "Your order has been submitted to finance. Order number: %(no)s"
 msgstr "Your order has been submitted to finance. Order number: %(no)s"
 
-#: orders/views.py:249
+#: orders/views.py:271
 msgid "The items were copied into a new draft. You can edit it before sending."
 msgstr "The items were copied into a new draft. You can edit it before sending."
 
-#: orders/views.py:259
+#: orders/views.py:281
 msgid "You are not allowed to cancel this order."
 msgstr "You are not allowed to cancel this order."
 
-#: orders/views.py:263
+#: orders/views.py:285
 msgid "A cancellation reason is required."
 msgstr "A cancellation reason is required."
 
-#: orders/views.py:267
+#: orders/views.py:289
 msgid "The order has been cancelled."
 msgstr "The order has been cancelled."
 
@@ -1333,8 +1347,8 @@ msgstr "payments"
 msgid "Orders awaiting approval"
 msgstr "Orders awaiting approval"
 
-#: payments/views.py:44 templates/orders/order_detail.html:58
-#: templates/orders/order_form_pdf.html:84
+#: payments/views.py:44 templates/orders/order_detail.html:59
+#: templates/orders/order_form_pdf.html:104
 #: templates/payments/pending_approvals.html:27
 msgid "Submitted at"
 msgstr "Submitted at"
@@ -1360,29 +1374,29 @@ msgstr "Payment approved. Order %(no)s is now ready for shipment."
 msgid "The order was rejected and returned to the dealer."
 msgstr "The order was rejected and returned to the dealer."
 
-#: payments/views.py:183 templates/orders/order_detail.html:137
+#: payments/views.py:183 templates/orders/order_detail.html:138
 #: templates/payments/payment_approve.html:25
 #: templates/payments/payment_history.html:21
 msgid "Payment date"
 msgstr "Payment date"
 
-#: payments/views.py:183 templates/orders/order_detail.html:138
+#: payments/views.py:183 templates/orders/order_detail.html:139
 #: templates/payments/payment_approve.html:23
 #: templates/payments/payment_history.html:24
 msgid "Amount (TRY)"
 msgstr "Amount (TRY)"
 
-#: payments/views.py:184 templates/orders/order_detail.html:139
+#: payments/views.py:184 templates/orders/order_detail.html:140
 #: templates/payments/payment_history.html:25
 msgid "Exchange rate used"
 msgstr "Exchange rate used"
 
-#: payments/views.py:184 templates/orders/order_detail.html:140
+#: payments/views.py:184 templates/orders/order_detail.html:141
 #: templates/payments/payment_history.html:26
 msgid "Amount (USD)"
 msgstr "Amount (USD)"
 
-#: payments/views.py:184 templates/orders/order_detail.html:141
+#: payments/views.py:184 templates/orders/order_detail.html:142
 #: templates/payments/payment_approve.html:24
 #: templates/payments/payment_history.html:27
 msgid "Bank reference / receipt no"
@@ -1549,7 +1563,7 @@ msgstr "Approve"
 
 #: templates/accounts/pending_users.html:32
 #: templates/accounts/reject_user.html:16
-#: templates/orders/order_detail.html:193
+#: templates/orders/order_detail.html:194
 msgid "Reject"
 msgstr "Reject"
 
@@ -1804,8 +1818,8 @@ msgstr "Add"
 msgid "No dealer specific price is defined for this product."
 msgstr "No dealer specific price is defined for this product."
 
-#: templates/catalog/product_list.html:21 templates/orders/order_detail.html:99
-#: templates/orders/order_review.html:18
+#: templates/catalog/product_list.html:21
+#: templates/orders/order_detail.html:100 templates/orders/order_review.html:18
 #, python-format
 msgid "VAT rate (%%)"
 msgstr "VAT rate (%%)"
@@ -1977,7 +1991,7 @@ msgstr "No domain mapping has been defined."
 #: templates/logistics/mark_shipped.html:3
 #: templates/logistics/mark_shipped.html:19
 #: templates/logistics/pending_shipments.html:36
-#: templates/orders/order_detail.html:11
+#: templates/orders/order_detail.html:12
 msgid "Mark as shipped"
 msgstr "Mark as shipped"
 
@@ -1995,12 +2009,12 @@ msgid "Mark this order as shipped?"
 msgstr "Mark this order as shipped?"
 
 #: templates/logistics/mark_shipped.html:25
-#: templates/orders/order_detail.html:89
+#: templates/orders/order_detail.html:90
 msgid "Order items"
 msgstr "Order items"
 
 #: templates/logistics/mark_shipped.html:28
-#: templates/orders/order_create.html:30 templates/orders/order_detail.html:97
+#: templates/orders/order_create.html:30 templates/orders/order_detail.html:98
 #: templates/orders/order_review.html:16 templates/reports/dashboard.html:63
 #: templates/reports/dashboard.html:78
 msgid "Quantity"
@@ -2023,13 +2037,6 @@ msgstr "Items"
 #: templates/logistics/pending_shipments.html:41
 msgid "There are no orders awaiting shipment."
 msgstr "There are no orders awaiting shipment."
-
-#: templates/notifications/notification_list.html:3
-#: templates/notifications/notification_list.html:4
-#: templates/partials/notification_bell.html:8
-#: templates/partials/notification_bell.html:17
-msgid "Notifications"
-msgstr "Notifications"
 
 #: templates/notifications/notification_list.html:8
 #: templates/partials/notification_bell.html:20
@@ -2124,12 +2131,12 @@ msgid "Basket"
 msgstr "Basket"
 
 #: templates/orders/order_create.html:49
-#: templates/orders/order_form_pdf.html:98
+#: templates/orders/order_form_pdf.html:118
 msgid "Qty"
 msgstr "Qty"
 
 #: templates/orders/order_create.html:50
-#: templates/orders/order_form_pdf.html:99
+#: templates/orders/order_form_pdf.html:119
 msgid "Unit price"
 msgstr "Unit price"
 
@@ -2137,20 +2144,20 @@ msgstr "Unit price"
 msgid "Your basket is empty. Add products from the list on the left."
 msgstr "Your basket is empty. Add products from the list on the left."
 
-#: templates/orders/order_create.html:71 templates/orders/order_detail.html:119
-#: templates/orders/order_form_pdf.html:122
+#: templates/orders/order_create.html:71 templates/orders/order_detail.html:120
+#: templates/orders/order_form_pdf.html:142
 #: templates/orders/order_review.html:35
 msgid "Subtotal"
 msgstr "Subtotal"
 
-#: templates/orders/order_create.html:72 templates/orders/order_detail.html:120
-#: templates/orders/order_form_pdf.html:123
+#: templates/orders/order_create.html:72 templates/orders/order_detail.html:121
+#: templates/orders/order_form_pdf.html:143
 #: templates/orders/order_review.html:36 templates/reports/dashboard.html:13
 msgid "VAT total"
 msgstr "VAT total"
 
-#: templates/orders/order_create.html:73 templates/orders/order_detail.html:121
-#: templates/orders/order_form_pdf.html:124
+#: templates/orders/order_create.html:73 templates/orders/order_detail.html:122
+#: templates/orders/order_form_pdf.html:144
 #: templates/orders/order_review.html:37
 msgid "Grand total"
 msgstr "Grand total"
@@ -2172,88 +2179,92 @@ msgstr "Order %(ref)s"
 msgid "Download order form (PDF)"
 msgstr "Download order form (PDF)"
 
-#: templates/orders/order_detail.html:8
+#: templates/orders/order_detail.html:7
+msgid "Preview"
+msgstr "Preview"
+
+#: templates/orders/order_detail.html:9
 #: templates/payments/payment_approve.html:3
 #: templates/payments/payment_approve.html:38
 msgid "Approve payment"
 msgstr "Approve payment"
 
-#: templates/orders/order_detail.html:14
+#: templates/orders/order_detail.html:15
 #: templates/payments/payment_approve.html:43
 #: templates/payments/payment_form.html:3
 msgid "Record payment"
 msgstr "Record payment"
 
-#: templates/orders/order_detail.html:17
+#: templates/orders/order_detail.html:18
 msgid "Continue editing"
 msgstr "Continue editing"
 
-#: templates/orders/order_detail.html:53
+#: templates/orders/order_detail.html:54
 msgid "Order information"
 msgstr "Order information"
 
-#: templates/orders/order_detail.html:57
+#: templates/orders/order_detail.html:58
 msgid "Created at"
 msgstr "Created at"
 
-#: templates/orders/order_detail.html:60
-#: templates/orders/order_form_pdf.html:85
+#: templates/orders/order_detail.html:61
+#: templates/orders/order_form_pdf.html:105
 msgid "Shipped at"
 msgstr "Shipped at"
 
-#: templates/orders/order_detail.html:64
+#: templates/orders/order_detail.html:65
 msgid "Dealer note"
 msgstr "Dealer note"
 
-#: templates/orders/order_detail.html:98 templates/orders/order_review.html:17
+#: templates/orders/order_detail.html:99 templates/orders/order_review.html:17
 msgid "Unit price (USD)"
 msgstr "Unit price (USD)"
 
-#: templates/orders/order_detail.html:101 templates/orders/order_review.html:19
+#: templates/orders/order_detail.html:102 templates/orders/order_review.html:19
 msgid "Line total (USD)"
 msgstr "Line total (USD)"
 
-#: templates/orders/order_detail.html:123
+#: templates/orders/order_detail.html:124
 #, python-format
 msgid "Equivalent at the current rate (%(rate)s)"
 msgstr "Equivalent at the current rate (%(rate)s)"
 
-#: templates/orders/order_detail.html:132
+#: templates/orders/order_detail.html:133
 msgid "Payments"
 msgstr "Payments"
 
-#: templates/orders/order_detail.html:156
+#: templates/orders/order_detail.html:157
 msgid "No payment has been recorded yet."
 msgstr "No payment has been recorded yet."
 
-#: templates/orders/order_detail.html:164
+#: templates/orders/order_detail.html:165
 msgid "Status history"
 msgstr "Status history"
 
-#: templates/orders/order_detail.html:174
+#: templates/orders/order_detail.html:175
 msgid "No status change has been recorded yet."
 msgstr "No status change has been recorded yet."
 
-#: templates/orders/order_detail.html:182
+#: templates/orders/order_detail.html:183
 msgid "Reject payment"
 msgstr "Reject payment"
 
-#: templates/orders/order_detail.html:183
+#: templates/orders/order_detail.html:184
 msgid ""
 "The order returns to draft and the dealer can edit and resubmit it. A new "
 "order number is issued on resubmission."
 msgstr "The order returns to draft and the dealer can edit and resubmit it. A new order number is issued on resubmission."
 
-#: templates/orders/order_detail.html:192
+#: templates/orders/order_detail.html:193
 msgid "Reject this order and return it to the dealer?"
 msgstr "Reject this order and return it to the dealer?"
 
-#: templates/orders/order_detail.html:202
-#: templates/orders/order_detail.html:210
+#: templates/orders/order_detail.html:203
+#: templates/orders/order_detail.html:211
 msgid "Cancel order"
 msgstr "Cancel order"
 
-#: templates/orders/order_detail.html:210
+#: templates/orders/order_detail.html:211
 msgid "Cancel this order?"
 msgstr "Cancel this order?"
 
@@ -2261,40 +2272,52 @@ msgstr "Cancel this order?"
 msgid "Page"
 msgstr "Page"
 
-#: templates/orders/order_form_pdf.html:58
+#: templates/orders/order_form_pdf.html:60
+msgid "Printable order form"
+msgstr "Printable order form"
+
+#: templates/orders/order_form_pdf.html:61
+msgid "Print / Save as PDF"
+msgstr "Print / Save as PDF"
+
+#: templates/orders/order_form_pdf.html:62
+msgid "Back to the order"
+msgstr "Back to the order"
+
+#: templates/orders/order_form_pdf.html:78
 msgid "Order form"
 msgstr "Order form"
 
-#: templates/orders/order_form_pdf.html:78
+#: templates/orders/order_form_pdf.html:98
 msgid "Order"
 msgstr "Order"
 
-#: templates/orders/order_form_pdf.html:82
+#: templates/orders/order_form_pdf.html:102
 msgid "Payment status"
 msgstr "Payment status"
 
-#: templates/orders/order_form_pdf.html:83
+#: templates/orders/order_form_pdf.html:103
 msgid "Not approved yet"
 msgstr "Not approved yet"
 
-#: templates/orders/order_form_pdf.html:100
+#: templates/orders/order_form_pdf.html:120
 #, python-format
 msgid "VAT %%"
 msgstr "VAT %%"
 
-#: templates/orders/order_form_pdf.html:101
+#: templates/orders/order_form_pdf.html:121
 msgid "VAT amount"
 msgstr "VAT amount"
 
-#: templates/orders/order_form_pdf.html:102
+#: templates/orders/order_form_pdf.html:122
 msgid "Line total"
 msgstr "Line total"
 
-#: templates/orders/order_form_pdf.html:129
+#: templates/orders/order_form_pdf.html:149
 msgid "Payment information"
 msgstr "Payment information"
 
-#: templates/orders/order_form_pdf.html:130
+#: templates/orders/order_form_pdf.html:150
 #, python-format
 msgid ""
 "\n"
@@ -2305,7 +2328,7 @@ msgstr ""
 "  %(amount)s TRY paid at a rate of %(rate)s. Reference: %(reference)s.\n"
 "  "
 
-#: templates/orders/order_form_pdf.html:139
+#: templates/orders/order_form_pdf.html:159
 msgid ""
 "This document is not an official invoice or waybill. It is a readable "
 "summary of the order record and carries no legal or fiscal value."

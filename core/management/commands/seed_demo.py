@@ -29,14 +29,16 @@ class Command(BaseCommand):
         password = options["password"]
         random.seed(42)
 
-        ExchangeRate.objects.get_or_create(
-            rate_date=timezone.localdate(),
-            defaults={"usd_try_rate": Decimal("34.2150"), "source": "DEMO"},
-        )
-        ExchangeRate.objects.get_or_create(
-            rate_date=timezone.localdate() - dt.timedelta(days=1),
-            defaults={"usd_try_rate": Decimal("34.1080"), "source": "DEMO"},
-        )
+        # Only stand in for the rate when nothing real has been fetched yet:
+        # a placeholder dated today would otherwise outrank every TCMB row.
+        if not ExchangeRate.objects.exclude(source="DEMO").exists():
+            for offset, value in ((0, "34.2150"), (1, "34.1080")):
+                ExchangeRate.objects.get_or_create(
+                    rate_date=timezone.localdate() - dt.timedelta(days=offset),
+                    defaults={"usd_try_rate": Decimal(value), "source": "DEMO"},
+                )
+        else:
+            self.stdout.write("Real exchange rates found; demo rates skipped.")
 
         dealers = []
         for index in range(1, 4):

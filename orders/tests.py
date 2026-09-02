@@ -1,5 +1,6 @@
 import datetime as dt
 from decimal import Decimal
+from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -11,6 +12,7 @@ from core.constants import OrderStatus, PaymentStatus, Role, ShipmentStatus, Use
 from dealers.models import Dealer
 from orders import services
 from orders.models import Order, OrderNumberSequence
+from orders.pdf import PdfEngineUnavailable
 from payments.models import ExchangeRate, Payment
 
 User = get_user_model()
@@ -230,3 +232,54 @@ class OrderScreenTests(TestCase):
         services.submit_order(order, self.user)
         body = self.client.get(reverse("orders:detail", args=[order.pk])).content.decode()
         self.assertIn("EB", body)  # "Ekran Bayi"
+
+
+class OrderFormPreviewTests(TestCase):
+    """The order form must be viewable even where WeasyPrint cannot run."""
+
+    def setUp(self):
+        self.dealer = Dealer.objects.create(name="Önizleme Bayi")
+        self.user = User.objects.create_user(
+            email="onizleme@test.com", password="x", role=Role.DEALER,
+            dealer=self.dealer, status=UserStatus.APPROVED,
+        )
+        product = Product.objects.create(
+            code="PRD-P", name="Kit", base_price_usd=Decimal("10.00"),
+            vat_rate=Decimal("20.00"),
+        )
+        self.order = services.get_or_create_draft(self.user)
+        services.add_item(self.order, product, 1)
+        self.client.force_login(self.user)
+
+    def test_the_preview_renders_the_same_document_in_the_browser(self):
+        response = self.client.get(reverse("orders:form_preview", args=[self.order.pk]))
+        self.assertEqual(response.status_code, 200)
+        body = response.content.decode()
+        self.assertIn("preview-bar", body)          # print toolbar
+        self.assertIn("PRD-P", body)                # the order lines
+        self.assertIn('src="/static/img/', body)    # a web path, not file://
+        self.assertNotIn("file://", body)
+
+    def test_the_pdf_falls_back_to_the_preview_when_the_engine_is_missing(self):
+        with mock.patch(
+            "orders.views.render_order_pdf",
+            side_effect=PdfEngineUnavailable("libgobject-2.0-0 not found"),
+        ):
+            response = self.client.get(reverse("orders:pdf", args=[self.order.pk]))
+        self.assertRedirects(
+            response, reverse("orders:form_preview", args=[self.order.pk])
+        )
+
+    def test_the_pdf_is_served_when_the_engine_works(self):
+        response = self.client.get(reverse("orders:pdf", args=[self.order.pk]))
+        self.assertEqual(response["Content-Type"], "application/pdf")
+        self.assertTrue(response.content.startswith(b"%PDF"))
+
+    def test_another_dealer_cannot_open_the_preview(self):
+        other = User.objects.create_user(
+            email="baska@test.com", password="x", role=Role.DEALER,
+            dealer=Dealer.objects.create(name="Başka"), status=UserStatus.APPROVED,
+        )
+        self.client.force_login(other)
+        response = self.client.get(reverse("orders:form_preview", args=[self.order.pk]))
+        self.assertEqual(response.status_code, 404)

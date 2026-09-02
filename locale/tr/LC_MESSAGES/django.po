@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 10:56+0300\n"
+"POT-Creation-Date: 2026-09-02 11:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -72,8 +72,8 @@ msgid "Last name"
 msgstr "Soyad"
 
 #: accounts/forms.py:60 accounts/views.py:188 catalog/imports.py:38
-#: dealers/views.py:37 templates/orders/order_detail.html:82
-#: templates/orders/order_form_pdf.html:73
+#: dealers/views.py:37 templates/orders/order_detail.html:83
+#: templates/orders/order_form_pdf.html:93
 msgid "Phone"
 msgstr "Telefon"
 
@@ -191,7 +191,7 @@ msgstr "kullanıcı"
 msgid "users"
 msgstr "kullanıcılar"
 
-#: accounts/tests.py:134 accounts/tests.py:136 core/navigation.py:49
+#: accounts/tests.py:134 accounts/tests.py:136 core/navigation.py:50
 #: templates/core/home.html:7 templates/orders/draft_list.html:6
 #: templates/orders/order_create.html:3 templates/orders/order_create.html:4
 #: templates/orders/order_list.html:6
@@ -237,7 +237,7 @@ msgid "Role"
 msgstr "Rol"
 
 #: accounts/views.py:187 catalog/views.py:107 core/constants.py:11
-#: core/navigation.py:108 dealers/views.py:132 logistics/views.py:36
+#: core/navigation.py:114 dealers/views.py:132 logistics/views.py:36
 #: orders/views.py:89 payments/views.py:44 payments/views.py:183
 #: reports/views.py:70 templates/accounts/profile.html:28
 #: templates/accounts/user_list.html:17 templates/catalog/product_form.html:32
@@ -246,8 +246,8 @@ msgstr "Rol"
 #: templates/dealers/domain_list.html:18
 #: templates/logistics/pending_shipments.html:20
 #: templates/orders/_order_filters.html:11
-#: templates/orders/order_detail.html:68
-#: templates/orders/order_form_pdf.html:66 templates/orders/order_list.html:29
+#: templates/orders/order_detail.html:69
+#: templates/orders/order_form_pdf.html:86 templates/orders/order_list.html:29
 #: templates/payments/payment_approve.html:51
 #: templates/payments/payment_form.html:28
 #: templates/payments/payment_history.html:23
@@ -261,9 +261,9 @@ msgstr "Bayi"
 #: templates/accounts/profile.html:29 templates/accounts/user_list.html:18
 #: templates/core/home.html:67 templates/dealers/dealer_history.html:34
 #: templates/notifications/notification_list.html:31
-#: templates/orders/_order_filters.html:2 templates/orders/order_detail.html:56
-#: templates/orders/order_detail.html:142
-#: templates/orders/order_form_pdf.html:80 templates/orders/order_list.html:31
+#: templates/orders/_order_filters.html:2 templates/orders/order_detail.html:57
+#: templates/orders/order_detail.html:143
+#: templates/orders/order_form_pdf.html:100 templates/orders/order_list.html:31
 #: templates/payments/_payment_filters.html:2
 #: templates/payments/payment_history.html:28
 msgid "Status"
@@ -306,8 +306,8 @@ msgstr "Dosya 10 MB'tan büyük olamaz."
 #: templates/catalog/product_list.html:16
 #: templates/catalog/special_price_list.html:15
 #: templates/logistics/mark_shipped.html:28
-#: templates/orders/order_create.html:24 templates/orders/order_detail.html:94
-#: templates/orders/order_form_pdf.html:96
+#: templates/orders/order_create.html:24 templates/orders/order_detail.html:95
+#: templates/orders/order_form_pdf.html:116
 #: templates/orders/order_review.html:14 templates/reports/dashboard.html:63
 msgid "Product code"
 msgstr "Ürün Kodu"
@@ -316,8 +316,8 @@ msgstr "Ürün Kodu"
 #: templates/catalog/product_list.html:17
 #: templates/catalog/special_price_list.html:16
 #: templates/logistics/mark_shipped.html:28
-#: templates/orders/order_create.html:25 templates/orders/order_detail.html:95
-#: templates/orders/order_form_pdf.html:97
+#: templates/orders/order_create.html:25 templates/orders/order_detail.html:96
+#: templates/orders/order_form_pdf.html:117
 #: templates/orders/order_review.html:15 templates/reports/dashboard.html:63
 msgid "Product name"
 msgstr "Ürün Adı"
@@ -325,7 +325,7 @@ msgstr "Ürün Adı"
 #: catalog/imports.py:25 catalog/views.py:45
 #: templates/catalog/_product_filters.html:2
 #: templates/catalog/product_list.html:18 templates/orders/order_create.html:13
-#: templates/orders/order_create.html:26 templates/orders/order_detail.html:96
+#: templates/orders/order_create.html:26 templates/orders/order_detail.html:97
 #: templates/reports/dashboard.html:78
 msgid "Brand"
 msgstr "Marka"
@@ -352,7 +352,7 @@ msgstr "Açıklama"
 
 #: catalog/imports.py:33 dealers/views.py:36
 #: templates/dealers/dealer_list.html:14
-#: templates/orders/order_form_pdf.html:69
+#: templates/orders/order_form_pdf.html:89
 msgid "Dealer name"
 msgstr "Bayi Adı"
 
@@ -362,20 +362,20 @@ msgid "Dealer code"
 msgstr "Bayi Kodu"
 
 #: catalog/imports.py:35 dealers/views.py:36
-#: templates/dealers/dealer_list.html:16 templates/orders/order_detail.html:80
-#: templates/orders/order_form_pdf.html:50
+#: templates/dealers/dealer_list.html:16 templates/orders/order_detail.html:81
 #: templates/orders/order_form_pdf.html:70
+#: templates/orders/order_form_pdf.html:90
 msgid "Tax number"
 msgstr "Vergi No"
 
 #: catalog/imports.py:36 dealers/views.py:36
-#: templates/orders/order_form_pdf.html:71
+#: templates/orders/order_form_pdf.html:91
 msgid "Tax office"
 msgstr "Vergi Dairesi"
 
 #: catalog/imports.py:37 dealers/views.py:37
-#: templates/dealers/dealer_list.html:17 templates/orders/order_detail.html:81
-#: templates/orders/order_form_pdf.html:72
+#: templates/dealers/dealer_list.html:17 templates/orders/order_detail.html:82
+#: templates/orders/order_form_pdf.html:92
 msgid "Contact person"
 msgstr "Yetkili Kişi"
 
@@ -385,8 +385,8 @@ msgid "City"
 msgstr "Şehir"
 
 #: catalog/imports.py:41 dealers/forms.py:38 dealers/views.py:37
-#: templates/orders/order_detail.html:83
-#: templates/orders/order_form_pdf.html:74
+#: templates/orders/order_detail.html:84
+#: templates/orders/order_form_pdf.html:94
 msgid "Address"
 msgstr "Adres"
 
@@ -512,7 +512,7 @@ msgstr "Hayır"
 msgid "Product saved: %(code)s"
 msgstr "Ürün kaydedildi: %(code)s"
 
-#: catalog/views.py:106 core/navigation.py:89
+#: catalog/views.py:106 core/navigation.py:94
 #: templates/catalog/product_form.html:28
 #: templates/catalog/special_price_list.html:3
 #: templates/catalog/special_price_list.html:4
@@ -554,15 +554,15 @@ msgstr "İçe aktarma iptal edildi; hiçbir kayıt kaydedilmedi."
 msgid "Admin"
 msgstr "Yönetici"
 
-#: core/constants.py:8 core/navigation.py:109
+#: core/constants.py:8 core/navigation.py:115
 msgid "Finance"
 msgstr "Finans"
 
-#: core/constants.py:9 core/navigation.py:110
+#: core/constants.py:9 core/navigation.py:116
 msgid "Logistics"
 msgstr "Lojistik"
 
-#: core/constants.py:10 core/navigation.py:111
+#: core/constants.py:10 core/navigation.py:117
 msgid "Management"
 msgstr "Yönetim"
 
@@ -571,7 +571,7 @@ msgid "Pending approval"
 msgstr "Onay Bekliyor"
 
 #: core/constants.py:16 core/constants.py:35
-#: templates/orders/order_form_pdf.html:83
+#: templates/orders/order_form_pdf.html:103
 msgid "Approved"
 msgstr "Onaylandı"
 
@@ -579,24 +579,24 @@ msgstr "Onaylandı"
 msgid "Rejected"
 msgstr "Reddedildi"
 
-#: core/constants.py:21 templates/orders/order_detail.html:33
+#: core/constants.py:21 templates/orders/order_detail.html:34
 msgid "Draft"
 msgstr "Taslak"
 
-#: core/constants.py:22 templates/orders/order_detail.html:38
+#: core/constants.py:22 templates/orders/order_detail.html:39
 msgid "Awaiting payment approval"
 msgstr "Ödeme Onayı Bekliyor"
 
-#: core/constants.py:23 templates/orders/order_detail.html:43
+#: core/constants.py:23 templates/orders/order_detail.html:44
 msgid "Paid"
 msgstr "Ödendi"
 
 #: core/constants.py:24 core/constants.py:30 templates/core/home.html:22
-#: templates/orders/order_detail.html:46
+#: templates/orders/order_detail.html:47
 msgid "Shipped"
 msgstr "Gönderildi"
 
-#: core/constants.py:25 templates/orders/order_detail.html:23
+#: core/constants.py:25 templates/orders/order_detail.html:24
 msgid "Cancelled"
 msgstr "İptal Edildi"
 
@@ -661,84 +661,91 @@ msgstr "Genel Bakış"
 msgid "My profile"
 msgstr "Profilim"
 
-#: core/navigation.py:36 templates/orders/order_list.html:4
+#: core/navigation.py:35 templates/notifications/notification_list.html:3
+#: templates/notifications/notification_list.html:4
+#: templates/partials/notification_bell.html:8
+#: templates/partials/notification_bell.html:17
+msgid "Notifications"
+msgstr "Bildirimler"
+
+#: core/navigation.py:37 templates/orders/order_list.html:4
 msgid "All orders"
 msgstr "Tüm Siparişler"
 
-#: core/navigation.py:39 payments/views.py:182
+#: core/navigation.py:40 payments/views.py:182
 #: templates/payments/payment_history.html:3
 #: templates/payments/payment_history.html:4
 msgid "Payment history"
 msgstr "Ödeme Geçmişi"
 
-#: core/navigation.py:41 dealers/views.py:90
+#: core/navigation.py:42 dealers/views.py:90
 #: templates/dealers/dealer_history.html:3
 #: templates/dealers/dealer_history.html:4
 msgid "Dealer history"
 msgstr "Bayi Geçmişi"
 
-#: core/navigation.py:44
+#: core/navigation.py:45
 msgid "Reports"
 msgstr "Raporlar"
 
-#: core/navigation.py:51 templates/orders/order_list.html:4
+#: core/navigation.py:52 templates/orders/order_list.html:4
 msgid "My orders"
 msgstr "Siparişlerim"
 
-#: core/navigation.py:53 templates/core/home.html:43
+#: core/navigation.py:54 templates/core/home.html:43
 #: templates/orders/draft_list.html:3 templates/orders/draft_list.html:4
 msgid "My drafts"
 msgstr "Taslaklarım"
 
-#: core/navigation.py:54 templates/payments/payment_history.html:4
+#: core/navigation.py:55 templates/payments/payment_history.html:4
 msgid "My payment history"
 msgstr "Ödeme Geçmişim"
 
-#: core/navigation.py:55 templates/reports/dashboard.html:4
+#: core/navigation.py:56 templates/reports/dashboard.html:4
 msgid "My reports"
 msgstr "Raporlarım"
 
-#: core/navigation.py:60 templates/payments/pending_approvals.html:3
+#: core/navigation.py:62 templates/payments/pending_approvals.html:3
 msgid "Awaiting approval"
 msgstr "Onay Bekleyenler"
 
-#: core/navigation.py:70 templates/core/home.html:19
+#: core/navigation.py:73 templates/core/home.html:19
 #: templates/logistics/pending_shipments.html:3
 msgid "Awaiting shipment"
 msgstr "Sevkiyat Bekleyenler"
 
-#: core/navigation.py:81 templates/reports/finance.html:3
+#: core/navigation.py:85 templates/reports/finance.html:3
 msgid "Finance and operations"
 msgstr "Finans ve Operasyon"
 
-#: core/navigation.py:87 templates/catalog/product_list.html:4
+#: core/navigation.py:92 templates/catalog/product_list.html:4
 msgid "Product management"
 msgstr "Ürün Yönetimi"
 
-#: core/navigation.py:92 templates/dealers/dealer_list.html:4
+#: core/navigation.py:97 templates/dealers/dealer_list.html:4
 msgid "Dealer management"
 msgstr "Bayi Yönetimi"
 
-#: core/navigation.py:96 templates/catalog/import_upload.html:3
+#: core/navigation.py:101 templates/catalog/import_upload.html:3
 #: templates/catalog/import_upload.html:4 templates/catalog/product_list.html:7
 msgid "Excel import"
 msgstr "Excel İçe Aktarma"
 
-#: core/navigation.py:98
+#: core/navigation.py:103
 msgid "User approvals"
 msgstr "Kullanıcı Onayları"
 
-#: core/navigation.py:100 templates/accounts/user_list.html:3
+#: core/navigation.py:105 templates/accounts/user_list.html:3
 #: templates/accounts/user_list.html:4
 msgid "User management"
 msgstr "Kullanıcı Yönetimi"
 
-#: core/navigation.py:102 templates/payments/exchange_rates.html:3
+#: core/navigation.py:107 templates/payments/exchange_rates.html:3
 #: templates/payments/exchange_rates.html:4
 msgid "System settings"
 msgstr "Sistem Ayarları"
 
-#: core/navigation.py:112
+#: core/navigation.py:118
 msgid "System administrator"
 msgstr "Sistem Yöneticisi"
 
@@ -859,7 +866,7 @@ msgstr "Bayi kaydedildi: %(name)s"
 #: payments/views.py:44 payments/views.py:183 templates/core/home.html:64
 #: templates/dealers/dealer_history.html:32
 #: templates/logistics/pending_shipments.html:19
-#: templates/orders/order_detail.html:55 templates/orders/order_list.html:28
+#: templates/orders/order_detail.html:56 templates/orders/order_list.html:28
 #: templates/payments/payment_approve.html:50
 #: templates/payments/payment_form.html:27
 #: templates/payments/payment_history.html:22
@@ -896,8 +903,8 @@ msgstr "Genel toplam (USD)"
 
 #: dealers/views.py:92 orders/views.py:91
 #: templates/dealers/dealer_history.html:36
-#: templates/orders/order_detail.html:63
-#: templates/orders/order_form_pdf.html:87
+#: templates/orders/order_detail.html:64
+#: templates/orders/order_form_pdf.html:107
 msgid "Created by"
 msgstr "Oluşturan"
 
@@ -923,7 +930,7 @@ msgid "Orders awaiting shipment"
 msgstr "Sevkiyat Bekleyen Siparişler"
 
 #: logistics/views.py:36 templates/logistics/pending_shipments.html:21
-#: templates/orders/order_detail.html:59
+#: templates/orders/order_detail.html:60
 msgid "Paid at"
 msgstr "Ödeme tarihi"
 
@@ -1039,17 +1046,17 @@ msgstr "%(count)s bildirim silindi."
 msgid "The dealer sees this text, so please be specific."
 msgstr "Bu açıklamayı bayi görecektir, lütfen net yazın."
 
-#: orders/forms.py:17 templates/orders/order_detail.html:61
+#: orders/forms.py:17 templates/orders/order_detail.html:62
 msgid "Carrier"
 msgstr "Kargo firması"
 
-#: orders/forms.py:21 templates/orders/order_detail.html:62
-#: templates/orders/order_form_pdf.html:86
+#: orders/forms.py:21 templates/orders/order_detail.html:63
+#: templates/orders/order_form_pdf.html:106
 msgid "Tracking number"
 msgstr "Takip numarası"
 
 #: orders/forms.py:25 payments/forms.py:39
-#: templates/orders/order_form_pdf.html:136
+#: templates/orders/order_form_pdf.html:156
 #: templates/payments/payment_approve.html:28
 msgid "Note"
 msgstr "Not"
@@ -1147,7 +1154,7 @@ msgstr "birim fiyat (USD)"
 msgid "line total (USD)"
 msgstr "satır tutarı (USD)"
 
-#: orders/models.py:226 templates/orders/order_detail.html:100
+#: orders/models.py:226 templates/orders/order_detail.html:101
 msgid "VAT amount (USD)"
 msgstr "KDV tutarı (USD)"
 
@@ -1227,32 +1234,39 @@ msgstr "Yalnızca taslak veya onay bekleyen siparişler iptal edilebilir."
 msgid "Orders"
 msgstr "Siparişler"
 
-#: orders/views.py:89 templates/orders/order_form_pdf.html:81
+#: orders/views.py:89 templates/orders/order_form_pdf.html:101
 msgid "Shipment status"
 msgstr "Sevkiyat durumu"
 
-#: orders/views.py:222
+#: orders/views.py:137
+msgid ""
+"PDF generation is unavailable on this machine (the WeasyPrint system "
+"libraries are missing), so the order form is shown as a printable page. Use "
+"your browser's print dialogue to save it as a PDF."
+msgstr "Bu makinede PDF üretimi kullanılamıyor (WeasyPrint sistem kütüphaneleri kurulu değil), bu yüzden sipariş formu yazdırılabilir sayfa olarak gösteriliyor. Tarayıcınızın yazdırma penceresinden PDF olarak kaydedebilirsiniz."
+
+#: orders/views.py:244
 msgid "Your basket is empty."
 msgstr "Sepetiniz boş."
 
-#: orders/views.py:234
+#: orders/views.py:256
 #, python-format
 msgid "Your order has been submitted to finance. Order number: %(no)s"
 msgstr "Siparişiniz finansa gönderildi. Sipariş numarası: %(no)s"
 
-#: orders/views.py:249
+#: orders/views.py:271
 msgid "The items were copied into a new draft. You can edit it before sending."
 msgstr "Kalemler yeni bir taslağa kopyalandı. Göndermeden önce düzenleyebilirsiniz."
 
-#: orders/views.py:259
+#: orders/views.py:281
 msgid "You are not allowed to cancel this order."
 msgstr "Bu siparişi iptal etme yetkiniz yok."
 
-#: orders/views.py:263
+#: orders/views.py:285
 msgid "A cancellation reason is required."
 msgstr "İptal sebebi zorunludur."
 
-#: orders/views.py:267
+#: orders/views.py:289
 msgid "The order has been cancelled."
 msgstr "Sipariş iptal edildi."
 
@@ -1333,8 +1347,8 @@ msgstr "ödemeler"
 msgid "Orders awaiting approval"
 msgstr "Onay Bekleyen Siparişler"
 
-#: payments/views.py:44 templates/orders/order_detail.html:58
-#: templates/orders/order_form_pdf.html:84
+#: payments/views.py:44 templates/orders/order_detail.html:59
+#: templates/orders/order_form_pdf.html:104
 #: templates/payments/pending_approvals.html:27
 msgid "Submitted at"
 msgstr "Gönderim tarihi"
@@ -1360,29 +1374,29 @@ msgstr "Ödeme onaylandı. %(no)s numaralı sipariş sevkiyata hazır."
 msgid "The order was rejected and returned to the dealer."
 msgstr "Sipariş reddedildi ve bayiye geri gönderildi."
 
-#: payments/views.py:183 templates/orders/order_detail.html:137
+#: payments/views.py:183 templates/orders/order_detail.html:138
 #: templates/payments/payment_approve.html:25
 #: templates/payments/payment_history.html:21
 msgid "Payment date"
 msgstr "Ödeme tarihi"
 
-#: payments/views.py:183 templates/orders/order_detail.html:138
+#: payments/views.py:183 templates/orders/order_detail.html:139
 #: templates/payments/payment_approve.html:23
 #: templates/payments/payment_history.html:24
 msgid "Amount (TRY)"
 msgstr "Tutar (TL)"
 
-#: payments/views.py:184 templates/orders/order_detail.html:139
+#: payments/views.py:184 templates/orders/order_detail.html:140
 #: templates/payments/payment_history.html:25
 msgid "Exchange rate used"
 msgstr "Kullanılan kur"
 
-#: payments/views.py:184 templates/orders/order_detail.html:140
+#: payments/views.py:184 templates/orders/order_detail.html:141
 #: templates/payments/payment_history.html:26
 msgid "Amount (USD)"
 msgstr "Tutar (USD)"
 
-#: payments/views.py:184 templates/orders/order_detail.html:141
+#: payments/views.py:184 templates/orders/order_detail.html:142
 #: templates/payments/payment_approve.html:24
 #: templates/payments/payment_history.html:27
 msgid "Bank reference / receipt no"
@@ -1549,7 +1563,7 @@ msgstr "Onayla"
 
 #: templates/accounts/pending_users.html:32
 #: templates/accounts/reject_user.html:16
-#: templates/orders/order_detail.html:193
+#: templates/orders/order_detail.html:194
 msgid "Reject"
 msgstr "Reddet"
 
@@ -1804,8 +1818,8 @@ msgstr "Ekle"
 msgid "No dealer specific price is defined for this product."
 msgstr "Bu ürün için bayiye özel fiyat tanımlı değil."
 
-#: templates/catalog/product_list.html:21 templates/orders/order_detail.html:99
-#: templates/orders/order_review.html:18
+#: templates/catalog/product_list.html:21
+#: templates/orders/order_detail.html:100 templates/orders/order_review.html:18
 #, python-format
 msgid "VAT rate (%%)"
 msgstr "KDV Oranı (%%)"
@@ -1977,7 +1991,7 @@ msgstr "Tanımlı alan adı eşleştirmesi yok."
 #: templates/logistics/mark_shipped.html:3
 #: templates/logistics/mark_shipped.html:19
 #: templates/logistics/pending_shipments.html:36
-#: templates/orders/order_detail.html:11
+#: templates/orders/order_detail.html:12
 msgid "Mark as shipped"
 msgstr "Gönderildi olarak işaretle"
 
@@ -1995,12 +2009,12 @@ msgid "Mark this order as shipped?"
 msgstr "Bu sipariş gönderildi olarak işaretlensin mi?"
 
 #: templates/logistics/mark_shipped.html:25
-#: templates/orders/order_detail.html:89
+#: templates/orders/order_detail.html:90
 msgid "Order items"
 msgstr "Sipariş kalemleri"
 
 #: templates/logistics/mark_shipped.html:28
-#: templates/orders/order_create.html:30 templates/orders/order_detail.html:97
+#: templates/orders/order_create.html:30 templates/orders/order_detail.html:98
 #: templates/orders/order_review.html:16 templates/reports/dashboard.html:63
 #: templates/reports/dashboard.html:78
 msgid "Quantity"
@@ -2023,13 +2037,6 @@ msgstr "Kalem"
 #: templates/logistics/pending_shipments.html:41
 msgid "There are no orders awaiting shipment."
 msgstr "Sevkiyat bekleyen sipariş yok."
-
-#: templates/notifications/notification_list.html:3
-#: templates/notifications/notification_list.html:4
-#: templates/partials/notification_bell.html:8
-#: templates/partials/notification_bell.html:17
-msgid "Notifications"
-msgstr "Bildirimler"
 
 #: templates/notifications/notification_list.html:8
 #: templates/partials/notification_bell.html:20
@@ -2124,12 +2131,12 @@ msgid "Basket"
 msgstr "Sepet"
 
 #: templates/orders/order_create.html:49
-#: templates/orders/order_form_pdf.html:98
+#: templates/orders/order_form_pdf.html:118
 msgid "Qty"
 msgstr "Adet"
 
 #: templates/orders/order_create.html:50
-#: templates/orders/order_form_pdf.html:99
+#: templates/orders/order_form_pdf.html:119
 msgid "Unit price"
 msgstr "Birim fiyat"
 
@@ -2137,20 +2144,20 @@ msgstr "Birim fiyat"
 msgid "Your basket is empty. Add products from the list on the left."
 msgstr "Sepetiniz boş. Soldaki listeden ürün ekleyin."
 
-#: templates/orders/order_create.html:71 templates/orders/order_detail.html:119
-#: templates/orders/order_form_pdf.html:122
+#: templates/orders/order_create.html:71 templates/orders/order_detail.html:120
+#: templates/orders/order_form_pdf.html:142
 #: templates/orders/order_review.html:35
 msgid "Subtotal"
 msgstr "Ara toplam"
 
-#: templates/orders/order_create.html:72 templates/orders/order_detail.html:120
-#: templates/orders/order_form_pdf.html:123
+#: templates/orders/order_create.html:72 templates/orders/order_detail.html:121
+#: templates/orders/order_form_pdf.html:143
 #: templates/orders/order_review.html:36 templates/reports/dashboard.html:13
 msgid "VAT total"
 msgstr "KDV toplamı"
 
-#: templates/orders/order_create.html:73 templates/orders/order_detail.html:121
-#: templates/orders/order_form_pdf.html:124
+#: templates/orders/order_create.html:73 templates/orders/order_detail.html:122
+#: templates/orders/order_form_pdf.html:144
 #: templates/orders/order_review.html:37
 msgid "Grand total"
 msgstr "Genel toplam"
@@ -2172,88 +2179,92 @@ msgstr "Sipariş %(ref)s"
 msgid "Download order form (PDF)"
 msgstr "Sipariş Formu (PDF) indir"
 
-#: templates/orders/order_detail.html:8
+#: templates/orders/order_detail.html:7
+msgid "Preview"
+msgstr "Önizleme"
+
+#: templates/orders/order_detail.html:9
 #: templates/payments/payment_approve.html:3
 #: templates/payments/payment_approve.html:38
 msgid "Approve payment"
 msgstr "Ödemeyi Onayla"
 
-#: templates/orders/order_detail.html:14
+#: templates/orders/order_detail.html:15
 #: templates/payments/payment_approve.html:43
 #: templates/payments/payment_form.html:3
 msgid "Record payment"
 msgstr "Ödeme Kaydet"
 
-#: templates/orders/order_detail.html:17
+#: templates/orders/order_detail.html:18
 msgid "Continue editing"
 msgstr "Düzenlemeye devam et"
 
-#: templates/orders/order_detail.html:53
+#: templates/orders/order_detail.html:54
 msgid "Order information"
 msgstr "Sipariş bilgileri"
 
-#: templates/orders/order_detail.html:57
+#: templates/orders/order_detail.html:58
 msgid "Created at"
 msgstr "Oluşturulma tarihi"
 
-#: templates/orders/order_detail.html:60
-#: templates/orders/order_form_pdf.html:85
+#: templates/orders/order_detail.html:61
+#: templates/orders/order_form_pdf.html:105
 msgid "Shipped at"
 msgstr "Sevk tarihi"
 
-#: templates/orders/order_detail.html:64
+#: templates/orders/order_detail.html:65
 msgid "Dealer note"
 msgstr "Bayi notu"
 
-#: templates/orders/order_detail.html:98 templates/orders/order_review.html:17
+#: templates/orders/order_detail.html:99 templates/orders/order_review.html:17
 msgid "Unit price (USD)"
 msgstr "Birim fiyat (USD)"
 
-#: templates/orders/order_detail.html:101 templates/orders/order_review.html:19
+#: templates/orders/order_detail.html:102 templates/orders/order_review.html:19
 msgid "Line total (USD)"
 msgstr "Satır tutarı (USD)"
 
-#: templates/orders/order_detail.html:123
+#: templates/orders/order_detail.html:124
 #, python-format
 msgid "Equivalent at the current rate (%(rate)s)"
 msgstr "Güncel kur karşılığı (%(rate)s)"
 
-#: templates/orders/order_detail.html:132
+#: templates/orders/order_detail.html:133
 msgid "Payments"
 msgstr "Ödemeler"
 
-#: templates/orders/order_detail.html:156
+#: templates/orders/order_detail.html:157
 msgid "No payment has been recorded yet."
 msgstr "Henüz ödeme kaydı girilmemiş."
 
-#: templates/orders/order_detail.html:164
+#: templates/orders/order_detail.html:165
 msgid "Status history"
 msgstr "Durum geçmişi"
 
-#: templates/orders/order_detail.html:174
+#: templates/orders/order_detail.html:175
 msgid "No status change has been recorded yet."
 msgstr "Henüz durum değişikliği kaydedilmemiş."
 
-#: templates/orders/order_detail.html:182
+#: templates/orders/order_detail.html:183
 msgid "Reject payment"
 msgstr "Ödemeyi Reddet"
 
-#: templates/orders/order_detail.html:183
+#: templates/orders/order_detail.html:184
 msgid ""
 "The order returns to draft and the dealer can edit and resubmit it. A new "
 "order number is issued on resubmission."
 msgstr "Sipariş taslağa döner; bayi düzenleyip tekrar gönderebilir. Tekrar gönderimde yeni bir sipariş numarası atanır."
 
-#: templates/orders/order_detail.html:192
+#: templates/orders/order_detail.html:193
 msgid "Reject this order and return it to the dealer?"
 msgstr "Bu sipariş reddedilip bayiye geri gönderilsin mi?"
 
-#: templates/orders/order_detail.html:202
-#: templates/orders/order_detail.html:210
+#: templates/orders/order_detail.html:203
+#: templates/orders/order_detail.html:211
 msgid "Cancel order"
 msgstr "Siparişi iptal et"
 
-#: templates/orders/order_detail.html:210
+#: templates/orders/order_detail.html:211
 msgid "Cancel this order?"
 msgstr "Bu sipariş iptal edilsin mi?"
 
@@ -2261,40 +2272,52 @@ msgstr "Bu sipariş iptal edilsin mi?"
 msgid "Page"
 msgstr "Sayfa"
 
-#: templates/orders/order_form_pdf.html:58
+#: templates/orders/order_form_pdf.html:60
+msgid "Printable order form"
+msgstr "Yazdırılabilir sipariş formu"
+
+#: templates/orders/order_form_pdf.html:61
+msgid "Print / Save as PDF"
+msgstr "Yazdır / PDF olarak kaydet"
+
+#: templates/orders/order_form_pdf.html:62
+msgid "Back to the order"
+msgstr "Siparişe dön"
+
+#: templates/orders/order_form_pdf.html:78
 msgid "Order form"
 msgstr "Sipariş Formu"
 
-#: templates/orders/order_form_pdf.html:78
+#: templates/orders/order_form_pdf.html:98
 msgid "Order"
 msgstr "Sipariş"
 
-#: templates/orders/order_form_pdf.html:82
+#: templates/orders/order_form_pdf.html:102
 msgid "Payment status"
 msgstr "Ödeme durumu"
 
-#: templates/orders/order_form_pdf.html:83
+#: templates/orders/order_form_pdf.html:103
 msgid "Not approved yet"
 msgstr "Henüz onaylanmadı"
 
-#: templates/orders/order_form_pdf.html:100
+#: templates/orders/order_form_pdf.html:120
 #, python-format
 msgid "VAT %%"
 msgstr "KDV %%"
 
-#: templates/orders/order_form_pdf.html:101
+#: templates/orders/order_form_pdf.html:121
 msgid "VAT amount"
 msgstr "KDV tutarı"
 
-#: templates/orders/order_form_pdf.html:102
+#: templates/orders/order_form_pdf.html:122
 msgid "Line total"
 msgstr "Satır tutarı"
 
-#: templates/orders/order_form_pdf.html:129
+#: templates/orders/order_form_pdf.html:149
 msgid "Payment information"
 msgstr "Ödeme bilgisi"
 
-#: templates/orders/order_form_pdf.html:130
+#: templates/orders/order_form_pdf.html:150
 #, python-format
 msgid ""
 "\n"
@@ -2305,7 +2328,7 @@ msgstr ""
 "  %(rate)s kuru ile %(amount)s TL ödendi. Referans: %(reference)s.\n"
 "  "
 
-#: templates/orders/order_form_pdf.html:139
+#: templates/orders/order_form_pdf.html:159
 msgid ""
 "This document is not an official invoice or waybill. It is a readable "
 "summary of the order record and carries no legal or fiscal value."

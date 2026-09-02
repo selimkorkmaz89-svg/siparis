@@ -17,7 +17,7 @@ from core.filters import ListFilter
 from orders import services
 from orders.forms import CancelOrderForm, RejectionForm
 from orders.models import Order, OrderItem
-from orders.pdf import render_order_pdf
+from orders.pdf import PdfEngineUnavailable, render_order_html, render_order_pdf
 from payments import services as fx
 
 
@@ -124,12 +124,34 @@ def order_detail(request, pk):
 
 @login_required
 def order_pdf(request, pk):
+    """Order form as a PDF, falling back to the printable preview."""
     order = _order_or_404(request, pk)
-    pdf = render_order_pdf(order, request=request)
+    try:
+        pdf = render_order_pdf(order, request=request)
+    except PdfEngineUnavailable:
+        # WeasyPrint needs cairo/pango, which a Windows machine usually lacks.
+        # The document itself is fine, so show it and let the browser print it.
+        messages.warning(
+            request,
+            _(
+                "PDF generation is unavailable on this machine (the WeasyPrint "
+                "system libraries are missing), so the order form is shown as a "
+                "printable page. Use your browser's print dialogue to save it as "
+                "a PDF."
+            ),
+        )
+        return redirect("orders:form_preview", pk=order.pk)
     filename = (order.order_no or f"draft-{order.pk}").lower()
     response = HttpResponse(pdf, content_type="application/pdf")
     response["Content-Disposition"] = f'inline; filename="{filename}.pdf"'
     return response
+
+
+@login_required
+def order_form_preview(request, pk):
+    """The order form as a web page - the same document the PDF renders."""
+    order = _order_or_404(request, pk)
+    return HttpResponse(render_order_html(order, preview=True))
 
 
 # -- dealer basket ---------------------------------------------------------

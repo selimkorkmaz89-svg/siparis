@@ -39,9 +39,29 @@
   }
   .note { margin-top: 12px; font-size: 9pt; }
   .payment { margin-top: 14px; border: 1px solid #e2e8f0; border-radius: 6px; padding: 9px 11px; font-size: 9pt; }
+  /* Only rendered by the in-browser preview, never by WeasyPrint. */
+  .preview-bar {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    padding: 10px 14px; border-radius: 8px; background: #e6f4fa; color: #075985;
+    font-size: 10pt;
+  }
+  .preview-bar button, .preview-bar a {
+    font: inherit; padding: 6px 12px; border-radius: 6px; cursor: pointer;
+    border: 1px solid {{ brand_color }}; background: {{ brand_color }}; color: #fff;
+    text-decoration: none;
+  }
+  .preview-bar a { background: transparent; color: {{ brand_color }}; }
+  @media print { .preview-bar { display: none; } }
 </style>
 </head>
 <body>
+{% if is_preview %}
+  <div class="preview-bar">
+    <span>{% translate "Printable order form" %}</span>
+    <button type="button" onclick="window.print()">{% translate "Print / Save as PDF" %}</button>
+    <a href="{% url 'orders:detail' order.pk %}">{% translate "Back to the order" %}</a>
+  </div>
+{% endif %}
 <div class="header">
   <div class="logo">{% if logo_url %}<img src="{{ logo_url }}" alt="">{% endif %}</div>
   <div class="company">

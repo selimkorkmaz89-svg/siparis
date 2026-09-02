@@ -4,6 +4,7 @@
 {% block page_title %}{% blocktranslate with ref=order.reference %}Order {{ ref }}{% endblocktranslate %}{% endblock %}
 {% block page_actions %}
   <a class="btn btn-outline" href="{% url 'orders:pdf' order.pk %}" target="_blank">{% translate "Download order form (PDF)" %}</a>
+  <a class="btn btn-ghost" href="{% url 'orders:form_preview' order.pk %}" target="_blank">{% translate "Preview" %}</a>
   {% if order.status == 'PENDING_PAYMENT' and user.role == 'FINANCE' or order.status == 'PENDING_PAYMENT' and user.role == 'ADMIN' %}
     <a class="btn btn-success" href="{% url 'payments:approve' order.pk %}">{% translate "Approve payment" %}</a>
   {% endif %}

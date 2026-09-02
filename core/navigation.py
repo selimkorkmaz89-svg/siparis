@@ -32,6 +32,7 @@ class NavItem:
 
 HOME = NavItem("core:home", _("Overview"), "home")
 PROFILE = NavItem("accounts:profile", _("My profile"), "profile")
+NOTIFICATIONS = NavItem("notifications:list", _("Notifications"), "bell")
 ALL_ORDERS = NavItem(
     "orders:list", _("All orders"), "orders",
     also_active_for=("orders:detail", "orders:pdf"),
@@ -53,6 +54,7 @@ NAV: dict[str, tuple[NavItem, ...]] = {
         NavItem("orders:drafts", _("My drafts"), "drafts"),
         NavItem("payments:history", _("My payment history"), "payments"),
         NavItem("reports:mine", _("My reports"), "reports"),
+        NOTIFICATIONS,
         PROFILE,
     ),
     Role.FINANCE: (
@@ -63,6 +65,7 @@ NAV: dict[str, tuple[NavItem, ...]] = {
         PAYMENT_HISTORY,
         DEALER_HISTORY,
         REPORTS,
+        NOTIFICATIONS,
         PROFILE,
     ),
     Role.LOGISTICS: (
@@ -72,6 +75,7 @@ NAV: dict[str, tuple[NavItem, ...]] = {
         ALL_ORDERS,
         PAYMENT_HISTORY,
         DEALER_HISTORY,
+        NOTIFICATIONS,
         PROFILE,
     ),
     Role.MANAGEMENT: (
@@ -79,6 +83,7 @@ NAV: dict[str, tuple[NavItem, ...]] = {
         ALL_ORDERS,
         REPORTS,
         NavItem("reports:finance", _("Finance and operations"), "payments"),
+        NOTIFICATIONS,
         PROFILE,
     ),
     Role.ADMIN: (
@@ -100,6 +105,7 @@ NAV: dict[str, tuple[NavItem, ...]] = {
         NavItem("accounts:user_list", _("User management"), "users",
                 also_active_for=("accounts:user_create", "accounts:user_edit")),
         NavItem("payments:exchange_rates", _("System settings"), "settings"),
+        NOTIFICATIONS,
         PROFILE,
     ),
 }

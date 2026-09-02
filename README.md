@@ -16,12 +16,13 @@ data. The interface is fully available in **Turkish and English**.
 2. [Mimari](#mimari--architecture)
 3. [Hızlı başlangıç](#hızlı-başlangıç--quick-start)
 4. [Güncelleme](#güncelleme--staying-up-to-date)
-5. [Kurumsal kimlik](#kurumsal-kimlik--branding)
-6. [Dil desteği](#dil-desteği--language-support)
-7. [İş kuralları](#iş-kuralları--business-rules)
-8. [VPS kurulumu](#vps-kurulumu--production-deployment)
-9. [Yedekleme](#yedekleme--backups)
-10. [Testler](#testler--tests)
+5. [Sipariş Formu](#sipariş-formu--order-form)
+6. [Kurumsal kimlik](#kurumsal-kimlik--branding)
+7. [Dil desteği](#dil-desteği--language-support)
+8. [İş kuralları](#iş-kuralları--business-rules)
+9. [VPS kurulumu](#vps-kurulumu--production-deployment)
+10. [Yedekleme](#yedekleme--backups)
+11. [Testler](#testler--tests)
 
 ---
 
@@ -131,6 +132,19 @@ veya `collectstatic` çalıştırmanız gerekmez. Sunucu çalışırken `git pul
 yaparsanız Django kod değişikliklerini kendi yeniden yükler; şablon veya CSS
 değişikliği için tarayıcıda sayfayı yenilemek yeterlidir.
 
+## Sipariş Formu / Order form
+
+Sipariş formu iki şekilde açılabilir:
+
+| Yol | Ne yapar | Gereksinim |
+|---|---|---|
+| **Sipariş Formu (PDF) indir** | WeasyPrint ile PDF üretir | cairo/pango sistem kütüphaneleri |
+| **Önizleme** | Aynı belgeyi tarayıcıda açar, `Yazdır / PDF olarak kaydet` butonu ile PDF alınır | yok |
+
+Windows'ta WeasyPrint genellikle GTK olmadan çalışmaz. Bu durumda PDF butonu
+hata vermez: formu yazdırılabilir sayfa olarak açar ve bunu size söyler.
+Sunucuda (Docker imajında) gerekli kütüphaneler zaten kuruludur, PDF çalışır.
+
 ## Kurumsal kimlik / Branding
 
 Firma adı, logo ve vurgu rengi ayardan gelir; şablonlarda sabit yazılmaz.
@@ -226,6 +240,10 @@ DRAFT / PENDING_PAYMENT ──cancel──► CANCELLED
 
   Kur güncel değilse *Sistem Ayarları* ekranı bunu uyarı olarak gösterir.
   Sunucunun `www.tcmb.gov.tr` adresine erişebilmesi gerekir.
+* **Demo kuru gerçek kuru gölgelemez.** `seed_demo`, tabloda gerçek bir kur
+  varsa demo kuru hiç eklemez; `fetch_rates` ise demo satırların üzerine yazar.
+  Elle girilmiş (`MANUAL`) kurlar korunur, onları da tazelemek için
+  `python manage.py fetch_rates --force` kullanın.
 * Girilen TL tutar sipariş toplamından `PAYMENT_MISMATCH_TOLERANCE` oranından
   fazla saparsa uyarı gösterilir, ancak onay **engellenmez**.
 
@@ -288,7 +306,7 @@ gunzip -c backups/db-20260901-020000.sql.gz | \
 ## Testler / Tests
 
 ```bash
-python manage.py test              # 80 test: iş kuralları, yetkiler, i18n, PDF, Excel
+python manage.py test              # 104 test: iş kuralları, yetkiler, i18n, PDF, Excel
 python manage.py test orders        # sipariş durum makinesi ve numaralandırma
 python manage.py test payments      # kur kuralları (15:30, hafta sonu, tatil)
 python manage.py test catalog       # Excel import doğrulaması
