@@ -89,50 +89,76 @@
     });
   });
 
-  /* ---- second confirmation dialog before an irreversible submit ---- */
+  /* ---- second confirmation dialog before an irreversible submit ----
+     Several triggers (e.g. one "Delete" button per table row) can share the
+     same dialog element, so state (which form to submit, whether the click
+     was already confirmed) is tracked per dialog rather than per trigger -
+     otherwise confirming one row would resubmit every row's form at once. */
+  const confirmDialogs = new Map();
   document.querySelectorAll("[data-confirm-dialog]").forEach(function (trigger) {
-    const dialog = document.getElementById(trigger.getAttribute("data-confirm-dialog"));
+    const dialogId = trigger.getAttribute("data-confirm-dialog");
+    const dialog = document.getElementById(dialogId);
     if (!dialog) return;
-    const form = trigger.closest("form");
-    let confirmed = false;
 
-    function close() {
-      dialog.classList.add("hidden");
-      document.body.style.overflow = "";
-      trigger.focus();
+    let state = confirmDialogs.get(dialogId);
+    if (!state) {
+      state = { dialog: dialog, pendingForm: null, pendingTrigger: null };
+      confirmDialogs.set(dialogId, state);
+
+      function close() {
+        dialog.classList.add("hidden");
+        document.body.style.overflow = "";
+        if (state.pendingTrigger) state.pendingTrigger.focus();
+        state.pendingForm = null;
+        state.pendingTrigger = null;
+      }
+      dialog.querySelectorAll("[data-modal-cancel]").forEach(function (button) {
+        button.addEventListener("click", close);
+      });
+      dialog.addEventListener("click", function (event) {
+        if (event.target === dialog) close();
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !dialog.classList.contains("hidden")) close();
+      });
+      const accept = dialog.querySelector("[data-modal-confirm]");
+      if (accept) {
+        accept.addEventListener("click", function () {
+          const form = state.pendingForm;
+          const pendingTrigger = state.pendingTrigger;
+          dialog.classList.add("hidden");
+          document.body.style.overflow = "";
+          state.pendingForm = null;
+          state.pendingTrigger = null;
+          if (form) {
+            // requestSubmit(trigger) - not plain submit() - so a button's own
+            // formaction/formmethod (used to target one row's delete URL from
+            // a table-wide form) is honoured instead of the form's default.
+            if (form.requestSubmit && pendingTrigger) form.requestSubmit(pendingTrigger);
+            else form.submit();
+          } else if (pendingTrigger) {
+            // No enclosing form (e.g. a plain link): replay the click, but
+            // mark it so the trigger's own listener lets it through instead
+            // of reopening the dialog.
+            pendingTrigger.dataset.confirmDialogBypass = "1";
+            pendingTrigger.click();
+          }
+        });
+      }
     }
+
     trigger.addEventListener("click", function (event) {
-      if (confirmed) return;               // second pass: let the submit through
+      if (trigger.dataset.confirmDialogBypass) {
+        delete trigger.dataset.confirmDialogBypass;
+        return;
+      }
       event.preventDefault();
+      state.pendingForm = trigger.closest("form");
+      state.pendingTrigger = trigger;
       dialog.classList.remove("hidden");
       document.body.style.overflow = "hidden";
       const accept = dialog.querySelector("[data-modal-confirm]");
       if (accept) accept.focus();
-    });
-    dialog.querySelectorAll("[data-modal-cancel]").forEach(function (button) {
-      button.addEventListener("click", close);
-    });
-    dialog.addEventListener("click", function (event) {
-      if (event.target === dialog) close();
-    });
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && !dialog.classList.contains("hidden")) close();
-    });
-    const accept = dialog.querySelector("[data-modal-confirm]");
-    if (accept) {
-      accept.addEventListener("click", function () {
-        confirmed = true;
-        accept.disabled = true;            // no double submit
-        if (form) form.submit();
-        else trigger.click();
-      });
-    }
-  });
-
-  /* ---- confirm destructive actions ---- */
-  document.querySelectorAll("[data-confirm]").forEach(function (element) {
-    element.addEventListener("click", function (event) {
-      if (!window.confirm(element.getAttribute("data-confirm"))) event.preventDefault();
     });
   });
 

@@ -67,8 +67,10 @@ def payment_declare(request, order_id):
     if order.status != OrderStatus.PENDING_PAYMENT:
         messages.error(request, _("A payment can only be recorded for orders awaiting approval."))
         return redirect("orders:detail", pk=order.pk)
-    form = PaymentDeclarationForm(request.POST or None, request.FILES or None)
     rate = fx.current_rate_value()
+    form = PaymentDeclarationForm(
+        request.POST or None, request.FILES or None, order=order, rate=rate
+    )
     if request.method == "POST" and form.is_valid():
         payment = form.save(commit=False)
         payment.order = order

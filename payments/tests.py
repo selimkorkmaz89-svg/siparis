@@ -3,13 +3,21 @@ from decimal import Decimal
 from io import StringIO
 from unittest import mock
 
+from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
+from django.urls import reverse
 from django.utils import timezone
 
+from catalog.models import Product
+from core.constants import Role, UserStatus
+from dealers.models import Dealer
+from orders import services as order_services
 from payments import services
-from payments.models import ExchangeRate
+from payments.models import ExchangeRate, Payment
+
+User = get_user_model()
 
 TCMB_XML = b"""<?xml version="1.0" encoding="UTF-8"?>
 <Tarih_Date Tarih="01.09.2026">
@@ -208,3 +216,55 @@ class DemoRateShadowingTests(TestCase):
         call_command("seed_demo", orders=0, force=True, stdout=StringIO())
         self.assertFalse(ExchangeRate.objects.filter(source="DEMO").exists())
         self.assertEqual(services.get_rate().source, "TCMB")
+
+
+class PaymentDeclarationTests(TestCase):
+    def setUp(self):
+        self.dealer = Dealer.objects.create(name="Test Bayi")
+        self.dealer_user = User.objects.create_user(
+            email="bayi@test.com", password="x", role=Role.DEALER,
+            dealer=self.dealer, status=UserStatus.APPROVED,
+        )
+        self.product = Product.objects.create(
+            code="PRD-1", name="Kit", base_price_usd=Decimal("100.00"),
+            vat_rate=Decimal("0.00"),
+        )
+        ExchangeRate.objects.create(
+            rate_date=services.effective_rate_date(),
+            usd_try_rate=Decimal("30.0000"), source="MANUAL",
+        )
+        draft = order_services.get_or_create_draft(self.dealer_user)
+        order_services.add_item(draft, self.product, 1)
+        draft.refresh_from_db()
+        order_services.submit_order(draft, self.dealer_user)
+        draft.refresh_from_db()
+        self.order = draft
+        self.client.force_login(self.dealer_user)
+
+    def _post(self, amount):
+        return self.client.post(
+            reverse("payments:declare", args=[self.order.pk]),
+            {
+                "amount_try": amount, "reference_no": "REF1",
+                "payment_date": timezone.localdate().isoformat(),
+            },
+        )
+
+    def test_underpayment_is_rejected(self):
+        # Order total is 100 USD at a 30 rate (3000 TRY expected); 10 TRY is
+        # nowhere near that, well outside the mismatch tolerance.
+        response = self._post("10.00")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["form"].errors.get("amount_try"))
+        self.assertFalse(Payment.objects.filter(order=self.order).exists())
+
+    def test_sufficient_payment_is_accepted(self):
+        response = self._post("3000.00")
+        self.assertRedirects(response, reverse("orders:detail", args=[self.order.pk]))
+        self.assertTrue(Payment.objects.filter(order=self.order).exists())
+
+    def test_a_payment_within_tolerance_is_accepted(self):
+        # 1% short of the expected 3000 TRY - inside the 2% mismatch tolerance.
+        response = self._post("2970.00")
+        self.assertRedirects(response, reverse("orders:detail", args=[self.order.pk]))
+        self.assertTrue(Payment.objects.filter(order=self.order).exists())

@@ -34,8 +34,7 @@
               <a class="btn btn-ghost btn-sm" href="{% url 'catalog:device_model_edit' device.pk %}">{% translate "Edit" %}</a>
               <form method="post" action="{% url 'catalog:device_model_delete' device.pk %}" class="inline">
                 {% csrf_token %}
-                <button class="btn btn-ghost btn-sm" type="submit"
-                        data-confirm="{% translate 'Delete this device model? Its products stay, but lose the device-model tag.' %}">
+                <button class="btn btn-ghost btn-sm" type="submit" data-confirm-dialog="deleteDeviceModelDialog">
                   {% translate "Delete" %}
                 </button>
               </form>
@@ -46,6 +45,18 @@
         {% endfor %}
       </tbody>
     </table>
+  </div>
+</div>
+
+<div class="modal hidden" id="deleteDeviceModelDialog" role="dialog" aria-modal="true"
+     aria-labelledby="deleteDeviceModelTitle">
+  <div class="modal-card">
+    <h2 id="deleteDeviceModelTitle">{% translate "Delete this device model?" %}</h2>
+    <p class="muted">{% translate "Its products stay, but lose the device-model tag." %}</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" data-modal-cancel>{% translate "Cancel" %}</button>
+      <button class="btn btn-danger" type="button" data-modal-confirm>{% translate "Delete" %}</button>
+    </div>
   </div>
 </div>
 {% endblock %}

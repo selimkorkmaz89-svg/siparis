@@ -44,8 +44,7 @@
               <a class="btn btn-ghost btn-sm" href="{% url 'catalog:product_edit' product.pk %}">{% translate "Edit" %}</a>
               <form method="post" action="{% url 'catalog:product_delete' product.pk %}" class="inline">
                 {% csrf_token %}
-                <button class="btn btn-ghost btn-sm" type="submit"
-                        data-confirm="{% translate 'Delete this product? This cannot be undone.' %}">
+                <button class="btn btn-ghost btn-sm" type="submit" data-confirm-dialog="deleteProductDialog">
                   {% translate "Delete" %}
                 </button>
               </form>
@@ -58,5 +57,17 @@
     </table>
   </div>
   {% include "partials/pagination.html" %}
+</div>
+
+<div class="modal hidden" id="deleteProductDialog" role="dialog" aria-modal="true"
+     aria-labelledby="deleteProductTitle">
+  <div class="modal-card">
+    <h2 id="deleteProductTitle">{% translate "Delete this product?" %}</h2>
+    <p class="muted">{% translate "This cannot be undone." %}</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" data-modal-cancel>{% translate "Cancel" %}</button>
+      <button class="btn btn-danger" type="button" data-modal-confirm>{% translate "Delete" %}</button>
+    </div>
+  </div>
 </div>
 {% endblock %}

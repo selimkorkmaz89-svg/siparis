@@ -13,7 +13,12 @@
   <div class="kpi-value">{% if prefix %}<span class="kpi-prefix">{{ prefix }}</span>{% endif %}{{ value }}</div>
   {% if note or badge %}
     <div class="kpi-note">
-      {{ note }}{% if note and badge %} · {% endif %}{% if badge %}<span class="kpi-badge">{{ badge }}</span>{% endif %}
+      {{ note }}{% if note and badge %} · {% endif %}
+      {% if badge == "TCMB" %}
+        <img src="{% asset 'img/tcmb-logo.png' %}" alt="TCMB" class="kpi-badge-logo">
+      {% elif badge %}
+        <span class="kpi-badge">{{ badge }}</span>
+      {% endif %}
     </div>
   {% endif %}
 </div>

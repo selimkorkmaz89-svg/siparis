@@ -761,6 +761,16 @@ TRANSLATIONS = {
     "Recorded payment": "Girilen ödeme",
     "Declared by": "Bildiren",
     "Receipt file": "Dekont dosyası",
+    "Delete this device model?": "Bu cihaz modeli silinsin mi?",
+    "Delete this product?": "Bu ürün silinsin mi?",
+    "Generate a new token?": "Yeni bir token oluşturulsun mu?",
+    "Its products stay, but lose the device-model tag.":
+        "Ürünleri kalır, yalnızca cihaz modeli etiketini kaybederler.",
+    "The old one stops working immediately - update the connector too.":
+        "Eskisi hemen çalışmaz hale gelir - konektörü de güncelleyin.",
+    "This amount converts to $%(converted)s, which is less than the order total of $%(expected)s. Enter the full payment amount.":
+        "Bu tutar $%(converted)s karşılığına geliyor, sipariş toplamı olan $%(expected)s tutarından az. Ödemenin tamamını girin.",
+    "This cannot be undone.": "Bu işlem geri alınamaz.",
     "Approve this payment?": "Bu ödeme onaylansın mı?",
     "The order will be marked as paid and moved forward in the workflow. This cannot be undone from this screen.":
         "Sipariş ödendi olarak işaretlenip iş akışında ilerletilecek. Bu ekrandan geri alınamaz.",

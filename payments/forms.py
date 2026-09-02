@@ -1,9 +1,11 @@
 from decimal import Decimal
 
 from django import forms
+from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from payments import services as fx
 from payments.models import Payment
 
 
@@ -23,14 +25,32 @@ class PaymentDeclarationForm(forms.ModelForm):
             "note": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, order=None, rate=None, **kwargs):
+        """``order`` and ``rate`` let ``clean_amount_try`` refuse an underpayment."""
         super().__init__(*args, **kwargs)
         self.fields["payment_date"].initial = timezone.localdate()
+        self.order = order
+        self.rate = rate
 
     def clean_amount_try(self):
         amount = self.cleaned_data["amount_try"]
         if amount <= Decimal("0"):
             raise forms.ValidationError(_("The amount must be greater than zero."))
+        if self.order and self.rate and self.order.total_amount_usd:
+            converted = fx.try_to_usd(amount, self.rate)
+            tolerance = Decimal(str(settings.PAYMENT_MISMATCH_TOLERANCE))
+            minimum = self.order.total_amount_usd * (Decimal("1") - tolerance)
+            if converted < minimum:
+                raise forms.ValidationError(
+                    _(
+                        "This amount converts to $%(converted)s, which is less than the "
+                        "order total of $%(expected)s. Enter the full payment amount."
+                    )
+                    % {
+                        "converted": f"{converted:,.2f}",
+                        "expected": f"{self.order.total_amount_usd:,.2f}",
+                    }
+                )
         return amount
 
 
