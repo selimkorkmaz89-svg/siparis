@@ -15,11 +15,12 @@ data. The interface is fully available in **Turkish and English**.
 1. [Özellikler](#özellikler--features)
 2. [Mimari](#mimari--architecture)
 3. [Hızlı başlangıç](#hızlı-başlangıç--quick-start)
-4. [Dil desteği](#dil-desteği--language-support)
-5. [İş kuralları](#iş-kuralları--business-rules)
-6. [VPS kurulumu](#vps-kurulumu--production-deployment)
-7. [Yedekleme](#yedekleme--backups)
-8. [Testler](#testler--tests)
+4. [Güncelleme](#güncelleme--staying-up-to-date)
+5. [Dil desteği](#dil-desteği--language-support)
+6. [İş kuralları](#iş-kuralları--business-rules)
+7. [VPS kurulumu](#vps-kurulumu--production-deployment)
+8. [Yedekleme](#yedekleme--backups)
+9. [Testler](#testler--tests)
 
 ---
 
@@ -96,6 +97,38 @@ python manage.py runserver
 > devreye girer ve `runserver` sizi HTTPS'e yönlendirir. Yanlışlıkla
 > kopyaladıysanız `runserver` başlangıçta `core.W001` uyarısıyla bunu söyler;
 > çözüm `.env` dosyasını silmektir.
+
+## Güncelleme / Staying up to date
+
+Depoda yeni bir değişiklik olduğunda yereldeki kopyanızı güncellemek için tek
+komut yeterli:
+
+```powershell
+# Windows (PowerShell)
+.\scripts\update.ps1
+```
+
+```bash
+# macOS / Linux / WSL
+./scripts/update.sh
+```
+
+Betik sırayla: kaydedilmemiş değişiklik var mı bakar → `git pull` yapar →
+`requirements.txt` değiştiyse paketleri kurar → bekleyen migration varsa
+uygular. Hiçbir şey değişmediyse hepsi boş geçer, zararsızdır.
+
+Elle yapmak isterseniz karşılığı şudur:
+
+```bash
+git pull
+pip install -r requirements.txt   # yalnızca requirements.txt değiştiyse
+python manage.py migrate          # yalnızca yeni migration geldiyse
+```
+
+Çeviri (`.mo`) ve statik dosyalar depoda hazır geldiği için `compilemessages`
+veya `collectstatic` çalıştırmanız gerekmez. Sunucu çalışırken `git pull`
+yaparsanız Django kod değişikliklerini kendi yeniden yükler; şablon veya CSS
+değişikliği için tarayıcıda sayfayı yenilemek yeterlidir.
 
 ## Dil desteği / Language support
 
