@@ -206,6 +206,39 @@ class DemoRateShadowingTests(TestCase):
             services.backfill_rates(days=1, force=True)
         fetch.assert_called_once()
 
+    def test_a_tcmb_row_missing_its_chf_leg_is_retried(self):
+        # e.g. a row fetched before CHF support existed, or a day CHF briefly
+        # failed to parse - nothing else would ever revisit it otherwise.
+        today = timezone.localdate()
+        ExchangeRate.objects.create(
+            rate_date=today, usd_try_rate=Decimal("48.3484"), source="TCMB"
+        )
+
+        def fake_fetch(date=None):
+            return ExchangeRate.objects.update_or_create(
+                rate_date=date,
+                defaults={
+                    "usd_try_rate": Decimal("48.3484"), "chf_try_rate": Decimal("54.2000"),
+                    "source": "TCMB",
+                },
+            )[0]
+
+        with mock.patch("payments.services.fetch_tcmb_rate", side_effect=fake_fetch):
+            stored = services.backfill_rates(days=1)
+        self.assertEqual(stored, 1)
+        self.assertEqual(ExchangeRate.objects.get(rate_date=today).chf_try_rate, Decimal("54.2000"))
+
+    def test_a_tcmb_row_that_already_has_chf_is_left_alone(self):
+        today = timezone.localdate()
+        ExchangeRate.objects.create(
+            rate_date=today, usd_try_rate=Decimal("48.3484"),
+            chf_try_rate=Decimal("54.2000"), source="TCMB",
+        )
+        with mock.patch("payments.services.fetch_tcmb_rate") as fetch:
+            stored = services.backfill_rates(days=1)
+        fetch.assert_not_called()
+        self.assertEqual(stored, 0)
+
     def test_seeding_demo_data_leaves_real_rates_alone(self):
         # Dated on the effective day, so it is the rate in force whatever the
         # clock says relative to the 15:30 publication.

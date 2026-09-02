@@ -150,14 +150,19 @@ def backfill_rates(days: int = 10, force: bool = False) -> int:
     """Fetch the rates missing from the last ``days`` days.
 
     A date that only holds a placeholder row is fetched again, otherwise demo
-    data seeded for today would permanently hide the real TCMB rate.
+    data seeded for today would permanently hide the real TCMB rate. A TCMB
+    row still missing its CHF leg is retried too - rows fetched before CHF
+    support existed, or on a day the CHF figure briefly failed to parse,
+    would otherwise never pick it up since nothing else ever re-fetches an
+    already-TCMB-sourced date.
     """
     today = timezone.localdate()
     stored = 0
     for offset in range(days):
         date = today - dt.timedelta(days=offset)
         existing = ExchangeRate.objects.filter(rate_date=date).first()
-        if existing and not force and existing.source not in REPLACEABLE_SOURCES:
+        missing_chf_leg = existing and existing.source == "TCMB" and not existing.chf_try_rate
+        if existing and not force and not missing_chf_leg and existing.source not in REPLACEABLE_SOURCES:
             continue
         if fetch_tcmb_rate(date):
             stored += 1
