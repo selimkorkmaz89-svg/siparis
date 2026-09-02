@@ -29,7 +29,7 @@
         <h2>{{ title }}</h2>
         <div class="field-grid">
           {% for field in fields %}
-            <div class="field {% if field.name == 'address' or field.name == 'notes' %}field-wide{% endif %}
+            <div class="field {% if field.name == 'address' or field.name == 'notes' or field.name == 'allowed_device_models' %}field-wide{% endif %}
                         {% if field.name == 'is_active' %}field-check{% endif %}">
               <label for="{{ field.id_for_label }}">{{ field.label }}</label>
               {{ field }}

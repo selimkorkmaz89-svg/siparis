@@ -186,4 +186,96 @@
     select.addEventListener("change", apply);
     apply();
   });
+
+  /* ---- dual listbox: a searchable two-column picker for a <select multiple> ----
+     The real select stays in the DOM (hidden) so the form submits exactly as
+     before; this only changes how picking options feels. */
+  document.querySelectorAll("select[multiple][data-dual-listbox]").forEach(function (select) {
+    const data = select.dataset;
+    const wrap = document.createElement("div");
+    wrap.className = "dual-listbox";
+    wrap.innerHTML =
+      '<div class="dual-listbox-col">' +
+        '<div class="dual-listbox-col-head"><span>' + data.dualListboxAvailableLabel + "</span></div>" +
+        '<input type="search" class="dual-listbox-search" placeholder="' + data.dualListboxSearchPlaceholder + '">' +
+        '<ul class="dual-listbox-list" data-side="available"></ul>' +
+      "</div>" +
+      '<div class="dual-listbox-col">' +
+        '<div class="dual-listbox-col-head"><span>' + data.dualListboxSelectedLabel +
+          ' (<span data-count>0</span>)</span>' +
+          '<button type="button" class="dual-listbox-clear">' + data.dualListboxClearLabel + "</button>" +
+        "</div>" +
+        '<ul class="dual-listbox-list" data-side="selected"></ul>' +
+      "</div>";
+    select.insertAdjacentElement("afterend", wrap);
+    select.classList.add("hidden");
+
+    const availableList = wrap.querySelector('[data-side="available"]');
+    const selectedList = wrap.querySelector('[data-side="selected"]');
+    const search = wrap.querySelector(".dual-listbox-search");
+    const clearBtn = wrap.querySelector(".dual-listbox-clear");
+    const countEl = wrap.querySelector("[data-count]");
+
+    function row(option, glyph, onClick) {
+      const li = document.createElement("li");
+      li.className = "dual-listbox-item";
+      li.tabIndex = 0;
+      const label = document.createElement("span");
+      label.textContent = option.text;
+      const icon = document.createElement("span");
+      icon.className = "move-icon";
+      icon.textContent = glyph;
+      li.append(label, icon);
+      li.addEventListener("click", onClick);
+      li.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onClick();
+        }
+      });
+      return li;
+    }
+
+    function empty(list, text) {
+      const li = document.createElement("li");
+      li.className = "dual-listbox-empty";
+      li.textContent = text;
+      list.appendChild(li);
+    }
+
+    function render() {
+      const term = search.value.trim().toLocaleLowerCase();
+      availableList.innerHTML = "";
+      selectedList.innerHTML = "";
+      let selectedCount = 0;
+      Array.from(select.options).forEach(function (option) {
+        if (option.selected) {
+          selectedCount++;
+          selectedList.appendChild(row(option, "✕", function () {
+            option.selected = false;
+            select.dispatchEvent(new Event("change"));
+            render();
+          }));
+        } else if (!term || option.text.toLocaleLowerCase().indexOf(term) !== -1) {
+          availableList.appendChild(row(option, "+", function () {
+            option.selected = true;
+            select.dispatchEvent(new Event("change"));
+            render();
+          }));
+        }
+      });
+      if (!availableList.children.length) empty(availableList, data.dualListboxEmptyLabel);
+      if (!selectedList.children.length) empty(selectedList, data.dualListboxNoneSelectedLabel);
+      countEl.textContent = selectedCount;
+      clearBtn.disabled = selectedCount === 0;
+    }
+
+    search.addEventListener("input", render);
+    clearBtn.addEventListener("click", function () {
+      Array.from(select.selectedOptions).forEach(function (option) { option.selected = false; });
+      select.dispatchEvent(new Event("change"));
+      render();
+    });
+    render();
+  });
 })();

@@ -69,6 +69,12 @@ TRANSLATIONS = {
     "Device model deleted: %(name)s": "Cihaz modeli silindi: %(name)s",
     "Device model or brand": "Cihaz modeli veya marka",
     "Device model saved: %(name)s": "Cihaz modeli kaydedildi: %(name)s",
+    "All device models": "Tüm cihaz modelleri",
+    "Clear all": "Tümünü kaldır",
+    "No matching device models.": "Eşleşen cihaz modeli yok.",
+    "None selected - every device model is allowed.": "Hiçbiri seçilmedi - tüm cihaz modellerine izin veriliyor.",
+    "Search device models…": "Cihaz modellerinde ara…",
+    "Selected": "Seçili",
     "Device models": "Cihaz Modelleri",
     "Edit device model": "Cihaz modelini düzenle",
     "Leave empty to allow every device model. Selecting one or more hides every other device's products from this dealer.":

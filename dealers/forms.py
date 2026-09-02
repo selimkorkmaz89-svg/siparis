@@ -30,7 +30,15 @@ class DealerForm(BootstrapModelForm):
             "allowed_device_models", "mikro_cari_kodu", "notes", "is_active",
         )
         widgets = {
-            "allowed_device_models": forms.SelectMultiple(attrs={"size": 8}),
+            "allowed_device_models": forms.SelectMultiple(attrs={
+                "data-dual-listbox": "1",
+                "data-dual-listbox-available-label": _("All device models"),
+                "data-dual-listbox-selected-label": _("Selected"),
+                "data-dual-listbox-search-placeholder": _("Search device models…"),
+                "data-dual-listbox-clear-label": _("Clear all"),
+                "data-dual-listbox-empty-label": _("No matching device models."),
+                "data-dual-listbox-none-selected-label": _("None selected - every device model is allowed."),
+            }),
         }
         help_texts = {
             "allowed_device_models": _(

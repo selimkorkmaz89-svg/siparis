@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 23:47+0300\n"
+"POT-Creation-Date: 2026-09-03 00:36+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -430,7 +430,7 @@ msgstr "Yetkili Kişi"
 msgid "City"
 msgstr "Şehir"
 
-#: catalog/imports.py:83 dealers/forms.py:47 dealers/views.py:37
+#: catalog/imports.py:83 dealers/forms.py:55 dealers/views.py:37
 #: templates/orders/order_detail.html:84
 #: templates/orders/order_form_pdf.html:94
 msgid "Address"
@@ -915,7 +915,7 @@ msgstr "Kullanıcı Yönetimi"
 msgid "System settings"
 msgstr "Sistem Ayarları"
 
-#: core/navigation.py:133 dealers/forms.py:49
+#: core/navigation.py:133 dealers/forms.py:57
 #: templates/integrations/settings.html:3
 #: templates/integrations/settings.html:4
 msgid "Mikro integration"
@@ -934,33 +934,57 @@ msgstr "Henüz kur kaydı yok — senkronu çalıştırın"
 msgid "%(date)s · most recent business day"
 msgstr "%(date)s · en yakın iş günü"
 
+#: dealers/forms.py:35
+msgid "All device models"
+msgstr "Tüm cihaz modelleri"
+
+#: dealers/forms.py:36
+msgid "Selected"
+msgstr "Seçili"
+
 #: dealers/forms.py:37
+msgid "Search device models…"
+msgstr "Cihaz modellerinde ara…"
+
+#: dealers/forms.py:38
+msgid "Clear all"
+msgstr "Tümünü kaldır"
+
+#: dealers/forms.py:39
+msgid "No matching device models."
+msgstr "Eşleşen cihaz modeli yok."
+
+#: dealers/forms.py:40
+msgid "None selected - every device model is allowed."
+msgstr "Hiçbiri seçilmedi - tüm cihaz modellerine izin veriliyor."
+
+#: dealers/forms.py:45
 msgid ""
 "Leave empty to allow every device model. Selecting one or more hides every "
 "other device's products from this dealer."
 msgstr "Tüm cihaz modellerine izin vermek için boş bırakın. Bir veya daha fazla seçmek, diğer tüm cihazların ürünlerini bu bayiden gizler."
 
-#: dealers/forms.py:44
+#: dealers/forms.py:52
 msgid "Identity"
 msgstr "Kimlik"
 
-#: dealers/forms.py:45
+#: dealers/forms.py:53
 msgid "Tax details"
 msgstr "Vergi bilgileri"
 
-#: dealers/forms.py:46
+#: dealers/forms.py:54
 msgid "Contact"
 msgstr "İletişim"
 
-#: dealers/forms.py:48
+#: dealers/forms.py:56
 msgid "Catalogue access"
 msgstr "Katalog Erişimi"
 
-#: dealers/forms.py:50
+#: dealers/forms.py:58
 msgid "Other"
 msgstr "Diğer"
 
-#: dealers/forms.py:70
+#: dealers/forms.py:78
 msgid "Domain only, without the @ sign. Example: abcdealer.com"
 msgstr "Yalnızca alan adı, @ işareti olmadan. Örnek: abcbayi.com"
 
