@@ -46,7 +46,7 @@
 
   {% translate "USD/TRY rate in effect" as l %}
   {% if exchange_rate %}
-    {% include "partials/kpi.html" with label=l value=exchange_rate|money:4 prefix="₺" icon="settings" tone="sky" note=rate_note url=links.rates %}
+    {% include "partials/kpi.html" with label=l value=exchange_rate|money:4 prefix="₺" icon="settings" tone="sky" note=rate_note badge=rate_source url=links.rates %}
   {% else %}
     {% include "partials/kpi.html" with label=l value="—" icon="settings" tone="slate" note=rate_note url=links.rates %}
   {% endif %}

@@ -46,13 +46,14 @@ def pending_approvals(request):
             [(o.order_no, o.dealer.name, o.submitted_at, o.total_amount_usd)
              for o in queryset],
         )
-    rate = fx.current_rate_value()
+    current_rate = fx.get_rate()
     return render(
         request,
         "payments/pending_approvals.html",
         {
             "orders": queryset,
-            "exchange_rate": rate,
+            "exchange_rate": current_rate.usd_try_rate if current_rate else None,
+            "rate_source": current_rate.source if current_rate else None,
             "totals": queryset.aggregate(total_usd=Sum("total_amount_usd"), count=Count("id")),
             **list_filter.as_context(),
         },

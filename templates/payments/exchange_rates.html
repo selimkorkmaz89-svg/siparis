@@ -15,7 +15,7 @@
 <div class="grid grid-3">
   {% translate "USD/TRY rate in effect" as l %}
   {% if current %}
-    {% include "partials/kpi.html" with label=l value=current.usd_try_rate|money:4 prefix="₺" icon="settings" tone="brand" note=current.rate_type %}
+    {% include "partials/kpi.html" with label=l value=current.usd_try_rate|money:4 prefix="₺" icon="settings" tone="brand" note=current.rate_type badge=current.source %}
   {% else %}
     {% include "partials/kpi.html" with label=l value="—" icon="settings" tone="slate" %}
   {% endif %}

@@ -23,6 +23,9 @@ def home(request):
     context = {
         "exchange_rate": rate.usd_try_rate if rate else None,
         "rate_note": _rate_note(rate),
+        # The actual source (TCMB / MANUAL / a demo seed) shown as a small
+        # badge on the KPI card, rather than assuming TCMB regardless.
+        "rate_source": rate.source if rate else None,
         "recent_orders": orders.exclude(status=OrderStatus.DRAFT)
         .select_related("dealer")[:8],
         "today": timezone.localdate(),
@@ -38,7 +41,7 @@ def _rate_note(rate):
     if rate is None:
         return _("No rate recorded yet - run the sync")
     if rate.rate_date == effective:
-        return _("%(date)s · TCMB") % {"date": rate.rate_date.strftime("%d.%m.%Y")}
+        return rate.rate_date.strftime("%d.%m.%Y")
     return _("%(date)s · most recent business day") % {
         "date": rate.rate_date.strftime("%d.%m.%Y")
     }
