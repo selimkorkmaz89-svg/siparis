@@ -1,6 +1,8 @@
 {% load i18n ui %}
-{# Shared list-screen filter bar: date range, live search, clear + export.
-   Callers may pass `search_placeholder`, `export`, `show_dates`, `extra_filters_template`. #}
+{% comment %}
+  Shared list-screen filter bar: date range, live search, clear + export.
+  Callers may pass `search_placeholder`, `export`, `show_dates`, `extra_filters_template`.
+{% endcomment %}
 {% translate "Product code or name" as default_placeholder %}
 <form method="get" class="filter-bar" data-live-search>
   {% if sort %}<input type="hidden" name="sort" value="{{ sort }}">{% endif %}

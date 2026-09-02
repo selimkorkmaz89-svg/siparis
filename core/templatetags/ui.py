@@ -1,9 +1,13 @@
 """Template helpers shared by the list screens."""
+import os
 from decimal import Decimal, InvalidOperation
 
 from django import template
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+
+from django.contrib.staticfiles import finders
+from django.templatetags.static import static as static_url
 
 from core.icons import ICONS
 
@@ -105,3 +109,21 @@ def icon(name, size=18, css_class="icon"):
         f'<svg class="{css_class}" width="{size}" height="{size}" viewBox="0 0 256 256" '
         f'fill="currentColor" aria-hidden="true" focusable="false">{body}</svg>'
     )
+
+
+@register.simple_tag
+def asset(path):
+    """Static URL carrying the file's modification time as a cache buster.
+
+    The development server serves static files straight from ``static/``, so a
+    browser that cached an earlier stylesheet keeps using it after a pull and
+    the page renders half-styled. Stamping the URL sidesteps that entirely.
+    """
+    url = static_url(path)
+    try:
+        located = finders.find(path)
+        if located:
+            return f"{url}?v={int(os.path.getmtime(located))}"
+    except Exception:  # pragma: no cover - never let an asset break a page
+        pass
+    return url

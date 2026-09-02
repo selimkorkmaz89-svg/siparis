@@ -204,3 +204,53 @@ class NavigationTests(TestCase):
     def test_anonymous_visitors_get_no_menu(self):
         response = self.client.get(reverse("accounts:login"))
         self.assertEqual(response.context["nav_items"], [])
+
+
+class RenderedMarkupTests(TestCase):
+    """Guards against template syntax leaking onto the page."""
+
+    PAGES = [
+        "core:home", "orders:list", "dealers:list", "catalog:product_list",
+        "catalog:special_price_list", "payments:history", "payments:pending",
+        "logistics:pending", "reports:dashboard", "reports:finance",
+        "accounts:user_list", "accounts:pending_users", "accounts:profile",
+        "notifications:list", "payments:exchange_rates", "dealers:domain_list",
+        "catalog:import_upload", "dealers:history",
+    ]
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.admin = User.objects.create_user(
+            email="markup@test.com", password="x", role=Role.ADMIN,
+            status=UserStatus.APPROVED,
+        )
+
+    def test_no_template_syntax_reaches_the_browser(self):
+        """A multi-line ``{# #}`` is not a comment in Django - it prints."""
+        self.client.force_login(self.admin)
+        for name in self.PAGES:
+            with self.subTest(page=name):
+                body = self.client.get(reverse(name)).content.decode()
+                # Ignore the JSON payload scripts, which legitimately hold braces.
+                for marker in ("{#", "{%", "%}", "#}"):
+                    self.assertNotIn(marker, body, f"{name} leaks {marker}")
+
+    def test_pages_start_with_the_doctype(self):
+        """Anything before <!DOCTYPE html> puts the browser in quirks mode."""
+        self.client.force_login(self.admin)
+        for name in ["core:home", "accounts:profile"]:
+            with self.subTest(page=name):
+                body = self.client.get(reverse(name)).content.decode()
+                self.assertTrue(
+                    body.lstrip().lower().startswith("<!doctype html>"),
+                    f"{name} starts with: {body[:60]!r}",
+                )
+
+    def test_login_page_is_standards_mode_too(self):
+        body = self.client.get(reverse("accounts:login")).content.decode()
+        self.assertTrue(body.lstrip().lower().startswith("<!doctype html>"))
+
+    def test_stylesheet_url_carries_a_cache_busting_stamp(self):
+        self.client.force_login(self.admin)
+        body = self.client.get(reverse("core:home")).content.decode()
+        self.assertRegex(body, r'href="/static/css/app\.css\?v=\d+"')

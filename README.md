@@ -16,11 +16,12 @@ data. The interface is fully available in **Turkish and English**.
 2. [Mimari](#mimari--architecture)
 3. [Hızlı başlangıç](#hızlı-başlangıç--quick-start)
 4. [Güncelleme](#güncelleme--staying-up-to-date)
-5. [Dil desteği](#dil-desteği--language-support)
-6. [İş kuralları](#iş-kuralları--business-rules)
-7. [VPS kurulumu](#vps-kurulumu--production-deployment)
-8. [Yedekleme](#yedekleme--backups)
-9. [Testler](#testler--tests)
+5. [Kurumsal kimlik](#kurumsal-kimlik--branding)
+6. [Dil desteği](#dil-desteği--language-support)
+7. [İş kuralları](#iş-kuralları--business-rules)
+8. [VPS kurulumu](#vps-kurulumu--production-deployment)
+9. [Yedekleme](#yedekleme--backups)
+10. [Testler](#testler--tests)
 
 ---
 
@@ -129,6 +130,27 @@ python manage.py migrate          # yalnızca yeni migration geldiyse
 veya `collectstatic` çalıştırmanız gerekmez. Sunucu çalışırken `git pull`
 yaparsanız Django kod değişikliklerini kendi yeniden yükler; şablon veya CSS
 değişikliği için tarayıcıda sayfayı yenilemek yeterlidir.
+
+## Kurumsal kimlik / Branding
+
+Firma adı, logo ve vurgu rengi ayardan gelir; şablonlarda sabit yazılmaz.
+
+| Ayar | Varsayılan | Nerede görünür |
+|---|---|---|
+| `COMPANY_NAME` | `BASH Medikal` | Sol menü başlığı, sayfa başlıkları, PDF |
+| `COMPANY_LOGO` | `img/logo.svg` | Sol menü, mobil başlık, giriş ekranı, PDF |
+| `BRAND_COLOR` | `#0D8DBE` | PDF vurgu rengi |
+
+Kendi logo dosyanızı kullanmak için dosyayı `static/img/` altına koyup `.env`
+içinde yolunu verin:
+
+```env
+COMPANY_LOGO=img/logo.png
+```
+
+Sol menüde logo 34x34 piksellik kare bir alanda gösterilir, bu yüzden yazısız
+(sadece amblem) bir dosya en iyi sonucu verir; firma adı zaten yanında yazar.
+Menü altındaki "SİPARİŞ SİSTEMİ" satırı çeviriden gelir (`Order System`).
 
 ## Dil desteği / Language support
 
@@ -254,7 +276,7 @@ gunzip -c backups/db-20260901-020000.sql.gz | \
 ## Testler / Tests
 
 ```bash
-python manage.py test              # 69 test: iş kuralları, yetkiler, i18n, PDF, Excel
+python manage.py test              # 80 test: iş kuralları, yetkiler, i18n, PDF, Excel
 python manage.py test orders        # sipariş durum makinesi ve numaralandırma
 python manage.py test payments      # kur kuralları (15:30, hafta sonu, tatil)
 python manage.py test catalog       # Excel import doğrulaması

@@ -149,7 +149,7 @@ CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_ALWAYS_EAGER = config("CELERY_TASK_ALWAYS_EAGER", default=False, cast=bool)
 
 # --- Domain settings --------------------------------------------------------
-COMPANY_NAME = config("COMPANY_NAME", default="BSH Diagnostics")
+COMPANY_NAME = config("COMPANY_NAME", default="BASH Medikal")
 COMPANY_TAX_NO = config("COMPANY_TAX_NO", default="")
 COMPANY_ADDRESS = config("COMPANY_ADDRESS", default="")
 COMPANY_PHONE = config("COMPANY_PHONE", default="")

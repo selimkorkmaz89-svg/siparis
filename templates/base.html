@@ -1,5 +1,4 @@
-{% load i18n static ui %}<!-- layout shell -->
-<!DOCTYPE html>
+{% load i18n static ui %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="utf-8">
@@ -8,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link rel="stylesheet" href="{% asset 'css/app.css' %}">
   {% block extra_head %}{% endblock %}
 </head>
 <body class="{% if user.is_authenticated %}app{% else %}auth{% endif %}">
