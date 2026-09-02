@@ -30,10 +30,15 @@ TRANSLATIONS = {
     "No rate recorded yet - run the sync": "Henüz kur kaydı yok — senkronu çalıştırın",
     "%(date)s · TCMB": "%(date)s · TCMB",
     "%(date)s · most recent business day": "%(date)s · en yakın iş günü",
-    "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s":
-        "%(count)s yeni kur çekildi. Geçerli: %(date)s = %(rate)s",
-    "Already up to date. In effect: %(date)s = %(rate)s":
-        "Zaten güncel. Geçerli: %(date)s = %(rate)s",
+    "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s (CHF: %(chf)s)":
+        "%(count)s yeni kur çekildi. Geçerli: %(date)s = %(rate)s (CHF: %(chf)s)",
+    "Already up to date. In effect: %(date)s = %(rate)s (CHF: %(chf)s)":
+        "Zaten güncel. Geçerli: %(date)s = %(rate)s (CHF: %(chf)s)",
+    "CHF/TRY rate in effect": "Geçerli CHF/TL kuru",
+    "Fetched with the USD rate above - only needed for CHF-listed products":
+        "Yukarıdaki USD kuruyla birlikte çekilir - yalnızca CHF ile fiyatlanan ürünler için gerekir",
+    "The CHF/TRY rate is fetched from TCMB in the same request as the USD rate, and can be entered manually alongside it below - there is no separate sync for it.":
+        "CHF/TL kuru, TCMB'den USD kuruyla aynı istekte çekilir; aşağıda USD kuruyla birlikte elle de girilebilir - ayrı bir senkronizasyonu yoktur.",
     "The rate could not be fetched: %(error)s": "Kur çekilemedi: %(error)s",
     "No rate could be fetched. Check that www.tcmb.gov.tr is reachable from the server; TCMB does not publish on weekends or holidays.":
         "Kur çekilemedi. Sunucunun www.tcmb.gov.tr adresine erişebildiğini kontrol edin; "

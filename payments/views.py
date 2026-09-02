@@ -249,22 +249,31 @@ def exchange_rates(request):
                     "from the server; TCMB does not publish on weekends or holidays."
                 ),
             )
-        elif stored:
-            messages.success(
-                request,
-                _("%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s")
-                % {
-                    "count": stored,
-                    "date": rate.rate_date.strftime("%d.%m.%Y"),
-                    "rate": rate.usd_try_rate,
-                },
-            )
         else:
-            messages.info(
-                request,
-                _("Already up to date. In effect: %(date)s = %(rate)s")
-                % {"date": rate.rate_date.strftime("%d.%m.%Y"), "rate": rate.usd_try_rate},
-            )
+            # The same TCMB request carries both legs, so surface CHF here
+            # too - the sync button has no separate step for it.
+            chf_display = f"{rate.chf_try_rate:.4f}" if rate.chf_try_rate else "—"
+            if stored:
+                messages.success(
+                    request,
+                    _("%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s (CHF: %(chf)s)")
+                    % {
+                        "count": stored,
+                        "date": rate.rate_date.strftime("%d.%m.%Y"),
+                        "rate": rate.usd_try_rate,
+                        "chf": chf_display,
+                    },
+                )
+            else:
+                messages.info(
+                    request,
+                    _("Already up to date. In effect: %(date)s = %(rate)s (CHF: %(chf)s)")
+                    % {
+                        "date": rate.rate_date.strftime("%d.%m.%Y"),
+                        "rate": rate.usd_try_rate,
+                        "chf": chf_display,
+                    },
+                )
         return redirect("payments:exchange_rates")
 
     email_settings = EmailSettings.load()

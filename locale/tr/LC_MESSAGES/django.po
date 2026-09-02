@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 23:37+0300\n"
+"POT-Creation-Date: 2026-09-02 23:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -1271,7 +1271,7 @@ msgstr "Aktarım servisi bir hata bildirdi."
 msgid "Mikro settings saved."
 msgstr "Mikro ayarları kaydedildi."
 
-#: integrations/views.py:109 integrations/views.py:118 payments/views.py:293
+#: integrations/views.py:109 integrations/views.py:118 payments/views.py:302
 msgid "Please fix the errors below."
 msgstr "Lütfen aşağıdaki hataları düzeltin."
 
@@ -1788,17 +1788,17 @@ msgid ""
 "of $%(expected)s. Enter the full payment amount."
 msgstr "Bu tutar $%(converted)s karşılığına geliyor, sipariş toplamı olan $%(expected)s tutarından az. Ödemenin tamamını girin."
 
-#: payments/forms.py:67 templates/payments/exchange_rates.html:67
+#: payments/forms.py:67 templates/payments/exchange_rates.html:77
 msgid "Rate date"
 msgstr "Kur tarihi"
 
 #: payments/forms.py:71 payments/models.py:17
-#: templates/payments/exchange_rates.html:67
+#: templates/payments/exchange_rates.html:77
 msgid "USD/TRY rate"
 msgstr "USD/TL kuru"
 
 #: payments/forms.py:77 payments/models.py:23
-#: templates/payments/exchange_rates.html:67
+#: templates/payments/exchange_rates.html:77
 msgid "CHF/TRY rate"
 msgstr "CHF/TL kuru"
 
@@ -1948,39 +1948,40 @@ msgid ""
 "server; TCMB does not publish on weekends or holidays."
 msgstr "Kur çekilemedi. Sunucunun www.tcmb.gov.tr adresine erişebildiğini kontrol edin; TCMB hafta sonu ve resmi tatillerde kur yayınlamaz."
 
-#: payments/views.py:255
+#: payments/views.py:259
 #, python-format
-msgid "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s"
-msgstr "%(count)s yeni kur çekildi. Geçerli: %(date)s = %(rate)s"
+msgid ""
+"%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s (CHF: %(chf)s)"
+msgstr "%(count)s yeni kur çekildi. Geçerli: %(date)s = %(rate)s (CHF: %(chf)s)"
 
-#: payments/views.py:265
+#: payments/views.py:270
 #, python-format
-msgid "Already up to date. In effect: %(date)s = %(rate)s"
-msgstr "Zaten güncel. Geçerli: %(date)s = %(rate)s"
+msgid "Already up to date. In effect: %(date)s = %(rate)s (CHF: %(chf)s)"
+msgstr "Zaten güncel. Geçerli: %(date)s = %(rate)s (CHF: %(chf)s)"
 
-#: payments/views.py:291
+#: payments/views.py:300
 msgid "Email settings saved."
 msgstr "E-posta ayarları kaydedildi."
 
-#: payments/views.py:302
+#: payments/views.py:311
 #, python-format
 msgid "The test email could not be sent: %(error)s"
 msgstr "Test e-postası gönderilemedi: %(error)s"
 
-#: payments/views.py:307
+#: payments/views.py:316
 #, python-format
 msgid "Test email sent to %(recipient)s."
 msgstr "Test e-postası gönderildi: %(recipient)s"
 
-#: payments/views.py:315
+#: payments/views.py:324
 msgid "No rate stored"
 msgstr "Kayıtlı kur yok"
 
-#: payments/views.py:317
+#: payments/views.py:326
 msgid "Up to date"
 msgstr "Güncel"
 
-#: payments/views.py:319
+#: payments/views.py:328
 msgid "Using the most recent business day"
 msgstr "En yakın iş gününün kuru kullanılıyor"
 
@@ -2123,8 +2124,8 @@ msgstr "Profil bilgileri"
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
 #: templates/integrations/settings.html:41
-#: templates/payments/exchange_rates.html:60
-#: templates/payments/exchange_rates.html:114
+#: templates/payments/exchange_rates.html:70
+#: templates/payments/exchange_rates.html:124
 #: templates/payments/payment_form.html:19
 msgid "Save"
 msgstr "Kaydet"
@@ -2623,12 +2624,12 @@ msgid "Connection"
 msgstr "Bağlantı"
 
 #: templates/integrations/settings.html:19
-#: templates/payments/exchange_rates.html:89
+#: templates/payments/exchange_rates.html:99
 msgid "Enabled"
 msgstr "Etkin"
 
 #: templates/integrations/settings.html:19
-#: templates/payments/exchange_rates.html:89
+#: templates/payments/exchange_rates.html:99
 msgid "Disabled"
 msgstr "Devre Dışı"
 
@@ -3184,84 +3185,99 @@ msgstr ""
 "    "
 
 #: templates/payments/exchange_rates.html:22
+msgid "CHF/TRY rate in effect"
+msgstr "Geçerli CHF/TL kuru"
+
+#: templates/payments/exchange_rates.html:26
+msgid "Fetched with the USD rate above - only needed for CHF-listed products"
+msgstr "Yukarıdaki USD kuruyla birlikte çekilir - yalnızca CHF ile fiyatlanan ürünler için gerekir"
+
+#: templates/payments/exchange_rates.html:29
 msgid "Effective rate date"
 msgstr "Geçerli kur tarihi"
 
-#: templates/payments/exchange_rates.html:26
+#: templates/payments/exchange_rates.html:33
 msgid "Manual synchronisation"
 msgstr "Manuel senkronizasyon"
 
-#: templates/payments/exchange_rates.html:31
+#: templates/payments/exchange_rates.html:38
 msgid "Fetch the rate now"
 msgstr "Kuru şimdi çek"
 
-#: templates/payments/exchange_rates.html:38
+#: templates/payments/exchange_rates.html:44
+msgid ""
+"The CHF/TRY rate is fetched from TCMB in the same request as the USD rate, "
+"and can be entered manually alongside it below - there is no separate sync "
+"for it."
+msgstr "CHF/TL kuru, TCMB'den USD kuruyla aynı istekte çekilir; aşağıda USD kuruyla birlikte elle de girilebilir - ayrı bir senkronizasyonu yoktur."
+
+#: templates/payments/exchange_rates.html:48
 msgid "Exchange rate rules"
 msgstr "Kur kuralları"
 
-#: templates/payments/exchange_rates.html:40
+#: templates/payments/exchange_rates.html:50
 msgid ""
 "TCMB publishes the daily rate at 15:30; the scheduled task fetches it at "
 "15:35 on business days."
 msgstr "TCMB günlük kuru 15:30'da açıklar; zamanlanmış görev iş günlerinde 15:35'te kuru çeker."
 
-#: templates/payments/exchange_rates.html:41
+#: templates/payments/exchange_rates.html:51
 msgid "Transactions before 15:30 use the previous business day's rate."
 msgstr "15:30'dan önceki işlemler bir önceki iş gününün kuruna tabidir."
 
-#: templates/payments/exchange_rates.html:42
+#: templates/payments/exchange_rates.html:52
 msgid "Weekends and public holidays use the most recent business day's rate."
 msgstr "Hafta sonu ve resmi tatiller en yakın iş gününün kurunu kullanır."
 
-#: templates/payments/exchange_rates.html:43
+#: templates/payments/exchange_rates.html:53
 msgid ""
 "The rate used at the moment a payment is approved is frozen on the payment "
 "record."
 msgstr "Ödeme onaylandığı anda kullanılan kur ödeme kaydına sabit olarak yazılır."
 
-#: templates/payments/exchange_rates.html:44
+#: templates/payments/exchange_rates.html:54
 msgid ""
 "Reporting screens convert with the live rate, independent of any frozen rate."
 msgstr "Raporlama ekranları, donmuş kurdan bağımsız olarak güncel kur ile çevrim yapar."
 
-#: templates/payments/exchange_rates.html:50
+#: templates/payments/exchange_rates.html:60
 msgid "Enter a rate manually"
 msgstr "Kuru manuel gir"
 
-#: templates/payments/exchange_rates.html:64
+#: templates/payments/exchange_rates.html:74
 msgid "Rate history"
 msgstr "Kur geçmişi"
 
-#: templates/payments/exchange_rates.html:67
+#: templates/payments/exchange_rates.html:77
 msgid "Source"
 msgstr "Kaynak"
 
-#: templates/payments/exchange_rates.html:77
+#: templates/payments/exchange_rates.html:87
 msgid "No exchange rate has been recorded yet."
 msgstr "Henüz kur kaydı yok."
 
-#: templates/payments/exchange_rates.html:87
+#: templates/payments/exchange_rates.html:97
 msgid "Email notifications"
 msgstr "E-posta Bildirimleri"
 
-#: templates/payments/exchange_rates.html:93
+#: templates/payments/exchange_rates.html:103
 msgid ""
 "Whether a given user receives these emails at all is controlled per user, "
 "from their own profile screen (Email notifications toggle). In-app "
 "notifications are always created regardless of this setting."
 msgstr "Bir kullanıcının bu e-postaları alıp almayacağı, kullanıcının kendi profil ekranından (E-posta bildirimleri anahtarı) belirlenir. Sistem içi bildirimler bu ayardan bağımsız olarak her zaman oluşturulur."
 
-#: templates/payments/exchange_rates.html:118
+#: templates/payments/exchange_rates.html:128
 msgid "Send a test email"
 msgstr "Test e-postası gönder"
 
-#: templates/payments/exchange_rates.html:120
+#: templates/payments/exchange_rates.html:130
 msgid ""
 "Sends one message with the settings above (save first if you just changed "
 "them)."
 msgstr "Yukarıdaki ayarlarla bir e-posta gönderir (az önce değiştirdiyseniz önce kaydedin)."
 
-#: templates/payments/exchange_rates.html:130
+#: templates/payments/exchange_rates.html:140
 msgid "Send test email"
 msgstr "Test e-postası gönder"
 

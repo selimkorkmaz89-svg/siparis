@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 23:37+0300\n"
+"POT-Creation-Date: 2026-09-02 23:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -1271,7 +1271,7 @@ msgstr "The connector reported a failure."
 msgid "Mikro settings saved."
 msgstr "Mikro settings saved."
 
-#: integrations/views.py:109 integrations/views.py:118 payments/views.py:293
+#: integrations/views.py:109 integrations/views.py:118 payments/views.py:302
 msgid "Please fix the errors below."
 msgstr "Please fix the errors below."
 
@@ -1788,17 +1788,17 @@ msgid ""
 "of $%(expected)s. Enter the full payment amount."
 msgstr "This amount converts to $%(converted)s, which is less than the order total of $%(expected)s. Enter the full payment amount."
 
-#: payments/forms.py:67 templates/payments/exchange_rates.html:67
+#: payments/forms.py:67 templates/payments/exchange_rates.html:77
 msgid "Rate date"
 msgstr "Rate date"
 
 #: payments/forms.py:71 payments/models.py:17
-#: templates/payments/exchange_rates.html:67
+#: templates/payments/exchange_rates.html:77
 msgid "USD/TRY rate"
 msgstr "USD/TRY rate"
 
 #: payments/forms.py:77 payments/models.py:23
-#: templates/payments/exchange_rates.html:67
+#: templates/payments/exchange_rates.html:77
 msgid "CHF/TRY rate"
 msgstr "CHF/TRY rate"
 
@@ -1948,39 +1948,40 @@ msgid ""
 "server; TCMB does not publish on weekends or holidays."
 msgstr "No rate could be fetched. Check that www.tcmb.gov.tr is reachable from the server; TCMB does not publish on weekends or holidays."
 
-#: payments/views.py:255
+#: payments/views.py:259
 #, python-format
-msgid "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s"
-msgstr "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s"
+msgid ""
+"%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s (CHF: %(chf)s)"
+msgstr "%(count)s new rate(s) fetched. In effect: %(date)s = %(rate)s (CHF: %(chf)s)"
 
-#: payments/views.py:265
+#: payments/views.py:270
 #, python-format
-msgid "Already up to date. In effect: %(date)s = %(rate)s"
-msgstr "Already up to date. In effect: %(date)s = %(rate)s"
+msgid "Already up to date. In effect: %(date)s = %(rate)s (CHF: %(chf)s)"
+msgstr "Already up to date. In effect: %(date)s = %(rate)s (CHF: %(chf)s)"
 
-#: payments/views.py:291
+#: payments/views.py:300
 msgid "Email settings saved."
 msgstr "Email settings saved."
 
-#: payments/views.py:302
+#: payments/views.py:311
 #, python-format
 msgid "The test email could not be sent: %(error)s"
 msgstr "The test email could not be sent: %(error)s"
 
-#: payments/views.py:307
+#: payments/views.py:316
 #, python-format
 msgid "Test email sent to %(recipient)s."
 msgstr "Test email sent to %(recipient)s."
 
-#: payments/views.py:315
+#: payments/views.py:324
 msgid "No rate stored"
 msgstr "No rate stored"
 
-#: payments/views.py:317
+#: payments/views.py:326
 msgid "Up to date"
 msgstr "Up to date"
 
-#: payments/views.py:319
+#: payments/views.py:328
 msgid "Using the most recent business day"
 msgstr "Using the most recent business day"
 
@@ -2123,8 +2124,8 @@ msgstr "Profile information"
 #: templates/catalog/special_price_form.html:20
 #: templates/dealers/dealer_form.html:45 templates/dealers/domain_form.html:20
 #: templates/integrations/settings.html:41
-#: templates/payments/exchange_rates.html:60
-#: templates/payments/exchange_rates.html:114
+#: templates/payments/exchange_rates.html:70
+#: templates/payments/exchange_rates.html:124
 #: templates/payments/payment_form.html:19
 msgid "Save"
 msgstr "Save"
@@ -2623,12 +2624,12 @@ msgid "Connection"
 msgstr "Connection"
 
 #: templates/integrations/settings.html:19
-#: templates/payments/exchange_rates.html:89
+#: templates/payments/exchange_rates.html:99
 msgid "Enabled"
 msgstr "Enabled"
 
 #: templates/integrations/settings.html:19
-#: templates/payments/exchange_rates.html:89
+#: templates/payments/exchange_rates.html:99
 msgid "Disabled"
 msgstr "Disabled"
 
@@ -3184,84 +3185,99 @@ msgstr ""
 "    "
 
 #: templates/payments/exchange_rates.html:22
+msgid "CHF/TRY rate in effect"
+msgstr "CHF/TRY rate in effect"
+
+#: templates/payments/exchange_rates.html:26
+msgid "Fetched with the USD rate above - only needed for CHF-listed products"
+msgstr "Fetched with the USD rate above - only needed for CHF-listed products"
+
+#: templates/payments/exchange_rates.html:29
 msgid "Effective rate date"
 msgstr "Effective rate date"
 
-#: templates/payments/exchange_rates.html:26
+#: templates/payments/exchange_rates.html:33
 msgid "Manual synchronisation"
 msgstr "Manual synchronisation"
 
-#: templates/payments/exchange_rates.html:31
+#: templates/payments/exchange_rates.html:38
 msgid "Fetch the rate now"
 msgstr "Fetch the rate now"
 
-#: templates/payments/exchange_rates.html:38
+#: templates/payments/exchange_rates.html:44
+msgid ""
+"The CHF/TRY rate is fetched from TCMB in the same request as the USD rate, "
+"and can be entered manually alongside it below - there is no separate sync "
+"for it."
+msgstr "The CHF/TRY rate is fetched from TCMB in the same request as the USD rate, and can be entered manually alongside it below - there is no separate sync for it."
+
+#: templates/payments/exchange_rates.html:48
 msgid "Exchange rate rules"
 msgstr "Exchange rate rules"
 
-#: templates/payments/exchange_rates.html:40
+#: templates/payments/exchange_rates.html:50
 msgid ""
 "TCMB publishes the daily rate at 15:30; the scheduled task fetches it at "
 "15:35 on business days."
 msgstr "TCMB publishes the daily rate at 15:30; the scheduled task fetches it at 15:35 on business days."
 
-#: templates/payments/exchange_rates.html:41
+#: templates/payments/exchange_rates.html:51
 msgid "Transactions before 15:30 use the previous business day's rate."
 msgstr "Transactions before 15:30 use the previous business day's rate."
 
-#: templates/payments/exchange_rates.html:42
+#: templates/payments/exchange_rates.html:52
 msgid "Weekends and public holidays use the most recent business day's rate."
 msgstr "Weekends and public holidays use the most recent business day's rate."
 
-#: templates/payments/exchange_rates.html:43
+#: templates/payments/exchange_rates.html:53
 msgid ""
 "The rate used at the moment a payment is approved is frozen on the payment "
 "record."
 msgstr "The rate used at the moment a payment is approved is frozen on the payment record."
 
-#: templates/payments/exchange_rates.html:44
+#: templates/payments/exchange_rates.html:54
 msgid ""
 "Reporting screens convert with the live rate, independent of any frozen rate."
 msgstr "Reporting screens convert with the live rate, independent of any frozen rate."
 
-#: templates/payments/exchange_rates.html:50
+#: templates/payments/exchange_rates.html:60
 msgid "Enter a rate manually"
 msgstr "Enter a rate manually"
 
-#: templates/payments/exchange_rates.html:64
+#: templates/payments/exchange_rates.html:74
 msgid "Rate history"
 msgstr "Rate history"
 
-#: templates/payments/exchange_rates.html:67
+#: templates/payments/exchange_rates.html:77
 msgid "Source"
 msgstr "Source"
 
-#: templates/payments/exchange_rates.html:77
+#: templates/payments/exchange_rates.html:87
 msgid "No exchange rate has been recorded yet."
 msgstr "No exchange rate has been recorded yet."
 
-#: templates/payments/exchange_rates.html:87
+#: templates/payments/exchange_rates.html:97
 msgid "Email notifications"
 msgstr "Email notifications"
 
-#: templates/payments/exchange_rates.html:93
+#: templates/payments/exchange_rates.html:103
 msgid ""
 "Whether a given user receives these emails at all is controlled per user, "
 "from their own profile screen (Email notifications toggle). In-app "
 "notifications are always created regardless of this setting."
 msgstr "Whether a given user receives these emails at all is controlled per user, from their own profile screen (Email notifications toggle). In-app notifications are always created regardless of this setting."
 
-#: templates/payments/exchange_rates.html:118
+#: templates/payments/exchange_rates.html:128
 msgid "Send a test email"
 msgstr "Send a test email"
 
-#: templates/payments/exchange_rates.html:120
+#: templates/payments/exchange_rates.html:130
 msgid ""
 "Sends one message with the settings above (save first if you just changed "
 "them)."
 msgstr "Sends one message with the settings above (save first if you just changed them)."
 
-#: templates/payments/exchange_rates.html:130
+#: templates/payments/exchange_rates.html:140
 msgid "Send test email"
 msgstr "Send test email"
 

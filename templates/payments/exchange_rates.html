@@ -12,12 +12,19 @@
     {% endblocktranslate %}
   </div>
 {% endif %}
-<div class="grid grid-3">
+<div class="grid grid-4">
   {% translate "USD/TRY rate in effect" as l %}
   {% if current %}
     {% include "partials/kpi.html" with label=l value=current.usd_try_rate|money:4 prefix="₺" icon="settings" tone="brand" note=current.rate_type badge=current.source %}
   {% else %}
     {% include "partials/kpi.html" with label=l value="—" icon="settings" tone="slate" %}
+  {% endif %}
+  {% translate "CHF/TRY rate in effect" as l %}
+  {% if current and current.chf_try_rate %}
+    {% include "partials/kpi.html" with label=l value=current.chf_try_rate|money:4 prefix="₺" icon="settings" tone="violet" note=current.rate_type badge=current.source %}
+  {% else %}
+    {% translate "Fetched with the USD rate above - only needed for CHF-listed products" as chf_note %}
+    {% include "partials/kpi.html" with label=l value="—" icon="settings" tone="slate" note=chf_note %}
   {% endif %}
   {% translate "Effective rate date" as l %}
   {% include "partials/kpi.html" with label=l value=effective_date|date:"d.m.Y" icon="drafts" tone="sky" note=rate_status %}
@@ -33,6 +40,9 @@
     </form>
   </div>
 </div>
+<p class="muted">
+  {% translate "The CHF/TRY rate is fetched from TCMB in the same request as the USD rate, and can be entered manually alongside it below - there is no separate sync for it." %}
+</p>
 
 <div class="card mt">
   <h2>{% translate "Exchange rate rules" %}</h2>
