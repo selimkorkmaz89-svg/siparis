@@ -46,10 +46,17 @@
   {# ---------- main ---------- #}
   <main class="main">
     <header class="topbar">
-      <div>
-        <div class="topbar-role">{{ nav_role_label }}</div>
-        <div class="topbar-name">
-          {{ user.get_full_name|default:user.email }}{% if user.dealer %} · {{ user.dealer.name }}{% endif %}
+      <div class="topbar-identity">
+        {% if user.dealer %}
+          <span class="topbar-logo">
+            {% if user.dealer.logo %}<img src="{{ user.dealer.logo.url }}" alt="">{% else %}{{ user.dealer.initials }}{% endif %}
+          </span>
+        {% endif %}
+        <div>
+          <div class="topbar-role">{{ nav_role_label }}</div>
+          <div class="topbar-name">
+            {{ user.get_full_name|default:user.email }}{% if user.dealer %} · {{ user.dealer.name }}{% endif %}
+          </div>
         </div>
       </div>
       <div class="topbar-right">

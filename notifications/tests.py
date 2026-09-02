@@ -11,6 +11,7 @@ from dealers.models import Dealer
 from notifications import services as notify
 from notifications.models import EmailSettings, Notification, NotificationLog, NotificationTemplate
 from orders import services as order_services
+from payments import services as fx
 from payments.models import ExchangeRate, Payment
 
 User = get_user_model()
@@ -36,7 +37,7 @@ class NotificationDeliveryTests(TestCase):
             vat_rate=Decimal("20.00"),
         )
         ExchangeRate.objects.create(
-            rate_date=timezone.localdate(), usd_try_rate=Decimal("34.0000")
+            rate_date=fx.effective_rate_date(), usd_try_rate=Decimal("34.0000")
         )
         mail.outbox.clear()
 

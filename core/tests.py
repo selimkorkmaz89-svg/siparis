@@ -4,13 +4,13 @@ from decimal import Decimal
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import timezone
 
 from catalog.models import Product
 from core.constants import Role, UserStatus
 from dealers.models import Dealer
 from orders import services
 from orders.models import Order
+from payments import services as fx
 from payments.models import ExchangeRate
 
 User = get_user_model()
@@ -25,7 +25,7 @@ class RoleAccessTests(TestCase):
             base_price_usd=Decimal("100.00"), vat_rate=Decimal("20.00"),
         )
         ExchangeRate.objects.create(
-            rate_date=timezone.localdate(), usd_try_rate=Decimal("34.0000")
+            rate_date=fx.effective_rate_date(), usd_try_rate=Decimal("34.0000")
         )
         cls.users = {}
         for role in [Role.ADMIN, Role.FINANCE, Role.LOGISTICS, Role.MANAGEMENT, Role.DEALER]:

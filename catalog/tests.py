@@ -10,6 +10,7 @@ from openpyxl import Workbook
 from catalog import imports
 from catalog.forms import ProductForm
 from catalog.models import DealerSpecialPrice, DeviceModel, Product
+from payments import services as fx
 from payments.models import ExchangeRate
 
 
@@ -104,7 +105,7 @@ class ProductImportTests(TestCase):
         from payments.models import ExchangeRate
 
         ExchangeRate.objects.create(
-            rate_date=timezone.localdate(), usd_try_rate=Decimal("34.0000"),
+            rate_date=fx.effective_rate_date(), usd_try_rate=Decimal("34.0000"),
             chf_try_rate=Decimal("42.5000"),
         )
         stream = workbook_bytes(
@@ -357,7 +358,7 @@ class ProductFormTests(TestCase):
 
     def test_chf_price_is_computed_from_the_current_rate_without_a_manual_usd_entry(self):
         ExchangeRate.objects.create(
-            rate_date=timezone.localdate(), usd_try_rate=Decimal("34.2500"),
+            rate_date=fx.effective_rate_date(), usd_try_rate=Decimal("34.2500"),
             chf_try_rate=Decimal("42.7500"),
         )
         form = ProductForm(data=self._base_fields())
@@ -373,7 +374,7 @@ class ProductFormTests(TestCase):
 
     def test_chf_without_a_list_price_is_rejected(self):
         ExchangeRate.objects.create(
-            rate_date=timezone.localdate(), usd_try_rate=Decimal("34.2500"),
+            rate_date=fx.effective_rate_date(), usd_try_rate=Decimal("34.2500"),
             chf_try_rate=Decimal("42.7500"),
         )
         form = ProductForm(data=self._base_fields(list_price=""))
