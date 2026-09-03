@@ -143,4 +143,39 @@
     </div>
   </div>
 </div>
+
+<div class="card mt">
+  <h2>{% translate "Email routing" %}</h2>
+  <p class="muted">
+    {% translate "Which roles get an email for each order/payment stage. In-app notifications are unaffected - this only narrows the email copy." %}
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>{% translate "Stage" %}</th>
+            {% for role_label in email_routing_roles %}<th>{{ role_label }}</th>{% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in email_routing_rows %}
+            <tr>
+              <td>{{ row.label }}</td>
+              {% for cell in row.cells %}
+                <td>
+                  <input type="checkbox" name="{{ cell.field_name }}" value="1" {% if cell.checked %}checked{% endif %}>
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <button class="btn btn-primary mt" type="submit" name="save_email_routing" value="1">
+      {% translate "Save" %}
+    </button>
+  </form>
+</div>
 {% endblock %}

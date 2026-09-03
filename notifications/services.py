@@ -18,7 +18,13 @@ from django.utils import translation
 from django.utils.translation import gettext as _
 
 from core.constants import NotificationChannel, NotificationEvent, Role, UserStatus
-from notifications.models import EmailSettings, Notification, NotificationLog, NotificationTemplate
+from notifications.models import (
+    EmailRoutingRule,
+    EmailSettings,
+    Notification,
+    NotificationLog,
+    NotificationTemplate,
+)
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -113,11 +119,33 @@ class _Default(dict):
         return ""
 
 
+def _email_routing_for(event_type: str) -> dict[str, bool] | None:
+    """Per-role email toggle for ``event_type``, or ``None`` when the event
+    isn't role-routed at all (email always allowed, e.g. an account notice)."""
+    if event_type not in EmailRoutingRule.ROUTABLE_EVENTS:
+        return None
+    return {
+        rule.role: rule.email_enabled
+        for rule in EmailRoutingRule.objects.filter(event_type=event_type)
+    }
+
+
 def notify(recipients, event_type: str, context: dict, order=None, url: str = ""):
-    """Create in-app notifications and send the optional email copies."""
+    """Create in-app notifications and send the optional email copies.
+
+    The in-app notification always goes to every recipient passed in - who
+    is a *candidate* recipient for an event is still decided by the event
+    helpers below (finance_users, dealer_users, ...). Whether a candidate's
+    email actually goes out is a second, independent check: their personal
+    opt-out (``_send_email``) and, for order/payment events, whether their
+    role is routed to receive email for this event at all (configured from
+    System Settings; a role with no rule keeps the historical default of
+    "yes").
+    """
     recipients = [user for user in recipients if user is not None]
     if not recipients:
         return []
+    email_routing = _email_routing_for(event_type)
     created = []
     for user in recipients:
         language = user.language or settings.LANGUAGE_CODE
@@ -139,6 +167,16 @@ def notify(recipients, event_type: str, context: dict, order=None, url: str = ""
                 order=order,
                 status=NotificationLog.Status.SENT,
             )
+            if email_routing is not None and not email_routing.get(user.role, True):
+                NotificationLog.objects.create(
+                    event_type=event_type,
+                    recipient=user,
+                    channel=NotificationChannel.EMAIL,
+                    order=order,
+                    status=NotificationLog.Status.SKIPPED,
+                    detail="Email routing turned off for this role",
+                )
+                continue
             _send_email(user, subject, email_body, event_type, order)
     return created
 

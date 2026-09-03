@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 00:36+0300\n"
+"POT-Creation-Date: 2026-09-03 11:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -146,7 +146,7 @@ msgstr "email address"
 msgid "dealer"
 msgstr "dealer"
 
-#: accounts/models.py:56
+#: accounts/models.py:56 notifications/models.py:141
 msgid "role"
 msgstr "role"
 
@@ -813,7 +813,7 @@ msgstr "Failed"
 msgid "created at"
 msgstr "created at"
 
-#: core/models.py:8 integrations/models.py:70 notifications/models.py:171
+#: core/models.py:8 integrations/models.py:70 notifications/models.py:213
 msgid "updated at"
 msgstr "updated at"
 
@@ -1167,7 +1167,7 @@ msgstr "Credentials"
 msgid "Document defaults"
 msgstr "Document defaults"
 
-#: integrations/models.py:28 notifications/models.py:132
+#: integrations/models.py:28 notifications/models.py:174
 msgid "enabled"
 msgstr "enabled"
 
@@ -1239,7 +1239,7 @@ msgstr "Order amounts are converted to this currency before being sent."
 msgid "connector token"
 msgstr "connector token"
 
-#: integrations/models.py:73 notifications/models.py:174
+#: integrations/models.py:73 notifications/models.py:216
 msgid "updated by"
 msgstr "updated by"
 
@@ -1330,11 +1330,11 @@ msgstr "Paid at"
 msgid "Order %(no)s has been marked as shipped."
 msgstr "Order %(no)s has been marked as shipped."
 
-#: notifications/forms.py:11 notifications/models.py:150
+#: notifications/forms.py:11 notifications/models.py:192
 msgid "SMTP password"
 msgstr "SMTP password"
 
-#: notifications/forms.py:19 notifications/models.py:158
+#: notifications/forms.py:19 notifications/models.py:200
 msgid "Azure client secret"
 msgstr "Azure client secret"
 
@@ -1373,7 +1373,7 @@ msgid ""
 msgstr "Microsoft Graph needs a tenant ID, client ID, client secret and sender mailbox."
 
 #: notifications/models.py:18 notifications/models.py:48
-#: notifications/models.py:84
+#: notifications/models.py:84 notifications/models.py:139
 msgid "event"
 msgstr "event"
 
@@ -1462,88 +1462,100 @@ msgstr "notification log"
 msgid "notification logs"
 msgstr "notification logs"
 
-#: notifications/models.py:126
+#: notifications/models.py:142
+msgid "send email"
+msgstr "send email"
+
+#: notifications/models.py:145
+msgid "email routing rule"
+msgstr "email routing rule"
+
+#: notifications/models.py:146
+msgid "email routing rules"
+msgstr "email routing rules"
+
+#: notifications/models.py:168
 msgid "SMTP"
 msgstr "SMTP"
 
-#: notifications/models.py:127
+#: notifications/models.py:169
 msgid "Microsoft Graph (Office 365)"
 msgstr "Microsoft Graph (Office 365)"
 
-#: notifications/models.py:135
+#: notifications/models.py:177
 msgid ""
 "While off, notification emails use the fallback configured on the server "
 "(the console backend in development)."
 msgstr "While off, notification emails use the fallback configured on the server (the console backend in development)."
 
-#: notifications/models.py:140
+#: notifications/models.py:182
 msgid "sending method"
 msgstr "sending method"
 
-#: notifications/models.py:143
+#: notifications/models.py:185
 msgid ""
 "Use Microsoft Graph instead of SMTP when the Office 365 tenant's Security "
 "Defaults policy blocks basic SMTP authentication."
 msgstr "Use Microsoft Graph instead of SMTP when the Office 365 tenant's Security Defaults policy blocks basic SMTP authentication."
 
-#: notifications/models.py:147
+#: notifications/models.py:189
 msgid "SMTP host"
 msgstr "SMTP host"
 
-#: notifications/models.py:148
+#: notifications/models.py:190
 msgid "SMTP port"
 msgstr "SMTP port"
 
-#: notifications/models.py:149
+#: notifications/models.py:191
 msgid "SMTP username"
 msgstr "SMTP username"
 
-#: notifications/models.py:151
+#: notifications/models.py:193
 msgid "use TLS"
 msgstr "use TLS"
 
-#: notifications/models.py:152
+#: notifications/models.py:194
 msgid "use SSL"
 msgstr "use SSL"
 
-#: notifications/models.py:153
+#: notifications/models.py:195
 msgid "Azure tenant ID"
 msgstr "Azure tenant ID"
 
-#: notifications/models.py:155
+#: notifications/models.py:197
 msgid "Azure application (client) ID"
 msgstr "Azure application (client) ID"
 
-#: notifications/models.py:160
+#: notifications/models.py:202
 msgid ""
 "The app registration's client secret value. Needs the Mail.Send application "
 "permission on Microsoft Graph, with admin consent granted."
 msgstr "The app registration's client secret value. Needs the Mail.Send application permission on Microsoft Graph, with admin consent granted."
 
-#: notifications/models.py:165
+#: notifications/models.py:207
 msgid "from address"
 msgstr "from address"
 
-#: notifications/models.py:167
+#: notifications/models.py:209
 msgid ""
 "Example: \"BASH Medikal\" <noreply@example.com>. With Microsoft Graph, this "
 "must be a real mailbox the app registration is allowed to send as."
 msgstr "Example: \"BASH Medikal\" <noreply@example.com>. With Microsoft Graph, this must be a real mailbox the app registration is allowed to send as."
 
-#: notifications/models.py:181 notifications/models.py:182
+#: notifications/models.py:223 notifications/models.py:224
 msgid "email settings"
 msgstr "email settings"
 
-#: notifications/models.py:185
+#: notifications/models.py:227
 msgid "Email settings"
 msgstr "Email settings"
 
-#: notifications/services.py:161
+#: notifications/services.py:199
 #, python-format
 msgid "Test email from %(system)s"
 msgstr "Test email from %(system)s"
 
-#: notifications/services.py:163
+#: notifications/services.py:201
 #, python-format
 msgid "If you received this, the SMTP settings for %(system)s are working."
 msgstr "If you received this, the SMTP settings for %(system)s are working."
@@ -1776,28 +1788,28 @@ msgid ""
 "your browser's print dialogue to save it as a PDF."
 msgstr "PDF generation is unavailable on this machine (the WeasyPrint system libraries are missing), so the order form is shown as a printable page. Use your browser's print dialogue to save it as a PDF."
 
-#: orders/views.py:247
+#: orders/views.py:248
 msgid "Your basket is empty."
 msgstr "Your basket is empty."
 
-#: orders/views.py:259
+#: orders/views.py:260
 #, python-format
 msgid "Your order has been submitted to finance. Order number: %(no)s"
 msgstr "Your order has been submitted to finance. Order number: %(no)s"
 
-#: orders/views.py:274
+#: orders/views.py:275
 msgid "The items were copied into a new draft. You can edit it before sending."
 msgstr "The items were copied into a new draft. You can edit it before sending."
 
-#: orders/views.py:284
+#: orders/views.py:285
 msgid "You are not allowed to cancel this order."
 msgstr "You are not allowed to cancel this order."
 
-#: orders/views.py:288
+#: orders/views.py:289
 msgid "A cancellation reason is required."
 msgstr "A cancellation reason is required."
 
-#: orders/views.py:292
+#: orders/views.py:293
 msgid "The order has been cancelled."
 msgstr "The order has been cancelled."
 
@@ -1997,15 +2009,19 @@ msgstr "The test email could not be sent: %(error)s"
 msgid "Test email sent to %(recipient)s."
 msgstr "Test email sent to %(recipient)s."
 
-#: payments/views.py:324
+#: payments/views.py:334
+msgid "Email routing preferences saved."
+msgstr "Email routing preferences saved."
+
+#: payments/views.py:340
 msgid "No rate stored"
 msgstr "No rate stored"
 
-#: payments/views.py:326
+#: payments/views.py:342
 msgid "Up to date"
 msgstr "Up to date"
 
-#: payments/views.py:328
+#: payments/views.py:344
 msgid "Using the most recent business day"
 msgstr "Using the most recent business day"
 
@@ -2150,6 +2166,7 @@ msgstr "Profile information"
 #: templates/integrations/settings.html:41
 #: templates/payments/exchange_rates.html:70
 #: templates/payments/exchange_rates.html:124
+#: templates/payments/exchange_rates.html:177
 #: templates/payments/payment_form.html:19
 msgid "Save"
 msgstr "Save"
@@ -3305,6 +3322,20 @@ msgstr "Sends one message with the settings above (save first if you just change
 msgid "Send test email"
 msgstr "Send test email"
 
+#: templates/payments/exchange_rates.html:148
+msgid "Email routing"
+msgstr "Email routing"
+
+#: templates/payments/exchange_rates.html:150
+msgid ""
+"Which roles get an email for each order/payment stage. In-app notifications "
+"are unaffected - this only narrows the email copy."
+msgstr "Which roles get an email for each order/payment stage. In-app notifications are unaffected - this only narrows the email copy."
+
+#: templates/payments/exchange_rates.html:158 templates/reports/finance.html:32
+msgid "Stage"
+msgstr "Stage"
+
 #: templates/payments/payment_approve.html:4
 #, python-format
 msgid "Approve payment · %(ref)s"
@@ -3493,10 +3524,6 @@ msgstr "Rejected payment count"
 #: templates/reports/finance.html:29
 msgid "Operational lead times"
 msgstr "Operational lead times"
-
-#: templates/reports/finance.html:32
-msgid "Stage"
-msgstr "Stage"
 
 #: templates/reports/finance.html:32
 msgid "Average (hours)"

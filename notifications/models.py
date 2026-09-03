@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from core.constants import NotificationChannel, NotificationEvent
+from core.constants import NotificationChannel, NotificationEvent, Role
 
 
 class Notification(models.Model):
@@ -111,6 +111,48 @@ class NotificationLog(models.Model):
 
     def __str__(self) -> str:
         return f"{self.event_type} → {self.recipient_id} ({self.channel})"
+
+
+class EmailRoutingRule(models.Model):
+    """Whether a role receives an email when a given order/payment event
+    fires - configurable from System Settings rather than hard-coded.
+
+    The in-app notification is unaffected: it is always created for every
+    recipient the event's recipient-resolution decides on (see
+    ``notifications.services``). This rule only gates the email copy for
+    the recipients who happen to hold ``role``. A missing row behaves as
+    enabled, so an event added later (with no rows seeded for it yet)
+    keeps emailing everyone until an administrator narrows it down.
+    """
+
+    #: Only order/payment lifecycle events are routed by role - an account
+    #: notice like USER_APPROVED always goes to the one person it is about,
+    #: regardless of their role, so it is not part of this matrix.
+    ROUTABLE_EVENTS = (
+        NotificationEvent.ORDER_SUBMITTED,
+        NotificationEvent.PAYMENT_APPROVED,
+        NotificationEvent.PAYMENT_REJECTED,
+        NotificationEvent.ORDER_SHIPPED,
+    )
+
+    event_type = models.CharField(
+        _("event"), max_length=40, choices=NotificationEvent.choices
+    )
+    role = models.CharField(_("role"), max_length=20, choices=Role.choices)
+    email_enabled = models.BooleanField(_("send email"), default=True)
+
+    class Meta:
+        verbose_name = _("email routing rule")
+        verbose_name_plural = _("email routing rules")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["event_type", "role"], name="unique_email_routing_rule"
+            )
+        ]
+
+    def __str__(self) -> str:
+        state = "on" if self.email_enabled else "off"
+        return f"{self.event_type} → {self.role}: {state}"
 
 
 class EmailSettings(models.Model):

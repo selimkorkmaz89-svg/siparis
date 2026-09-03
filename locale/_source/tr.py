@@ -106,8 +106,13 @@ TRANSLATIONS = {
         "E-posta gönderimini etkinleştirmek için bir SMTP sunucusu gereklidir.",
     "Disabled": "Devre Dışı",
     "Email notifications": "E-posta Bildirimleri",
+    "Email routing": "E-posta Yönlendirme",
+    "Email routing preferences saved.": "E-posta yönlendirme tercihleri kaydedildi.",
     "Email settings": "E-posta ayarları",
     "Email settings saved.": "E-posta ayarları kaydedildi.",
+    "Which roles get an email for each order/payment stage. In-app notifications are unaffected - this only narrows the email copy.":
+        "Her sipariş/ödeme aşaması için hangi rollerin e-posta alacağı. Sistem içi bildirimler "
+        "etkilenmez - bu sadece e-posta kopyasını daraltır.",
     "Enabled": "Etkin",
     'Example: "BASH Medikal" <noreply@example.com>':
         'Örnek: "BASH Medikal" <noreply@example.com>',
@@ -154,8 +159,11 @@ TRANSLATIONS = {
         "olarak her zaman oluşturulur.",
     "While off, notification emails use the fallback configured on the server (the console backend in development).":
         "Kapalıyken bildirim e-postaları sunucudaki yedek ayarı kullanır (geliştirmede konsol arka ucu).",
+    "email routing rule": "e-posta yönlendirme kuralı",
+    "email routing rules": "e-posta yönlendirme kuralları",
     "email settings": "e-posta ayarları",
     "enabled": "etkin",
+    "send email": "e-posta gönder",
     "from address": "gönderen adresi",
     "updated by": "güncelleyen",
     "use SSL": "SSL kullan",

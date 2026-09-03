@@ -9,7 +9,13 @@ from catalog.models import Product
 from core.constants import NotificationChannel, NotificationEvent, Role, UserStatus
 from dealers.models import Dealer
 from notifications import services as notify
-from notifications.models import EmailSettings, Notification, NotificationLog, NotificationTemplate
+from notifications.models import (
+    EmailRoutingRule,
+    EmailSettings,
+    Notification,
+    NotificationLog,
+    NotificationTemplate,
+)
 from orders import services as order_services
 from payments import services as fx
 from payments.models import ExchangeRate, Payment
@@ -172,6 +178,138 @@ class NotificationDeliveryTests(TestCase):
             pass
         self.assertFalse(Notification.objects.filter(user=self.finance).exists())
         self.assertEqual(len(mail.outbox), 0)
+
+
+class EmailRoutingTests(TestCase):
+    """Per-role email toggle for order/payment events (System Settings)."""
+
+    def setUp(self):
+        self.dealer = Dealer.objects.create(name="Bayi")
+        self.dealer_user = User.objects.create_user(
+            email="bayi@test.com", password="x", role=Role.DEALER,
+            dealer=self.dealer, status=UserStatus.APPROVED,
+        )
+        self.finance = User.objects.create_user(
+            email="finans@test.com", password="x", role=Role.FINANCE,
+            status=UserStatus.APPROVED,
+        )
+        self.logistics = User.objects.create_user(
+            email="lojistik@test.com", password="x", role=Role.LOGISTICS,
+            status=UserStatus.APPROVED,
+        )
+        self.product = Product.objects.create(
+            code="PRD-1", name="Kit", base_price_usd=Decimal("100.00"),
+            vat_rate=Decimal("20.00"),
+        )
+        ExchangeRate.objects.create(
+            rate_date=fx.effective_rate_date(), usd_try_rate=Decimal("34.0000")
+        )
+        mail.outbox.clear()
+
+    def _run(self, function, *args, **kwargs):
+        with self.captureOnCommitCallbacks(execute=True):
+            return function(*args, **kwargs)
+
+    def _submitted_order(self):
+        order = order_services.get_or_create_draft(self.dealer_user)
+        order_services.add_item(order, self.product, 1)
+        self._run(order_services.submit_order, order, self.dealer_user)
+        return order
+
+    def test_default_seeded_rules_reproduce_the_historical_routing(self):
+        # Exercises every routed event so a bad default seed shows up as a
+        # missing or unexpected email, not just a missing DB row.
+        order = self._submitted_order()
+        self.assertEqual(len(mail.outbox), 1)  # finance only
+        mail.outbox.clear()
+        payment = Payment.objects.create(
+            order=order, amount_try=Decimal("4080.00"), reference_no="R",
+            payment_date=timezone.localdate(), declared_by=self.dealer_user,
+        )
+        self._run(order_services.approve_payment, order, payment, self.finance)
+        self.assertEqual(len(mail.outbox), 2)  # dealer + logistics
+        mail.outbox.clear()
+        self._run(order_services.mark_shipped, order, self.logistics)
+        self.assertEqual(len(mail.outbox), 1)  # dealer only
+
+    def test_turning_off_a_roles_routing_suppresses_only_that_roles_email(self):
+        EmailRoutingRule.objects.update_or_create(
+            event_type=NotificationEvent.ORDER_SUBMITTED, role=Role.FINANCE,
+            defaults={"email_enabled": False},
+        )
+        self._submitted_order()
+        self.assertTrue(Notification.objects.filter(user=self.finance).exists())
+        self.assertEqual(len(mail.outbox), 0)
+        log = NotificationLog.objects.get(
+            recipient=self.finance, channel=NotificationChannel.EMAIL
+        )
+        self.assertEqual(log.status, NotificationLog.Status.SKIPPED)
+        self.assertIn("routing", log.detail)
+
+    def test_a_missing_rule_defaults_to_enabled(self):
+        EmailRoutingRule.objects.filter(
+            event_type=NotificationEvent.ORDER_SUBMITTED, role=Role.FINANCE
+        ).delete()
+        self._submitted_order()
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_account_lifecycle_events_are_never_role_gated(self):
+        # Even if every role were turned off for a routed event, sign-up and
+        # approval emails - not part of ROUTABLE_EVENTS - must go through.
+        EmailRoutingRule.objects.all().update(email_enabled=False)
+        admin = User.objects.create_user(
+            email="admin@test.com", password="x", role=Role.ADMIN,
+            status=UserStatus.APPROVED,
+        )
+        applicant = User.objects.create_user(
+            email="yeni@test.com", password="x", role=Role.DEALER,
+            dealer=self.dealer, status=UserStatus.PENDING_APPROVAL,
+        )
+        mail.outbox.clear()
+        self._run(notify.user_registered, applicant)
+        self.assertEqual(len(mail.outbox), 1)
+        mail.outbox.clear()
+        applicant.status = UserStatus.APPROVED
+        applicant.save()
+        self._run(notify.user_approved, applicant)
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_settings_screen_saves_the_grid(self):
+        admin = User.objects.create_user(
+            email="admin2@test.com", password="x", role=Role.ADMIN,
+            status=UserStatus.APPROVED,
+        )
+        self.client.force_login(admin)
+        response = self.client.post(
+            "/payments/exchange-rates/",
+            {
+                "save_email_routing": "1",
+                f"route_{NotificationEvent.ORDER_SUBMITTED}_{Role.FINANCE}": "1",
+                f"route_{NotificationEvent.ORDER_SUBMITTED}_{Role.MANAGEMENT}": "1",
+                # Every other checkbox in the grid is left unticked.
+            },
+        )
+        self.assertRedirects(response, "/payments/exchange-rates/")
+        self.assertTrue(
+            EmailRoutingRule.objects.get(
+                event_type=NotificationEvent.ORDER_SUBMITTED, role=Role.FINANCE
+            ).email_enabled
+        )
+        self.assertTrue(
+            EmailRoutingRule.objects.get(
+                event_type=NotificationEvent.ORDER_SUBMITTED, role=Role.MANAGEMENT
+            ).email_enabled
+        )
+        self.assertFalse(
+            EmailRoutingRule.objects.get(
+                event_type=NotificationEvent.ORDER_SUBMITTED, role=Role.ADMIN
+            ).email_enabled
+        )
+        self.assertFalse(
+            EmailRoutingRule.objects.get(
+                event_type=NotificationEvent.PAYMENT_APPROVED, role=Role.DEALER
+            ).email_enabled
+        )
 
 
 class NotificationBellMarkupTests(TestCase):

@@ -6,13 +6,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
-from core.constants import OrderStatus, PaymentStatus, Role
+from core.constants import NotificationEvent, OrderStatus, PaymentStatus, Role
 from core.decorators import role_required
 from core.exports import excel_response
 from core.filters import ListFilter
 from notifications import services as notify
 from notifications.forms import EmailSettingsForm, TestEmailForm
-from notifications.models import EmailSettings
+from notifications.models import EmailRoutingRule, EmailSettings
 from orders import services as order_services
 from orders.forms import RejectionForm
 from orders.models import Order
@@ -317,6 +317,22 @@ def exchange_rates(request):
                     % {"recipient": test_email_form.cleaned_data["recipient"]},
                 )
         return redirect("payments:exchange_rates")
+    if request.method == "POST" and "save_email_routing" in request.POST:
+        EmailRoutingRule.objects.bulk_create(
+            [
+                EmailRoutingRule(
+                    event_type=event_type, role=role,
+                    email_enabled=f"route_{event_type}_{role}" in request.POST,
+                )
+                for event_type in EmailRoutingRule.ROUTABLE_EVENTS
+                for role, _label in Role.choices
+            ],
+            update_conflicts=True,
+            update_fields=["email_enabled"],
+            unique_fields=["event_type", "role"],
+        )
+        messages.success(request, _("Email routing preferences saved."))
+        return redirect("payments:exchange_rates")
 
     current = fx.get_rate()
     effective = fx.effective_rate_date()
@@ -339,5 +355,32 @@ def exchange_rates(request):
             "email_settings": email_settings,
             "email_form": email_form,
             "test_email_form": test_email_form,
+            "email_routing_roles": [label for _value, label in Role.choices],
+            "email_routing_rows": _email_routing_rows(),
         },
     )
+
+
+def _email_routing_rows():
+    """One row per routable event, one cell per role, for the System
+    Settings email-routing grid - missing rows default to enabled, same as
+    ``notifications.services.notify`` does at send time."""
+    event_labels = dict(NotificationEvent.choices)
+    enabled = {
+        (rule.event_type, rule.role): rule.email_enabled
+        for rule in EmailRoutingRule.objects.all()
+    }
+    return [
+        {
+            "event_type": event_type,
+            "label": event_labels[event_type],
+            "cells": [
+                {
+                    "field_name": f"route_{event_type}_{role}",
+                    "checked": enabled.get((event_type, role), True),
+                }
+                for role, _label in Role.choices
+            ],
+        }
+        for event_type in EmailRoutingRule.ROUTABLE_EVENTS
+    ]
