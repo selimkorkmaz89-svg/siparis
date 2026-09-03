@@ -211,11 +211,11 @@ class DeviceModelAccessTests(TestCase):
         self.device_a = DeviceModel.objects.create(name="X200", brand="Acme")
         self.device_b = DeviceModel.objects.create(name="Y300", brand="Nordis")
         self.product_a = Product.objects.create(
-            code="PRD-A", name="A ürünü", device_model=self.device_a,
+            code="PRD-A", name="A ürünü", brand="Acme", device_model=self.device_a,
             base_price_usd=Decimal("10.00"), vat_rate=Decimal("20.00"),
         )
         self.product_b = Product.objects.create(
-            code="PRD-B", name="B ürünü", device_model=self.device_b,
+            code="PRD-B", name="B ürünü", brand="Nordis", device_model=self.device_b,
             base_price_usd=Decimal("10.00"), vat_rate=Decimal("20.00"),
         )
         self.product_unclassified = Product.objects.create(
@@ -266,6 +266,13 @@ class DeviceModelAccessTests(TestCase):
     def test_staff_roles_are_never_restricted(self):
         # visible_to_dealer(None) is what every non-dealer screen passes.
         self.assertEqual(Product.objects.visible_to_dealer(None).count(), 3)
+
+    def test_the_order_screens_brand_filter_only_lists_allowed_brands(self):
+        self.dealer.allowed_device_models.add(self.device_a)
+        self.client.force_login(self.dealer_user)
+        response = self.client.get("/orders/new/")
+        self.assertEqual(list(response.context["brands"]), ["Acme"])
+        self.assertNotContains(response, "Nordis")
 
 
 class DeviceModelImportTests(TestCase):

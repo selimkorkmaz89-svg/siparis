@@ -161,6 +161,7 @@ def order_create(request):
     draft = services.get_or_create_draft(request.user)
     brands = (
         Product.objects.filter(is_active=True)
+        .visible_to_dealer(request.user.dealer)
         .exclude(brand="")
         .values_list("brand", flat=True)
         .distinct()
