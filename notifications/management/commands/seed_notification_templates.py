@@ -22,26 +22,29 @@ TEMPLATES = {
     NotificationEvent.PAYMENT_APPROVED: {
         "tr": (
             "Ödeme onaylandı: {{ order }}",
-            "{{ order }} numaralı siparişin ödemesi onaylandı. Sipariş sevkiyata hazır.",
-            "{{ order }} · ödeme onaylandı, sevkiyat bekliyor.",
+            "{{ dealer }} bayisine ait {{ order }} numaralı siparişin ödemesi "
+            "onaylandı. Sipariş sevkiyata hazır.",
+            "{{ dealer }} · {{ order }} · ödeme onaylandı, sevkiyat bekliyor.",
         ),
         "en": (
             "Payment approved: {{ order }}",
-            "The payment for order {{ order }} has been approved. The order is ready "
-            "for shipment.",
-            "{{ order }} · payment approved, awaiting shipment.",
+            "The payment for order {{ order }} from {{ dealer }} has been approved. "
+            "The order is ready for shipment.",
+            "{{ dealer }} · {{ order }} · payment approved, awaiting shipment.",
         ),
     },
     NotificationEvent.PAYMENT_REJECTED: {
         "tr": (
             "Ödeme reddedildi: {{ order }}",
-            "{{ order }} numaralı siparişin ödemesi reddedildi. Sebep: {{ note }}",
-            "{{ order }} · reddedildi. Sebep: {{ note }}",
+            "{{ dealer }} bayisine ait {{ order }} numaralı siparişin ödemesi "
+            "reddedildi. Sebep: {{ note }}",
+            "{{ dealer }} · {{ order }} · reddedildi. Sebep: {{ note }}",
         ),
         "en": (
             "Payment rejected: {{ order }}",
-            "The payment for order {{ order }} was rejected. Reason: {{ note }}",
-            "{{ order }} · rejected. Reason: {{ note }}",
+            "The payment for order {{ order }} from {{ dealer }} was rejected. "
+            "Reason: {{ note }}",
+            "{{ dealer }} · {{ order }} · rejected. Reason: {{ note }}",
         ),
     },
     NotificationEvent.ORDER_SHIPPED: {

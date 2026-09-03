@@ -95,6 +95,46 @@ class NotificationDeliveryTests(TestCase):
                 ).exists()
             )
 
+    def test_approval_email_names_the_dealer(self):
+        # Logistics/admin see orders from every dealer, so the email must say
+        # whose order it is rather than just the order number.
+        order = self._submitted_order()
+        payment = Payment.objects.create(
+            order=order, amount_try=Decimal("4080.00"), reference_no="R",
+            payment_date=timezone.localdate(), declared_by=self.dealer_user,
+        )
+        mail.outbox.clear()
+        self._run(order_services.approve_payment, order, payment, self.finance)
+        logistics_email = next(m for m in mail.outbox if m.to == [self.logistics.email])
+        self.assertIn(self.dealer.name, logistics_email.body)
+
+    def test_rejection_email_names_the_dealer(self):
+        order = self._submitted_order()
+        mail.outbox.clear()
+        self._run(order_services.reject_payment, order, self.finance, "Dekont okunmuyor")
+        self.assertIn(self.dealer.name, mail.outbox[0].body)
+
+    def test_seeded_templates_also_name_the_dealer(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+
+        call_command("seed_notification_templates", stdout=StringIO())
+
+        approved_order = self._submitted_order()
+        payment = Payment.objects.create(
+            order=approved_order, amount_try=Decimal("4080.00"), reference_no="R",
+            payment_date=timezone.localdate(), declared_by=self.dealer_user,
+        )
+        mail.outbox.clear()
+        self._run(order_services.approve_payment, approved_order, payment, self.finance)
+        self.assertTrue(any(self.dealer.name in m.body for m in mail.outbox))
+
+        rejected_order = self._submitted_order()
+        mail.outbox.clear()
+        self._run(order_services.reject_payment, rejected_order, self.finance, "test")
+        self.assertIn(self.dealer.name, mail.outbox[0].body)
+
     def test_rejection_notification_carries_the_reason(self):
         order = self._submitted_order()
         self._run(order_services.reject_payment, order, self.finance, "Dekont okunmuyor")

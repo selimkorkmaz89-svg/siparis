@@ -38,11 +38,11 @@ DEFAULT_TEMPLATES: dict[str, dict[str, str]] = {
     },
     NotificationEvent.PAYMENT_APPROVED: {
         "subject": "Payment approved: {order}",
-        "body": "The payment for order {order} has been approved.",
+        "body": "The payment for order {order} from {dealer} has been approved.",
     },
     NotificationEvent.PAYMENT_REJECTED: {
         "subject": "Payment rejected: {order}",
-        "body": "The payment for order {order} was rejected. Reason: {note}",
+        "body": "The payment for order {order} from {dealer} was rejected. Reason: {note}",
     },
     NotificationEvent.ORDER_SHIPPED: {
         "subject": "Your order has been shipped: {order}",
