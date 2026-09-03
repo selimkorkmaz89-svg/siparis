@@ -785,6 +785,12 @@ TRANSLATIONS = {
     "No CHF exchange rate is available yet, so the USD price can't be calculated. Fetch or enter today's rate first.":
         "Henüz bir CHF kuru yok, bu yüzden USD fiyatı hesaplanamıyor. Önce bugünün kurunu çekin veya girin.",
     "This field is required.": "Bu alan zorunludur.",
+    "Your order, payment and shipment status - all in one place":
+        "Sipariş, ödeme ve sevkiyat durumunuz tek yerde",
+    "Products and prices tailored to you.": "Size özel ürünler ve fiyatlar.",
+    "Payments awaiting approval, and already approved.": "Onay bekleyen ve onaylanan ödemeler.",
+    "Where your order currently stands.": "Siparişinizin aşaması.",
+    "Sign in to your account to continue": "Devam etmek için hesabınıza giriş yapın",
     "Delete this device model?": "Bu cihaz modeli silinsin mi?",
     "Delete this product?": "Bu ürün silinsin mi?",
     "Generate a new token?": "Yeni bir token oluşturulsun mu?",

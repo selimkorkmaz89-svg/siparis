@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 11:14+0300\n"
+"POT-Creation-Date: 2026-09-04 00:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
@@ -295,7 +295,7 @@ msgstr "Henüz bir CHF kuru yok, bu yüzden USD fiyatı hesaplanamıyor. Önce b
 msgid "This field is required."
 msgstr "Bu alan zorunludur."
 
-#: catalog/forms.py:79
+#: catalog/forms.py:79 templates/accounts/login.html:18
 msgid "Product catalogue"
 msgstr "Ürün kataloğu"
 
@@ -1777,7 +1777,8 @@ msgstr "Yalnızca taslak veya onay bekleyen siparişler iptal edilebilir."
 msgid "Orders"
 msgstr "Siparişler"
 
-#: orders/views.py:89 templates/orders/order_form_pdf.html:101
+#: orders/views.py:89 templates/accounts/login.html:32
+#: templates/orders/order_form_pdf.html:101
 msgid "Shipment status"
 msgstr "Sevkiyat durumu"
 
@@ -2099,20 +2100,44 @@ msgstr "Uçtan uca ortalama süre (saat)"
 msgid "All"
 msgstr "Tümü"
 
-#: templates/accounts/login.html:3 templates/accounts/login.html:9
-#: templates/accounts/login.html:23
+#: templates/accounts/login.html:3 templates/accounts/login.html:42
+#: templates/accounts/login.html:56
 msgid "Sign in"
 msgstr "Giriş Yap"
 
-#: templates/accounts/login.html:10
-msgid "Dealer Order Management System"
-msgstr "Bayi Sipariş Yönetim Sistemi"
+#: templates/accounts/login.html:11 templates/base.html:21
+msgid "Order System"
+msgstr "Sipariş Sistemi"
+
+#: templates/accounts/login.html:13
+msgid "Your order, payment and shipment status - all in one place"
+msgstr "Sipariş, ödeme ve sevkiyat durumunuz tek yerde"
+
+#: templates/accounts/login.html:19
+msgid "Products and prices tailored to you."
+msgstr "Size özel ürünler ve fiyatlar."
+
+#: templates/accounts/login.html:25 templates/orders/order_form_pdf.html:102
+msgid "Payment status"
+msgstr "Ödeme durumu"
 
 #: templates/accounts/login.html:26
+msgid "Payments awaiting approval, and already approved."
+msgstr "Onay bekleyen ve onaylanan ödemeler."
+
+#: templates/accounts/login.html:33
+msgid "Where your order currently stands."
+msgstr "Siparişinizin aşaması."
+
+#: templates/accounts/login.html:43
+msgid "Sign in to your account to continue"
+msgstr "Devam etmek için hesabınıza giriş yapın"
+
+#: templates/accounts/login.html:59
 msgid "Don't have an account yet?"
 msgstr "Henüz hesabınız yok mu?"
 
-#: templates/accounts/login.html:27 templates/accounts/register.html:3
+#: templates/accounts/login.html:60 templates/accounts/register.html:3
 #: templates/accounts/register.html:27
 msgid "Register"
 msgstr "Kayıt Ol"
@@ -2268,10 +2293,6 @@ msgstr "Düzenle"
 #: templates/accounts/user_list.html:37
 msgid "No users found."
 msgstr "Kullanıcı bulunamadı."
-
-#: templates/base.html:21
-msgid "Order System"
-msgstr "Sipariş Sistemi"
 
 #: templates/base.html:23
 msgid "Close"
@@ -3054,10 +3075,6 @@ msgstr "Sipariş Formu"
 msgid "Order"
 msgstr "Sipariş"
 
-#: templates/orders/order_form_pdf.html:102
-msgid "Payment status"
-msgstr "Ödeme durumu"
-
 #: templates/orders/order_form_pdf.html:103
 msgid "Not approved yet"
 msgstr "Henüz onaylanmadı"
@@ -3544,6 +3561,9 @@ msgstr "Sipariş → sevkiyat (uçtan uca)"
 #: templates/reports/finance.html:38
 msgid "Sample size"
 msgstr "Örneklem büyüklüğü"
+
+#~ msgid "Dealer Order Management System"
+#~ msgstr "Bayi Sipariş Yönetim Sistemi"
 
 #~ msgid "Approve this payment and mark the order as paid?"
 #~ msgstr "Bu ödeme onaylanıp sipariş ödendi olarak işaretlensin mi?"

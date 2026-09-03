@@ -82,7 +82,7 @@
   </main>
 
 {% else %}
-  <main class="auth-shell">
+  <main class="auth-shell {% block auth_shell_class %}{% endblock %}">
     <div class="auth-lang">{% include "partials/language_switcher.html" %}</div>
     {% if messages %}
       <div class="messages">

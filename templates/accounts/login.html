@@ -1,30 +1,65 @@
 {% extends "base.html" %}
-{% load i18n static %}
+{% load i18n static ui %}
 {% block title %}{% translate "Sign in" %} · {{ COMPANY_NAME }}{% endblock %}
+{% block auth_shell_class %}auth-shell--split{% endblock %}
 {% block auth_content %}
-<div class="auth-card">
-  <div class="auth-logo">
-    <img src="{% static COMPANY_LOGO %}" alt="{{ COMPANY_NAME }}" onerror="this.style.display='none'">
-  </div>
-  <h1>{% translate "Sign in" %}</h1>
-  <p class="subtitle">{% translate "Dealer Order Management System" %}</p>
-  <form method="post" novalidate>
-    {% csrf_token %}
-    {% if form.non_field_errors %}
-      <div class="alert alert-error">{{ form.non_field_errors }}</div>
-    {% endif %}
-    {% for field in form %}
-      <div class="field">
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {{ field }}
-        {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+<div class="login-split">
+  <div class="login-brand">
+    <div class="login-brand-inner">
+      <div class="login-brand-head">
+        <img src="{% static COMPANY_LOGO %}" alt="{{ COMPANY_NAME }}" onerror="this.style.display='none'">
+        <span class="login-brand-title">{{ COMPANY_NAME }}<br>{% translate "Order System" %}</span>
       </div>
-    {% endfor %}
-    <button class="btn btn-primary" type="submit" style="width:100%">{% translate "Sign in" %}</button>
-  </form>
-  <p class="mt muted">
-    {% translate "Don't have an account yet?" %}
-    <a href="{% url 'accounts:register' %}">{% translate "Register" %}</a>
-  </p>
+      <h1>{% translate "Your order, payment and shipment status - all in one place" %}</h1>
+      <ul class="login-features">
+        <li>
+          <span class="login-feature-icon">{% icon "products" 20 %}</span>
+          <div>
+            <strong>{% translate "Product catalogue" %}</strong>
+            <span>{% translate "Products and prices tailored to you." %}</span>
+          </div>
+        </li>
+        <li>
+          <span class="login-feature-icon">{% icon "payments" 20 %}</span>
+          <div>
+            <strong>{% translate "Payment status" %}</strong>
+            <span>{% translate "Payments awaiting approval, and already approved." %}</span>
+          </div>
+        </li>
+        <li>
+          <span class="login-feature-icon">{% icon "shipment" 20 %}</span>
+          <div>
+            <strong>{% translate "Shipment status" %}</strong>
+            <span>{% translate "Where your order currently stands." %}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="login-brand-footer">In-house Production 2026 S.K</div>
+  </div>
+  <div class="login-form-side">
+    <div class="login-form-card">
+      <h1>{% translate "Sign in" %}</h1>
+      <p class="subtitle">{% translate "Sign in to your account to continue" %}</p>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="alert alert-error">{{ form.non_field_errors }}</div>
+        {% endif %}
+        {% for field in form %}
+          <div class="field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+          </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit" style="width:100%">{% translate "Sign in" %}</button>
+      </form>
+      <p class="mt muted">
+        {% translate "Don't have an account yet?" %}
+        <a href="{% url 'accounts:register' %}">{% translate "Register" %}</a>
+      </p>
+    </div>
+  </div>
 </div>
 {% endblock %}

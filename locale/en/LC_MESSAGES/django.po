@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dealer Order Management System\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 11:14+0300\n"
+"POT-Creation-Date: 2026-09-04 00:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -295,7 +295,7 @@ msgstr "No CHF exchange rate is available yet, so the USD price can't be calcula
 msgid "This field is required."
 msgstr "This field is required."
 
-#: catalog/forms.py:79
+#: catalog/forms.py:79 templates/accounts/login.html:18
 msgid "Product catalogue"
 msgstr "Product catalogue"
 
@@ -1777,7 +1777,8 @@ msgstr "Only draft or pending orders can be cancelled."
 msgid "Orders"
 msgstr "Orders"
 
-#: orders/views.py:89 templates/orders/order_form_pdf.html:101
+#: orders/views.py:89 templates/accounts/login.html:32
+#: templates/orders/order_form_pdf.html:101
 msgid "Shipment status"
 msgstr "Shipment status"
 
@@ -2099,20 +2100,44 @@ msgstr "Average hours end to end"
 msgid "All"
 msgstr "All"
 
-#: templates/accounts/login.html:3 templates/accounts/login.html:9
-#: templates/accounts/login.html:23
+#: templates/accounts/login.html:3 templates/accounts/login.html:42
+#: templates/accounts/login.html:56
 msgid "Sign in"
 msgstr "Sign in"
 
-#: templates/accounts/login.html:10
-msgid "Dealer Order Management System"
-msgstr "Dealer Order Management System"
+#: templates/accounts/login.html:11 templates/base.html:21
+msgid "Order System"
+msgstr "Order System"
+
+#: templates/accounts/login.html:13
+msgid "Your order, payment and shipment status - all in one place"
+msgstr "Your order, payment and shipment status - all in one place"
+
+#: templates/accounts/login.html:19
+msgid "Products and prices tailored to you."
+msgstr "Products and prices tailored to you."
+
+#: templates/accounts/login.html:25 templates/orders/order_form_pdf.html:102
+msgid "Payment status"
+msgstr "Payment status"
 
 #: templates/accounts/login.html:26
+msgid "Payments awaiting approval, and already approved."
+msgstr "Payments awaiting approval, and already approved."
+
+#: templates/accounts/login.html:33
+msgid "Where your order currently stands."
+msgstr "Where your order currently stands."
+
+#: templates/accounts/login.html:43
+msgid "Sign in to your account to continue"
+msgstr "Sign in to your account to continue"
+
+#: templates/accounts/login.html:59
 msgid "Don't have an account yet?"
 msgstr "Don't have an account yet?"
 
-#: templates/accounts/login.html:27 templates/accounts/register.html:3
+#: templates/accounts/login.html:60 templates/accounts/register.html:3
 #: templates/accounts/register.html:27
 msgid "Register"
 msgstr "Register"
@@ -2268,10 +2293,6 @@ msgstr "Edit"
 #: templates/accounts/user_list.html:37
 msgid "No users found."
 msgstr "No users found."
-
-#: templates/base.html:21
-msgid "Order System"
-msgstr "Order System"
 
 #: templates/base.html:23
 msgid "Close"
@@ -3054,10 +3075,6 @@ msgstr "Order form"
 msgid "Order"
 msgstr "Order"
 
-#: templates/orders/order_form_pdf.html:102
-msgid "Payment status"
-msgstr "Payment status"
-
 #: templates/orders/order_form_pdf.html:103
 msgid "Not approved yet"
 msgstr "Not approved yet"
@@ -3544,6 +3561,9 @@ msgstr "Order → shipment (end to end)"
 #: templates/reports/finance.html:38
 msgid "Sample size"
 msgstr "Sample size"
+
+#~ msgid "Dealer Order Management System"
+#~ msgstr "Dealer Order Management System"
 
 #~ msgid "Approve this payment and mark the order as paid?"
 #~ msgstr "Approve this payment and mark the order as paid?"
